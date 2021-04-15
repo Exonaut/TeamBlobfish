@@ -9,6 +9,7 @@ import net.sf.mmm.util.exception.api.NlsRuntimeException;
 public class CancelInviteNotAllowedException extends NlsRuntimeException {
 
   public CancelInviteNotAllowedException() {
-    super("The booking can not be cancelled.");
+	  //FIXME: changed to canceled
+    super("The booking can not be canceled.");
   }
 }

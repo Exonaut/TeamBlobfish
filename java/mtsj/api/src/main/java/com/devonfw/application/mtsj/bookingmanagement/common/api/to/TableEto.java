@@ -20,13 +20,12 @@ public class TableEto extends AbstractEto implements Table {
 
   @Override
   public void setSeatsNumber(Integer seatsNumber) {
-
+	  
     this.seatsNumber = seatsNumber;
   }
 
   @Override
   public int hashCode() {
-
     final int prime = 31;
     int result = super.hashCode();
     result = prime * result + ((this.seatsNumber == null) ? 0 : this.seatsNumber.hashCode());

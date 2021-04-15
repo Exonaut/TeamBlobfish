@@ -18,7 +18,8 @@ public class InvitedGuestSearchCriteriaTo extends AbstractSearchCriteriaTo {
 
   private String email;
 
-  private Boolean accepted;
+  // set primitive data type
+  private boolean accepted;
 
   private Instant modificationDate;
 
@@ -64,12 +65,14 @@ public class InvitedGuestSearchCriteriaTo extends AbstractSearchCriteriaTo {
     this.email = email;
   }
 
-  public Boolean getAccepted() {
+  // set primitive data type
+  public boolean getAccepted() {
 
     return this.accepted;
   }
 
-  public void setAccepted(Boolean accepted) {
+  // set primitive data type
+  public void setAccepted(boolean accepted) {
 
     this.accepted = accepted;
   }
