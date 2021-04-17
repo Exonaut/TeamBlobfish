@@ -1,10 +1,10 @@
 import { createAction, props, union } from '@ngrx/store';
+import { BookingInfo, ReservationInfo } from 'app/shared/backend-models/interfaces';
 import { BookingResponse } from '../../models/booking-response.model';
-import { Booking } from '../../models/booking.model';
 
 export const bookTable = createAction(
   '[BookTable] Book table',
-  props<{ booking: Booking }>(),
+  props<{ booking: ReservationInfo }>(),
 );
 
 export const bookTableSuccess = createAction(
@@ -19,7 +19,7 @@ export const bookTableFail = createAction(
 
 export const inviteFriends = createAction(
   '[InviteFriends] Invite friends',
-  props<{ booking: Booking }>(),
+  props<{ booking: BookingInfo }>(),
 );
 
 export const inviteFriendsSuccess = createAction(

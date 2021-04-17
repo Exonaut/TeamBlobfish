@@ -1,13 +1,13 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import * as bookTableActions from '../actions/book-table.actions';
 import { BookingResponse } from '../../models/booking-response.model';
-import { Booking } from '../../models/booking.model';
+import { BookingInfo } from 'app/shared/backend-models/interfaces';
 
 export interface State {
   pending: boolean;
   errorMessage: string | null;
   textMessage: string | null;
-  booking: Booking | null;
+  booking: BookingInfo | null;
   token: string | null;
   bookingResponse: BookingResponse | null;
 }
@@ -32,7 +32,7 @@ const bookTableReducer = createReducer(
   on(bookTableActions.bookTable, (state, { booking }) => ({
     ...state,
     pending: true,
-    booking,
+    //booking,
   })),
   on(bookTableActions.bookTableSuccess, (state, { bookingResponse }) => ({
     ...state,

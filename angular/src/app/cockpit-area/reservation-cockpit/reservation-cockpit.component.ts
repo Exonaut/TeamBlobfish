@@ -1,6 +1,7 @@
 import { WaiterCockpitService } from '../services/waiter-cockpit.service';
 import { ReservationView } from '../../shared/view-models/interfaces';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
@@ -8,6 +9,7 @@ import { ReservationDialogComponent } from './reservation-dialog/reservation-dia
 import {
   FilterCockpit,
   Pageable,
+  Sort as ISort,
 } from '../../shared/backend-models/interfaces';
 import * as moment from 'moment';
 import { ConfigService } from '../../core/config/config.service';
@@ -20,7 +22,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./reservation-cockpit.component.scss'],
 })
 export class ReservationCockpitComponent implements OnInit, OnDestroy {
-  private sorting: any[] = [];
+  private sorting: ISort[] = [];
   private translocoSubscription = Subscription.EMPTY;
   pageable: Pageable = {
     pageSize: 8,
@@ -91,7 +93,7 @@ export class ReservationCockpitComponent implements OnInit, OnDestroy {
       });
   }
 
-  clearFilters(filters: any): void {
+  clearFilters(filters: NgForm): void {
     filters.reset();
     this.applyFilters();
     this.pagingBar.firstPage();
