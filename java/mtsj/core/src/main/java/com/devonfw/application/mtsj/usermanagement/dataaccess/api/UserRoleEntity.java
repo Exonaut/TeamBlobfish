@@ -16,7 +16,6 @@ public class UserRoleEntity extends ApplicationPersistenceEntity implements User
 
   private String name;
 
-  // set primitive type
   private boolean active;
 
   private List<UserEntity> users;
@@ -26,6 +25,7 @@ public class UserRoleEntity extends ApplicationPersistenceEntity implements User
   /**
    * @return name
    */
+  @Override
   public String getName() {
 
     return this.name;
@@ -34,6 +34,7 @@ public class UserRoleEntity extends ApplicationPersistenceEntity implements User
   /**
    * @param name new value of {@link #getname}.
    */
+  @Override
   public void setName(String name) {
 
     this.name = name;
@@ -42,6 +43,7 @@ public class UserRoleEntity extends ApplicationPersistenceEntity implements User
   /**
    * @return active
    */
+  @Override
   public boolean getActive() {
 
     return this.active;
@@ -50,6 +52,7 @@ public class UserRoleEntity extends ApplicationPersistenceEntity implements User
   /**
    * @param active new value of {@link #getactive}.
    */
+  @Override
   public void setActive(boolean active) {
 
     this.active = active;

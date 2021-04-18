@@ -37,8 +37,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   private Instant creationDate;
 
   private String email;
-  
-  // set primitive data type
+
   private boolean canceled;
 
   private BookingType bookingType;
@@ -176,7 +175,6 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @return canceled
    */
-  // set primitive data type
   @Override
   public boolean getCanceled() {
 
@@ -186,13 +184,11 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @param canceled new value of {@link #getcanceled}.
    */
-  // set primitive data type
   @Override
   public void setCanceled(boolean canceled) {
 
     this.canceled = canceled;
   }
-
 
   /**
    * @return table
@@ -342,6 +338,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @return assistants
    */
+  @Override
   public Integer getAssistants() {
 
     return this.assistants;
@@ -350,6 +347,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @param assistants new value of {@link #getassistants}.
    */
+  @Override
   public void setAssistants(Integer assistants) {
 
     this.assistants = assistants;
@@ -394,6 +392,5 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
       this.user = userEntity;
     }
   }
-
 
 }
