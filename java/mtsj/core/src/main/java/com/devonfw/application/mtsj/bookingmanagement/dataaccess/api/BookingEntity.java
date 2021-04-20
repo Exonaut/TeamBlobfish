@@ -283,6 +283,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
    */
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "idOrder")
+  // , foreignKey(idOrder) REFERNCES OrderEntity(serialVersionUID))
   public OrderEntity getOrder() {
 
     return this.order;
@@ -294,6 +295,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   public void setOrder(OrderEntity order) {
 
     this.order = order;
+    // this.orderId = order.getId();
   }
 
   @Override
@@ -303,6 +305,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
     if (this.order == null) {
       return null;
     }
+    // return this.orderId;
     return this.order.getId();
   }
 
@@ -314,6 +317,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
     } else {
       OrderEntity orderEntity = new OrderEntity();
       orderEntity.setId(orderId);
+      // this.orderId = orderId;
       this.order = orderEntity;
     }
   }
@@ -338,6 +342,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @return assistants
    */
+  @Override
   public Integer getAssistants() {
 
     return this.assistants;
@@ -346,6 +351,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @param assistants new value of {@link #getassistants}.
    */
+  @Override
   public void setAssistants(Integer assistants) {
 
     this.assistants = assistants;
