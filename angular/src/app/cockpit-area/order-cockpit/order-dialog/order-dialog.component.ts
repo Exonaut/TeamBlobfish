@@ -1,5 +1,5 @@
 import { Component, Inject, InjectionToken, OnInit } from '@angular/core';
-import { DialogRole ,MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogRole, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ConfigService } from '../../../core/config/config.service';
 import { BookingView, OrderListView, OrderView } from '../../../shared/view-models/interfaces';

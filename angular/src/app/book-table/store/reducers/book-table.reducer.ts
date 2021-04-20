@@ -32,7 +32,7 @@ const bookTableReducer = createReducer(
   on(bookTableActions.bookTable, (state, { booking }) => ({
     ...state,
     pending: true,
-    //booking,
+    // booking,
   })),
   on(bookTableActions.bookTableSuccess, (state, { bookingResponse }) => ({
     ...state,

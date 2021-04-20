@@ -28,7 +28,7 @@ const mockDialogRef = {
 
 describe('InvitationDialogComponent', () => {
   let component: InvitationDialogComponent;
-  let dialog: MatDialog;
+  // let dialog: MatDialog;
   let fixture: ComponentFixture<InvitationDialogComponent>;
   let el: DebugElement;
   let bookTableService: any;

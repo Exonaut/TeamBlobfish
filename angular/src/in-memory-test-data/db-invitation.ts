@@ -1,10 +1,22 @@
+import { BookingInfo, ReservationInfo } from 'app/shared/backend-models/interfaces';
+
 export const InvitationDialogComponentStub = {
   data: {
     bookingDate: new Date(),
     email: 'test@gmail.com',
-    invitedGuests: ['test@gmail.com', 'test123@gmail.com'],
     name: 'test',
-  },
+    booking: {
+      bookingDate: 'Date',
+      email: 'test@gmail.com',
+      name: 'test',
+      bookingType: 1,
+      assistants: 1,
+    } as ReservationInfo,
+    invitedGuests: {
+      [0] : { email: 'test@gmail.com'},
+      [1] : { email: 'test123@gmail.com'},
+    },
+  } as BookingInfo,
   invite: {
     modificationCounter: 0,
     id: 1000003,

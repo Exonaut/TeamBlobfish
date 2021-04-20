@@ -24,7 +24,7 @@ const mockDialogRef = {
 
 describe('BookTableDialogComponent', () => {
   let component: BookTableDialogComponent;
-  let dialog: MatDialog;
+  // let dialog: MatDialog;
   let fixture: ComponentFixture<BookTableDialogComponent>;
   let el: DebugElement;
   let bookTableService: any;
