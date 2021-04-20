@@ -5,7 +5,6 @@ import { map } from 'lodash';
 import { Observable } from 'rxjs';
 import { exhaustMap } from 'rxjs/operators';
 import { ConfigService } from '../../core/config/config.service';
-import { Booking } from '../models/booking.model';
 
 @Injectable()
 export class BookTableService {
@@ -25,8 +24,8 @@ export class BookTableService {
     );
   }
 
-  composeBooking(invitationData: any, type: number): Booking {
-    const composedBooking: Booking = {
+  composeBooking(invitationData: any, type: number): BookingInfo {
+    const composedBooking: BookingInfo = {
       booking: {
         bookingDate: invitationData.bookingDate,
         name: invitationData.name,

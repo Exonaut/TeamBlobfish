@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, InjectionToken, OnInit } from '@angular/core';
+import { DialogRole, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ConfigService } from '../../../core/config/config.service';
-import { BookingView, OrderView } from '../../../shared/view-models/interfaces';
+import { BookingView, OrderListView, OrderView } from '../../../shared/view-models/interfaces';
 import { WaiterCockpitService } from '../../services/waiter-cockpit.service';
 import { TranslocoService } from '@ngneat/transloco';
+import { BookingInfo } from 'app/shared/backend-models/interfaces';
 
 @Component({
   selector: 'app-cockpit-order-dialog',
@@ -17,7 +18,7 @@ export class OrderDialogComponent implements OnInit {
 
   pageSize = 4;
 
-  data: any;
+  data: OrderDialogData = new OrderDialogData();
   datat: BookingView[] = [];
   columnst: any[];
   displayedColumnsT: string[] = [
@@ -48,7 +49,8 @@ export class OrderDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) dialogData: any,
     private configService: ConfigService,
   ) {
-    this.data = dialogData;
+    this.data.orderLines = dialogData.orderLines;
+    this.data.booking = dialogData.booking;
     this.pageSizes = this.configService.getValues().pageSizesDialog;
   }
 
@@ -104,8 +106,14 @@ export class OrderDialogComponent implements OnInit {
   }
 
   filter(): void {
-    let newData: any[] = this.datao;
+    let newData: OrderView[] = this.datao;
     newData = newData.slice(this.fromRow, this.currentPage * this.pageSize);
     setTimeout(() => (this.filteredData = newData));
   }
+}
+
+// Order Data storage class
+class OrderDialogData implements OrderListView {
+  orderLines: OrderView[];
+  booking: BookingView;
 }

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
@@ -9,6 +10,7 @@ import { ConfigService } from '../../core/config/config.service';
 import {
   FilterCockpit,
   Pageable,
+  Sort as ISort,
 } from '../../shared/backend-models/interfaces';
 import { OrderListView } from '../../shared/view-models/interfaces';
 import { WaiterCockpitService } from '../services/waiter-cockpit.service';
@@ -26,7 +28,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     pageNumber: 0,
     // total: 1,
   };
-  private sorting: any[] = [];
+  private sorting: ISort[] = [];
 
   pageSize = 8;
 
@@ -93,7 +95,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       });
   }
 
-  clearFilters(filters: any): void {
+  clearFilters(filters: NgForm): void {
     filters.reset();
     this.applyFilters();
     this.pagingBar.firstPage();

@@ -4,10 +4,11 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { SnackBarService } from '../../../core/snack-bar/snack-bar.service';
 import * as fromRoot from '../../../store';
-import { Booking } from '../../models/booking.model';
 import { BookTableService } from '../../services/book-table.service';
 import * as bookTableActions from '../actions/book-table.actions';
 import { TranslocoService } from '@ngneat/transloco';
+import { BookingInfo, ReservationInfo } from 'app/shared/backend-models/interfaces';
+import { BookingResponse } from 'app/book-table/models/booking-response.model';
 
 @Injectable()
 export class BookTableEffects {
@@ -15,9 +16,9 @@ export class BookTableEffects {
     this.actions$.pipe(
       ofType(bookTableActions.bookTable),
       map((booking) => booking.booking),
-      switchMap((booking: any) => {
+      switchMap((booking: ReservationInfo) => {
         return this.bookTableService.postBooking({ booking }).pipe(
-          map((res: any) =>
+          map((res: BookingResponse) =>
             bookTableActions.bookTableSuccess({
               bookingResponse: {
                 name: res.name,
@@ -69,7 +70,7 @@ export class BookTableEffects {
     this.actions$.pipe(
       ofType(bookTableActions.inviteFriends),
       map((booking) => booking.booking),
-      switchMap((booking: Booking) =>
+      switchMap((booking: BookingInfo) =>
         this.bookTableService.postBooking(booking).pipe(
           map((res: any) => bookTableActions.inviteFriendsSuccess(res)),
           catchError((error) =>
