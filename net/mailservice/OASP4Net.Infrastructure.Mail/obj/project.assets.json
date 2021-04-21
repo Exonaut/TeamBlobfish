@@ -1,0 +1,106 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETStandard,Version=v2.0": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    ".NETStandard,Version=v2.0": [
+      "MailKit >= 1.12.0",
+      "MimeKit >= 1.12.0",
+      "NETStandard.Library >= 2.0.3"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\tony2\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "c:\\Users\\tony2\\OneDrive\\Dokumente\\Workspace\\ProjektSoSe21\\MyProjekt\\workspaces\\main\\TeamBlobfish\\net\\mailservice\\OASP4Net.Infrastructure.Mail\\OASP4Net.Infrastructure.Mail.csproj",
+      "projectName": "OASP4Net.Infrastructure.Mail",
+      "projectPath": "c:\\Users\\tony2\\OneDrive\\Dokumente\\Workspace\\ProjektSoSe21\\MyProjekt\\workspaces\\main\\TeamBlobfish\\net\\mailservice\\OASP4Net.Infrastructure.Mail\\OASP4Net.Infrastructure.Mail.csproj",
+      "packagesPath": "C:\\Users\\tony2\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\tony2\\OneDrive\\Dokumente\\Workspace\\ProjektSoSe21\\MyProjekt\\workspaces\\main\\TeamBlobfish\\net\\mailservice\\OASP4Net.Infrastructure.Mail\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\tony2\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "netstandard2.0"
+      ],
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netstandard2.0": {
+        "targetAlias": "netstandard2.0",
+        "dependencies": {
+          "MailKit": {
+            "target": "Package",
+            "version": "[1.12.0, )"
+          },
+          "MimeKit": {
+            "target": "Package",
+            "version": "[1.12.0, )"
+          },
+          "NETStandard.Library": {
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[2.0.3, )",
+            "autoReferenced": true
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"NETStandard.Library (>= 2.0.3)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "NETStandard.Library",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"MailKit (>= 1.12.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "MailKit",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"MimeKit (>= 1.12.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "MimeKit",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "version": 2,
+  "dgSpecHash": "KX/s7YWBsM/CqxcA7YXijWJEJ7qlXbsAN+CP3DcMd8g6CG6gkS1pgws7e+ATZ4lUdHB20EpEp6KlFcxsMijKvQ==",
+  "success": false,
+  "projectFilePath": "c:\\Users\\tony2\\OneDrive\\Dokumente\\Workspace\\ProjektSoSe21\\MyProjekt\\workspaces\\main\\TeamBlobfish\\net\\mailservice\\OASP4Net.Business.Common\\OASP4Net.Business.Common.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"NETStandard.Library (>= 2.0.3)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "NETStandard.Library",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.Mvc (>= 2.0.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.Mvc",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.Mvc.Core (>= 2.0.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.Mvc.Core",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.Mvc.ViewFeatures (>= 2.0.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.Mvc.ViewFeatures",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.Extensions.PlatformAbstractions (>= 1.1.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.Extensions.PlatformAbstractions",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"MimeKit (>= 1.12.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "MimeKit",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Newtonsoft.Json (>= 10.0.3)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Newtonsoft.Json",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"MailKit (>= 1.12.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "MailKit",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    }
+  ]
+}

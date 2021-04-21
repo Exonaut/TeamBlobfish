@@ -6,8 +6,7 @@
     "baseUrl": "",
     "types": [
       "jasmine",
-      "hammerjs",
-      "node"
+      "hammerjs"
     ]
   },
   "files": [

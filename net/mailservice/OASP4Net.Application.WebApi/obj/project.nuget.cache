@@ -1,0 +1,306 @@
+{
+  "version": 2,
+  "dgSpecHash": "mAllKR5AHrV+lU3rzbW3oaV01EueajcNtz268Rq6AFpRrXss1cti4sApTovU946CzioZkSeJAg/kHXSpxMudyA==",
+  "success": false,
+  "projectFilePath": "c:\\Users\\tony2\\OneDrive\\Dokumente\\Workspace\\ProjektSoSe21\\MyProjekt\\workspaces\\main\\TeamBlobfish\\net\\mailservice\\OASP4Net.Application.WebApi\\OASP4Net.Application.WebApi.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"AutoMapper (>= 6.1.1)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "AutoMapper",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"AutoMapper.Extensions.Microsoft.DependencyInjection (>= 3.0.1)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "AutoMapper.Extensions.Microsoft.DependencyInjection",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Google.Apis (>= 1.29.1)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Google.Apis",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Google.Apis.Auth (>= 1.29.1)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Google.Apis.Auth",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Google.Apis.Core (>= 1.29.1)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Google.Apis.Core",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Google.Apis.Gmail.v1 (>= 1.29.1.999)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Google.Apis.Gmail.v1",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.All (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.All",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.Authentication.JwtBearer (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.Mvc (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.Mvc",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.StaticFiles (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.StaticFiles",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.EntityFrameworkCore (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.EntityFrameworkCore",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.EntityFrameworkCore.InMemory (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.EntityFrameworkCore.InMemory",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.EntityFrameworkCore.SqlServer (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.EntityFrameworkCore.SqlServer",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.EntityFrameworkCore.SqlServer.Design (>= 1.1.3)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.EntityFrameworkCore.SqlServer.Design",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.EntityFrameworkCore.Tools (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.EntityFrameworkCore.Tools",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.Extensions.Logging.Debug (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.Extensions.Logging.Debug",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Newtonsoft.Json (>= 10.0.3)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Newtonsoft.Json",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Serilog.AspNetCore (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Serilog.AspNetCore",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Serilog.Extensions.Logging.File (>= 1.1.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Serilog.Extensions.Logging.File",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Serilog.Sinks.Console (>= 3.1.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Serilog.Sinks.Console",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Serilog.Sinks.Seq (>= 3.4.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Serilog.Sinks.Seq",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Serilog.Sinks.SQLite (>= 3.8.3)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Serilog.Sinks.SQLite",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Swashbuckle.AspNetCore (>= 1.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Swashbuckle.AspNetCore",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Swashbuckle.AspNetCore.SwaggerUi (>= 1.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Swashbuckle.AspNetCore.SwaggerUi",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"System.IdentityModel.Tokens.Jwt (>= 5.1.4)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "System.IdentityModel.Tokens.Jwt",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.NETCore.App (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.NETCore.App",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.Mvc.Core (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.Mvc.Core",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.Mvc.ViewFeatures (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.Mvc.ViewFeatures",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.Extensions.PlatformAbstractions (>= 1.1.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.Extensions.PlatformAbstractions",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"MimeKit (>= 1.12.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "MimeKit",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.Mvc.Abstractions (>= 2.0.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.Mvc.Abstractions",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"MailKit (>= 1.12.0)\" kann für \".NETCoreApp,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "MailKit",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    }
+  ]
+}

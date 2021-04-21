@@ -1,0 +1,162 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETStandard,Version=v2.0": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    ".NETStandard,Version=v2.0": [
+      "Microsoft.AspNetCore.Mvc >= 2.0.0",
+      "Microsoft.AspNetCore.Mvc.Abstractions >= 2.0.0",
+      "Microsoft.AspNetCore.Mvc.Core >= 2.0.0",
+      "NETStandard.Library >= 2.0.3",
+      "Newtonsoft.Json >= 10.0.3",
+      "Serilog.AspNetCore >= 2.0.0",
+      "Serilog.Extensions.Logging.File >= 1.1.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\tony2\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "c:\\Users\\tony2\\OneDrive\\Dokumente\\Workspace\\ProjektSoSe21\\MyProjekt\\workspaces\\main\\TeamBlobfish\\net\\mailservice\\OASP4Net.Infrastructure.AOP\\OASP4Net.Infrastructure.AOP.csproj",
+      "projectName": "OASP4Net.Infrastructure.AOP",
+      "projectPath": "c:\\Users\\tony2\\OneDrive\\Dokumente\\Workspace\\ProjektSoSe21\\MyProjekt\\workspaces\\main\\TeamBlobfish\\net\\mailservice\\OASP4Net.Infrastructure.AOP\\OASP4Net.Infrastructure.AOP.csproj",
+      "packagesPath": "C:\\Users\\tony2\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\tony2\\OneDrive\\Dokumente\\Workspace\\ProjektSoSe21\\MyProjekt\\workspaces\\main\\TeamBlobfish\\net\\mailservice\\OASP4Net.Infrastructure.AOP\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\tony2\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "netstandard2.0"
+      ],
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netstandard2.0": {
+        "targetAlias": "netstandard2.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc": {
+            "target": "Package",
+            "version": "[2.0.0, )"
+          },
+          "Microsoft.AspNetCore.Mvc.Abstractions": {
+            "target": "Package",
+            "version": "[2.0.0, )"
+          },
+          "Microsoft.AspNetCore.Mvc.Core": {
+            "target": "Package",
+            "version": "[2.0.0, )"
+          },
+          "NETStandard.Library": {
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[2.0.3, )",
+            "autoReferenced": true
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[10.0.3, )"
+          },
+          "Serilog.AspNetCore": {
+            "target": "Package",
+            "version": "[2.0.0, )"
+          },
+          "Serilog.Extensions.Logging.File": {
+            "target": "Package",
+            "version": "[1.1.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"NETStandard.Library (>= 2.0.3)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "NETStandard.Library",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Serilog.AspNetCore (>= 2.0.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Serilog.AspNetCore",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Serilog.Extensions.Logging.File (>= 1.1.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Serilog.Extensions.Logging.File",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.Mvc (>= 2.0.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.Mvc",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.Mvc.Abstractions (>= 2.0.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.Mvc.Abstractions",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Microsoft.AspNetCore.Mvc.Core (>= 2.0.0)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Microsoft.AspNetCore.Mvc.Core",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "\"Newtonsoft.Json (>= 10.0.3)\" kann für \".NETStandard,Version=v2.0\" nicht aufgelöst werden.",
+      "libraryId": "Newtonsoft.Json",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    }
+  ]
+}
