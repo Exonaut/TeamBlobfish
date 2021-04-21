@@ -44,26 +44,26 @@ export class UserAreaService {
       });
   }
 
-  login(username: string, password: string): Observable<any> {
+  login(username: string, email: string, password: string): Observable<any> {
     return this.restPathRoot$.pipe(
       exhaustMap((restPathRoot) =>
         this.http.post(
           `${restPathRoot}${this.loginRestPath}`,
-          { username, password },
+          { username, email, password},
           { responseType: 'text', observe: 'response' },
         ),
       ),
     );
   }
 
-  register(email: string, password: string): void {
+  register(username: String, password: string): void {
     this.restServiceRoot$
       .pipe(
         exhaustMap((restServiceRoot) =>
           this.http.post(`${restServiceRoot}${this.registerRestPath}`, {
-            email,
-            password,
-          }),
+            username,
+            password         
+          }, { responseType: 'text', observe: 'response' }),
         ),
       )
       // .map((res: LoginInfo) => res)

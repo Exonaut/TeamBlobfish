@@ -7,7 +7,7 @@ export const closeDialog = createAction('[Auth] Close Dialog');
 
 export const login = createAction(
   '[Auth] Login',
-  props<{ username: string; password: string }>(),
+  props<{ username: string; email: string , password: string}>(),
 );
 
 export const loginSuccess = createAction(
@@ -34,7 +34,7 @@ export const logoutFail = createAction(
 
 export const verifyTwoFactor = createAction(
   '[Auth] VerifyTwoFactor',
-  props<{ username: string; password: string }>(),
+  props<{ username: string; email: string, password: string }>(),
 );
 
 // action types

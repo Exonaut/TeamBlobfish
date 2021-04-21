@@ -52,7 +52,8 @@ export class AuthEffects {
         }
         return authActions.login({
           username: result.username,
-          password: result.password,
+          email: result.email,
+          password: result.password
         });
       }),
     ),
@@ -79,7 +80,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(authActions.login),
       switchMap((user: any) => {
-        return this.userService.login(user.username, user.password).pipe(
+        return this.userService.login(user.username, user.email, user.password).pipe(
           map((res) => {
             if (res.headers.get('X-Mythaistar-Otp') === 'NONE') {
               return authActions.token({
@@ -88,7 +89,9 @@ export class AuthEffects {
             } else if (res.headers.get('X-Mythaistar-Otp') === 'OTP') {
               return authActions.verifyTwoFactor({
                 username: user.username,
-                password: user.password,
+                email: user.email,
+                password: user.password
+                
               });
             }
           }),
