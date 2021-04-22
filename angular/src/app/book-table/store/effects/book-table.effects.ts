@@ -9,6 +9,10 @@ import * as bookTableActions from '../actions/book-table.actions';
 import { TranslocoService } from '@ngneat/transloco';
 import { BookingInfo, ReservationInfo } from 'app/shared/backend-models/interfaces';
 import { BookingResponse } from 'app/book-table/models/booking-response.model';
+import { BookTableComponent } from 'app/book-table/container/book-table/book-table.component';
+import { MatDialog } from '@angular/material/dialog';
+import { BookTableConfirmDialogComponent } from 'app/book-table/components/book-table-confirm-dialog/book-table-confirm-dialog.component';
+import { WindowService } from 'app/core/window/window.service';
 
 @Injectable()
 export class BookTableEffects {
@@ -39,14 +43,20 @@ export class BookTableEffects {
     () =>
       this.actions$.pipe(
         ofType(bookTableActions.bookTableSuccess),
-        tap(() => {
+        map((res) => {
+          this.dialog
+            .open(BookTableConfirmDialogComponent, {
+              width: this.window.responsiveWidth(),
+              data: res,
+            })
+            .afterClosed(),
           this.snackBar.openSnack(
             this.translocoService.translate('bookTable.dialog.bookingSuccess'),
-            4000,
+            10000,
             'green',
           );
           fromRoot.go({ path: ['/menu'] });
-        }),
+        }),        
       ),
     { dispatch: false },
   );
@@ -121,5 +131,7 @@ export class BookTableEffects {
     public translocoService: TranslocoService,
     private bookTableService: BookTableService,
     public snackBar: SnackBarService,
+    private dialog: MatDialog,
+    private window: WindowService,
   ) {}
 }

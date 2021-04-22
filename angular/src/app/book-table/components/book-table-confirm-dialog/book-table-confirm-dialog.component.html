@@ -1,0 +1,23 @@
+<mat-dialog-content>
+    <div class="dataRows">
+      <div>
+        <div class="dataRow">
+          <span>ID</span>
+          <span>{{ data.bookingResponse.bookingToken }}</span>
+        </div>
+      </div>
+  
+      <div>
+        <mat-divider></mat-divider>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="align-right">
+      <button name="closeConfirmation" mat-button mat-dialog-close>
+        <!-- {{ 'buttons.cancel' | transloco }} -->
+        Close
+      </button>
+    </div>
+  </mat-dialog-actions>
+  

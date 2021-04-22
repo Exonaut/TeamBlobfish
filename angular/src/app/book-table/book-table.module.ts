@@ -14,6 +14,7 @@ import { BookTableComponent } from './container/book-table/book-table.component'
 import { BookTableService } from './services/book-table.service';
 import { reducers, effects } from './store';
 import { TranslocoRootModule } from '../transloco-root.module';
+import { BookTableConfirmDialogComponent } from './components/book-table-confirm-dialog/book-table-confirm-dialog.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { TranslocoRootModule } from '../transloco-root.module';
     InvitationDialogComponent,
     BookTableComponent,
     BookTableDialogComponent,
+    BookTableConfirmDialogComponent,
   ],
   exports: [BookTableComponent],
   entryComponents: [InvitationDialogComponent, BookTableDialogComponent],

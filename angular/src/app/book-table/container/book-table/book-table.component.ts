@@ -16,8 +16,10 @@ import { WindowService } from '../../../core/window/window.service';
 import { emailValidator } from '../../../shared/directives/email-validator.directive';
 import { BookTableDialogComponent } from '../../components/book-table-dialog/book-table-dialog.component';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
+import { BookTableConfirmDialogComponent } from '../../components/book-table-confirm-dialog/book-table-confirm-dialog.component';
 import { TranslocoService } from '@ngneat/transloco';
 import { Title } from '@angular/platform-browser';
+import { BookingResponse } from 'app/book-table/models/booking-response.model';
 
 @Component({
   selector: 'app-public-book-table',
