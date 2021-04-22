@@ -94,7 +94,7 @@ describe('UserAreaService', () => {
 
   it('should call login service to login the application', () => {
     userAreaService
-      .login('waiter', 'waiter')
+      .login('waiter', 'test@web.de', 'waiter')
       .subscribe((response: HttpResponse<any>) => {
         expect(response.status).toBe(200);
         expect(response.body).toBe('Success');
@@ -105,7 +105,7 @@ describe('UserAreaService', () => {
   });
 
   it('should throw error incase login service fails', () => {
-    userAreaService.login('waiter', 'waiter').subscribe(
+    userAreaService.login('waiter', 'test2@web.de', 'waiter').subscribe(
       () => fail('Accepting Invitation operation failed'),
       (error: HttpErrorResponse) => {
         expect(error.status).toBe(500);

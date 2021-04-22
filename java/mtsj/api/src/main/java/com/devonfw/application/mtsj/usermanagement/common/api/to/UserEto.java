@@ -14,6 +14,8 @@ public class UserEto extends AbstractEto implements User {
 
   private String email;
 
+  private String password;
+
   private boolean twoFactorStatus;
 
   private Long userRoleId;
@@ -67,6 +69,18 @@ public class UserEto extends AbstractEto implements User {
   }
 
   @Override
+  public String getPassword() {
+
+    return this.password;
+  }
+
+  @Override
+  public void setPassword(String password) {
+
+    this.password = password;
+  }
+
+  @Override
   public int hashCode() {
 
     final int prime = 31;
@@ -117,4 +131,5 @@ public class UserEto extends AbstractEto implements User {
 
     return true;
   }
+
 }

@@ -4,6 +4,10 @@ import com.devonfw.application.mtsj.general.common.api.ApplicationEntity;
 
 public interface User extends ApplicationEntity {
 
+  public String getPassword();
+
+  public void setPassword(String password);
+
   public String getUsername();
 
   public void setUsername(String username);

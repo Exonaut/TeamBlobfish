@@ -103,6 +103,7 @@ export class LoginInfo {
     password: string;
     role: string;
     token?: string;
+    email: string;
 }
 
 export class Role {
