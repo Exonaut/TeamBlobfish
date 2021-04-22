@@ -16,7 +16,6 @@ export class LoginDialogComponent {
 
   signInSubmit(formValue: FormGroup): void {
   this.dialog.close(formValue);
- // this.dialog.close();
   }
 
   closeLoginDialog(): void {

@@ -56,13 +56,12 @@ export class UserAreaService {
     );
   }
 
-  register(username: String, password: string): void {
+  register(username: string, password: string): void {
     this.restServiceRoot$
       .pipe(
         exhaustMap((restServiceRoot) =>
           this.http.post(`${restServiceRoot}${this.registerRestPath}`, {
-            username,
-            password         
+            username, password
           }, { responseType: 'text', observe: 'response' }),
         ),
       )

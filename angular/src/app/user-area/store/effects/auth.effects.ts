@@ -91,7 +91,6 @@ export class AuthEffects {
                 username: user.username,
                 email: user.email,
                 password: user.password
-                
               });
             }
           }),
