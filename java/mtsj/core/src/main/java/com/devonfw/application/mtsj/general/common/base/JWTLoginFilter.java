@@ -64,7 +64,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     BasicAccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), BasicAccountCredentials.class);
 
-    if (creds.getEmail() != null) {
+    if (creds.getEmail() != null) { // registrationAndLogin
 
       UserEto user = new UserEto();
       user.setEmail(creds.getEmail());
@@ -85,7 +85,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
       return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(creds.getUsername(),
           creds.getPassword(), userDetails.getAuthorities())); // user is logged in
 
-    } else {
+    } else { // only login
 
       UserDetails userDetails = this.userDetailsService.loadUserByUsername(creds.getUsername()); // if user does not
                                                                                                  // exist, then break
