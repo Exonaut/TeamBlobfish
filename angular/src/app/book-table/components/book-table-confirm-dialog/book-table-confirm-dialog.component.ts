@@ -22,7 +22,7 @@ export class BookTableConfirmDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.date = moment(this.data.creationDate).format('LLL');
+    // this.date = moment(this.data.creationDate).format('LLL');
   }
 
   close(): void {

@@ -56,7 +56,7 @@ export class BookTableEffects {
             'green',
           );
           fromRoot.go({ path: ['/menu'] });
-        }),        
+        }),
       ),
     { dispatch: false },
   );
@@ -82,7 +82,7 @@ export class BookTableEffects {
       map((booking) => booking.booking),
       switchMap((booking: BookingInfo) =>
         this.bookTableService.postBooking(booking).pipe(
-          map((res: any) => 
+          map((res: any) =>
           bookTableActions.inviteFriendsSuccess({
             bookingResponse: {
               name: res.name,
