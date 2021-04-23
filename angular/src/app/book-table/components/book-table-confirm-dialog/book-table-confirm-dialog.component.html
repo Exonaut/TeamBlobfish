@@ -1,0 +1,25 @@
+<div class="property-text-center bookTableConfirmTitle">
+  <h3>{{'bookTable.dialog.bookingSuccess' | transloco}}</h3>
+</div>
+<mat-dialog-content>
+    <div class="dataRows">
+      <div>
+        <div class="dataRow">
+          <span>{{'sidenav.bookingId' | transloco}}</span>
+          <span>{{ data.bookingToken }}</span>
+        </div>
+      </div>
+  
+      <div>
+        <mat-divider></mat-divider>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="align-right">
+      <button name="closeConfirmation" mat-button mat-dialog-close>
+        {{ 'buttons.close' | transloco }}
+      </button>
+    </div>
+  </mat-dialog-actions>
+  
