@@ -82,7 +82,17 @@ export class BookTableEffects {
       map((booking) => booking.booking),
       switchMap((booking: BookingInfo) =>
         this.bookTableService.postBooking(booking).pipe(
-          map((res: any) => bookTableActions.inviteFriendsSuccess(res)),
+          map((res: any) => 
+          bookTableActions.inviteFriendsSuccess({
+            bookingResponse: {
+              name: res.name,
+              bookingDate: res.bookingDate,
+              bookingToken: res.bookingToken,
+              tableId: res.tableId,
+              email: res.email,
+            }
+          }),
+          ),
           catchError((error) =>
             of(
               bookTableActions.inviteFriendsFail({
@@ -99,7 +109,13 @@ export class BookTableEffects {
     () =>
       this.actions$.pipe(
         ofType(bookTableActions.inviteFriendsSuccess),
-        tap(() => {
+        map((res) => {
+          this.dialog
+            .open(BookTableConfirmDialogComponent, {
+              width: this.window.responsiveWidth(),
+              data: res,
+            })
+            .afterClosed(),
           this.snackBar.openSnack(
             this.translocoService.translate('bookTable.dialog.bookingSuccess'),
             4000,

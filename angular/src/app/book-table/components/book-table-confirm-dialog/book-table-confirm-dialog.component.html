@@ -1,9 +1,12 @@
+<div class="property-text-center bookTableConfirmTitle">
+  <h3>{{'bookTable.dialog.bookingSuccess' | transloco}}</h3>
+</div>
 <mat-dialog-content>
     <div class="dataRows">
       <div>
         <div class="dataRow">
-          <span>ID</span>
-          <span>{{ data.bookingResponse.bookingToken }}</span>
+          <span>{{'sidenav.bookingId' | transloco}}</span>
+          <span>{{ data.bookingToken }}</span>
         </div>
       </div>
   
@@ -15,8 +18,7 @@
   <mat-dialog-actions>
     <div class="align-right">
       <button name="closeConfirmation" mat-button mat-dialog-close>
-        <!-- {{ 'buttons.cancel' | transloco }} -->
-        Close
+        {{ 'buttons.close' | transloco }}
       </button>
     </div>
   </mat-dialog-actions>

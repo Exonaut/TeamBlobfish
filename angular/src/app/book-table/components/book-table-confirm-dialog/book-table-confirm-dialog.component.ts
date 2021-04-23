@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BookingResponse } from 'app/shared/view-models/interfaces';
+import { BookingView } from 'app/shared/view-models/interfaces';
 import * as moment from 'moment';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -11,18 +11,18 @@ import { TranslocoService } from '@ngneat/transloco';
 })
 export class BookTableConfirmDialogComponent implements OnInit {
 
-  data: any;
+  data: BookingView;
   date: string;
 
   constructor(
     private dialog: MatDialogRef<BookTableConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) dialogData: any,
   ) {
-    this.data = dialogData;
+    this.data = dialogData.bookingResponse;
   }
 
   ngOnInit(): void {
-    this.date = moment(this.data.content.booking.creationDate).format('LLL');
+    //this.date = moment(this.data.creationDate).format('LLL');
   }
 
   close(): void {
