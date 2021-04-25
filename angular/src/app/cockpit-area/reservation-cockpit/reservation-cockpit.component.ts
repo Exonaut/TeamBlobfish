@@ -44,6 +44,7 @@ export class ReservationCockpitComponent implements OnInit, OnDestroy {
     bookingDate: undefined,
     email: undefined,
     bookingToken: undefined,
+    state: undefined,
   };
 
   constructor(

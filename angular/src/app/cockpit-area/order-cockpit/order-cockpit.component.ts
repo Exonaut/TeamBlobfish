@@ -43,6 +43,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     'booking.bookingDate',
     'booking.email',
     'booking.bookingToken',
+    'booking.status',
   ];
 
   pageSizes: number[];
@@ -51,7 +52,10 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     bookingDate: undefined,
     email: undefined,
     bookingToken: undefined,
+    state: undefined,
   };
+
+  stateNamesMap: string[];
 
   constructor(
     private dialog: MatDialog,
@@ -66,6 +70,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     this.applyFilters();
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
+      this.setStateNamesMap(event);
       moment.locale(this.translocoService.getActiveLang());
     });
   }
@@ -78,8 +83,25 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           { name: 'booking.bookingDate', label: cockpitTable.reservationDateH },
           { name: 'booking.email', label: cockpitTable.emailH },
           { name: 'booking.bookingToken', label: cockpitTable.bookingTokenH },
+          { name: 'booking.status', label: cockpitTable.bookingStateH}
         ];
       });
+  }
+
+  setStateNamesMap(lang: string): void {
+    this.translocoSubscription = this.translocoService
+      .selectTranslateObject('cockpit.status', {}, lang)
+      .subscribe((cockpitState) => {
+        this.stateNamesMap = [
+          cockpitState.recorded,
+          cockpitState.cooking,
+          cockpitState.ready,
+          cockpitState.handingover,
+          cockpitState.delivered,
+          cockpitState.payed,
+          cockpitState.canceled
+        ]}
+      );
   }
 
   applyFilters(): void {

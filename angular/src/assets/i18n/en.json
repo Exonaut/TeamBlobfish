@@ -196,7 +196,17 @@
       "bookingTokenH": "Reference Number",
       "ownerH": "Owner",
       "tableH": "Table",
-      "creationDateH": "Creation date"
+      "creationDateH": "Creation date",
+      "bookingStateH": "State"
+    },
+    "status": {
+      "recorded": "Recorded",
+      "cooking": "Cooking",
+      "ready": "Ready",
+      "handingover": "Handing Over",
+      "delivered": "Delivered",
+      "payed": "Payed",
+      "canceled": "Canceled"
     }
   }
 }
