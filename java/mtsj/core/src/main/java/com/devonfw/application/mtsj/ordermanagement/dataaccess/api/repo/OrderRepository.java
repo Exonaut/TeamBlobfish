@@ -51,6 +51,11 @@ public interface OrderRepository extends DefaultRepository<OrderEntity> {
     OrderEntity alias = newDslAlias();
     JPAQuery<OrderEntity> query = newDslQuery(alias);
 
+    Long status = criteria.getStatus();
+    if (status != null && alias.getStatus() != null) {
+      query.where(Alias.$(alias.getStatus()).eq(status));
+    }
+
     Long booking = criteria.getBookingId();
     if (booking != null && alias.getBooking() != null) {
       query.where(Alias.$(alias.getBooking().getId()).eq(booking));

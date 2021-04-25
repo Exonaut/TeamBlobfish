@@ -16,6 +16,8 @@ public class OrderEto extends AbstractEto implements Order {
 
   private String bookingToken;
 
+  private Long status;
+
   /**
    * @return bookingToken
    */
@@ -115,6 +117,18 @@ public class OrderEto extends AbstractEto implements Order {
   public void setHostId(Long hostId) {
 
     this.hostId = hostId;
+  }
+
+  @Override
+  public Long getStatus() {
+
+    return this.status;
+  }
+
+  @Override
+  public void setStatus(Long status) {
+
+    this.status = status;
   }
 
 }

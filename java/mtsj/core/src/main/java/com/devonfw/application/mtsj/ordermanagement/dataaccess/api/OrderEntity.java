@@ -34,6 +34,8 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
 
   private List<OrderLineEntity> orderLines;
 
+  private Long status;
+
   /**
    * @return booking
    */
@@ -169,6 +171,19 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
       bookingEntity.setId(hostId);
       this.host = bookingEntity;
     }
+  }
+
+  @Override
+  public Long getStatus() {
+
+    return this.status;
+  }
+
+  @Override
+  public void setStatus(Long status) {
+
+    this.status = status;
+
   }
 
 }

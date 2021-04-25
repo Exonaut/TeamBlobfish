@@ -28,12 +28,24 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
 
   private StringSearchConfigTo bookingTokenOption;
 
+  private Long status;
+
   /**
    * The constructor.
    */
   public OrderSearchCriteriaTo() {
 
     super();
+  }
+
+  public Long getStatus() {
+
+    return this.status;
+  }
+
+  public void setStatus(Long status) {
+
+    this.status = status;
   }
 
   public Long getBookingId() {

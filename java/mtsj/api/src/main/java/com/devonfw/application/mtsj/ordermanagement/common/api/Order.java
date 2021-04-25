@@ -16,4 +16,7 @@ public interface Order extends ApplicationEntity {
 
   public void setHostId(Long hostId);
 
+  public Long getStatus();
+
+  public void setStatus(Long status);
 }
