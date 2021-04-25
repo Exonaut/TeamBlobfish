@@ -52,7 +52,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     bookingDate: undefined,
     email: undefined,
     bookingToken: undefined,
-    state: undefined,
+    status: undefined,
   };
 
   stateNamesMap: string[];
@@ -100,7 +100,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           cockpitState.delivered,
           cockpitState.payed,
           cockpitState.canceled
-        ]}
+        ]; }
       );
   }
 

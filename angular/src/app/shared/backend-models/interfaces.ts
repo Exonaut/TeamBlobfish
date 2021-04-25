@@ -16,7 +16,7 @@ export class FilterCockpit {
     bookingDate: string;
     email: string;
     bookingToken: number;
-    state: string;
+    status: number;
 }
 
 export class FilterOrdersCockpit {
