@@ -182,7 +182,10 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
   @Override
   public void setStatus(Long status) {
 
-    this.status = status;
+    if (status != null)
+      this.status = status;
+    else
+      this.status = (long) 0;
 
   }
 
