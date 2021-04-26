@@ -107,7 +107,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
 
   statusResponse: any;
   updateStatus(order: any, newStatus: number): void {
-    this.waiterCockpitService.setOrderStatus(order.order.bookingId, _.clamp(newStatus, 0, this.statusNamesMap.length - 2)).subscribe(
+    this.waiterCockpitService.setOrderStatus(order.order.id, _.clamp(newStatus, 0, this.statusNamesMap.length - 2)).subscribe(
       (data: any) => {
         this.statusResponse = data;
       }
