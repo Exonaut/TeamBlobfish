@@ -116,13 +116,14 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
   }
 
   @Override
-  public void setNewStatus(Long id, Long newstatus) {
+  public OrderEto setNewStatus(Long id, Long newstatus) {
 
     OrderEntity entity = getOrderDao().find(id);
     entity.setStatus(newstatus);
     OrderEntity resultOrderStatus = getOrderDao().save(entity);
     LOG.debug("The order status with id '{}' has been updated.", resultOrderStatus.getStatus());
 
+    return getBeanMapper().map(resultOrderStatus, OrderEto.class);
   }
 
   @Override
