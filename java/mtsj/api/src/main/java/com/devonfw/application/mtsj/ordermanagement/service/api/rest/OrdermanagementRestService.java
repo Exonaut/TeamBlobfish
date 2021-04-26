@@ -44,11 +44,12 @@ public interface OrdermanagementRestService {
    * Delegates to {@link Ordermanagement#setNewStatus}
    *
    * @param id the ID of the {@link OrderEto}
-   * @param newstatus
+   * @param newstatus the status of the {@link OrderEto}
+   * @return the {@link OrderEto} new status 'status'
    */
   @PATCH
   @Path("/order/setstatus/{id}/{newstatus}")
-  public void setNewStatus(@PathParam("id") long id, @PathParam("newstatus") long newstatus);
+  public OrderEto setNewStatus(@PathParam("id") long id, @PathParam("newstatus") long newstatus);
 
   /**
    * Delegates to {@link Ordermanagement#saveOrder}.

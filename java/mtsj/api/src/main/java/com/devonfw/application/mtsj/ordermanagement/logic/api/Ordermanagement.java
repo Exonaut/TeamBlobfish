@@ -23,8 +23,9 @@ public interface Ordermanagement {
    *
    * @param id
    * @param newstatus
+   * @return The {@link OrderEto} the new status 'status'
    */
-  void setNewStatus(Long id, Long newstatus);
+  OrderEto setNewStatus(Long id, Long newstatus);
 
   /**
    * Returns a Order by its id 'id'.
