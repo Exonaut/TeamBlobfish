@@ -6,6 +6,7 @@ import { BookingView, OrderListView, OrderView, SaveOrderResponse } from '../../
 import { WaiterCockpitService } from '../../services/waiter-cockpit.service';
 import { TranslocoService } from '@ngneat/transloco';
 import * as _ from 'lodash';
+import { dialog } from 'electron';
 
 @Component({
   selector: 'app-cockpit-order-dialog',

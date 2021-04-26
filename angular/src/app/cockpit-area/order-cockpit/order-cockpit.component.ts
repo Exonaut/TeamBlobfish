@@ -16,6 +16,7 @@ import { OrderListView } from '../../shared/view-models/interfaces';
 import { WaiterCockpitService } from '../services/waiter-cockpit.service';
 import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 import * as _ from 'lodash';
+import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-cockpit-order-cockpit',
@@ -148,7 +149,9 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     this.dialog.open(OrderDialogComponent, {
       width: '80%',
       data: selection,
-    });
+    }).afterClosed().subscribe((data: any) => {
+      selection.order.status = +(data);
+    })
   }
 
   ngOnDestroy(): void {
