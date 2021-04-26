@@ -1,11 +1,11 @@
-import { Component, Inject, InjectionToken, OnInit } from '@angular/core';
-import { DialogRole, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ConfigService } from '../../../core/config/config.service';
-import { BookingView, OrderListView, OrderView } from '../../../shared/view-models/interfaces';
+import { BookingView, OrderListView, OrderView, SaveOrderResponse } from '../../../shared/view-models/interfaces';
 import { WaiterCockpitService } from '../../services/waiter-cockpit.service';
 import { TranslocoService } from '@ngneat/transloco';
-import { BookingInfo } from 'app/shared/backend-models/interfaces';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-cockpit-order-dialog',
@@ -132,11 +132,19 @@ export class OrderDialogComponent implements OnInit {
     newData = newData.slice(this.fromRow, this.currentPage * this.pageSize);
     setTimeout(() => (this.filteredData = newData));
   }
+
+  updateStatus(order: number, newStatus: number): void {
+    this.waiterCockpitService.setOrderStatus(order, _.clamp(newStatus, 0, this.statusNamesMap.length - 2)).subscribe(
+      (data: any) => {
+        this.data.order = data;
+      }
+    );
+  }
 }
 
 // Order Data storage class
 class OrderDialogData implements OrderListView {
   orderLines: OrderView[];
   booking: BookingView;
-  order: any;
+  order: SaveOrderResponse;
 }

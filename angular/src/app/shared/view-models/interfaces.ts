@@ -144,6 +144,7 @@ export interface SaveOrderResponse {
   invitedGuestId: number;
   modificationCounter: number;
   revision: any;
+  status: number;
 }
 
 // Roles
