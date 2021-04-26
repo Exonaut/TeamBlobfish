@@ -116,6 +116,13 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
   }
 
   @Override
+  public void setNewStatus(Long id, Long newstatus) {
+
+    OrderEntity entity = getOrderDao().find(id);
+    entity.setStatus(newstatus);
+  }
+
+  @Override
   public OrderCto findOrder(Long id) {
 
     LOG.debug("Get Order with id {} from database.", id);
@@ -532,5 +539,4 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       return new PageImpl<>(orderedDishesCtos, pagResultTo, orderedDishes.getTotalElements());
     }
   }
-
 }

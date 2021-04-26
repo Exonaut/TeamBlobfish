@@ -19,6 +19,14 @@ import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderedDishesS
 public interface Ordermanagement {
 
   /**
+   * set new ordered status
+   *
+   * @param id
+   * @param newstatus
+   */
+  void setNewStatus(Long id, Long newstatus);
+
+  /**
    * Returns a Order by its id 'id'.
    *
    * @param id The id 'id' of the Order.

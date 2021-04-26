@@ -87,10 +87,9 @@ public class OrdermanagementRestServiceImpl implements OrdermanagementRestServic
   }
 
   @Override
-  public void setNewStatus(Long id, Long newstatus) {
+  public void setNewStatus(long id, long newstatus) {
 
-    // TODO Auto-generated method stub
-
+    this.ordermanagement.setNewStatus(id, newstatus);
   }
 
 }
