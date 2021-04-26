@@ -120,8 +120,8 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
 
     OrderEntity entity = getOrderDao().find(id);
     entity.setStatus(newstatus);
-    getOrderDao().save(entity);
-    LOG.debug("Order with id '{}' has been updated.", entity.getId());
+    OrderEntity resultOrderStatus = getOrderDao().save(entity);
+    LOG.debug("The order status with id '{}' has been updated.", resultOrderStatus.getStatus());
 
   }
 
