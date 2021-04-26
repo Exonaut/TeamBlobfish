@@ -62,7 +62,17 @@
         <!-- Ref No Column -->
         <ng-container matColumnDef="booking.status">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columns[3].label}} </th>
-          <td mat-cell *matCellDef="let element"> {{stateNamesMap[element.order.status]}} </td>
+          <td mat-cell *matCellDef="let element"> 
+            {{statusNamesMap[element.order.status]}} 
+            <button
+            name="advanceStatus"
+            mat-button
+            (click)="updateStatus(element, element.order.status + 1)"
+            color="accent"
+            >
+            {{ 'buttons.advanceStatus' | transloco }}
+            </button>
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -15,6 +15,7 @@ import {
 import { OrderListView } from '../../shared/view-models/interfaces';
 import { WaiterCockpitService } from '../services/waiter-cockpit.service';
 import { OrderDialogComponent } from './order-dialog/order-dialog.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-cockpit-order-cockpit',
@@ -55,7 +56,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     status: undefined,
   };
 
-  stateNamesMap: string[];
+  statusNamesMap: string[];
 
   constructor(
     private dialog: MatDialog,
@@ -70,7 +71,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     this.applyFilters();
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
-      this.setStateNamesMap(event);
+      this.setStatusNamesMap(event);
       moment.locale(this.translocoService.getActiveLang());
     });
   }
@@ -88,20 +89,29 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       });
   }
 
-  setStateNamesMap(lang: string): void {
+  setStatusNamesMap(lang: string): void {
     this.translocoSubscription = this.translocoService
       .selectTranslateObject('cockpit.status', {}, lang)
-      .subscribe((cockpitState) => {
-        this.stateNamesMap = [
-          cockpitState.recorded,
-          cockpitState.cooking,
-          cockpitState.ready,
-          cockpitState.handingover,
-          cockpitState.delivered,
-          cockpitState.payed,
-          cockpitState.canceled
+      .subscribe((cockpitStatus) => {
+        this.statusNamesMap = [
+          cockpitStatus.recorded,
+          cockpitStatus.cooking,
+          cockpitStatus.ready,
+          cockpitStatus.handingover,
+          cockpitStatus.delivered,
+          cockpitStatus.payed,
+          cockpitStatus.canceled
         ]; }
       );
+  }
+
+  statusResponse: any;
+  updateStatus(order: any, newStatus: number): void {
+    this.waiterCockpitService.setOrderStatus(order.order.bookingId, _.clamp(newStatus, 0, this.statusNamesMap.length - 2)).subscribe(
+      (data: any) => {
+        this.statusResponse = data;
+      }
+    );
   }
 
   applyFilters(): void {

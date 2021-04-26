@@ -25,6 +25,8 @@ export class WaiterCockpitService {
     'ordermanagement/v1/order/search';
   private readonly filterOrdersRestPath: string =
     'ordermanagement/v1/order/search';
+  private readonly setOrderStatePath: string =
+    'ordermanagement/v1/order/setstatus'
 
   private readonly restServiceRoot$: Observable<
     string
@@ -54,6 +56,19 @@ export class WaiterCockpitService {
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
         this.http.post<OrderResponse[]>(`${restServiceRoot}${path}`, filters),
+      ),
+    );
+  }
+
+  setOrderStatus(
+    orderId: number,
+    newStatus: number
+  ): Observable<any> {
+    let path: string;
+    path = this.setOrderStatePath;
+    return this.restServiceRoot$.pipe(
+      exhaustMap((restServiceRoot) =>
+        this.http.patch(`${restServiceRoot}${path}/${orderId}/${newStatus}`, null),
       ),
     );
   }
