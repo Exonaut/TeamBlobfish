@@ -3,6 +3,7 @@ package com.devonfw.application.mtsj.ordermanagement.service.api.rest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -38,6 +39,10 @@ public interface OrdermanagementRestService {
   @GET
   @Path("/order/{id}/")
   public OrderCto getOrder(@PathParam("id") long id);
+
+  @PATCH
+  @Path("/order/setstatus/{id}/{newstatus}")
+  public void setNewStatus(Long id, Long newstatus);
 
   /**
    * Delegates to {@link Ordermanagement#saveOrder}.
