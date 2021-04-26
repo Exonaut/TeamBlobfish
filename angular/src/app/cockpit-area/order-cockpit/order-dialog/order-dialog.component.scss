@@ -22,7 +22,7 @@ table {
 }
 
 th {
-  width: 20%;
+  width: 16.66%;
   font-weight: bold;
 }
 
@@ -37,7 +37,8 @@ th {
 .commentHeader,
 .extrasHeader,
 .amountHeader,
-.amountData {
+.amountData,
+.statusHeader {
   padding: 0 3%;
 }
 
@@ -45,7 +46,8 @@ th {
 .nameData,
 .emailData,
 .commentData,
-.extrasData {
+.extrasData,
+.statusData {
   padding: 0 3%;
   word-break: break-word;
 }
@@ -53,7 +55,9 @@ th {
 .tableIdHeader,
 .tableIdData,
 .priceHeader,
-.priceData {
+.priceData,
+.statusData,
+.statusHeader {
   text-align: right;
 }
 

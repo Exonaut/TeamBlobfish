@@ -19,7 +19,7 @@ export class OrderDialogComponent implements OnInit {
   pageSize = 4;
 
   data: OrderDialogData = new OrderDialogData();
-  datat: BookingView[] = [];
+  datat: OrderDialogData[] = [];
   columnst: any[];
   displayedColumnsT: string[] = [
     'bookingDate',
@@ -27,6 +27,7 @@ export class OrderDialogComponent implements OnInit {
     'name',
     'email',
     'tableId',
+    'status'
   ];
 
   datao: OrderView[] = [];
@@ -43,6 +44,8 @@ export class OrderDialogComponent implements OnInit {
   filteredData: OrderView[] = this.datao;
   totalPrice: number;
 
+  statusNamesMap: string[];
+
   constructor(
     private waiterCockpitService: WaiterCockpitService,
     private translocoService: TranslocoService,
@@ -51,19 +54,21 @@ export class OrderDialogComponent implements OnInit {
   ) {
     this.data.orderLines = dialogData.orderLines;
     this.data.booking = dialogData.booking;
+    this.data.order = dialogData.order;
     this.pageSizes = this.configService.getValues().pageSizesDialog;
   }
 
   ngOnInit(): void {
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
+      this.setStatusNamesMap(event);
     });
 
     this.totalPrice = this.waiterCockpitService.getTotalPrice(
       this.data.orderLines,
     );
     this.datao = this.waiterCockpitService.orderComposer(this.data.orderLines);
-    this.datat.push(this.data.booking);
+    this.datat.push(this.data);
     this.filter();
   }
 
@@ -77,6 +82,7 @@ export class OrderDialogComponent implements OnInit {
           { name: 'name', label: cockpitTable.ownerH },
           { name: 'email', label: cockpitTable.emailH },
           { name: 'tableId', label: cockpitTable.tableH },
+          { name: 'status', label: cockpitTable.bookingStateH}
         ];
       });
 
@@ -98,6 +104,22 @@ export class OrderDialogComponent implements OnInit {
       });
   }
 
+  setStatusNamesMap(lang: string): void {
+    this.translocoService
+      .selectTranslateObject('cockpit.status', {}, lang)
+      .subscribe((cockpitStatus) => {
+        this.statusNamesMap = [
+          cockpitStatus.recorded,
+          cockpitStatus.cooking,
+          cockpitStatus.ready,
+          cockpitStatus.handingover,
+          cockpitStatus.delivered,
+          cockpitStatus.payed,
+          cockpitStatus.canceled
+        ]; }
+      );
+  }
+
   page(pagingEvent: PageEvent): void {
     this.currentPage = pagingEvent.pageIndex + 1;
     this.pageSize = pagingEvent.pageSize;
@@ -116,4 +138,5 @@ export class OrderDialogComponent implements OnInit {
 class OrderDialogData implements OrderListView {
   orderLines: OrderView[];
   booking: BookingView;
+  order: any;
 }

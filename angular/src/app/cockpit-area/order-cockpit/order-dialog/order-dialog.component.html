@@ -5,27 +5,31 @@
     <!-- Reservation Date Column -->
     <ng-container matColumnDef="bookingDate">
       <th mat-header-cell *matHeaderCellDef> {{columnst[0].label}} </th>
-      <td mat-cell *matCellDef="let element" class="bookingDateData"> {{element.bookingDate|amFromUnix|amDateFormat:'lll'}} </td>
+      <td mat-cell *matCellDef="let element" class="bookingDateData"> {{data.booking.bookingDate|amFromUnix|amDateFormat:'lll'}} </td>
     </ng-container>
     <!-- Creation Date Column -->
     <ng-container matColumnDef="creationDate">
       <th mat-header-cell *matHeaderCellDef class="creationDateHeader"> {{columnst[1].label}} </th>
-      <td mat-cell *matCellDef="let element" class="creationDateData"> {{element.creationDate|amFromUnix|amDateFormat:'lll'}} </td>
+      <td mat-cell *matCellDef="let element" class="creationDateData"> {{data.booking.creationDate|amFromUnix|amDateFormat:'lll'}} </td>
     </ng-container>
     <!-- Owner Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef class="nameHeader"> {{columnst[2].label}} </th>
-      <td mat-cell *matCellDef="let element" class="nameData"> {{element.name}} </td>
+      <td mat-cell *matCellDef="let element" class="nameData"> {{data.booking.name}} </td>
     </ng-container>
     <!-- Email Column -->
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef class="emailHeader"> {{columnst[3].label}} </th>
-      <td mat-cell *matCellDef="let element" class="emailData"> {{element.email}} </td>
+      <td mat-cell *matCellDef="let element" class="emailData"> {{data.booking.email}} </td>
     </ng-container>
     <!-- Table Column -->
     <ng-container matColumnDef="tableId">
       <th mat-header-cell *matHeaderCellDef class="tableIdHeader"> {{columnst[4].label}} </th>
-      <td mat-cell *matCellDef="let element" class="tableIdData"> {{element.tableId}} </td>
+      <td mat-cell *matCellDef="let element" class="tableIdData"> {{data.booking.tableId}} </td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef class="statusHeader"> {{columnst[5].label}} </th>
+      <td mat-cell *matCellDef="let element" class="statusData"> {{statusNamesMap[data.order.status]}} </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumnsT"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumnsT;"></tr>

@@ -61,14 +61,14 @@ export class WaiterCockpitService {
   }
 
   setOrderStatus(
-    orderId: number,
+    id: number,
     newStatus: number
   ): Observable<any> {
     let path: string;
     path = this.setOrderStatePath;
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
-        this.http.patch(`${restServiceRoot}${path}/${orderId}/${newStatus}`, null),
+        this.http.patch(`${restServiceRoot}${path}/${id}/${newStatus}`, null),
       ),
     );
   }
