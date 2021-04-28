@@ -149,9 +149,11 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     this.dialog.open(OrderDialogComponent, {
       width: '80%',
       data: selection,
-    }).afterClosed().subscribe((data: any) => {
-      selection.order.status = +(data);
-    })
+    }).afterClosed().subscribe((data: string) => {
+      if (data === 'Reload') {
+        this.applyFilters();
+      }
+    });
   }
 
   ngOnDestroy(): void {

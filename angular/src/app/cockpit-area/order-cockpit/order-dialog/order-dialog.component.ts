@@ -7,6 +7,8 @@ import { WaiterCockpitService } from '../../services/waiter-cockpit.service';
 import { TranslocoService } from '@ngneat/transloco';
 import * as _ from 'lodash';
 import { dialog } from 'electron';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Input } from 'hammerjs';
 
 @Component({
   selector: 'app-cockpit-order-dialog',
@@ -46,6 +48,7 @@ export class OrderDialogComponent implements OnInit {
   totalPrice: number;
 
   statusNamesMap: string[];
+  selectedStatus: number;
 
   constructor(
     private waiterCockpitService: WaiterCockpitService,
@@ -71,6 +74,7 @@ export class OrderDialogComponent implements OnInit {
     this.datao = this.waiterCockpitService.orderComposer(this.data.orderLines);
     this.datat.push(this.data);
     this.filter();
+    this.selectedStatus = this.data.order.status;
   }
 
   setTableHeaders(lang: string): void {
@@ -134,13 +138,33 @@ export class OrderDialogComponent implements OnInit {
     setTimeout(() => (this.filteredData = newData));
   }
 
-  updateStatus(order: number, newStatus: number): void {
-    this.waiterCockpitService.setOrderStatus(order, _.clamp(newStatus, 0, this.statusNamesMap.length - 2)).subscribe(
-      (data: any) => {
-        this.data.order = data;
-      }
-    );
+  increaseStatus(): void {
+    this.waiterCockpitService.setOrderStatus(this.data.order.id, _.clamp(this.data.order.status + 1, 0, this.statusNamesMap.length - 2))
+      .subscribe(
+        (data: any) => {
+          this.data.order = data;
+        }
+      );
   }
+
+  applyStatus(): void {
+    this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedStatus)
+      .subscribe(
+        (data: any) => {
+          this.data.order = data;
+        }
+      );
+  }
+
+  cancelOrder(): void {
+    this.waiterCockpitService.setOrderStatus(this.data.order.id, this.statusNamesMap.length - 1)
+      .subscribe(
+        (data: any) => {
+          this.data.order = data;
+        }
+      );
+  }
+
 }
 
 // Order Data storage class
