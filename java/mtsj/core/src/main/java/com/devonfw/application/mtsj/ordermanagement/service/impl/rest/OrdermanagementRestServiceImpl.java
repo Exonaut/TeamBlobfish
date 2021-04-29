@@ -87,9 +87,15 @@ public class OrdermanagementRestServiceImpl implements OrdermanagementRestServic
   }
 
   @Override
-  public OrderEto setNewStatus(long id, long newstatus) {
+  public OrderEto setNewStatus(long id, long orderstatus) {
 
-    return this.ordermanagement.setNewStatus(id, newstatus);
+    return this.ordermanagement.setNewOrderStatus(id, orderstatus);
+  }
+
+  @Override
+  public OrderEto setNewPayment(long id, long paymentstatus) {
+
+    return this.ordermanagement.setNewPaymentStatus(id, paymentstatus);
   }
 
 }

@@ -23,16 +23,18 @@ public class OrderCto extends AbstractCto {
 
   private BookingEto host;
 
-  private Long status;
+  private Long orderstatus;
 
-  public Long getStatus() {
+  private Long paymentstatus;
 
-    return this.status;
+  public Long getOrderStatus() {
+
+    return this.orderstatus;
   }
 
-  public void setStatus(Long status) {
+  public void setOrderStatus(Long orderstatus) {
 
-    this.status = status;
+    this.orderstatus = orderstatus;
   }
 
   public OrderEto getOrder() {
@@ -83,6 +85,22 @@ public class OrderCto extends AbstractCto {
   public void setHost(BookingEto host) {
 
     this.host = host;
+  }
+
+  /**
+   * @return paymentstatus
+   */
+  public Long getPaymentstatus() {
+
+    return this.paymentstatus;
+  }
+
+  /**
+   * @param paymentstatus new value of {@link #getpaymentstatus}.
+   */
+  public void setPaymentstatus(Long paymentstatus) {
+
+    this.paymentstatus = paymentstatus;
   }
 
 }

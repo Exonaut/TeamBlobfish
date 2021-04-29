@@ -116,12 +116,12 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
   }
 
   @Override
-  public OrderEto setNewStatus(Long id, Long newstatus) {
+  public OrderEto setNewOrderStatus(Long id, Long orderstatus) {
 
     OrderEntity entity = getOrderDao().find(id);
-    entity.setStatus(newstatus);
+    entity.setOrderStatus(orderstatus);
     OrderEntity resultOrderStatus = getOrderDao().save(entity);
-    LOG.debug("The order status with id '{}' has been updated.", resultOrderStatus.getStatus());
+    LOG.debug("The order status with id '{}' has been updated.", resultOrderStatus.getOrderStatus());
 
     return getBeanMapper().map(resultOrderStatus, OrderEto.class);
   }
@@ -542,5 +542,17 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       Pageable pagResultTo = PageRequest.of(criteria.getPageable().getPageNumber(), orderedDishesCtos.size());
       return new PageImpl<>(orderedDishesCtos, pagResultTo, orderedDishes.getTotalElements());
     }
+  }
+
+  @Override
+  public OrderEto setNewPaymentStatus(Long id, Long paymentstatus) {
+
+    OrderEntity entity = getOrderDao().find(id);
+    entity.setPaymentStatus(paymentstatus);
+    OrderEntity resultOrderPayment = getOrderDao().save(entity);
+    LOG.debug("The payment status with id '{}' has been updated.", resultOrderPayment.getPaymentStatus());
+
+    return getBeanMapper().map(resultOrderPayment, OrderEto.class);
+
   }
 }

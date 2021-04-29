@@ -22,10 +22,19 @@ public interface Ordermanagement {
    * set new ordered status
    *
    * @param id
-   * @param newstatus
-   * @return The {@link OrderEto} the new status 'status'
+   * @param orderstatus
+   * @return The {@link OrderEto} with id 'id' and order status 'orderstatus'
    */
-  OrderEto setNewStatus(Long id, Long newstatus);
+  OrderEto setNewOrderStatus(Long id, Long orderstatus);
+
+  /**
+   * set new payment status
+   *
+   * @param id
+   * @param paymentstatus
+   * @return The {@link OrderEto} with id 'id' and payment status 'paymentstatus'
+   */
+  OrderEto setNewPaymentStatus(Long id, Long paymentstatus);
 
   /**
    * Returns a Order by its id 'id'.
