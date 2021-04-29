@@ -114,7 +114,7 @@ export class OrderDialogComponent implements OnInit {
       });
   }
 
-  /**Set the translation lookup array for status names */
+  /** Set the translation lookup array for status names */
   setStatusNamesMap(lang: string): void {
     this.translocoService
       .selectTranslateObject('cockpit.status', {}, lang)
@@ -131,7 +131,7 @@ export class OrderDialogComponent implements OnInit {
       );
   }
 
-  /**Set the translation lookup array for payment status names */
+  /** Set the translation lookup array for payment status names */
   setPaymentNamesMap(lang: string): void {
     this.translocoService
       .selectTranslateObject('cockpit.payment', {}, lang)
@@ -158,24 +158,24 @@ export class OrderDialogComponent implements OnInit {
   }
 
   increaseStatus(): void {
-    this.selectedStatus = _.clamp(this.data.order.orderStatus + 1, 0, this.statusNamesMap.length - 1)
-    
-    if (this.selectedStatus == this.statusNamesMap.length - 2) {
+    this.selectedStatus = _.clamp(this.data.order.orderStatus + 1, 0, this.statusNamesMap.length - 1);
+
+    if (this.selectedStatus === this.statusNamesMap.length - 2) {
       this.selectedPayment = 1;
     }
-    
+
     this.applyChanges();
   }
 
   applyChanges(): void {
-    
+
     this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedStatus) // Send order status
       .subscribe(
-        (data: any) => {
+        (dataA: any) => {
           this.waiterCockpitService.setPaymentStatus(this.data.order.id, this.selectedPayment) // Send payment status
             .subscribe(
-              (data: any) => {
-                this.data.order = data;
+              (dataB: any) => {
+                this.data.order = dataB;
                 this.dialog.close(true); // Close dialog with refresh flag
               }
             );
@@ -184,16 +184,16 @@ export class OrderDialogComponent implements OnInit {
   }
 
   autoChangePaymentStatus(event: MatSelectChange): void {
-    if (event.value == this.statusNamesMap.length - 1) { // Change to refunded
+    if (event.value === this.statusNamesMap.length - 1) { // Change to refunded
       this.selectedPayment = 2;
     }
-    if (event.value == this.statusNamesMap.length - 2) { // Change to payed
+    if (event.value === this.statusNamesMap.length - 2) { // Change to payed
       this.selectedPayment = 1;
     }
   }
 
   autoChangeOrderStatus(event: MatSelectChange): void {
-    if (event.value == 2) { // Change to canceled
+    if (event.value === 2) { // Change to canceled
       this.selectedStatus = this.statusNamesMap.length - 1;
     }
   }

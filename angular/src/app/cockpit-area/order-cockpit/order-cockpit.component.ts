@@ -16,7 +16,7 @@ import { OrderListView } from '../../shared/view-models/interfaces';
 import { WaiterCockpitService } from '../services/waiter-cockpit.service';
 import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 import * as _ from 'lodash';
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cockpit-order-cockpit',
@@ -62,8 +62,8 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   statusNamesMap: string[];
   paymentNamesMap: string[];
 
-  archiveMode: boolean = false;
-  title: string = 'cockpit.orders.title';
+  archiveMode = false;
+  title = 'cockpit.orders.title';
 
   constructor(
     private dialog: MatDialog,
@@ -78,22 +78,22 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.data
       .subscribe(data => {
-        if (data['archive'] == true) //Set Archive mod settings
+        if (data.archive === true) // Set Archive mod settings
         {
           this.archiveMode = true;
-          this.title = 'cockpit.orders.archive'
+          this.title = 'cockpit.orders.archive';
           this.filters.paymentstatus = [1, 2];
-          this.filters.orderstatus = [5, 6]
+          this.filters.orderstatus = [5, 6];
         }
         else
         {
           this.archiveMode = false;
-          this.title = 'cockpit.orders.title'
+          this.title = 'cockpit.orders.title';
           this.filters.paymentstatus = [0, 1];
-          this.filters.orderstatus = [0, 1, 2, 3, 4]
+          this.filters.orderstatus = [0, 1, 2, 3, 4];
         }
         this.applyFilters();
-    });    
+    });
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
       this.setStatusNamesMap(event);
@@ -116,7 +116,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       });
   }
 
-  /**Set the translation lookup array for status names */
+  /** Set the translation lookup array for status names */
   setStatusNamesMap(lang: string): void {
     this.translocoSubscription = this.translocoService
       .selectTranslateObject('cockpit.status', {}, lang)
@@ -133,7 +133,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       );
   }
 
-  /**Set the translation lookup array for payment status names */
+  /** Set the translation lookup array for payment status names */
   setPaymentNamesMap(lang: string): void {
     this.translocoSubscription = this.translocoService
       .selectTranslateObject('cockpit.payment', {}, lang)
@@ -192,7 +192,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       width: '80%',
       data: selection,
     }).afterClosed().subscribe((data: boolean) => {
-      if (data == true) { // Reload orders if dialog was edited
+      if (data === true) { // Reload orders if dialog was edited
         this.applyFilters();
       }
     });
