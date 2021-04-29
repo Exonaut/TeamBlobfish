@@ -27,7 +27,8 @@ export class OrderDialogComponent implements OnInit {
     'name',
     'email',
     'tableId',
-    'status'
+    'orderStatus',
+    'paymentStatus'
   ];
 
   datao: OrderView[] = [];
@@ -65,6 +66,7 @@ export class OrderDialogComponent implements OnInit {
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
       this.setStatusNamesMap(event);
+      this.setPaymentNamesMap(event);
     });
 
     this.totalPrice = this.waiterCockpitService.getTotalPrice(
@@ -74,6 +76,7 @@ export class OrderDialogComponent implements OnInit {
     this.datat.push(this.data);
     this.filter();
     this.selectedStatus = this.data.order.orderStatus;
+    this.selectedPayment = this.data.order.paymentStatus;
   }
 
   setTableHeaders(lang: string): void {
@@ -86,7 +89,8 @@ export class OrderDialogComponent implements OnInit {
           { name: 'name', label: cockpitTable.ownerH },
           { name: 'email', label: cockpitTable.emailH },
           { name: 'tableId', label: cockpitTable.tableH },
-          { name: 'status', label: cockpitTable.bookingStateH}
+          { name: 'bookingStatus', label: cockpitTable.bookingStateH },
+          { name: 'paymentStatus', label: cockpitTable.paymentStateH }
         ];
       });
 
@@ -119,7 +123,7 @@ export class OrderDialogComponent implements OnInit {
           cockpitStatus.ready,
           cockpitStatus.handingover,
           cockpitStatus.delivered,
-          cockpitStatus.payed,
+          cockpitStatus.completed,
           cockpitStatus.canceled
         ]; }
       );
@@ -167,7 +171,7 @@ export class OrderDialogComponent implements OnInit {
           this.data.order = data;
         }
       );
-    this.waiterCockpitService.setOrderPayment(this.data.order.id, this.selectedPayment)
+    this.waiterCockpitService.setPaymentStatus(this.data.order.id, this.selectedPayment)
       .subscribe(
         (data: any) => {
           this.data.order = data;

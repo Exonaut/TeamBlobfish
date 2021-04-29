@@ -75,7 +75,7 @@ export class WaiterCockpitService {
     );
   }
 
-  setOrderPayment(
+  setPaymentStatus(
     id: number,
     newPayment: number
   ): Observable<any> {

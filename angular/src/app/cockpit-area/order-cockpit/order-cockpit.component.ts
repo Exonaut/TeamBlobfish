@@ -45,8 +45,8 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     'booking.bookingDate',
     'booking.email',
     'booking.bookingToken',
-    'booking.status',
-    'booking.payment'
+    'booking.orderStatus',
+    'booking.paymentStatus'
   ];
 
   pageSizes: number[];
@@ -56,7 +56,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     email: undefined,
     bookingToken: undefined,
     orderstatus: [],
-    paymentstatus: [0, 1, 2],
+    paymentstatus: [],
   };
 
   statusNamesMap: string[];
@@ -95,6 +95,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
       this.setStatusNamesMap(event);
+      this.setPaymentNamesMap(event);
       moment.locale(this.translocoService.getActiveLang());
     });
   }
@@ -107,8 +108,8 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           { name: 'booking.bookingDate', label: cockpitTable.reservationDateH },
           { name: 'booking.email', label: cockpitTable.emailH },
           { name: 'booking.bookingToken', label: cockpitTable.bookingTokenH },
-          { name: 'booking.status', label: cockpitTable.bookingStateH},
-          { name: 'booking.payment', label: cockpitTable.bookingPaymentH}
+          { name: 'booking.bookingStatus', label: cockpitTable.bookingStateH},
+          { name: 'booking.paymentStatus', label: cockpitTable.paymentStatusH}
         ];
       });
   }

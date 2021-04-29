@@ -203,7 +203,7 @@
       "tableH": "Table",
       "creationDateH": "Creation date",
       "bookingStateH": "Status",
-      "bookingPaymentH": "Payment"
+      "paymentStateH": "Payment"
     },
     "status": {
       "recorded": "Recorded",
