@@ -93,28 +93,17 @@
   <mat-paginator [length]="datao.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizes" [showFirstLastButtons]="false" (page)="page($event)">
   </mat-paginator>
   <div class="align-right actionButtons">
-    <!-- Cancel Order -->
-    <button
-      name="advanceStatus"
-      mat-button
-      mat-dialog-close="Reload"
-      (click)="cancelOrder()"
-      color="accent"
-      >
-      {{ 'buttons.cancelOrder' | transloco }}
-    </button>
     <!-- Advance Status -->
     <button
       name="advanceStatus"
       mat-button
-      mat-dialog-close="Reload"
       (click)="increaseStatus()"
       color="accent"
       >
       {{ 'buttons.advanceStatus' | transloco }}
     </button>
     <!-- Accept -->
-    <button mat-button type="submit" mat-dialog-close="Reload" color="accent">{{'buttons.apply' | transloco | uppercase}}</button>
+    <button mat-button type="submit" color="accent">{{'buttons.apply' | transloco | uppercase}}</button>
     <!-- Cancel -->
     <button mat-button mat-dialog-close color="accent">{{'buttons.cancel' | transloco | uppercase}}</button>
   </div>

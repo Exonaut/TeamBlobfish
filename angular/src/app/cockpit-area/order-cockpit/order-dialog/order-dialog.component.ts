@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ConfigService } from '../../../core/config/config.service';
 import { BookingView, OrderListView, OrderView, SaveOrderResponse } from '../../../shared/view-models/interfaces';
@@ -55,6 +55,7 @@ export class OrderDialogComponent implements OnInit {
     private translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) dialogData: any,
     private configService: ConfigService,
+    public dialog: MatDialogRef<OrderDialogComponent>,
   ) {
     this.data.orderLines = dialogData.orderLines;
     this.data.booking = dialogData.booking;
@@ -156,15 +157,20 @@ export class OrderDialogComponent implements OnInit {
   }
 
   increaseStatus(): void {
-    this.waiterCockpitService.setOrderStatus(this.data.order.id, _.clamp(this.data.order.orderStatus + 1, 0, this.statusNamesMap.length - 2))
-      .subscribe(
-        (data: any) => {
-          this.data.order = data;
-        }
-      );
+    this.selectedStatus = _.clamp(this.data.order.orderStatus + 1, 0, this.statusNamesMap.length - 1)
+    this.applyChanges();
   }
 
   applyChanges(): void {
+    if (this.selectedPayment == 2) { // Set order status to canceled if refunded is selected
+      this.selectedStatus = this.statusNamesMap.length - 1;
+    }
+    if (this.selectedStatus == this.statusNamesMap.length - 2) { // Set payment status to payed if complete order status is picked
+      this.selectedPayment = 1;
+    }
+    if (this.selectedStatus == this.statusNamesMap.length - 1) {
+      this.selectedPayment = 2;
+    }
     this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedStatus)
       .subscribe(
         (data: any) => {
@@ -172,11 +178,11 @@ export class OrderDialogComponent implements OnInit {
             .subscribe(
               (data: any) => {
                 this.data.order = data;
+                this.dialog.close(true);
               }
             );
         }
       );
-    
   }
 
   cancelOrder(): void {
@@ -184,6 +190,7 @@ export class OrderDialogComponent implements OnInit {
       .subscribe(
         (data: any) => {
           this.data.order = data;
+          this.dialog.close(true);
         }
       );
   }

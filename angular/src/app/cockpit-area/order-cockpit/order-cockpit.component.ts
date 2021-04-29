@@ -82,13 +82,15 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
         {
           this.archiveMode = true;
           this.title = 'cockpit.orders.archive'
-          // this.filters.orderstatus = [5, 6];
+          this.filters.paymentstatus = [1, 2];
+          this.filters.orderstatus = [5, 6]
         }
         else
         {
           this.archiveMode = false;
           this.title = 'cockpit.orders.title'
-          // this.filters.orderstatus = [0, 1, 2, 3, 4];
+          this.filters.paymentstatus = [0, 1];
+          this.filters.orderstatus = [0, 1, 2, 3, 4]
         }
         this.applyFilters();
     });    
@@ -189,8 +191,8 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     this.dialog.open(OrderDialogComponent, {
       width: '80%',
       data: selection,
-    }).afterClosed().subscribe((data: string) => {
-      if (data === 'Reload') { // Reload orders if dialog was edited
+    }).afterClosed().subscribe((data: boolean) => {
+      if (data == true) { // Reload orders if dialog was edited
         this.applyFilters();
       }
     });
