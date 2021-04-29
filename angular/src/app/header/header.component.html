@@ -38,6 +38,7 @@
   </div>
   <div *ngIf="(auth.getRole() | async) === 'WAITER'" class="forDesktop">
     <nav mat-tab-nav-bar>
+      <!-- Order Cockpit -->
       <a
         mat-tab-link
         routerLink="/orders"
@@ -46,6 +47,16 @@
       >
         {{ 'main.orders' | transloco | uppercase }}
       </a>
+      <!-- Order Archive -->
+      <a
+        mat-tab-link
+        routerLink="/archive"
+        routerLinkActive="navBottomBorder"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        {{ 'main.orderArchive' | transloco | uppercase }}
+      </a>
+      <!-- Reservation Cockpit -->
       <a
         mat-tab-link
         routerLink="/reservations"

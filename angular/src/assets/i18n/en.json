@@ -13,7 +13,10 @@
     "clearFilters": "Clear Filters",
     "applyFilters": "Apply Filters",
     "removeComment": "Remove Comment",
-    "addComment": "Add comment"
+    "addComment": "Add comment",
+    "advanceStatus": "Advance Status",
+    "setStatus": "Change Status",
+    "cancelOrder": "Cancel Order"
   },
   "table": {
     "rowsPage": "Rows per page",
@@ -90,6 +93,7 @@
     "menu": "Menu",
     "book": "Book table",
     "orders": "Orders",
+    "orderArchive": "Order Archive",
     "reservations": "Reservations",
     "userActions": {
       "user": "User",
@@ -172,6 +176,7 @@
     "filter": "Filter",
     "orders": {
       "title": "Orders",
+      "archive": "Archive",
       "dialogTitle": "ORDER DETAILS - REFERENCE NUMBER",
       "dialogTable": {
         "dishH": "Dish",
@@ -196,7 +201,23 @@
       "bookingTokenH": "Reference Number",
       "ownerH": "Owner",
       "tableH": "Table",
-      "creationDateH": "Creation date"
+      "creationDateH": "Creation date",
+      "bookingStateH": "Status",
+      "paymentStateH": "Payment"
+    },
+    "status": {
+      "recorded": "Recorded",
+      "cooking": "Cooking",
+      "ready": "Ready",
+      "handingover": "Handing Over",
+      "delivered": "Delivered",
+      "completed": "Completed",
+      "canceled": "Canceled"
+    },
+    "payment": {
+      "pending": "Pending",
+      "payed": "Payed",
+      "refunded": "Refunded"
     }
   }
 }

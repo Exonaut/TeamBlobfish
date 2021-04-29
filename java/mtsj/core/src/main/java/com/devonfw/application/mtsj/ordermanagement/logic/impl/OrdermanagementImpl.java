@@ -116,6 +116,17 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
   }
 
   @Override
+  public OrderEto setNewOrderStatus(Long id, Long orderstatus) {
+
+    OrderEntity entity = getOrderDao().find(id);
+    entity.setOrderStatus(orderstatus);
+    OrderEntity resultOrderStatus = getOrderDao().save(entity);
+    LOG.debug("The order status with id '{}' has been updated.", resultOrderStatus.getOrderStatus());
+
+    return getBeanMapper().map(resultOrderStatus, OrderEto.class);
+  }
+
+  @Override
   public OrderCto findOrder(Long id) {
 
     LOG.debug("Get Order with id {} from database.", id);
@@ -533,4 +544,15 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
     }
   }
 
+  @Override
+  public OrderEto setNewPaymentStatus(Long id, Long paymentstatus) {
+
+    OrderEntity entity = getOrderDao().find(id);
+    entity.setPaymentStatus(paymentstatus);
+    OrderEntity resultOrderPayment = getOrderDao().save(entity);
+    LOG.debug("The payment status with id '{}' has been updated.", resultOrderPayment.getPaymentStatus());
+
+    return getBeanMapper().map(resultOrderPayment, OrderEto.class);
+
+  }
 }

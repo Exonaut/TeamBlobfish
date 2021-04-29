@@ -15,6 +15,8 @@ import {
 import { OrderListView } from '../../shared/view-models/interfaces';
 import { WaiterCockpitService } from '../services/waiter-cockpit.service';
 import { OrderDialogComponent } from './order-dialog/order-dialog.component';
+import * as _ from 'lodash';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cockpit-order-cockpit',
@@ -43,6 +45,8 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     'booking.bookingDate',
     'booking.email',
     'booking.bookingToken',
+    'booking.orderStatus',
+    'booking.paymentStatus'
   ];
 
   pageSizes: number[];
@@ -51,21 +55,49 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     bookingDate: undefined,
     email: undefined,
     bookingToken: undefined,
+    orderstatus: [],
+    paymentstatus: [],
   };
+
+  statusNamesMap: string[];
+  paymentNamesMap: string[];
+
+  archiveMode = false;
+  title = 'cockpit.orders.title';
 
   constructor(
     private dialog: MatDialog,
     private translocoService: TranslocoService,
     private waiterCockpitService: WaiterCockpitService,
     private configService: ConfigService,
+    private route: ActivatedRoute
   ) {
     this.pageSizes = this.configService.getValues().pageSizes;
   }
 
   ngOnInit(): void {
-    this.applyFilters();
+    this.route.data
+      .subscribe(data => {
+        if (data.archive === true) // Set Archive mod settings
+        {
+          this.archiveMode = true;
+          this.title = 'cockpit.orders.archive';
+          this.filters.paymentstatus = [1, 2];
+          this.filters.orderstatus = [5, 6];
+        }
+        else
+        {
+          this.archiveMode = false;
+          this.title = 'cockpit.orders.title';
+          this.filters.paymentstatus = [0, 1];
+          this.filters.orderstatus = [0, 1, 2, 3, 4];
+        }
+        this.applyFilters();
+    });
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
+      this.setStatusNamesMap(event);
+      this.setPaymentNamesMap(event);
       moment.locale(this.translocoService.getActiveLang());
     });
   }
@@ -78,10 +110,43 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           { name: 'booking.bookingDate', label: cockpitTable.reservationDateH },
           { name: 'booking.email', label: cockpitTable.emailH },
           { name: 'booking.bookingToken', label: cockpitTable.bookingTokenH },
+          { name: 'booking.bookingStatus', label: cockpitTable.bookingStateH},
+          { name: 'booking.paymentStatus', label: cockpitTable.paymentStateH}
         ];
       });
   }
 
+  /** Set the translation lookup array for status names */
+  setStatusNamesMap(lang: string): void {
+    this.translocoSubscription = this.translocoService
+      .selectTranslateObject('cockpit.status', {}, lang)
+      .subscribe((cockpitStatus) => {
+        this.statusNamesMap = [
+          cockpitStatus.recorded,
+          cockpitStatus.cooking,
+          cockpitStatus.ready,
+          cockpitStatus.handingover,
+          cockpitStatus.delivered,
+          cockpitStatus.completed,
+          cockpitStatus.canceled
+        ]; }
+      );
+  }
+
+  /** Set the translation lookup array for payment status names */
+  setPaymentNamesMap(lang: string): void {
+    this.translocoSubscription = this.translocoService
+      .selectTranslateObject('cockpit.payment', {}, lang)
+      .subscribe((cockpitStatus) => {
+        this.paymentNamesMap = [
+          cockpitStatus.pending,
+          cockpitStatus.payed,
+          cockpitStatus.refunded
+        ]; }
+      );
+  }
+
+  /** Get Orders from backend meeting current filter requirements */
   applyFilters(): void {
     this.waiterCockpitService
       .getOrders(this.pageable, this.sorting, this.filters)
@@ -95,6 +160,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       });
   }
 
+  /** Clear filters */
   clearFilters(filters: NgForm): void {
     filters.reset();
     this.applyFilters();
@@ -125,6 +191,10 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     this.dialog.open(OrderDialogComponent, {
       width: '80%',
       data: selection,
+    }).afterClosed().subscribe((data: boolean) => {
+      if (data === true) { // Reload orders if dialog was edited
+        this.applyFilters();
+      }
     });
   }
 

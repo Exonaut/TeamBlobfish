@@ -28,6 +28,10 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
 
   private StringSearchConfigTo bookingTokenOption;
 
+  private Long[] orderstatus;
+
+  private Long[] paymentstatus;
+
   /**
    * The constructor.
    */
@@ -154,6 +158,38 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
   public void setBookingTokenOption(StringSearchConfigTo bookingTokenOption) {
 
     this.bookingTokenOption = bookingTokenOption;
+  }
+
+  /**
+   * @return orderstatus
+   */
+  public Long[] getOrderstatus() {
+
+    return this.orderstatus;
+  }
+
+  /**
+   * @param orderstatus new value of {@link #getOrderstatus}.
+   */
+  public void setOrderstatus(Long[] orderstatus) {
+
+    this.orderstatus = orderstatus;
+  }
+
+  /**
+   * @return paymentstatus
+   */
+  public Long[] getPaymentstatus() {
+
+    return this.paymentstatus;
+  }
+
+  /**
+   * @param paymentstatus new value of {@link #getPaymentstatus}.
+   */
+  public void setPaymentstatus(Long[] paymentstatus) {
+
+    this.paymentstatus = paymentstatus;
   }
 
 }

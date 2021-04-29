@@ -2,7 +2,9 @@
   word-break: break-word;
 }
 
-.tableContainer {
+.tableContainer
+.status-selection
+.payment-selection {
   width: 100%;
   overflow: auto;
 }
@@ -22,7 +24,7 @@ table {
 }
 
 th {
-  width: 20%;
+  width: 14.29%;
   font-weight: bold;
 }
 
@@ -37,7 +39,9 @@ th {
 .commentHeader,
 .extrasHeader,
 .amountHeader,
-.amountData {
+.amountData,
+.statusHeader,
+.paymentHeader {
   padding: 0 3%;
 }
 
@@ -45,7 +49,9 @@ th {
 .nameData,
 .emailData,
 .commentData,
-.extrasData {
+.extrasData,
+.statusData,
+.paymentData {
   padding: 0 3%;
   word-break: break-word;
 }
@@ -53,7 +59,11 @@ th {
 .tableIdHeader,
 .tableIdData,
 .priceHeader,
-.priceData {
+.priceData,
+.statusData,
+.statusHeader,
+.paymentHeader,
+.paymentData {
   text-align: right;
 }
 
