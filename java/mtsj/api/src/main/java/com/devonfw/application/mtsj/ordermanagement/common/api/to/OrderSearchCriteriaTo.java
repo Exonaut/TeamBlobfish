@@ -163,7 +163,7 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
   /**
    * @return orderstatus
    */
-  public Long[] getOrderStatus() {
+  public Long[] getOrderstatus() {
 
     return this.orderstatus;
   }
@@ -171,7 +171,7 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
   /**
    * @param orderstatus new value of {@link #getorderstatus}.
    */
-  public void setOrderStatus(Long[] orderstatus) {
+  public void setOrderstatus(Long[] orderstatus) {
 
     this.orderstatus = orderstatus;
   }
@@ -179,7 +179,7 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
   /**
    * @return paymentstatus
    */
-  public Long[] getPaymentStatus() {
+  public Long[] getPaymentstatus() {
 
     return this.paymentstatus;
   }
@@ -187,7 +187,7 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
   /**
    * @param paymentstatus new value of {@link #getpaymentstatus}.
    */
-  public void setPaymentStatus(Long[] paymentstatus) {
+  public void setPaymentstatus(Long[] paymentstatus) {
 
     this.paymentstatus = paymentstatus;
   }
