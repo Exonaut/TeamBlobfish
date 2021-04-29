@@ -6,6 +6,7 @@ import { BookingView, OrderListView, OrderView, SaveOrderResponse } from '../../
 import { WaiterCockpitService } from '../../services/waiter-cockpit.service';
 import { TranslocoService } from '@ngneat/transloco';
 import * as _ from 'lodash';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-cockpit-order-dialog',
@@ -158,19 +159,16 @@ export class OrderDialogComponent implements OnInit {
 
   increaseStatus(): void {
     this.selectedStatus = _.clamp(this.data.order.orderStatus + 1, 0, this.statusNamesMap.length - 1)
+    
+    if (this.selectedStatus == this.statusNamesMap.length - 2) {
+      this.selectedPayment = 1;
+    }
+    
     this.applyChanges();
   }
 
   applyChanges(): void {
-    if (this.selectedPayment == 2) { // Set order status to canceled if refunded is selected
-      this.selectedStatus = this.statusNamesMap.length - 1;
-    }
-    if (this.selectedStatus == this.statusNamesMap.length - 2) { // Set payment status to payed if complete order status is picked
-      this.selectedPayment = 1;
-    }
-    if (this.selectedStatus == this.statusNamesMap.length - 1) {
-      this.selectedPayment = 2;
-    }
+    
     this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedStatus)
       .subscribe(
         (data: any) => {
@@ -185,14 +183,19 @@ export class OrderDialogComponent implements OnInit {
       );
   }
 
-  cancelOrder(): void {
-    this.waiterCockpitService.setOrderStatus(this.data.order.id, this.statusNamesMap.length - 1)
-      .subscribe(
-        (data: any) => {
-          this.data.order = data;
-          this.dialog.close(true);
-        }
-      );
+  autoChangePaymentStatus(event: MatSelectChange): void {
+    if (event.value == this.statusNamesMap.length - 1) {
+      this.selectedPayment = 2;
+    }
+    if (event.value == this.statusNamesMap.length - 2) {
+      this.selectedPayment = 1;
+    }
+  }
+
+  autoChangeOrderStatus(event: MatSelectChange): void {
+    if (event.value == 2) {
+      this.selectedStatus = this.statusNamesMap.length - 1;
+    }
   }
 
 }
