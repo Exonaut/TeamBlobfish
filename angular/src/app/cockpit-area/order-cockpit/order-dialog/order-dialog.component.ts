@@ -45,7 +45,9 @@ export class OrderDialogComponent implements OnInit {
   totalPrice: number;
 
   statusNamesMap: string[];
+  paymentNamesMap: string[];
   selectedStatus: number;
+  selectedPayment: number;
 
   constructor(
     private waiterCockpitService: WaiterCockpitService,
@@ -71,7 +73,7 @@ export class OrderDialogComponent implements OnInit {
     this.datao = this.waiterCockpitService.orderComposer(this.data.orderLines);
     this.datat.push(this.data);
     this.filter();
-    this.selectedStatus = this.data.order.status;
+    this.selectedStatus = this.data.order.orderstatus;
   }
 
   setTableHeaders(lang: string): void {
@@ -106,6 +108,7 @@ export class OrderDialogComponent implements OnInit {
       });
   }
 
+  /**Set the translation lookup array for status names */
   setStatusNamesMap(lang: string): void {
     this.translocoService
       .selectTranslateObject('cockpit.status', {}, lang)
@@ -118,6 +121,19 @@ export class OrderDialogComponent implements OnInit {
           cockpitStatus.delivered,
           cockpitStatus.payed,
           cockpitStatus.canceled
+        ]; }
+      );
+  }
+
+  /**Set the translation lookup array for payment status names */
+  setPaymentNamesMap(lang: string): void {
+    this.translocoService
+      .selectTranslateObject('cockpit.payment', {}, lang)
+      .subscribe((cockpitStatus) => {
+        this.paymentNamesMap = [
+          cockpitStatus.pending,
+          cockpitStatus.payed,
+          cockpitStatus.refunded
         ]; }
       );
   }
@@ -136,7 +152,7 @@ export class OrderDialogComponent implements OnInit {
   }
 
   increaseStatus(): void {
-    this.waiterCockpitService.setOrderStatus(this.data.order.id, _.clamp(this.data.order.status + 1, 0, this.statusNamesMap.length - 2))
+    this.waiterCockpitService.setOrderStatus(this.data.order.id, _.clamp(this.data.order.orderstatus + 1, 0, this.statusNamesMap.length - 2))
       .subscribe(
         (data: any) => {
           this.data.order = data;
@@ -144,8 +160,14 @@ export class OrderDialogComponent implements OnInit {
       );
   }
 
-  applyStatus(): void {
+  applyChanges(): void {
     this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedStatus)
+      .subscribe(
+        (data: any) => {
+          this.data.order = data;
+        }
+      );
+    this.waiterCockpitService.setOrderPayment(this.data.order.id, this.selectedPayment)
       .subscribe(
         (data: any) => {
           this.data.order = data;
