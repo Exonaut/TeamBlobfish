@@ -24,7 +24,7 @@ import com.devonfw.application.mtsj.general.common.api.datatype.SecondFactor;
 import com.devonfw.application.mtsj.general.common.api.security.BasicAccountCredentials;
 import com.devonfw.application.mtsj.general.common.api.security.LoginDataUsernameAndPassword;
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserEto;
-import com.devonfw.application.mtsj.usermanagement.service.impl.UsermanagementRestServiceImpl;
+import com.devonfw.application.mtsj.usermanagement.logic.api.Usermanagement;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -39,23 +39,25 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
   private UserDetailsService userDetailsService;
 
-  private UsermanagementRestServiceImpl usermanagementRestServiceImpl;
-
   private PasswordEncoder passwordEncoder;
+
+  private Usermanagement usermanagement;
 
   /**
    * The constructor.
    *
    * @param url the login url
+   * @param userDetailsService reference
+   * @param usermanagement reference
    * @param authManager the {@link AuthenticationManager}
    */
   public JWTLoginFilter(String url, AuthenticationManager authManager, UserDetailsService userDetailsService,
-      UsermanagementRestServiceImpl usermanagementRestServiceImpl) {
+      Usermanagement usermanagement) {
 
     super(new AntPathRequestMatcher(url));
     setAuthenticationManager(authManager);
     this.userDetailsService = userDetailsService;
-    this.usermanagementRestServiceImpl = usermanagementRestServiceImpl;
+    this.usermanagement = usermanagement;
   }
 
   @Override
@@ -64,7 +66,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     BasicAccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), BasicAccountCredentials.class);
 
-    if (creds.getEmail() != null) { // registrationAndLogin
+    if (!this.usermanagement.existsUsernameOrEmail(creds.getEmail(), creds.getUsername())) { // registrationAndLogin
 
       UserEto user = new UserEto();
       user.setEmail(creds.getEmail());
@@ -76,20 +78,21 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
       user.setUserRoleId((long) 0); // UserRole Costumer
       user.setModificationCounter(1);
 
-      this.usermanagementRestServiceImpl.saveUser(user); // user is written to the Database
+      this.usermanagement.saveUser(user); // user is written to the Database
 
-      UserDetails userDetails = this.userDetailsService.loadUserByUsername(creds.getUsername()); // if user does not
-                                                                                                 // exist, then break
-                                                                                                 // here
+      UserDetails userDetails = this.userDetailsService.loadUserByUsername(creds.getUsername());
+
       ValidationService.validateCredentials(creds);
       return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(creds.getUsername(),
           creds.getPassword(), userDetails.getAuthorities())); // user is logged in
 
     } else { // only login
 
-      UserDetails userDetails = this.userDetailsService.loadUserByUsername(creds.getUsername()); // if user does not
-                                                                                                 // exist, then break
-                                                                                                 // here
+      if (creds.getEmail() != null)
+        return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(null, null, null));
+
+      UserDetails userDetails = this.userDetailsService.loadUserByUsername(creds.getUsername());
+
       LoginDataUsernameAndPassword credsLog = new LoginDataUsernameAndPassword();
       credsLog.setUsername(creds.getUsername());
       credsLog.setPassword(creds.getPassword());

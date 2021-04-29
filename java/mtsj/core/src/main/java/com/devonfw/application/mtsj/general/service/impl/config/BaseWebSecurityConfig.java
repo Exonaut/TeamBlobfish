@@ -22,7 +22,7 @@ import com.devonfw.application.mtsj.general.common.base.JWTLoginFilter;
 import com.devonfw.application.mtsj.general.common.base.TwoFactorFilter;
 import com.devonfw.application.mtsj.general.common.impl.security.BaseUserDetailsService;
 import com.devonfw.application.mtsj.general.common.impl.security.twofactor.TwoFactorAuthenticationProvider;
-import com.devonfw.application.mtsj.usermanagement.service.impl.UsermanagementRestServiceImpl;
+import com.devonfw.application.mtsj.usermanagement.logic.api.Usermanagement;
 
 /**
  * This type serves as a base class for extensions of the {@code WebSecurityConfigurerAdapter} and provides a default
@@ -39,10 +39,10 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
   private BaseUserDetailsService userDetailsService;
 
   @Inject
-  private UsermanagementRestServiceImpl usermanagementRestServiceImpl;
+  private PasswordEncoder passwordEncoder;
 
   @Inject
-  private PasswordEncoder passwordEncoder;
+  private Usermanagement usermanagement;
 
   @Bean
   public AdvancedDaoAuthenticationProvider advancedDaoAuthenticationProvider() {
@@ -107,8 +107,9 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
         .addFilterBefore(new TwoFactorFilter("/verify", authenticationManager(), this.userDetailsService),
             UsernamePasswordAuthenticationFilter.class)
         // the api/login requests are filtered with the JWTLoginFilter
-        .addFilterBefore(new JWTLoginFilter("/login", authenticationManager(), this.userDetailsService,
-            this.usermanagementRestServiceImpl), UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(
+            new JWTLoginFilter("/login", authenticationManager(), this.userDetailsService, this.usermanagement),
+            UsernamePasswordAuthenticationFilter.class)
         // other requests are filtered to check the presence of JWT in header
         .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

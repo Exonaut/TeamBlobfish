@@ -85,6 +85,12 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
   }
 
   @Override
+  public boolean existsUsernameOrEmail(String email, String userName) {
+
+    return this.userDao.findByEmail(email) != null || this.userDao.findByUsername(userName) != null;
+  }
+
+  @Override
   public Page<UserEto> findUserEtos(UserSearchCriteriaTo criteria) {
 
     Page<UserEntity> users = getUserDao().findUsers(criteria);

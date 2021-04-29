@@ -31,6 +31,15 @@ public interface Usermanagement {
   UserEto findUserbyName(String userName);
 
   /**
+   * Returns a User by its email 'email'
+   *
+   * @param email The email 'email' of the User
+   * @param username The username 'username' of the User
+   * @return The {@link UserEto} with email 'email'
+   */
+  boolean existsUsernameOrEmail(String email, String username);
+
+  /**
    * Returns a paginated list of Users matching the search criteria.
    *
    * @param criteria the {@link UserSearchCriteriaTo}.

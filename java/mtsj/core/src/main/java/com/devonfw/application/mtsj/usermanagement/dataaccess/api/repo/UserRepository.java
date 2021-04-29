@@ -2,18 +2,16 @@ package com.devonfw.application.mtsj.usermanagement.dataaccess.api.repo;
 
 import static com.querydsl.core.alias.Alias.$;
 
-
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserSearchCriteriaTo;
 import com.devonfw.application.mtsj.usermanagement.dataaccess.api.UserEntity;
 import com.devonfw.module.jpa.dataaccess.api.QueryUtil;
 import com.devonfw.module.jpa.dataaccess.api.data.DefaultRepository;
 import com.querydsl.core.alias.Alias;
 import com.querydsl.jpa.impl.JPAQuery;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 /**
  * {@link DefaultRepository} for {@link UserEntity}.
@@ -50,6 +48,15 @@ public interface UserRepository extends DefaultRepository<UserEntity> {
    * @return An {@link UserEntity} objects that matched the search.
    */
   @Query("SELECT user FROM UserEntity user" //
-          + " WHERE user.username = :username")
+      + " WHERE user.username = :username")
   UserEntity findByUsername(@Param("username") String username);
+
+  /**
+   *
+   * @param email
+   * @return An {@link UserEntity} object that mathed the search
+   */
+  @Query("SELECT user FROM UserEntity user" //
+      + " WHERE user.email = :email")
+  UserEntity findByEmail(@Param("email") String email);
 }
