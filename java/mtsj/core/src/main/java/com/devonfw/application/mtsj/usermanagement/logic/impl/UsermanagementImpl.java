@@ -85,6 +85,12 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
   }
 
   @Override
+  public boolean existsUsernameOrEmail(String email, String userName) {
+
+    return this.userDao.findByEmail(email) != null || this.userDao.findByUsername(userName) != null;
+  }
+
+  @Override
   public Page<UserEto> findUserEtos(UserSearchCriteriaTo criteria) {
 
     Page<UserEntity> users = getUserDao().findUsers(criteria);
@@ -107,8 +113,7 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
     UserEntity userEntity = getBeanMapper().map(user, UserEntity.class);
 
     // initialize, validate userEntity here if necessary
-    UserEntity resultEntity = getUserDao().save(userEntity);// "save" speichert eine bestimmte Entität ( für den
-                                                            // Datenzugriff )
+    UserEntity resultEntity = getUserDao().save(userEntity); // write to the Database
     LOG.debug("User with id '{}' has been created.", resultEntity.getId());
     return getBeanMapper().map(resultEntity, UserEto.class);
   }
