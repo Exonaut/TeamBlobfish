@@ -17,7 +17,7 @@ export class FilterCockpit {
     email: string;
     bookingToken: number;
     orderstatus: number[];
-    orderpayment: number[];
+    paymentstatus: number[];
 }
 
 export class FilterOrdersCockpit {

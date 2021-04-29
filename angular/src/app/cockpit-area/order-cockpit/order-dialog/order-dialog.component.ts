@@ -73,7 +73,7 @@ export class OrderDialogComponent implements OnInit {
     this.datao = this.waiterCockpitService.orderComposer(this.data.orderLines);
     this.datat.push(this.data);
     this.filter();
-    this.selectedStatus = this.data.order.orderstatus;
+    this.selectedStatus = this.data.order.orderStatus;
   }
 
   setTableHeaders(lang: string): void {
@@ -152,7 +152,7 @@ export class OrderDialogComponent implements OnInit {
   }
 
   increaseStatus(): void {
-    this.waiterCockpitService.setOrderStatus(this.data.order.id, _.clamp(this.data.order.orderstatus + 1, 0, this.statusNamesMap.length - 2))
+    this.waiterCockpitService.setOrderStatus(this.data.order.id, _.clamp(this.data.order.orderStatus + 1, 0, this.statusNamesMap.length - 2))
       .subscribe(
         (data: any) => {
           this.data.order = data;

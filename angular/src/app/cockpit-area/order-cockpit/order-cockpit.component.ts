@@ -56,7 +56,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     email: undefined,
     bookingToken: undefined,
     orderstatus: [],
-    orderpayment: [0, 1, 2],
+    paymentstatus: [0, 1, 2],
   };
 
   statusNamesMap: string[];
