@@ -169,7 +169,7 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
   }
 
   /**
-   * @param orderstatus new value of {@link #getorderstatus}.
+   * @param orderstatus new value of {@link #getOrderstatus}.
    */
   public void setOrderstatus(Long[] orderstatus) {
 
@@ -185,7 +185,7 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
   }
 
   /**
-   * @param paymentstatus new value of {@link #getpaymentstatus}.
+   * @param paymentstatus new value of {@link #getPaymentstatus}.
    */
   public void setPaymentstatus(Long[] paymentstatus) {
 

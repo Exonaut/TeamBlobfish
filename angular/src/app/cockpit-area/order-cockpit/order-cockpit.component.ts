@@ -109,7 +109,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           { name: 'booking.email', label: cockpitTable.emailH },
           { name: 'booking.bookingToken', label: cockpitTable.bookingTokenH },
           { name: 'booking.bookingStatus', label: cockpitTable.bookingStateH},
-          { name: 'booking.paymentStatus', label: cockpitTable.paymentStatusH}
+          { name: 'booking.paymentStatus', label: cockpitTable.paymentStateH}
         ];
       });
   }

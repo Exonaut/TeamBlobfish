@@ -27,7 +27,7 @@ export class WaiterCockpitService {
     'ordermanagement/v1/order/search';
   private readonly setOrderStatePath: string =
     'ordermanagement/v1/order/setstatus';
-    private readonly setOrderPaymentPath: string =
+  private readonly setOrderPaymentPath: string =
     'ordermanagement/v1/order/setpayment';
 
   private readonly restServiceRoot$: Observable<

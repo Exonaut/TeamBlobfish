@@ -165,12 +165,12 @@ export class OrderDialogComponent implements OnInit {
   }
 
   applyChanges(): void {
-    this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedStatus)
-      .subscribe(
-        (data: any) => {
-          this.data.order = data;
-        }
-      );
+    // this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedStatus)
+    //   .subscribe(
+    //     (data: any) => {
+    //       this.data.order = data;
+    //     }
+    //   );
     this.waiterCockpitService.setPaymentStatus(this.data.order.id, this.selectedPayment)
       .subscribe(
         (data: any) => {
