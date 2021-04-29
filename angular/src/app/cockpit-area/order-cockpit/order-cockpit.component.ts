@@ -76,9 +76,9 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.route.queryParams
-      .subscribe(params => {
-        if (params['archive'] == 'true') //Set Archive mod settings
+    this.route.data
+      .subscribe(data => {
+        if (data['archive'] == true) //Set Archive mod settings
         {
           this.archiveMode = true;
           this.title = 'cockpit.orders.archive'

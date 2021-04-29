@@ -17,11 +17,13 @@ const appRoutes: Routes = [
   { path: 'booking/:action/:token', component: EmailConfirmationsComponent },
   {
     path: 'orders',
+    data: { ['archive']: false },
     component: OrderCockpitComponent,
     canActivate: [AuthGuardService],
   },
   {
     path: 'archive',
+    data: { ['archive']: true },
     component: OrderCockpitComponent,
     canActivate: [AuthGuardService],
   },
