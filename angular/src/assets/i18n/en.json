@@ -202,7 +202,8 @@
       "ownerH": "Owner",
       "tableH": "Table",
       "creationDateH": "Creation date",
-      "bookingStateH": "Status"
+      "bookingStateH": "Status",
+      "bookingPaymentH": "Payment"
     },
     "status": {
       "recorded": "Recorded",
@@ -210,8 +211,13 @@
       "ready": "Ready",
       "handingover": "Handing Over",
       "delivered": "Delivered",
-      "payed": "Payed",
+      "completed": "Completed",
       "canceled": "Canceled"
+    },
+    "payment": {
+      "pending": "Pending",
+      "payed": "Payed",
+      "refunded": "Refunded"
     }
   }
 }

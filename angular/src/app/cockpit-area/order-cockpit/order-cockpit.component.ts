@@ -46,6 +46,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     'booking.email',
     'booking.bookingToken',
     'booking.status',
+    'booking.payment'
   ];
 
   pageSizes: number[];
@@ -54,10 +55,12 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     bookingDate: undefined,
     email: undefined,
     bookingToken: undefined,
-    status: [],
+    orderstatus: [],
+    orderpayment: [0, 1, 2],
   };
 
   statusNamesMap: string[];
+  paymentNamesMap: string[];
 
   archiveMode: boolean = false;
   title: string = 'cockpit.orders.title';
@@ -75,16 +78,17 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.queryParams
       .subscribe(params => {
-        if (params['archive'] == 'true')
+        if (params['archive'] == 'true') //Set Archive mod settings
         {
           this.archiveMode = true;
           this.title = 'cockpit.orders.archive'
-          this.filters.status = [5, 6];
+          this.filters.orderstatus = [5, 6];
         }
         else
         {
           this.archiveMode = false;
-          this.filters.status = [0, 1, 2, 3, 4];
+          this.title = 'cockpit.orders.title'
+          this.filters.orderstatus = [0, 1, 2, 3, 4];
         }
         this.applyFilters();
     });    
@@ -103,11 +107,13 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           { name: 'booking.bookingDate', label: cockpitTable.reservationDateH },
           { name: 'booking.email', label: cockpitTable.emailH },
           { name: 'booking.bookingToken', label: cockpitTable.bookingTokenH },
-          { name: 'booking.status', label: cockpitTable.bookingStateH}
+          { name: 'booking.status', label: cockpitTable.bookingStateH},
+          { name: 'booking.payment', label: cockpitTable.bookingPaymentH}
         ];
       });
   }
 
+  /**Set the translation lookup array for status names */
   setStatusNamesMap(lang: string): void {
     this.translocoSubscription = this.translocoService
       .selectTranslateObject('cockpit.status', {}, lang)
@@ -118,12 +124,26 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           cockpitStatus.ready,
           cockpitStatus.handingover,
           cockpitStatus.delivered,
-          cockpitStatus.payed,
+          cockpitStatus.completed,
           cockpitStatus.canceled
         ]; }
       );
   }
 
+  /**Set the translation lookup array for payment status names */
+  setPaymentNamesMap(lang: string): void {
+    this.translocoSubscription = this.translocoService
+      .selectTranslateObject('cockpit.payment', {}, lang)
+      .subscribe((cockpitStatus) => {
+        this.paymentNamesMap = [
+          cockpitStatus.pending,
+          cockpitStatus.payed,
+          cockpitStatus.refunded
+        ]; }
+      );
+  }
+
+  /** Get Orders from backend meeting current filter requirements */
   applyFilters(): void {
     this.waiterCockpitService
       .getOrders(this.pageable, this.sorting, this.filters)
@@ -137,6 +157,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       });
   }
 
+  /** Clear filters */
   clearFilters(filters: NgForm): void {
     filters.reset();
     this.applyFilters();
@@ -168,7 +189,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       width: '80%',
       data: selection,
     }).afterClosed().subscribe((data: string) => {
-      if (data === 'Reload') {
+      if (data === 'Reload') { // Reload orders if dialog was edited
         this.applyFilters();
       }
     });

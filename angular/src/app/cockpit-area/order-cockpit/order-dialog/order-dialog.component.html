@@ -1,6 +1,6 @@
 <h3 mat-dialog-title>{{'cockpit.orders.dialogTitle' | transloco}} : {{data.booking.bookingToken}} </h3>
 <mat-divider></mat-divider>
-<form (ngSubmit)="applyStatus()">
+<form (ngSubmit)="applyChanges()">
   <div class="tableContainer">
     <table mat-table [dataSource]="datat">
       <!-- Reservation Date Column -->
@@ -35,6 +35,17 @@
           <mat-select class="status-selection" [(value)]="selectedStatus">
               <mat-option *ngFor="let state of statusNamesMap" [value]="statusNamesMap.indexOf(state)">
                 {{state}}
+              </mat-option>
+          </mat-select>
+        </td>
+      </ng-container>
+      <!-- Payment Colum Dropdown -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef class="paymentHeader"> {{columnst[6].label}} </th>
+        <td mat-cell *matCellDef="let element" class="paymentData"> 
+          <mat-select class="payment-selection" [(value)]="selectedPayment">
+              <mat-option *ngFor="let payment of paymentNamesMap" [value]="paymentNamesMap.indexOf(payment)">
+                {{payment}}
               </mat-option>
           </mat-select>
         </td>

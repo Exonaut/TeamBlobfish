@@ -27,6 +27,8 @@ export class WaiterCockpitService {
     'ordermanagement/v1/order/search';
   private readonly setOrderStatePath: string =
     'ordermanagement/v1/order/setstatus';
+    private readonly setOrderPaymentPath: string =
+    'ordermanagement/v1/order/setpayment';
 
   private readonly restServiceRoot$: Observable<
     string
@@ -46,7 +48,7 @@ export class WaiterCockpitService {
     let path: string;
     filters.pageable = pageable;
     filters.pageable.sort = sorting;
-    if (filters.email || filters.bookingToken || filters.status != []) {
+    if (filters.email || filters.bookingToken || filters.orderstatus != []) {
       path = this.filterOrdersRestPath;
     } else {
       delete filters.email;
@@ -69,6 +71,19 @@ export class WaiterCockpitService {
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
         this.http.patch(`${restServiceRoot}${path}/${id}/${newStatus}`, null),
+      ),
+    );
+  }
+
+  setOrderPayment(
+    id: number,
+    newPayment: number
+  ): Observable<any> {
+    let path: string;
+    path = this.setOrderPaymentPath;
+    return this.restServiceRoot$.pipe(
+      exhaustMap((restServiceRoot) =>
+        this.http.patch(`${restServiceRoot}${path}/${id}/${newPayment}`, null),
       ),
     );
   }
