@@ -169,14 +169,14 @@ export class OrderDialogComponent implements OnInit {
 
   applyChanges(): void {
     
-    this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedStatus)
+    this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedStatus) // Send order status
       .subscribe(
         (data: any) => {
-          this.waiterCockpitService.setPaymentStatus(this.data.order.id, this.selectedPayment)
+          this.waiterCockpitService.setPaymentStatus(this.data.order.id, this.selectedPayment) // Send payment status
             .subscribe(
               (data: any) => {
                 this.data.order = data;
-                this.dialog.close(true);
+                this.dialog.close(true); // Close dialog with refresh flag
               }
             );
         }
@@ -184,16 +184,16 @@ export class OrderDialogComponent implements OnInit {
   }
 
   autoChangePaymentStatus(event: MatSelectChange): void {
-    if (event.value == this.statusNamesMap.length - 1) {
+    if (event.value == this.statusNamesMap.length - 1) { // Change to refunded
       this.selectedPayment = 2;
     }
-    if (event.value == this.statusNamesMap.length - 2) {
+    if (event.value == this.statusNamesMap.length - 2) { // Change to payed
       this.selectedPayment = 1;
     }
   }
 
   autoChangeOrderStatus(event: MatSelectChange): void {
-    if (event.value == 2) {
+    if (event.value == 2) { // Change to canceled
       this.selectedStatus = this.statusNamesMap.length - 1;
     }
   }
