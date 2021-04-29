@@ -82,13 +82,13 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
         {
           this.archiveMode = true;
           this.title = 'cockpit.orders.archive'
-          this.filters.orderstatus = [5, 6];
+          // this.filters.orderstatus = [5, 6];
         }
         else
         {
           this.archiveMode = false;
           this.title = 'cockpit.orders.title'
-          this.filters.orderstatus = [0, 1, 2, 3, 4];
+          // this.filters.orderstatus = [0, 1, 2, 3, 4];
         }
         this.applyFilters();
     });    

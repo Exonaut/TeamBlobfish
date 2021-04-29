@@ -191,22 +191,16 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
 
   }
 
-  /**
-   * @return payment
-   */
   @Override
   public Long getPaymentStatus() {
 
     return this.paymentstatus;
   }
 
-  /**
-   * @param payment new value of {@link #getpayment}.
-   */
   @Override
   public void setPaymentStatus(Long payment) {
 
-    if (this.paymentstatus != null) {
+    if (payment != null) {
       this.paymentstatus = payment;
     } else {
       this.paymentstatus = (long) 0;
