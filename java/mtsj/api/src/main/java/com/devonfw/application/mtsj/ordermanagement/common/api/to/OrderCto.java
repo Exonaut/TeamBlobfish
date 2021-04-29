@@ -90,7 +90,7 @@ public class OrderCto extends AbstractCto {
   /**
    * @return paymentstatus
    */
-  public Long getPaymentstatus() {
+  public Long getPaymentStatus() {
 
     return this.paymentstatus;
   }
@@ -98,7 +98,7 @@ public class OrderCto extends AbstractCto {
   /**
    * @param paymentstatus new value of {@link #getpaymentstatus}.
    */
-  public void setPaymentstatus(Long paymentstatus) {
+  public void setPaymentStatus(Long paymentstatus) {
 
     this.paymentstatus = paymentstatus;
   }

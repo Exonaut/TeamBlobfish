@@ -51,13 +51,13 @@ public interface OrderRepository extends DefaultRepository<OrderEntity> {
     OrderEntity alias = newDslAlias();
     JPAQuery<OrderEntity> query = newDslQuery(alias);
 
-    Long[] orderstatus = criteria.getOrderstatus();
-    if (orderstatus.length > 0 && alias.getOrderStatus() != null && orderstatus != null) {
+    Long[] orderstatus = criteria.getOrderStatus();
+    if (alias.getOrderStatus() != null && orderstatus != null) {
       query.where(Alias.$(alias.getOrderStatus()).in(orderstatus));
     }
 
-    Long[] paymentstatus = criteria.getPaymentstatus();
-    if (paymentstatus.length > 0 && alias.getPaymentStatus() != null && paymentstatus != null) {
+    Long[] paymentstatus = criteria.getPaymentStatus();
+    if (alias.getPaymentStatus() != null && paymentstatus != null) {
       query.where(Alias.$(alias.getPaymentStatus()).in(paymentstatus));
     }
 

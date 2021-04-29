@@ -49,7 +49,7 @@ public interface OrdermanagementRestService {
    */
   @PATCH
   @Path("/order/setstatus/{id}/{orderstatus}")
-  public OrderEto setNewStatus(@PathParam("id") long id, @PathParam("orderstatus") long orderstatus);
+  public OrderEto setNewOrderStatus(@PathParam("id") long id, @PathParam("orderstatus") long orderstatus);
 
   /**
    *
@@ -59,7 +59,7 @@ public interface OrdermanagementRestService {
    */
   @PATCH
   @Path("/order/setpayment/{id}/{paymentstatus}")
-  public OrderEto setNewPayment(@PathParam("id") long id, @PathParam("paymentstatus") long paymentstatus);
+  public OrderEto setNewPaymentStatus(@PathParam("id") long id, @PathParam("paymentstatus") long paymentstatus);
 
   /**
    * Delegates to {@link Ordermanagement#saveOrder}.
