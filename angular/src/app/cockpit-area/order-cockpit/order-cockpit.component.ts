@@ -16,7 +16,7 @@ import { OrderListView } from '../../shared/view-models/interfaces';
 import { WaiterCockpitService } from '../services/waiter-cockpit.service';
 import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 import * as _ from 'lodash';
-import { threadId } from 'worker_threads';
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-cockpit-order-cockpit',
@@ -54,22 +54,40 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     bookingDate: undefined,
     email: undefined,
     bookingToken: undefined,
-    status: undefined,
+    status: [],
   };
 
   statusNamesMap: string[];
+
+  archiveMode: boolean = false;
+  title: string = 'cockpit.orders.title';
 
   constructor(
     private dialog: MatDialog,
     private translocoService: TranslocoService,
     private waiterCockpitService: WaiterCockpitService,
     private configService: ConfigService,
+    private route: ActivatedRoute
   ) {
     this.pageSizes = this.configService.getValues().pageSizes;
   }
 
   ngOnInit(): void {
-    this.applyFilters();
+    this.route.queryParams
+      .subscribe(params => {
+        if (params['archive'] == 'true')
+        {
+          this.archiveMode = true;
+          this.title = 'cockpit.orders.archive'
+          this.filters.status = [5, 6];
+        }
+        else
+        {
+          this.archiveMode = false;
+          this.filters.status = [0, 1, 2, 3, 4];
+        }
+        this.applyFilters();
+    });    
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
       this.setStatusNamesMap(event);

@@ -46,7 +46,7 @@ export class WaiterCockpitService {
     let path: string;
     filters.pageable = pageable;
     filters.pageable.sort = sorting;
-    if (filters.email || filters.bookingToken) {
+    if (filters.email || filters.bookingToken || filters.status != []) {
       path = this.filterOrdersRestPath;
     } else {
       delete filters.email;

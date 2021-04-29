@@ -21,6 +21,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuardService],
   },
   {
+    path: 'archive',
+    component: OrderCockpitComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
     path: 'reservations',
     component: ReservationCockpitComponent,
     canActivate: [AuthGuardService],

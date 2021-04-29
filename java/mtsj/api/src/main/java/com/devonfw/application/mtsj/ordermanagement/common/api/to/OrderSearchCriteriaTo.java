@@ -28,7 +28,7 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
 
   private StringSearchConfigTo bookingTokenOption;
 
-  private Long status;
+  private Long[] status;
 
   /**
    * The constructor.
@@ -38,12 +38,12 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
     super();
   }
 
-  public Long getStatus() {
+  public Long[] getStatus() {
 
     return this.status;
   }
 
-  public void setStatus(Long status) {
+  public void setStatus(Long[] status) {
 
     this.status = status;
   }

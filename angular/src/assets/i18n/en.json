@@ -93,6 +93,7 @@
     "menu": "Menu",
     "book": "Book table",
     "orders": "Orders",
+    "orderArchive": "Order Archive",
     "reservations": "Reservations",
     "userActions": {
       "user": "User",
@@ -175,6 +176,7 @@
     "filter": "Filter",
     "orders": {
       "title": "Orders",
+      "archive": "Archive",
       "dialogTitle": "ORDER DETAILS - REFERENCE NUMBER",
       "dialogTable": {
         "dishH": "Dish",
