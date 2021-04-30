@@ -95,6 +95,14 @@ export interface OrderDishListView {
   booking: BookingView;
 }
 
+// User
+export interface UserListView {
+  id: number;
+  username: string;
+  email: string;
+  userRoleId: number;
+}
+
 // Interface to recieve responeses from the server using httpclient for getReservations
 export interface BookingResponse {
   pageable: Pageable;

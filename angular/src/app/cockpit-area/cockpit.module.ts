@@ -18,6 +18,7 @@ import { ClusteringCockpitComponent } from './clustering-cockpit/clustering-cock
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoRootModule } from '../transloco-root.module';
 import { UserCockpitComponent } from './user-cockpit/user-cockpit.component';
+import { UserCockpitService } from './services/user-cockpit.service';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { UserCockpitComponent } from './user-cockpit/user-cockpit.component';
     WindowService,
     PredictionService,
     ClusteringService,
+    UserCockpitService,
   ],
   declarations: [
     ReservationCockpitComponent,
@@ -48,12 +50,14 @@ import { UserCockpitComponent } from './user-cockpit/user-cockpit.component';
     OrderCockpitComponent,
     PredictionCockpitComponent,
     ClusteringCockpitComponent,
+    UserCockpitComponent,
   ],
   entryComponents: [
     ReservationDialogComponent,
     OrderDialogComponent,
     PredictionCockpitComponent,
     ClusteringCockpitComponent,
+    UserCockpitComponent,
   ],
 })
 export class WaiterCockpitModule { }

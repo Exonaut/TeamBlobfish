@@ -218,6 +218,12 @@
       "pending": "Pending",
       "payed": "Payed",
       "refunded": "Refunded"
+    },
+    "user": {
+      "title": "Users",
+      "nameH": "Name",
+      "emailH": "E-Mail",
+      "idH": "ID"
     }
   }
 }

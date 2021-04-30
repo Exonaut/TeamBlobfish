@@ -28,6 +28,12 @@ export class FilterOrdersCockpit {
     endBookingdate: string;
 }
 
+export class FilterUserCockpit {
+    pageable?: Pageable;
+    name: string;
+    email: string;
+}
+
 export class Pageable {
     pageSize: number;
     pageNumber: number;
