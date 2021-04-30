@@ -12,6 +12,6 @@ public class Roles {
   public static final String WAITER = PREFIX + "Waiter";
 
   public static final String CUSTOMER = PREFIX + "Customer";
-
+  //add new role
   public static final String ADMIN = PREFIX + "Admin";
 }
