@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BookTableComponent } from './book-table/container/book-table/book-table.component';
 import { OrderCockpitComponent } from './cockpit-area/order-cockpit/order-cockpit.component';
 import { ReservationCockpitComponent } from './cockpit-area/reservation-cockpit/reservation-cockpit.component';
+import { UserCockpitComponent } from './cockpit-area/user-cockpit/user-cockpit.component';
 import { AuthGuardService } from './core/authentication/auth-guard.service';
 import { NotFoundComponent } from './core/not-found/not-found.component';
 import { NotSupportedComponent } from './core/not-supported/not-supported.component';
@@ -17,13 +18,13 @@ const appRoutes: Routes = [
   { path: 'booking/:action/:token', component: EmailConfirmationsComponent },
   {
     path: 'orders',
-    data: { ['archive']: false },
+    data: { ['archive']: false }, // Disable archive mode
     component: OrderCockpitComponent,
     canActivate: [AuthGuardService],
   },
   {
     path: 'archive',
-    data: { ['archive']: true },
+    data: { ['archive']: true }, // Enable archive mode
     component: OrderCockpitComponent,
     canActivate: [AuthGuardService],
   },
@@ -40,6 +41,11 @@ const appRoutes: Routes = [
   {
     path: 'clustering',
     component: NotSupportedComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'users',
+    component: UserCockpitComponent,
     canActivate: [AuthGuardService],
   },
   { path: '', redirectTo: '/restaurant', pathMatch: 'full' },
