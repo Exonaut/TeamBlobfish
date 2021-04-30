@@ -221,6 +221,7 @@
     },
     "user": {
       "title": "Users",
+      "dialogTitle": "USER DETAILS",
       "nameH": "Name",
       "emailH": "E-Mail",
       "idH": "ID"

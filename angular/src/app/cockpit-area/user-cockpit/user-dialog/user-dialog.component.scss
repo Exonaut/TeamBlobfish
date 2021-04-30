@@ -1,0 +1,55 @@
+[mat-dialog-title] {
+    word-break: break-word;
+  }
+  
+  .tableContainer {
+    width: 100%;
+    overflow: auto;
+  }
+  
+  table {
+    width: 100%;
+    min-width: 600px;
+  }
+  
+  .totalRow {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 16px;
+    text-transform: uppercase;
+  }
+  
+  th {
+    width: 14.29%;
+    font-weight: bold;
+  }
+  
+  .nameHeader,
+  .emailHeader {
+    padding: 0 3%;
+  }
+  
+  .nameData,
+  .emailData {
+    padding: 0 3%;
+    word-break: break-word;
+  }
+  
+  .tableIdHeader,
+  .tableIdData {
+    text-align: right;
+  }
+  
+  .actionButtons {
+    padding-top: 16px;
+  }
+  
+  @media (max-width: 599px) {
+    td,
+    th {
+      min-width: 100px;
+    }
+  }
+  

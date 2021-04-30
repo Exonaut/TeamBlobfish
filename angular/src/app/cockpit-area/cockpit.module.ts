@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoRootModule } from '../transloco-root.module';
 import { UserCockpitComponent } from './user-cockpit/user-cockpit.component';
 import { UserCockpitService } from './services/user-cockpit.service';
+import { UserDialogComponent } from './user-cockpit/user-dialog/user-dialog.component';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { UserCockpitService } from './services/user-cockpit.service';
     PredictionCockpitComponent,
     ClusteringCockpitComponent,
     UserCockpitComponent,
+    UserDialogComponent,
   ],
   exports: [
     ReservationCockpitComponent,

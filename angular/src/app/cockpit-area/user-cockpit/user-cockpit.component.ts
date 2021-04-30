@@ -16,6 +16,7 @@ import { UserListView } from '../../shared/view-models/interfaces';
 import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { UserCockpitService } from '../services/user-cockpit.service';
+import { UserDialogComponent } from './user-dialog/user-dialog.component';
 
 @Component({
   selector: 'app-user-cockpit',
@@ -125,14 +126,14 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   }
 
   selected(selection: UserListView): void {
-    // this.dialog.open(OrderDialogComponent, {
-    //   width: '80%',
-    //   data: selection,
-    // }).afterClosed().subscribe((data: boolean) => {
-    //   if (data === true) { // Reload orders if dialog was edited
-    //     this.applyFilters();
-    //   }
-    // });
+    this.dialog.open(UserDialogComponent, {
+      width: '80%',
+      data: selection,
+    }).afterClosed().subscribe((data: boolean) => {
+      if (data === true) { // Reload users if dialog was edited
+        this.applyFilters();
+      }
+    });
   }
 
   ngOnDestroy(): void {
