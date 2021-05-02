@@ -88,4 +88,25 @@ public class UsermanagementRestServiceImpl implements UsermanagementRestService 
     return this.usermanagement.findUserRoleEtos(searchCriteriaTo);
   }
 
+  @Override
+  public void resetPassword(long id) {
+
+    this.usermanagement.resetPassword(id);
+
+  }
+
+  @Override
+  public void sendForgotPasswordLink(long id) {
+
+    this.usermanagement.sendForgotPasswordLink(id);
+
+  }
+
+  @Override
+  public void changePassword(UserEto user) {
+
+    this.usermanagement.changePassword(user);
+
+  }
+
 }

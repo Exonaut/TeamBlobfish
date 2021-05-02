@@ -54,9 +54,20 @@ public interface UserRepository extends DefaultRepository<UserEntity> {
   /**
    *
    * @param email
-   * @return An {@link UserEntity} object that mathed the search
+   * @return An {@link UserEntity} object that matched the search
    */
   @Query("SELECT user FROM UserEntity user" //
       + " WHERE user.email = :email")
   UserEntity findByEmail(@Param("email") String email);
+
+  /**
+   *
+   * @param id
+   * @return A
+   */
+  // @Query("UPDATE user FROM UserEntity user" //
+  // + " SET user.password = :password" //
+  // + " WHERE user.id = :id")
+  // UserEntity resetPassword(@Param("password","id") String password, Long id);
+
 }

@@ -124,4 +124,25 @@ public interface Usermanagement {
    */
   UserProfile findUserProfileByLogin(String login);
 
+  /**
+   * Reset user password from database by its id 'id'
+   *
+   * @param userId The id 'id' of the UserEto.
+   */
+  void resetPassword(Long userId);
+
+  /**
+   * Send forgot-password link to user
+   *
+   * @param userId The id 'id' of the UserEto.
+   */
+  void sendForgotPasswordLink(Long userId);
+
+  /**
+   * Change password and store in database
+   *
+   * @param user the {@link UserEto} to create.
+   */
+  void changePassword(UserEto user);
+
 }

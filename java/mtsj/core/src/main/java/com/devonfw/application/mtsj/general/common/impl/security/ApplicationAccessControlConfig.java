@@ -112,7 +112,7 @@ public class ApplicationAccessControlConfig extends AccessControlConfig {
     AccessControlGroup customer = group(GROUP_CUSTOMER);
 
     AccessControlGroup admin = group(GROUP_ADMIN, PERMISSION_FIND_USER, PERMISSION_DELETE_USER, PERMISSION_SAVE_USER,
-        PERMISSION_FIND_USER_ROLE, PERMISSION_DELETE_USER_ROLE );
+        PERMISSION_FIND_USER_ROLE, PERMISSION_DELETE_USER_ROLE, PERMISSION_SAVE_USER_ROLE);
 
   }
 
