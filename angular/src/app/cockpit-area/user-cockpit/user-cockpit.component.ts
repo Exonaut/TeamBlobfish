@@ -94,7 +94,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
         } else {
           this.users = data.content;
         }
-        this.totalUsers = data.totalElements;
+        this.totalUsers = this.users.length;
       });
   }
 
