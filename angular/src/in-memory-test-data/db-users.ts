@@ -1,4 +1,4 @@
-import { UserListView } from "app/shared/view-models/interfaces";
+import { UserListView } from 'app/shared/view-models/interfaces';
 
 
 export const GetAllUsersData: UserListView[] = [
@@ -8,4 +8,4 @@ export const GetAllUsersData: UserListView[] = [
         email: 'waiter@mail.com',
         userRoleId: 1,
     }
-]
+];

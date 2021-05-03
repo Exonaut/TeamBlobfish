@@ -40,8 +40,8 @@ const userCockpitServiceStub = {
 };
 
 const activatedRouteStub = {
-  
-}
+
+};
 
 class TestBedSetUp {
   static loadUserCockpitServiceStud(userCockpitStub: any): any {
