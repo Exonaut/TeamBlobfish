@@ -1,7 +1,6 @@
 package com.devonfw.application.mtsj.usermanagement.logic.impl;
 
 import java.util.Objects;
-import java.util.Random;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -256,7 +255,8 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
       hostMailContent.append("We received a request to reset the password for you account.").append("\n");
       hostMailContent.append("If you did not make this request then please ignore this email.").append("\n");
       hostMailContent.append("Otherwise, please click this link to change your password").append("\n");
-      String resetPassword = getClientUrl() + "/user/resetPassword/" + user.getUsername();
+      // URL NACHSCHAUEN
+      String resetPassword = getClientUrl() + "/user/resetpassword/" + user.getUsername();
       hostMailContent.append(resetPassword).append("\n");
       this.mailService.sendMail(user.getEmail(), "Reset Password", hostMailContent.toString());
     } catch (Exception e) {
@@ -264,54 +264,26 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
     }
   }
 
-  /**
-   * Send new password email to host
-   *
-   * @param user The {@link UserEntity} instance
-   * @param newPassword The new password that was set by administrator
-   */
-  private void sendNewPasswordEmailToHost(UserEntity user, String newPassword) {
-
-    try {
-      StringBuilder hostMailContent = new StringBuilder();
-      hostMailContent.append("MY THAI STAR").append("\n");
-      hostMailContent.append("Hi ").append(user.getEmail()).append("\n");
-      hostMailContent.append("We have reset your password.").append("\n");
-      hostMailContent.append("Your new password: ").append(newPassword).append("\n");
-      this.mailService.sendMail(user.getEmail(), "Your new password", hostMailContent.toString());
-    } catch (Exception e) {
-      LOG.error("Email not sent. {}", e.getMessage());
-    }
-
-  }
-
   @Override
-  public void resetPassword(Long userId) {
+  public void resetPasswordByAdmin(Long userId, String newPassword) {
 
     UserEntity user = getUserDao().find(userId);
-    // generate new password
-    String newPassword = new Random().ints(12, 33, 122)
-        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
     this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     user.setPassword(this.passwordEncoder.encode(newPassword));
     getUserDao().save(user);
-    sendNewPasswordEmailToHost(user, newPassword);
     LOG.debug("User password with id '{}' has been modified.", userId);
   }
 
   @Override
-  public void sendForgotPasswordLink(Long userId) {
+  public void sendForgotPasswordLink(String email) {
 
-    UserEntity user = getUserDao().find(userId);
-    // remove old password
-    user.setPassword("");
-    getUserDao().save(user);
+    UserEntity user = getUserDao().findByEmail(email);
     sendForgotPasswordEmailToHost(user);
     LOG.debug("Please check out your email , we sent you a link to reset your password.");
   }
 
   @Override
-  public void changePassword(UserEto user) {
+  public void resetPasswordByUser(UserEto user) {
 
     UserEntity userEntity = getUserDao().findByUsername(user.getUsername());
     this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
