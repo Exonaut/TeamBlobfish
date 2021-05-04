@@ -218,6 +218,18 @@
       "pending": "Pending",
       "payed": "Payed",
       "refunded": "Refunded"
+    },
+    "user": {
+      "title": "Users",
+      "dialogTitle": "USER DETAILS",
+      "nameH": "Name",
+      "emailH": "E-Mail",
+      "idH": "ID",
+      "roleH": "Role",
+      "guest": "Guest",
+      "waiter": "Waiter",
+      "manager": "Manager",
+      "admin": "Admin"
     }
   }
 }

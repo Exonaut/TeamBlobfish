@@ -158,7 +158,7 @@ export class OrderDialogComponent implements OnInit {
   }
 
   increaseStatus(): void {
-    this.selectedStatus = _.clamp(this.data.order.orderStatus + 1, 0, this.statusNamesMap.length - 1);
+    this.selectedStatus = _.clamp(this.data.order.orderStatus + 1, 0, this.statusNamesMap.length - 2);
 
     if (this.selectedStatus === this.statusNamesMap.length - 2) {
       this.selectedPayment = 1;
@@ -184,6 +184,9 @@ export class OrderDialogComponent implements OnInit {
   }
 
   autoChangePaymentStatus(event: MatSelectChange): void {
+    if (event.value < this.statusNamesMap.length - 2 && this.selectedPayment >= 2) { // Change to pending
+      this.selectedPayment = 0;
+    }
     if (event.value === this.statusNamesMap.length - 1) { // Change to refunded
       this.selectedPayment = 2;
     }
@@ -195,6 +198,9 @@ export class OrderDialogComponent implements OnInit {
   autoChangeOrderStatus(event: MatSelectChange): void {
     if (event.value === 2) { // Change to canceled
       this.selectedStatus = this.statusNamesMap.length - 1;
+    }
+    if (event.value < 2 && this.selectedStatus >= this.statusNamesMap.length - 2) { // Change to canceled
+      this.selectedStatus = 0;
     }
   }
 

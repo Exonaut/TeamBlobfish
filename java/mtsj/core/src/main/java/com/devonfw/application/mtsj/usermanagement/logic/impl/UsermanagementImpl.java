@@ -4,18 +4,25 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.devonfw.application.mtsj.general.common.api.UserProfile;
 import com.devonfw.application.mtsj.general.common.api.datatype.Role;
 import com.devonfw.application.mtsj.general.common.api.to.UserDetailsClientTo;
 import com.devonfw.application.mtsj.general.common.base.QrCodeService;
 import com.devonfw.application.mtsj.general.logic.base.AbstractComponentFacade;
+import com.devonfw.application.mtsj.mailservice.logic.api.Mail;
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserEto;
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserQrCodeTo;
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserRoleEto;
@@ -35,6 +42,14 @@ import com.devonfw.application.mtsj.usermanagement.logic.api.Usermanagement;
 public class UsermanagementImpl extends AbstractComponentFacade implements Usermanagement {
 
   private static final Logger LOG = LoggerFactory.getLogger(UsermanagementImpl.class);
+
+  private PasswordEncoder passwordEncoder;
+
+  @Value("${client.port}")
+  private int clientPort;
+
+  @Inject
+  private Mail mailService;
 
   @Inject
   private UserRepository userDao;
@@ -211,4 +226,69 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
     return profile;
   }
 
+  /**
+   *
+   * @return
+   */
+  private String getClientUrl() {
+
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    String clientUrl = request.getHeader("origin");
+    if (clientUrl == null) {
+      return "http://localhost:" + this.clientPort;
+    }
+    return clientUrl;
+  }
+
+  /**
+   * Send forgot-password email to host
+   *
+   * @param user
+   */
+  private void sendForgotPasswordEmailToHost(UserEntity user) {
+
+    try {
+      StringBuilder hostMailContent = new StringBuilder();
+      hostMailContent.append("MY THAI STAR").append("\n");
+      hostMailContent.append("Hi ").append(user.getEmail()).append("\n");
+      hostMailContent.append("Forgot your password?").append("\n");
+      hostMailContent.append("We received a request to reset the password for you account.").append("\n");
+      hostMailContent.append("If you did not make this request then please ignore this email.").append("\n");
+      hostMailContent.append("Otherwise, please click this link to change your password").append("\n");
+      // URL NACHSCHAUEN
+      String resetPassword = getClientUrl() + "/user/resetpassword/" + user.getUsername();
+      hostMailContent.append(resetPassword).append("\n");
+      this.mailService.sendMail(user.getEmail(), "Reset Password", hostMailContent.toString());
+    } catch (Exception e) {
+      LOG.error("Email not sent. {}", e.getMessage());
+    }
+  }
+
+  @Override
+  public void resetPasswordByAdmin(Long userId, String newPassword) {
+
+    UserEntity user = getUserDao().find(userId);
+    this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    user.setPassword(this.passwordEncoder.encode(newPassword));
+    getUserDao().save(user);
+    LOG.debug("User password with id '{}' has been modified.", userId);
+  }
+
+  @Override
+  public void sendForgotPasswordLink(String email) {
+
+    UserEntity user = getUserDao().findByEmail(email);
+    sendForgotPasswordEmailToHost(user);
+    LOG.debug("Please check out your email , we sent you a link to reset your password.");
+  }
+
+  @Override
+  public void resetPasswordByUser(UserEto user) {
+
+    UserEntity userEntity = getUserDao().findByUsername(user.getUsername());
+    this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
+    getUserDao().save(userEntity);
+    LOG.debug("Your password has been modified.");
+  }
 }

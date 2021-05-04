@@ -103,4 +103,32 @@ public interface UsermanagementRestService {
   @POST
   public Page<UserRoleEto> findUserRolesByPost(UserRoleSearchCriteriaTo searchCriteriaTo);
 
+  /**
+   * Delegates to {@link Usermanagement#resetPasswordByAdmin}.
+   *
+   * @param id ID of the {@link UserEto} to reset password
+   * @param newpassword New Password of the {@link UserEto}
+   */
+  @POST
+  @Path("/user/{id}/{newpassword}/")
+  public void resetPasswordByAdmin(@PathParam("id") long id, @PathParam("newpassword") String newpassword);
+
+  /**
+   * Delegates to {@link Usermanagement#sendForgotPasswordLink}.
+   *
+   * @param email Email of the {@link UserEto} to send link
+   *
+   */
+  @GET
+  @Path("/user/{email}/")
+  public void sendForgotPasswordLink(@PathParam("email") String email);
+
+  /**
+   * Delegates to {@link Usermanagement#resetPasswordByUser}.
+   *
+   * @param user user the {@link UserEto} to be saved
+   */
+  @POST
+  @Path("/user/resetpassword")
+  public void resetPasswordByUser(UserEto user);
 }

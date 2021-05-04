@@ -91,6 +91,18 @@
       </a>
     </nav>
   </div>
+  <div *ngIf="(auth.getRole() | async) === 'ADMIN'" class="forDesktop">
+    <nav mat-tab-nav-bar>
+      <a
+        mat-tab-link
+        routerLink="/users"
+        routerLinkActive="navBottomBorder"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        USERS
+      </a>
+    </nav>
+  </div>
   <button
     name="login"
     *ngIf="(auth.isLogged() | async) === false"
