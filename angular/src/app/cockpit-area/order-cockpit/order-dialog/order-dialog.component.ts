@@ -158,7 +158,7 @@ export class OrderDialogComponent implements OnInit {
   }
 
   increaseStatus(): void {
-    this.selectedStatus = _.clamp(this.data.order.orderStatus + 1, 0, this.statusNamesMap.length - 1);
+    this.selectedStatus = _.clamp(this.data.order.orderStatus + 1, 0, this.statusNamesMap.length - 2);
 
     if (this.selectedStatus === this.statusNamesMap.length - 2) {
       this.selectedPayment = 1;
