@@ -27,7 +27,7 @@ import com.tools.BasicOperations;
 
 public class HelloWorldIntentHandler implements RequestHandler {
 
-  public static final String BASE_URL = "https://8a724681d1e8.ngrok.io";
+  public static final String BASE_URL = "https://ab8c38d709dc.ngrok.io";
 
   @Override
   public boolean canHandle(HandlerInput input) {
@@ -72,7 +72,7 @@ public class HelloWorldIntentHandler implements RequestHandler {
           .withSimpleCard("HelloWorld", speechText + " \n " + payload).build();
     }
 
-    speechText = "Cool wir sehen uns dann !";
+    speechText = "Ihre Buchung wurde abgeschlossen";
 
     return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("HelloWorld", speechText).build();
   }
