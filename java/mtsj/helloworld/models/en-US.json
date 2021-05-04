@@ -1,0 +1,51 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "hello world",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "HelloWorldIntent",
+                    "slots": [
+                        {
+                            "name": "time",
+                            "type": "AMAZON.TIME"
+                        },
+                        {
+                            "name": "date",
+                            "type": "AMAZON.DATE"
+                        },
+                        {
+                            "name": "guests",
+                            "type": "AMAZON.FOUR_DIGIT_NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "say Hello",
+                        "Buche um {time} am {date} mit {guests}"
+                    ]
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                }
+            ],
+            "types": []
+        }
+    }
+}
