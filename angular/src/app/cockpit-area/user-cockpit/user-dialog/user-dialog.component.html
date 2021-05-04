@@ -4,20 +4,29 @@
   <div class="tableContainer">
     <table mat-table [dataSource]="datat">
       <!-- Id Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> {{columns[0].label}} </th>
-        <td mat-cell *matCellDef="let element" class="idData"> {{element.id}} </td>
+      <ng-container matColumnDef="user.id">
+        <th mat-header-cell *matHeaderCellDef> {{ columns[0].label }} </th>
+        <td mat-cell *matCellDef="let element" class="idData"> {{ element.id }} </td>
       </ng-container>
+
       <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef class="nameHeader"> {{columns[1].label}} </th>
-        <td mat-cell *matCellDef="let element" class="nameData"> {{element.username}} </td>
+      <ng-container matColumnDef="user.name">
+        <th mat-header-cell *matHeaderCellDef class="nameHeader"> {{ columns[1].label }} </th>
+        <td mat-cell *matCellDef="let element" class="nameData"> {{ element.username }} </td>
       </ng-container>
+
       <!-- Email Column -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef class="emailHeader"> {{columns[2].label}} </th>
-        <td mat-cell *matCellDef="let element" class="emailData"> {{element.email}} </td>
+      <ng-container matColumnDef="user.email">
+        <th mat-header-cell *matHeaderCellDef class="emailHeader"> {{ columns[2].label }} </th>
+        <td mat-cell *matCellDef="let element" class="emailData"> {{ element.email }} </td>
       </ng-container>
+
+      <!-- Role Column -->
+      <ng-container matColumnDef="user.role">
+        <th mat-header-cell *matHeaderCellDef class="roleHeader"> {{ columns[3].label }} </th>
+        <td mat-cell *matCellDef="let element" class="eroleData"> {{ roleNames[element.userRoleId].label }} </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>

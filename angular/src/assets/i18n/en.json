@@ -224,7 +224,12 @@
       "dialogTitle": "USER DETAILS",
       "nameH": "Name",
       "emailH": "E-Mail",
-      "idH": "ID"
+      "idH": "ID",
+      "roleH": "Role",
+      "guest": "Guest",
+      "waiter": "Waiter",
+      "manager": "Manager",
+      "admin": "Admin"
     }
   }
 }

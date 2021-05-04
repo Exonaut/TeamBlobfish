@@ -40,18 +40,21 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   totalUsers: number;
 
   columns: any[];
+  roleNames: any[];
 
   displayedColumns: string[] = [
     'user.id',
     'user.name',
     'user.email',
+    'user.role',
   ];
 
   pageSizes: number[];
 
   filters: FilterUserCockpit = {
-    name: undefined,
+    username: undefined,
     email: undefined,
+    role: undefined,
   };
 
   constructor(
@@ -67,6 +70,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
+      this.setRoleNames(event);
       moment.locale(this.translocoService.getActiveLang());
     });
     this.applyFilters();
@@ -80,6 +84,20 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
           { name: 'user.id', label: userTable.idH },
           { name: 'user.name', label: userTable.nameH },
           { name: 'user.email', label: userTable.emailH },
+          { name: 'user.role', label: userTable.roleH },
+        ];
+      });
+  }
+
+  setRoleNames(lang: string): void {
+    this.translocoSubscription = this.translocoService
+      .selectTranslateObject('cockpit.user', {}, lang)
+      .subscribe((userTable) => {
+        this.roleNames = [
+          { name: 'user.guest', label: userTable.guest },
+          { name: 'user.waiter', label: userTable.waiter },
+          { name: 'user.manager', label: userTable.manager },
+          { name: 'user.admin', label: userTable.admin },
         ];
       });
   }

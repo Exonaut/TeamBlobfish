@@ -18,10 +18,13 @@ export class UserDialogComponent implements OnInit {
   datat: UserListView[] = [];
 
   columns: any[];
+  roleNames: any[];
+
   displayedColumns: string[] = [
-    'id',
-    'name',
-    'email',
+    'user.id',
+    'user.name',
+    'user.email',
+    'user.role',
   ];
 
   constructor(
@@ -38,6 +41,7 @@ export class UserDialogComponent implements OnInit {
   ngOnInit(): void {
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
+      this.setRoleNames(event);
     });
   }
 
@@ -49,6 +53,20 @@ export class UserDialogComponent implements OnInit {
           { name: 'user.id', label: userTable.idH },
           { name: 'user.name', label: userTable.nameH },
           { name: 'user.email', label: userTable.emailH },
+          { name: 'user.role', label: userTable.roleH },
+        ];
+      });
+  }
+
+  setRoleNames(lang: string): void {
+    this.translocoService
+      .selectTranslateObject('cockpit.user', {}, lang)
+      .subscribe((userTable) => {
+        this.roleNames = [
+          { name: 'user.guest', label: userTable.guest },
+          { name: 'user.waiter', label: userTable.waiter },
+          { name: 'user.manager', label: userTable.manager },
+          { name: 'user.admin', label: userTable.admin },
         ];
       });
   }

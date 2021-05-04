@@ -30,8 +30,9 @@ export class FilterOrdersCockpit {
 
 export class FilterUserCockpit {
     pageable?: Pageable;
-    name: string;
+    username: string;
     email: string;
+    role: number;
 }
 
 export class Pageable {
