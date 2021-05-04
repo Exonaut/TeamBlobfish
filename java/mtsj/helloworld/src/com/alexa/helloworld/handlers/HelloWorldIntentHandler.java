@@ -21,12 +21,13 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
 import com.entity.booking.Booking;
+import com.entity.booking.Request;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 
 public class HelloWorldIntentHandler implements RequestHandler {
 
-  public static final String BASE_URL = "https://36a1362ddefa.ngrok.io";
+  public static final String BASE_URL = "https://8a724681d1e8.ngrok.io";
 
   @Override
   public boolean canHandle(HandlerInput input) {
@@ -43,15 +44,15 @@ public class HelloWorldIntentHandler implements RequestHandler {
     // com.amazon.ask.model.Request request = input.getRequestEnvelope().getRequest();
     // IntentRequest intentRequest = (IntentRequest) request;
     // Intent intent = intentRequest.getIntent();
-
+    //
     // Map<String, Slot> slotMap = intent.getSlots();
     // Slot personCount = slotMap.get("count");
     // Slot time = slotMap.get("time");
     // Slot date = slotMap.get("date");
     //
     // String date_time = date.getValue() + "T" + time.getValue() + ":00Z";
-    //
-    com.entity.booking.Request myApiRequest = new com.entity.booking.Request();
+
+    Request myApiRequest = new Request();
     myApiRequest.booking = new Booking();
     myApiRequest.booking.email = "tony2510@gmx.de";
     myApiRequest.booking.assistants = "" + 5;
