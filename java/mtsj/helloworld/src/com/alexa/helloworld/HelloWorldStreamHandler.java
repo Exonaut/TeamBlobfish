@@ -15,7 +15,7 @@ package com.alexa.helloworld;
 
 import com.alexa.helloworld.handlers.CancelandStopIntentHandler;
 import com.alexa.helloworld.handlers.FallbackIntentHandler;
-import com.alexa.helloworld.handlers.HelloWorldIntentHandler;
+import com.alexa.helloworld.handlers.BookATable;
 import com.alexa.helloworld.handlers.HelpIntentHandler;
 import com.alexa.helloworld.handlers.LaunchRequestHandler;
 import com.alexa.helloworld.handlers.SessionEndedRequestHandler;
@@ -28,7 +28,7 @@ public class HelloWorldStreamHandler extends SkillStreamHandler {
   private static Skill getSkill() {
 
     return Skills.standard()
-        .addRequestHandlers(new CancelandStopIntentHandler(), new HelloWorldIntentHandler(), new HelpIntentHandler(),
+        .addRequestHandlers(new CancelandStopIntentHandler(), new BookATable(), new HelpIntentHandler(),
             new LaunchRequestHandler(), new SessionEndedRequestHandler(), new FallbackIntentHandler())
         // Add your skill id below
         .withSkillId("amzn1.ask.skill.cd8a21db-f05e-41df-a8a3-0c61429060dd").build();

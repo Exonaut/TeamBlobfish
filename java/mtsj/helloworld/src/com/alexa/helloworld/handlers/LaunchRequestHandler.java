@@ -15,7 +15,6 @@ package com.alexa.helloworld.handlers;
 
 import static com.amazon.ask.request.Predicates.requestType;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
@@ -36,13 +35,8 @@ public class LaunchRequestHandler implements RequestHandler {
 
     String speechText = "Willkommen bei MyThaiStar";
 
-    ArrayList<String> permission = new ArrayList<>();
-
-    permission.add("alexa::profile:email:read");
-    permission.add("alexa::profile:name:read");
-
-    return input.getResponseBuilder().withAskForPermissionsConsentCard(permission).withSpeech(speechText)
-        .withSimpleCard("HelloWorld", speechText).withReprompt(speechText).build();
+    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("HelloWorld", speechText)
+        .withReprompt(speechText).build();
   }
 
 }
