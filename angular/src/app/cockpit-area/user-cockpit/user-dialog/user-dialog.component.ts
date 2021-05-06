@@ -52,11 +52,11 @@ export class UserDialogComponent implements OnInit {
       this.setTableHeaders(event);
       this.setRoleNames(event);
     });
-    
+
     this.store.select(fromAuth.getUserName)
     .subscribe((data: string) => {
       this.currentUser = data;
-    })
+    });
   }
 
   setTableHeaders(lang: string): void {
@@ -93,7 +93,7 @@ export class UserDialogComponent implements OnInit {
    * Delete account with id
    */
   deleteUser(id: number): void {
-    if (id != 3){
+    if (id !== 3){
       this.userCockpitService
       .deleteUser(id)
       .subscribe((data: any) => {
@@ -102,7 +102,7 @@ export class UserDialogComponent implements OnInit {
           this.translocoService.translate('cockpit.user.deleteUserSuccess'),
           6000,
           'green'
-        )
+        );
         this.closeWithRefresh();
       });
     } else {

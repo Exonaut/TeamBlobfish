@@ -31,9 +31,9 @@ export class CreateUserDialogComponent implements OnInit {
     delete value.confirmPassword;
     value.userRoleId = this.selectedRole;
     this.userCockpitService.createUser(value)
-      .subscribe((value) => {
+      .subscribe((val) => {
         this.closeWithRefresh();
-      }) 
+      });
   }
 
   close(): void {

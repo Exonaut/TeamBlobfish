@@ -18,9 +18,9 @@ export class UserCockpitService {
   private readonly filterUsersRestPath: string =
     'usermanagement/v1/user/search';
   private readonly deleteUserRestPath: string =
-    'usermanagement/v1/user'
+    'usermanagement/v1/user';
   private readonly createUserRestPath: string =
-    'usermanagement/v1/user'
+    'usermanagement/v1/user';
 
     private readonly restServiceRoot$: Observable<
       string
