@@ -28,14 +28,24 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.entity.booking.Booking;
+import com.entity.booking.PayloadBookTable;
 import com.entity.booking.Request;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 
 public class BookATable implements RequestHandler {
 
-  public static final String BASE_URL = "https://66a7c2c7d59e.ngrok.io";
+  private static String BASE_URL;
+
+  /**
+   * The constructor.
+   *
+   * @param baseUrl
+   */
+  public BookATable(String baseUrl) {
+
+    BASE_URL = baseUrl;
+  }
 
   @Override
   public boolean canHandle(HandlerInput input) {
@@ -61,7 +71,7 @@ public class BookATable implements RequestHandler {
     String userEmail = input.getServiceClientFactory().getUpsService().getProfileEmail();
 
     Request myApiRequest = new Request();
-    myApiRequest.booking = new Booking();
+    myApiRequest.booking = new PayloadBookTable();
     myApiRequest.booking.email = userEmail;
     myApiRequest.booking.assistants = personCount.getValue();
     myApiRequest.booking.bookingDate = date_time;
@@ -77,12 +87,13 @@ public class BookATable implements RequestHandler {
     } catch (Exception ex) {
       speechText = "Es ist ein Fehler bei MyThaiStar aufgetreten !";
       return input.getResponseBuilder().withSpeech(speechText + "\n " + payload)
-          .withSimpleCard("HelloWorld", speechText + " \n " + payload).build();
+          .withSimpleCard("BookATable", speechText + " \n " + payload).build();
     }
 
-    speechText = "Ihre Buchung wurde aufgenommen";
+    speechText = "Vielen Dank. Ihre Resverierung wurde aufgenommen. Wir freuen uns auf Ihren Besuch";
 
-    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("HelloWorld", speechText).build();
+    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText)
+        .withReprompt("Test").build();
   }
 
   public String getFormatAndCalculate(String date_time) {
