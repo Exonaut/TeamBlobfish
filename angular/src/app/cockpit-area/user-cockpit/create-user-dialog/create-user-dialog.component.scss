@@ -6,12 +6,19 @@ mat-tab-group {
     padding: 16px;
   }
   
-  mat-form-field {
+  mat-form-field,
+  mat-select {
     width: 100%;
   }
   
-  .formFields {
+  .formFields,
+  .role-selection,
+  mat-divider {
     margin-bottom: 8px;
+  }
+
+  .role-selection {
+    margin-top: 16px;
   }
   
   @media (max-width: 599px) {
