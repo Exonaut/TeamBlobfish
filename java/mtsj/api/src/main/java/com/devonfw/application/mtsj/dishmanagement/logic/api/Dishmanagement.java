@@ -58,10 +58,35 @@ public interface Dishmanagement {
   /**
    * Returns a paginated list of Dishs matching the search criteria.
    *
+   * @param searchCriteriaTo the {@link DishSearchCriteriaTo}.
+   * @return the {@link List} of matching {@link DishEto}s.
+   */
+  Page<DishCto> findDishCtos(DishSearchCriteriaTo searchCriteriaTo);
+
+  /**
+   * Returns a paginated list of Dishes matching the category name
+   *
+   * @param searchCriteriaTo the {@link DishSearchCriteriaTo}.
+   * @param categoryName the category name
+   * @return the {@link List} of matching {@link DishEto}s.
+   */
+  Page<DishCto> findDishesByCategory(DishSearchCriteriaTo searchCriteriaTo, String categoryName);
+
+  /**
+   * Returns a paginated list of Dish matching the search criteria 'Drinks'
+   *
+   * @param searchCriteriaTo the {@link DishSearchCriteriaTo}.
+   * @return the {@link List} of matching {@link DishEto}s.
+   */
+  Page<DishCto> findDishesByDrinks(DishSearchCriteriaTo searchCriteriaTo);
+
+  /**
+   * Returns a paginated list of Dish matching the search criteria without 'Drinks'
+   *
    * @param criteria the {@link DishSearchCriteriaTo}.
    * @return the {@link List} of matching {@link DishEto}s.
    */
-  Page<DishCto> findDishCtos(DishSearchCriteriaTo criteria);
+  Page<DishCto> findDishesByDining(DishSearchCriteriaTo criteria);
 
   /**
    * Deletes a dish from the database by its id 'dishId'.
