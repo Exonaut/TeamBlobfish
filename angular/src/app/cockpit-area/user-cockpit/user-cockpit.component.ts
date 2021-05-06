@@ -17,6 +17,7 @@ import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { UserCockpitService } from '../services/user-cockpit.service';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
+import { CreateUserDialogComponent } from './create-user-dialog/create-user-dialog.component';
 
 @Component({
   selector: 'app-user-cockpit',
@@ -156,6 +157,15 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.translocoSubscription.unsubscribe();
+  }
+
+  openCreateUserDialog(): void {
+    this.dialog.open(CreateUserDialogComponent)
+    .afterClosed().subscribe((data: boolean) => {
+      if (data === true) { // Reload users if dialog was edited
+        this.applyFilters();
+      }
+    });
   }
 }
 

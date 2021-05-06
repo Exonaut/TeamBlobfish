@@ -127,6 +127,9 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
     Objects.requireNonNull(user, "user");
     UserEntity userEntity = getBeanMapper().map(user, UserEntity.class);
 
+    this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
+
     // initialize, validate userEntity here if necessary
     UserEntity resultEntity = getUserDao().save(userEntity); // write to the Database
     LOG.debug("User with id '{}' has been created.", resultEntity.getId());

@@ -20,6 +20,7 @@ import { TranslocoRootModule } from '../transloco-root.module';
 import { UserCockpitComponent } from './user-cockpit/user-cockpit.component';
 import { UserCockpitService } from './services/user-cockpit.service';
 import { UserDialogComponent } from './user-cockpit/user-dialog/user-dialog.component';
+import { CreateUserDialogComponent } from './user-cockpit/create-user-dialog/create-user-dialog.component';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { UserDialogComponent } from './user-cockpit/user-dialog/user-dialog.comp
     ClusteringCockpitComponent,
     UserCockpitComponent,
     UserDialogComponent,
+    CreateUserDialogComponent,
   ],
   exports: [
     ReservationCockpitComponent,

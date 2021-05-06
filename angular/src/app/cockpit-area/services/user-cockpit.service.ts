@@ -17,6 +17,10 @@ export class UserCockpitService {
     'usermanagement/v1/user/search';
   private readonly filterUsersRestPath: string =
     'usermanagement/v1/user/search';
+  private readonly deleteUserRestPath: string =
+    'usermanagement/v1/user'
+  private readonly createUserRestPath: string =
+    'usermanagement/v1/user'
 
     private readonly restServiceRoot$: Observable<
       string
@@ -46,6 +50,26 @@ export class UserCockpitService {
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
         this.http.post<UserListView[]>(`${restServiceRoot}${path}`, filters),
+      ),
+    );
+  }
+
+  deleteUser(id: number): Observable<any> {
+    let path: string;
+    path = this.deleteUserRestPath;
+    return this.restServiceRoot$.pipe(
+      exhaustMap((restServiceRoot) =>
+        this.http.delete<UserListView[]>(`${restServiceRoot}${path}/${id}`),
+      ),
+    );
+  }
+
+  createUser(value: any): Observable<any> {
+    let path: string;
+    path = this.createUserRestPath;
+    return this.restServiceRoot$.pipe(
+      exhaustMap((restServiceRoot) =>
+        this.http.post<any>(`${restServiceRoot}${path}`, value),
       ),
     );
   }
