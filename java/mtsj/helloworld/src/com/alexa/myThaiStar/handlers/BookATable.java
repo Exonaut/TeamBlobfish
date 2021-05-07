@@ -11,7 +11,7 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.alexa.helloworld.handlers;
+package com.alexa.myThaiStar.handlers;
 
 import static com.amazon.ask.request.Predicates.intentName;
 

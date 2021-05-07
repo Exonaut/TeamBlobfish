@@ -11,22 +11,22 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.alexa.helloworld;
+package com.alexa.myThaiStar;
 
-import com.alexa.helloworld.handlers.BookATable;
-import com.alexa.helloworld.handlers.CallFoodMenu;
-import com.alexa.helloworld.handlers.CancelandStopIntentHandler;
-import com.alexa.helloworld.handlers.FallbackIntentHandler;
-import com.alexa.helloworld.handlers.HelpIntentHandler;
-import com.alexa.helloworld.handlers.LaunchRequestHandler;
-import com.alexa.helloworld.handlers.SessionEndedRequestHandler;
+import com.alexa.myThaiStar.handlers.BookATable;
+import com.alexa.myThaiStar.handlers.CallFoodMenu;
+import com.alexa.myThaiStar.handlers.CancelandStopIntentHandler;
+import com.alexa.myThaiStar.handlers.FallbackIntentHandler;
+import com.alexa.myThaiStar.handlers.HelpIntentHandler;
+import com.alexa.myThaiStar.handlers.LaunchRequestHandler;
+import com.alexa.myThaiStar.handlers.SessionEndedRequestHandler;
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
 import com.amazon.ask.Skills;
 
-public class HelloWorldStreamHandler extends SkillStreamHandler {
+public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://c39a544e5190.ngrok.io";
+  public static final String BASE_URL = "https://9df727babf6d.ngrok.io";
 
   private static Skill getSkill() {
 
@@ -34,15 +34,15 @@ public class HelloWorldStreamHandler extends SkillStreamHandler {
         .addRequestHandlers(new CancelandStopIntentHandler(),
             new BookATable(BASE_URL),
             new CallFoodMenu(BASE_URL),
-            new HelpIntentHandler(),
-            new LaunchRequestHandler(),
+            new HelpIntentHandler(), 
+            new LaunchRequestHandler(), 
             new SessionEndedRequestHandler(),
             new FallbackIntentHandler())
         // Add your skill id below
         .withSkillId("amzn1.ask.skill.2cb6b023-f36d-43f9-8c18-3b509cf3f2d6").build();
   }
 
-  public HelloWorldStreamHandler() {
+  public MyThaiStarStreamHandler() {
 
     super(getSkill());
   }

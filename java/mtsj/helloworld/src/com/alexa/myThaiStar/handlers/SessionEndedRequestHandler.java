@@ -11,32 +11,28 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.alexa.helloworld.handlers;
-
-import static com.amazon.ask.request.Predicates.requestType;
-
-import java.util.Optional;
+package com.alexa.myThaiStar.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
-import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
+import com.amazon.ask.model.SessionEndedRequest;
 
-public class LaunchRequestHandler implements RequestHandler {
+import java.util.Optional;
 
-  @Override
-  public boolean canHandle(HandlerInput input) {
+import static com.amazon.ask.request.Predicates.requestType;
 
-    return input.matches(requestType(LaunchRequest.class));
-  }
+public class SessionEndedRequestHandler implements RequestHandler {
 
-  @Override
-  public Optional<Response> handle(HandlerInput input) {
+    @Override
+    public boolean canHandle(HandlerInput input) {
+        return input.matches(requestType(SessionEndedRequest.class));
+    }
 
-    String speechText = "Willkommen bei MyThaiStar";
-
-    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("HelloWorld", speechText)
-        .withReprompt(speechText).build();
-  }
+    @Override
+    public Optional<Response> handle(HandlerInput input) {
+        // any cleanup logic goes here
+        return input.getResponseBuilder().build();
+    }
 
 }

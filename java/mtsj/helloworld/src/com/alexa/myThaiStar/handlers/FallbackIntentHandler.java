@@ -1,4 +1,4 @@
-package com.alexa.helloworld.handlers;
+package com.alexa.myThaiStar.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;

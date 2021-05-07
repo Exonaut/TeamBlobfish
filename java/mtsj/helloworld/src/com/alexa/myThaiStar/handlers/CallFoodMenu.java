@@ -1,4 +1,4 @@
-package com.alexa.helloworld.handlers;
+package com.alexa.myThaiStar.handlers;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
