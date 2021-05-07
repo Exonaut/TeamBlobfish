@@ -101,6 +101,7 @@ export interface UserListView {
   username: string;
   email: string;
   userRoleId: number;
+  password: string;
 }
 
 // Interface to recieve responeses from the server using httpclient for getReservations

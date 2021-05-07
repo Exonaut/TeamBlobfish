@@ -42,12 +42,13 @@
       </td>
       <td>
         <div class="align-right actionButtons">
+          <!-- Change Password -->
+          <button mat-button type="button" (click)="openChangePasswordDialog()">{{'buttons.changePassword' | transloco | uppercase}}</button>
           <!-- Close -->
           <button mat-button mat-dialog-close color="accent">{{'buttons.close' | transloco | uppercase}}</button>
         </div>
       </td>
     </tr>
   </table>
-  
-  
+
 </form>

@@ -21,6 +21,7 @@ import { UserCockpitComponent } from './user-cockpit/user-cockpit.component';
 import { UserCockpitService } from './services/user-cockpit.service';
 import { UserDialogComponent } from './user-cockpit/user-dialog/user-dialog.component';
 import { CreateUserDialogComponent } from './user-cockpit/create-user-dialog/create-user-dialog.component';
+import { ChangePasswordDialogComponent } from './user-cockpit/user-dialog/change-password-dialog/change-password-dialog.component';
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import { CreateUserDialogComponent } from './user-cockpit/create-user-dialog/cre
     UserCockpitComponent,
     UserDialogComponent,
     CreateUserDialogComponent,
+    ChangePasswordDialogComponent,
   ],
   exports: [
     ReservationCockpitComponent,

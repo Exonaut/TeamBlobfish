@@ -19,7 +19,8 @@
     "cancelOrder": "Cancel Order",
     "deleteAccount": "Delete Account",
     "createUser": "Create User",
-    "create": "Create"
+    "create": "Create",
+    "changePassword": "Change Password"
   },
   "table": {
     "rowsPage": "Rows per page",
@@ -235,7 +236,8 @@
       "manager": "Manager",
       "admin": "Admin",
       "deleteUserSuccess": "User successfully deleted",
-      "deleteUserError": "An error has occured while trying to delete the user"
+      "deleteUserError": "An error has occured while trying to delete the user",
+      "changePasswordSuccess": "Password successfully changed"
     }
   }
 }

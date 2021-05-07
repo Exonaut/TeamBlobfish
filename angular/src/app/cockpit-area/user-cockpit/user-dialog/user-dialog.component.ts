@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import * as fromApp from 'app/store/reducers';
 import { catchError, map} from 'rxjs/operators';
 import { SnackBarService } from '../../../core/snack-bar/snack-bar.service';
+import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-user-dialog',
@@ -39,7 +40,8 @@ export class UserDialogComponent implements OnInit {
     private translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) dialogData: UserListView,
     private configService: ConfigService,
-    public dialog: MatDialogRef<UserDialogComponent>,
+    public dialogRef: MatDialogRef<UserDialogComponent>,
+    private dialog: MatDialog,
     private store: Store<fromApp.State>,
     private snack: SnackBarService,
   ) {
@@ -93,29 +95,35 @@ export class UserDialogComponent implements OnInit {
    * Delete account with id
    */
   deleteUser(id: number): void {
-    if (id !== 3){
-      this.userCockpitService
-      .deleteUser(id)
-      .subscribe((data: any) => {
-        console.warn('Delete');
-        this.snack.openSnack(
-          this.translocoService.translate('cockpit.user.deleteUserSuccess'),
-          6000,
-          'green'
-        );
-        this.closeWithRefresh();
-      });
-    } else {
-      this.dialog.close();
-    }
+    this.userCockpitService
+    .deleteUser(id)
+    .subscribe((data: any) => {
+      this.snack.openSnack(
+        this.translocoService.translate('cockpit.user.deleteUserSuccess'),
+        6000,
+        'green'
+      );
+      this.closeWithRefresh();
+    });
+  }
+
+  openChangePasswordDialog(): void {
+    this.dialog.open(ChangePasswordDialogComponent, {
+      width: '30%',
+      data: this.data,
+    }).afterClosed().subscribe((data: boolean) => {
+      if (data === true) { // Reload users if dialog was edited
+        
+      }
+    });
   }
 
   close(): void {
-    this.dialog.close();
+    this.dialogRef.close();
   }
 
   closeWithRefresh(): void {
-    this.dialog.close(true);
+    this.dialogRef.close(true);
   }
 
 }

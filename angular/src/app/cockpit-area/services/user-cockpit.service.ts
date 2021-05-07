@@ -21,6 +21,8 @@ export class UserCockpitService {
     'usermanagement/v1/user';
   private readonly createUserRestPath: string =
     'usermanagement/v1/user';
+  private readonly changePasswordRestPath: string =
+    'usermanagement/v1/user/reset/password/admin';
 
     private readonly restServiceRoot$: Observable<
       string
@@ -73,4 +75,15 @@ export class UserCockpitService {
       ),
     );
   }
+
+  changePassword(user: UserListView): Observable<any> {
+    let path: string;
+    path = this.changePasswordRestPath;
+    return this.restServiceRoot$.pipe(
+      exhaustMap((restServiceRoot) =>
+        this.http.patch<any>(`${restServiceRoot}${path}`, user),
+      ),
+    );
+  }
+
 }
