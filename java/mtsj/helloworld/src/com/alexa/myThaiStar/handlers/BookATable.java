@@ -29,7 +29,6 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.entity.booking.PayloadBookTable;
-import com.entity.booking.Request;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 
@@ -70,12 +69,12 @@ public class BookATable implements RequestHandler {
     String name = input.getServiceClientFactory().getUpsService().getProfileName();
     String userEmail = input.getServiceClientFactory().getUpsService().getProfileEmail();
 
-    Request myApiRequest = new Request();
-    myApiRequest.booking = new PayloadBookTable();
-    myApiRequest.booking.email = userEmail;
-    myApiRequest.booking.assistants = personCount.getValue();
-    myApiRequest.booking.bookingDate = date_time;
-    myApiRequest.booking.name = name;
+    com.entity.booking.PayloadBookTable myApiRequest = new PayloadBookTable();
+    myApiRequest = new PayloadBookTable();
+    myApiRequest.email = userEmail;
+    myApiRequest.assistants = personCount.getValue();
+    myApiRequest.bookingDate = date_time;
+    myApiRequest.name = name;
 
     BasicOperations bo = new BasicOperations();
     String speechText = "";

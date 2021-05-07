@@ -7,7 +7,6 @@ import java.util.Optional;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
-import com.entity.booking.Request;
 import com.entity.menu.ResponseMenu;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
@@ -36,8 +35,6 @@ public class CallFoodMenu implements RequestHandler {
   public Optional<Response> handle(HandlerInput input) {
 
     String speechText = "funktioniert";
-
-    Request myApiRequest = new Request();
 
     BasicOperations bo = new BasicOperations();
 

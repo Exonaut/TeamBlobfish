@@ -26,17 +26,13 @@ import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://9df727babf6d.ngrok.io";
+  public static final String BASE_URL = "https://c4bccb6fba1f.ngrok.io";
 
   private static Skill getSkill() {
 
     return Skills.standard()
-        .addRequestHandlers(new CancelandStopIntentHandler(),
-            new BookATable(BASE_URL),
-            new CallFoodMenu(BASE_URL),
-            new HelpIntentHandler(), 
-            new LaunchRequestHandler(), 
-            new SessionEndedRequestHandler(),
+        .addRequestHandlers(new CancelandStopIntentHandler(), new BookATable(BASE_URL), new CallFoodMenu(BASE_URL),
+            new HelpIntentHandler(), new LaunchRequestHandler(), new SessionEndedRequestHandler(),
             new FallbackIntentHandler())
         // Add your skill id below
         .withSkillId("amzn1.ask.skill.2cb6b023-f36d-43f9-8c18-3b509cf3f2d6").build();
@@ -46,5 +42,4 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
     super(getSkill());
   }
-
 }
