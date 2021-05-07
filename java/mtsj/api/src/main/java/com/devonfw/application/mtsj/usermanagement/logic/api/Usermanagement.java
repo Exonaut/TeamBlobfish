@@ -125,12 +125,11 @@ public interface Usermanagement {
   UserProfile findUserProfileByLogin(String login);
 
   /**
-   * Reset password and store in database
+   * Reset password and store in database by admin
    *
-   * @param userId Id of the UserEntity
-   * @param newPassword the new password for user
+   * @param user the {@link UserEto} to reset password
    */
-  void resetPasswordByAdmin(Long userId, String newPassword);
+  void resetPasswordByAdmin(UserEto user);
 
   /**
    * Send forgot-password link to user
@@ -140,9 +139,9 @@ public interface Usermanagement {
   void sendForgotPasswordLink(String userEmail);
 
   /**
-   * Reset password and store in database
+   * Reset password and store in database by user
    *
-   * @param user the {@link UserEto} to create.
+   * @param user the {@link UserEto} to reset passwords
    */
   void resetPasswordByUser(UserEto user);
 

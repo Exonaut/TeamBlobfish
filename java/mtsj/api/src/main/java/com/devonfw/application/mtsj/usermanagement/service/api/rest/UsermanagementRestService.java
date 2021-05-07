@@ -3,6 +3,7 @@ package com.devonfw.application.mtsj.usermanagement.service.api.rest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -106,12 +107,11 @@ public interface UsermanagementRestService {
   /**
    * Delegates to {@link Usermanagement#resetPasswordByAdmin}.
    *
-   * @param id ID of the {@link UserEto} to reset password
-   * @param newpassword New Password of the {@link UserEto}
+   * @param user user the {@link UserEto} to reset password
    */
-  @POST
-  @Path("/user/{id}/{newpassword}/")
-  public void resetPasswordByAdmin(@PathParam("id") long id, @PathParam("newpassword") String newpassword);
+  @PATCH
+  @Path("/user/reset/password/admin")
+  public void resetPasswordByAdmin(UserEto user);
 
   /**
    * Delegates to {@link Usermanagement#sendForgotPasswordLink}.
@@ -126,9 +126,9 @@ public interface UsermanagementRestService {
   /**
    * Delegates to {@link Usermanagement#resetPasswordByUser}.
    *
-   * @param user user the {@link UserEto} to be saved
+   * @param user user the {@link UserEto} to reset password
    */
-  @POST
-  @Path("/user/resetpassword")
+  @PATCH
+  @Path("/user/reset/password/user")
   public void resetPasswordByUser(UserEto user);
 }
