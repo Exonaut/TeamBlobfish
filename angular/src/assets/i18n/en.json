@@ -20,7 +20,8 @@
     "deleteAccount": "Delete Account",
     "createUser": "Create User",
     "create": "Create",
-    "changePassword": "Change Password"
+    "changePassword": "Change Password",
+    "sendPasswordResetLink": "Send Password Reset Link"
   },
   "table": {
     "rowsPage": "Rows per page",
@@ -237,7 +238,8 @@
       "admin": "Admin",
       "deleteUserSuccess": "User successfully deleted",
       "deleteUserError": "An error has occured while trying to delete the user",
-      "changePasswordSuccess": "Password successfully changed"
+      "changePasswordSuccess": "Password successfully changed",
+      "sendPasswordResetLinkSuccess": "Reset link has been send"
     }
   }
 }

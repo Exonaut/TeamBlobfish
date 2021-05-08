@@ -118,6 +118,18 @@ export class UserDialogComponent implements OnInit {
     });
   }
 
+  sendPasswordResetLink(): void {
+    this.userCockpitService
+    .sendPasswordResetLink(this.data)
+    .subscribe((data: any) => {
+      this.snack.openSnack(
+        this.translocoService.translate('cockpit.user.sendPasswordResetLinkSuccess'),
+        6000,
+        'green'
+      );
+    });
+  }
+
   close(): void {
     this.dialogRef.close();
   }

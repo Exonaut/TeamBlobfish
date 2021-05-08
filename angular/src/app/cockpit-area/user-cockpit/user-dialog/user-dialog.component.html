@@ -42,8 +42,10 @@
       </td>
       <td>
         <div class="align-right actionButtons">
+          <!-- Send Password Reset Link -->
+          <button mat-button type="button" (click)="sendPasswordResetLink()">{{'buttons.sendPasswordResetLink' | transloco }}</button>
           <!-- Change Password -->
-          <button mat-button type="button" (click)="openChangePasswordDialog()">{{'buttons.changePassword' | transloco | uppercase}}</button>
+          <button mat-button type="button" (click)="openChangePasswordDialog()">{{'buttons.changePassword' | transloco }}</button>
           <!-- Close -->
           <button mat-button mat-dialog-close color="accent">{{'buttons.close' | transloco | uppercase}}</button>
         </div>
