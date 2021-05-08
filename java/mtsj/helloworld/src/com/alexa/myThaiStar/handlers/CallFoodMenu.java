@@ -2,11 +2,15 @@ package com.alexa.myThaiStar.handlers;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
+import java.util.Map;
 import java.util.Optional;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
+import com.amazon.ask.model.Intent;
+import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
+import com.amazon.ask.model.Slot;
 import com.entity.menu.ResponseMenu;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
@@ -35,10 +39,22 @@ public class CallFoodMenu implements RequestHandler {
   public Optional<Response> handle(HandlerInput input) {
 
     String speechText = "funktioniert";
+    String payload = null;
 
     BasicOperations bo = new BasicOperations();
 
-    String payload = "{\"categories\":[],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
+    com.amazon.ask.model.Request request = input.getRequestEnvelope().getRequest();
+    IntentRequest intentRequest = (IntentRequest) request;
+    Intent intent = intentRequest.getIntent();
+    Map<String, Slot> slots = intent.getSlots();
+
+    Slot menu = slots.get("menu");
+
+    if (menu.getValue().equals("getränkekarte")) {
+      payload = "{\"categories\":[{\"id\":\"8\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
+    } else if (menu.getValue().equals("speisekarte")) {
+      payload = "{\"categories\":[{\"id\":\"0\"},{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"},{\"id\":\"4\"},{\"id\":\"5\"},{\"id\":\"6\"},{\"id\":\"7\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
+    }
 
     String resStr;
 

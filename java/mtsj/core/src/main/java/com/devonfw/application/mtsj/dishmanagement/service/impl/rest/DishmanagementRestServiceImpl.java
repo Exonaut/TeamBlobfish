@@ -104,18 +104,4 @@ public class DishmanagementRestServiceImpl implements DishmanagementRestService 
     return pageDishCto;
   }
 
-  @Override
-  public Page<DishCto> findDishesByDrinks(DishSearchCriteriaTo searchCriteriaTo) {
-
-    Page<DishCto> pageDishCto = this.dishmanagement.findDishesByDrinks(searchCriteriaTo);
-    return pageDishCto;
-  }
-
-  @Override
-  public Page<DishCto> findDishesByDining(DishSearchCriteriaTo searchCriteriaTo) {
-
-    Page<DishCto> pageDishCto = this.dishmanagement.findDishesByDining(searchCriteriaTo);
-    return pageDishCto;
-  }
-
 }

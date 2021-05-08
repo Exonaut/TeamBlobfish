@@ -29,6 +29,7 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.entity.booking.PayloadBookTable;
+import com.entity.booking.Request;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 
@@ -69,12 +70,12 @@ public class BookATable implements RequestHandler {
     String name = input.getServiceClientFactory().getUpsService().getProfileName();
     String userEmail = input.getServiceClientFactory().getUpsService().getProfileEmail();
 
-    com.entity.booking.PayloadBookTable myApiRequest = new PayloadBookTable();
-    myApiRequest = new PayloadBookTable();
-    myApiRequest.email = userEmail;
-    myApiRequest.assistants = personCount.getValue();
-    myApiRequest.bookingDate = date_time;
-    myApiRequest.name = name;
+    com.entity.booking.Request myApiRequest = new Request();
+    myApiRequest.booking = new PayloadBookTable();
+    myApiRequest.booking.email = userEmail;
+    myApiRequest.booking.assistants = personCount.getValue();
+    myApiRequest.booking.bookingDate = date_time;
+    myApiRequest.booking.name = name;
 
     BasicOperations bo = new BasicOperations();
     String speechText = "";
@@ -89,7 +90,7 @@ public class BookATable implements RequestHandler {
           .withSimpleCard("BookATable", speechText + " \n " + payload).build();
     }
 
-    speechText = "Vielen Dank. Ihre Resverierung wurde aufgenommen. Wir freuen uns auf Ihren Besuch";
+    speechText = "Vielen Dank. Ihre Reservierung wurde aufgenommen. Wir freuen uns auf Ihren Besuch";
 
     return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText)
         .withReprompt("Test").build();
