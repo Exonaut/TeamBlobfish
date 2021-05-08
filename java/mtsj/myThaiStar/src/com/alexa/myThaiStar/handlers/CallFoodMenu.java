@@ -38,7 +38,7 @@ public class CallFoodMenu implements RequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput input) {
 
-    String speechText = "";
+    String speechText = "Wählen Sie die Getränkekarte oder Speisekarte";
     String payload = "";
 
     BasicOperations bo = new BasicOperations();
@@ -50,9 +50,9 @@ public class CallFoodMenu implements RequestHandler {
 
     Slot menu = slots.get("menu");
 
-    if (menu.getValue().equals("getränkekarte")) {
+    if (menu.getValue().equals("getränkekarte") || menu.getValue().equals("trinken")) {
       payload = "{\"categories\":[{\"id\":\"8\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
-    } else if (menu.getValue().equals("speisekarte")) {
+    } else if (menu.getValue().equals("speisekarte") || menu.getValue().equals("essen")) {
       payload = "{\"categories\":[{\"id\":\"0\"},{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"},{\"id\":\"4\"},{\"id\":\"5\"},{\"id\":\"6\"},{\"id\":\"7\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
     }
 
@@ -61,7 +61,7 @@ public class CallFoodMenu implements RequestHandler {
     try {
       resStr = bo.basicPost(payload, BASE_URL + "/mythaistar/services/rest/dishmanagement/v1/dish/search");
     } catch (Exception ex) {
-      speechText = "Es ist ein Fehler bei MyThaiStar aufgetreten !";
+      speechText = "Es tut mir leid. Bitte wiederholen Sie Ihre Angaben";
       return input.getResponseBuilder().withSpeech(speechText + "\n " + payload)
           .withSimpleCard("BookATable", speechText + " \n " + payload).build();
     }
@@ -70,7 +70,17 @@ public class CallFoodMenu implements RequestHandler {
 
     ResponseMenu response = gson.fromJson(resStr, ResponseMenu.class);
 
-    speechText = response.toString();
+    if (menu.getValue().equals("getränkekarte") || menu.getValue().equals("trinken")) {
+      speechText = "Wir haben " + response.toString()
+          + ". Wenn Sie mehr über unsere Auswahl zu Tee oder Bier haben möchten, dann sagen sie zum Beispiel: Was gibt es für Teesorten oder was gibt es für Biersorten";
+
+    } else if (menu.getValue().equals("speisekarte") || menu.getValue().equals("essen")) {
+
+      speechText = "Wir haben " + response.toString()
+          + " Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Thai green chicken curry erfahren. "
+          + "Wenn Sie bereits eine Auswahl getroffen haben, dann sagen Sie zum Beispiel: Ich möchte das Gericht Thai green chicken curry bestellen";
+
+    }
 
     return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("CallFoodMenu", speechText).build();
   }

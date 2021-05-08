@@ -50,7 +50,7 @@ public class BookATable implements RequestHandler {
   @Override
   public boolean canHandle(HandlerInput input) {
 
-    return input.matches(intentName("BookATable"));
+    return input.matches(intentName("bookATable"));
   }
 
   @Override
@@ -85,7 +85,7 @@ public class BookATable implements RequestHandler {
     try {
       bo.basicPost(payload, BASE_URL + "/mythaistar/services/rest/bookingmanagement/v1/booking");
     } catch (Exception ex) {
-      speechText = "Es ist ein Fehler bei MyThaiStar aufgetreten !";
+      speechText = "Es tut mir leid. Bitte wiederholen Sie Ihre Angaben";
       return input.getResponseBuilder().withSpeech(speechText + "\n " + payload)
           .withSimpleCard("BookATable", speechText + " \n " + payload).build();
     }

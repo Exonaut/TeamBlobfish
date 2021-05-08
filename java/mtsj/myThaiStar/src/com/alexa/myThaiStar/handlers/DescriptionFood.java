@@ -11,21 +11,19 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.entity.menu.ResponseDescriptionBeer;
-import com.entity.menu.ResponseDescriptionTee;
+import com.entity.menu.ResponseDescriptionFood;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 
-public class DescriptionDrinks implements RequestHandler {
+/**
+ * TODO Spielecke This type ...
+ *
+ */
+public class DescriptionFood implements RequestHandler {
 
-  private static String BASE_URL;
+  public static String BASE_URL;
 
-  /**
-   * The constructor.
-   *
-   * @param baseUrl
-   */
-  public DescriptionDrinks(String baseUrl) {
+  public DescriptionFood(String baseUrl) {
 
     BASE_URL = baseUrl;
   }
@@ -33,7 +31,7 @@ public class DescriptionDrinks implements RequestHandler {
   @Override
   public boolean canHandle(HandlerInput input) {
 
-    return input.matches(intentName("descriptionDrinks"));
+    return input.matches(intentName("descriptionFood"));
   }
 
   @Override
@@ -44,10 +42,10 @@ public class DescriptionDrinks implements RequestHandler {
     Intent intent = intentRequest.getIntent();
     Map<String, Slot> slots = intent.getSlots();
 
-    Slot drinks = slots.get("drinks");
+    Slot food = slots.get("food");
 
-    String speechText = "Tut mir leid, das haben wir leider nicht im Angebot";
-    String payload = "{\"categories\":[{\"id\":\"8\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
+    String speechText = "";
+    String payload = "{\"categories\":[{\"id\":\"0\"},{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"},{\"id\":\"4\"},{\"id\":\"5\"},{\"id\":\"6\"},{\"id\":\"7\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}\r\n";
 
     BasicOperations bo = new BasicOperations();
 
@@ -63,15 +61,9 @@ public class DescriptionDrinks implements RequestHandler {
 
     Gson gson = new Gson();
 
-    if (drinks.getValue().equals("tee")) {
+    ResponseDescriptionFood response = gson.fromJson(resStr, ResponseDescriptionFood.class);
 
-      ResponseDescriptionTee response = gson.fromJson(resStr, ResponseDescriptionTee.class);
-      speechText = "Wir haben " + response.toString();
-
-    } else if (drinks.getValue().equals("bier")) {
-      ResponseDescriptionBeer response = gson.fromJson(resStr, ResponseDescriptionBeer.class);
-      speechText = "Wir haben " + response.toString();
-    }
+    speechText = response.getFoodDescription(food.getValue());
 
     return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("descriptionDrinks", speechText).build();
   }
