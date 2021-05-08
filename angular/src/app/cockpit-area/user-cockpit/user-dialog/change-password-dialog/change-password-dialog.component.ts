@@ -23,7 +23,7 @@ export class ChangePasswordDialogComponent implements OnInit {
     private store: Store<fromApp.State>,
     private snack: SnackBarService,
     @Inject(MAT_DIALOG_DATA) dialogData: UserListView,
-  ) { 
+  ) {
     this.data = dialogData;
   }
 

@@ -113,7 +113,7 @@ export class UserDialogComponent implements OnInit {
       data: this.data,
     }).afterClosed().subscribe((data: boolean) => {
       if (data === true) { // Reload users if dialog was edited
-        
+
       }
     });
   }
