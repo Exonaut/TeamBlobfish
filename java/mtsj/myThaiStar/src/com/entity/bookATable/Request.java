@@ -1,4 +1,4 @@
-package com.entity.booking;
+package com.entity.bookATable;
 
 public class Request {
 

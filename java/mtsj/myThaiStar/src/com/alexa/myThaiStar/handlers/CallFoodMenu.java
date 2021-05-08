@@ -38,8 +38,8 @@ public class CallFoodMenu implements RequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput input) {
 
-    String speechText = "funktioniert";
-    String payload = null;
+    String speechText = "";
+    String payload = "";
 
     BasicOperations bo = new BasicOperations();
 
@@ -72,8 +72,7 @@ public class CallFoodMenu implements RequestHandler {
 
     speechText = response.toString();
 
-    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("CallFoodMenu", speechText)
-        .withReprompt("Test").build();
+    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("CallFoodMenu", speechText).build();
   }
 
 }
