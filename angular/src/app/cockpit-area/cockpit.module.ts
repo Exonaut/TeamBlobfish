@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CoreModule } from '../core/core.module';
+import { SharedModule } from '../shared/shared.module';
 
 import { WaiterCockpitService } from './services/waiter-cockpit.service';
 import { WindowService } from '../core/window/window.service';
@@ -31,6 +32,7 @@ import { ChangePasswordDialogComponent } from './user-cockpit/user-dialog/change
     CoreModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
   providers: [
     WaiterCockpitService,

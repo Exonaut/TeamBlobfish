@@ -1,11 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
 import { UserCockpitService } from 'app/cockpit-area/services/user-cockpit.service';
 import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 import { UserListView } from 'app/shared/view-models/interfaces';
-import * as fromApp from 'app/store/reducers';
 
 @Component({
   selector: 'app-change-password-dialog',
@@ -20,7 +18,6 @@ export class ChangePasswordDialogComponent implements OnInit {
     public dialog: MatDialogRef<ChangePasswordDialogComponent>,
     private userCockpitService: UserCockpitService,
     private translocoService: TranslocoService,
-    private store: Store<fromApp.State>,
     private snack: SnackBarService,
     @Inject(MAT_DIALOG_DATA) dialogData: UserListView,
   ) {

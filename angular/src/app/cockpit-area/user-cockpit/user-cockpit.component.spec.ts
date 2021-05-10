@@ -34,9 +34,9 @@ const mockDialog = {
 };
 
 const userCockpitServiceStub = {
-  getUsers(): Observable<any> {
-    return of({content: GetAllUsersData});
-  }
+  getUsers: jasmine.createSpy('getUsers').and.returnValue(
+    of({content: GetAllUsersData}),
+  ),
 };
 
 const activatedRouteStub = {

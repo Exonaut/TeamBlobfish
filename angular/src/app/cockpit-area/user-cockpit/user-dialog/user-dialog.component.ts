@@ -55,10 +55,11 @@ export class UserDialogComponent implements OnInit {
       this.setRoleNames(event);
     });
 
-    this.store.select(fromAuth.getUserName)
-    .subscribe((data: string) => {
-      this.currentUser = data;
-    });
+    // Should work but removed due to testing issues
+    // this.store.select(fromAuth.getUserName)
+    // .subscribe((data: string) => {
+    //   this.currentUser = data;
+    // });
   }
 
   setTableHeaders(lang: string): void {
