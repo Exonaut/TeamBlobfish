@@ -127,6 +127,9 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
     Objects.requireNonNull(user, "user");
     UserEntity userEntity = getBeanMapper().map(user, UserEntity.class);
 
+    this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
+
     // initialize, validate userEntity here if necessary
     UserEntity resultEntity = getUserDao().save(userEntity); // write to the Database
     LOG.debug("User with id '{}' has been created.", resultEntity.getId());
@@ -250,13 +253,13 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
     try {
       StringBuilder hostMailContent = new StringBuilder();
       hostMailContent.append("MY THAI STAR").append("\n");
-      hostMailContent.append("Hi ").append(user.getEmail()).append("\n");
+      hostMailContent.append("Hi ").append(user.getUsername()).append("\n");
       hostMailContent.append("Forgot your password?").append("\n");
       hostMailContent.append("We received a request to reset the password for you account.").append("\n");
       hostMailContent.append("If you did not make this request then please ignore this email.").append("\n");
-      hostMailContent.append("Otherwise, please click this link to change your password").append("\n");
+      hostMailContent.append("Otherwise, please copy and paste this link to change your password").append("\n");
       // URL NACHSCHAUEN
-      String resetPassword = getClientUrl() + "/user/resetpassword/" + user.getUsername();
+      String resetPassword = getClientUrl() + "/user/resetpassword/" + user.hashCode();
       hostMailContent.append(resetPassword).append("\n");
       this.mailService.sendMail(user.getEmail(), "Reset Password", hostMailContent.toString());
     } catch (Exception e) {
@@ -265,13 +268,13 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
   }
 
   @Override
-  public void resetPasswordByAdmin(Long userId, String newPassword) {
+  public void resetPasswordByAdmin(UserEto user) {
 
-    UserEntity user = getUserDao().find(userId);
+    UserEntity userEntity = getUserDao().find(user.getId());
     this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    user.setPassword(this.passwordEncoder.encode(newPassword));
-    getUserDao().save(user);
-    LOG.debug("User password with id '{}' has been modified.", userId);
+    userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
+    getUserDao().save(userEntity);
+    LOG.debug("User password with id '{}' has been modified.", user.getId());
   }
 
   @Override
@@ -285,7 +288,7 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
   @Override
   public void resetPasswordByUser(UserEto user) {
 
-    UserEntity userEntity = getUserDao().findByUsername(user.getUsername());
+    UserEntity userEntity = getUserDao().find(user.getId());
     this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
     getUserDao().save(userEntity);

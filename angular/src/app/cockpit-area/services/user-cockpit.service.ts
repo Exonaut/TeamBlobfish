@@ -17,6 +17,14 @@ export class UserCockpitService {
     'usermanagement/v1/user/search';
   private readonly filterUsersRestPath: string =
     'usermanagement/v1/user/search';
+  private readonly deleteUserRestPath: string =
+    'usermanagement/v1/user';
+  private readonly createUserRestPath: string =
+    'usermanagement/v1/user';
+  private readonly changePasswordRestPath: string =
+    'usermanagement/v1/user/reset/password/admin';
+  private readonly sendPasswordResetLinkRestPath: string =
+    'usermanagement/v1/user';
 
     private readonly restServiceRoot$: Observable<
       string
@@ -49,4 +57,45 @@ export class UserCockpitService {
       ),
     );
   }
+
+  deleteUser(id: number): Observable<any> {
+    let path: string;
+    path = this.deleteUserRestPath;
+    return this.restServiceRoot$.pipe(
+      exhaustMap((restServiceRoot) =>
+        this.http.delete<UserListView[]>(`${restServiceRoot}${path}/${id}`),
+      ),
+    );
+  }
+
+  createUser(value: any): Observable<any> {
+    let path: string;
+    path = this.createUserRestPath;
+    return this.restServiceRoot$.pipe(
+      exhaustMap((restServiceRoot) =>
+        this.http.post<any>(`${restServiceRoot}${path}`, value),
+      ),
+    );
+  }
+
+  changePassword(user: UserListView): Observable<any> {
+    let path: string;
+    path = this.changePasswordRestPath;
+    return this.restServiceRoot$.pipe(
+      exhaustMap((restServiceRoot) =>
+        this.http.patch<any>(`${restServiceRoot}${path}`, user),
+      ),
+    );
+  }
+
+  sendPasswordResetLink(user: UserListView): Observable<any> {
+    let path: string;
+    path = this.sendPasswordResetLinkRestPath;
+    return this.restServiceRoot$.pipe(
+      exhaustMap((restServiceRoot) =>
+        this.http.get<any>(`${restServiceRoot}${path}/${user.email}`),
+      ),
+    );
+  }
+
 }

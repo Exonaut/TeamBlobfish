@@ -7,6 +7,12 @@ import { ConfigService } from '../../../core/config/config.service';
 import { TranslocoService } from '@ngneat/transloco';
 import * as _ from 'lodash';
 import { MatSelectChange } from '@angular/material/select';
+import * as fromAuth from 'app/user-area/store/selectors/auth.selectors';
+import { Store } from '@ngrx/store';
+import * as fromApp from 'app/store/reducers';
+import { catchError, map} from 'rxjs/operators';
+import { SnackBarService } from '../../../core/snack-bar/snack-bar.service';
+import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-user-dialog',
@@ -27,12 +33,17 @@ export class UserDialogComponent implements OnInit {
     'user.role',
   ];
 
+  currentUser: string;
+
   constructor(
-    private waiterCockpitService: UserCockpitService,
+    private userCockpitService: UserCockpitService,
     private translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) dialogData: UserListView,
     private configService: ConfigService,
-    public dialog: MatDialogRef<UserDialogComponent>,
+    public dialogRef: MatDialogRef<UserDialogComponent>,
+    private dialog: MatDialog,
+    private store: Store<fromApp.State>,
+    private snack: SnackBarService,
   ) {
     this.data = dialogData;
     this.datat.push(this.data);
@@ -42,6 +53,11 @@ export class UserDialogComponent implements OnInit {
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
       this.setRoleNames(event);
+    });
+
+    this.store.select(fromAuth.getUserName)
+    .subscribe((data: string) => {
+      this.currentUser = data;
     });
   }
 
@@ -72,7 +88,54 @@ export class UserDialogComponent implements OnInit {
   }
 
   applyChanges(): void {
-    this.dialog.close();
+    this.close();
+  }
+
+  /**
+   * Delete account with id
+   */
+  deleteUser(id: number): void {
+    this.userCockpitService
+    .deleteUser(id)
+    .subscribe((data: any) => {
+      this.snack.openSnack(
+        this.translocoService.translate('cockpit.user.deleteUserSuccess'),
+        6000,
+        'green'
+      );
+      this.closeWithRefresh();
+    });
+  }
+
+  openChangePasswordDialog(): void {
+    this.dialog.open(ChangePasswordDialogComponent, {
+      width: '30%',
+      data: this.data,
+    }).afterClosed().subscribe((data: boolean) => {
+      if (data === true) { // Reload users if dialog was edited
+
+      }
+    });
+  }
+
+  sendPasswordResetLink(): void {
+    this.userCockpitService
+    .sendPasswordResetLink(this.data)
+    .subscribe((data: any) => {
+      this.snack.openSnack(
+        this.translocoService.translate('cockpit.user.sendPasswordResetLinkSuccess'),
+        6000,
+        'green'
+      );
+    });
+  }
+
+  close(): void {
+    this.dialogRef.close();
+  }
+
+  closeWithRefresh(): void {
+    this.dialogRef.close(true);
   }
 
 }

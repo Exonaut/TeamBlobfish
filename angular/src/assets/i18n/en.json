@@ -16,7 +16,12 @@
     "addComment": "Add comment",
     "advanceStatus": "Advance Status",
     "setStatus": "Change Status",
-    "cancelOrder": "Cancel Order"
+    "cancelOrder": "Cancel Order",
+    "deleteAccount": "Delete Account",
+    "createUser": "Create User",
+    "create": "Create",
+    "changePassword": "Change Password",
+    "sendPasswordResetLink": "Send Password Reset Link"
   },
   "table": {
     "rowsPage": "Rows per page",
@@ -59,7 +64,8 @@
     "guestsPH": "Enter invitation email",
     "comment": "Comment",
     "total": "Total",
-    "referenceNumber": "Reference number"
+    "referenceNumber": "Reference number",
+    "role": "Role"
   },
   "bookTable": {
     "title": "You can invite your friends to lunch or book a table",
@@ -229,7 +235,11 @@
       "guest": "Guest",
       "waiter": "Waiter",
       "manager": "Manager",
-      "admin": "Admin"
+      "admin": "Admin",
+      "deleteUserSuccess": "User successfully deleted",
+      "deleteUserError": "An error has occured while trying to delete the user",
+      "changePasswordSuccess": "Password successfully changed",
+      "sendPasswordResetLinkSuccess": "Reset link has been send"
     }
   }
 }
