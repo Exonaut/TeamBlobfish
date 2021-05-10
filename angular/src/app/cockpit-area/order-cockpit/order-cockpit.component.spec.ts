@@ -12,6 +12,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TranslocoService } from '@ngneat/transloco';
 import { of } from 'rxjs/internal/observable/of';
@@ -68,6 +69,7 @@ class TestBedSetUp {
         ReactiveFormsModule,
         getTranslocoModule(),
         CoreModule,
+        RouterTestingModule,
       ],
     });
   }
@@ -100,52 +102,70 @@ describe('OrderCockpitComponent', () => {
       });
   }));
 
-  // it('should create component and verify content and total records of orders', fakeAsync(() => {
-  //   spyOn(translocoService, 'selectTranslateObject').and.returnValue(
-  //     translocoServiceStub.selectTranslateObject,
-  //   );
-  //   fixture.detectChanges();
-  //   tick();
-  //   expect(component).toBeTruthy();
-  //   expect(component.orders).toEqual(orderData.content);
-  //   expect(component.totalOrders).toBe(8);
-  // }));
+  it('should create component', () => {
+    expect(component).toBeTruthy();
+  });
 
-  // it('should go to next page of orders', () => {
-  //   component.page({
-  //     pageSize: 100,
-  //     pageIndex: 2,
-  //     length: 50,
-  //   });
-  //   expect(component.orders).toEqual(orderData.content);
-  //   expect(component.totalOrders).toBe(8);
+  // it('should display noResults in OrderArchive', () => {
+  //   const noResultsHeader = el.query(By.css('.property-text-center noResults'));
+  //   //expect(noResultsHeader.innerHTML).not.toBeNull();
+  //   //console.log(noResultsHeader.innerHTML);
+  //   expect(noResultsHeader.nativeElement.textContent.trim()).toBe('No results to display.');
+  //   //expect(noResultsHeader.innerHTML).toBe('No results to display.');
   // });
 
-  // it('should clear form and reset', fakeAsync(() => {
-  //   const clearFilter = el.query(By.css('.orderClearFilters'));
-  //   click(clearFilter);
-  //   fixture.detectChanges();
-  //   tick();
-  //   expect(component.orders).toEqual(orderData.content);
-  //   expect(component.totalOrders).toBe(8);
-  // }));
+  // it('should display the right columns', () => {
+  //   component.setTableHeaders({
+      
+  //   });
+  // });
 
-  // it('should open OrderDialogComponent dialog on click of row', fakeAsync(() => {
-  //   fixture.detectChanges();
-  //   const clearFilter = el.queryAll(By.css('.mat-row'));
-  //   click(clearFilter[0]);
-  //   tick();
-  //   expect(dialog.open).toHaveBeenCalled();
-  // }));
+  it('should verify content and total records of orders', fakeAsync(() => {
+    spyOn(translocoService, 'selectTranslateObject').and.returnValue(
+      translocoServiceStub.selectTranslateObject,
+    );
+    fixture.detectChanges();
+    tick();
+    expect(component.orders).toEqual(orderData.content);
+    expect(component.totalOrders).toBe(8);
+  }));
 
-  // it('should filter the order table on click of submit', fakeAsync(() => {
-  //   fixture.detectChanges();
-  //   const submit = el.query(By.css('.orderApplyFilters'));
-  //   click(submit);
-  //   tick();
-  //   expect(component.orders).toEqual(orderData.content);
-  //   expect(component.totalOrders).toBe(8);
-  // }));
+  it('should go to next page of orders', () => {
+    component.page({
+      pageSize: 100,
+      pageIndex: 2,
+      length: 50,
+    });
+    expect(component.orders).toEqual(orderData.content);
+    expect(component.totalOrders).toBe(8);
+  });
+
+  it('should clear form and reset', fakeAsync(() => {
+    const clearFilter = el.query(By.css('.orderClearFilters'));
+    click(clearFilter);
+    fixture.detectChanges();
+    tick();
+    expect(component.orders).toEqual(orderData.content);
+    expect(component.totalOrders).toBe(8);
+  }));
+
+  it('should open OrderDialogComponent dialog on click of row', fakeAsync(() => {
+    fixture.detectChanges();
+    const clearFilter = el.queryAll(By.css('.mat-row'));
+    click(clearFilter[0]);
+    tick();
+    expect(dialog.open).toHaveBeenCalled();
+  }));
+
+  it('should filter the order table on click of submit', fakeAsync(() => {
+    fixture.detectChanges();
+    const submit = el.query(By.css('.orderApplyFilters'));
+    click(submit);
+    tick();
+    expect(component.orders).toEqual(orderData.content);
+    expect(component.totalOrders).toBe(8);
+  }));
+
 });
 
 describe('TestingOrderCockpitComponentWithSortOrderData', () => {
@@ -175,12 +195,12 @@ describe('TestingOrderCockpitComponentWithSortOrderData', () => {
       });
   }));
 
-  // it('should sort records of orders', () => {
-  //   component.sort({
-  //     active: 'Reservation Date',
-  //     direction: 'asc',
-  //   });
-  //   expect(component.orders).toEqual(ascSortOrder.content);
-  //   expect(component.totalOrders).toBe(8);
-  // });
+  it('should sort records of orders', () => {
+    component.sort({
+      active: 'Reservation Date',
+      direction: 'asc',
+    });
+    expect(component.orders).toEqual(ascSortOrder.content);
+    expect(component.totalOrders).toBe(8);
+  });
 });
