@@ -14,6 +14,7 @@
 package com.alexa.myThaiStar;
 
 import com.alexa.myThaiStar.handlers.BookATable;
+import com.alexa.myThaiStar.handlers.BookATableInviteFriends;
 import com.alexa.myThaiStar.handlers.CallFoodMenu;
 import com.alexa.myThaiStar.handlers.CancelandStopIntentHandler;
 import com.alexa.myThaiStar.handlers.DescriptionDrinks;
@@ -38,6 +39,7 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new CallFoodMenu(BASE_URL),
             new DescriptionDrinks(BASE_URL),
             new DescriptionDishes(BASE_URL),
+            new BookATableInviteFriends(BASE_URL),
             new HelpIntentHandler(),
             new LaunchRequestHandler(),
             new SessionEndedRequestHandler(),

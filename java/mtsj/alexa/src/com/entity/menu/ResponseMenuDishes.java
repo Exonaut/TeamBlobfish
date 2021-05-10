@@ -17,7 +17,7 @@ public class ResponseMenuDishes {
         sb.append(this.content[i].dish.getName());
     }
 
-    String str = sb.toString().replaceFirst("", " Menu 1:");
+    String str = sb.toString().replaceFirst("", " Menu 1: ");
 
     String strMenu = "";
     int j = 2;

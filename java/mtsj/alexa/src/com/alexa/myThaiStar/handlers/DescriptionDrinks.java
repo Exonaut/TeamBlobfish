@@ -63,12 +63,12 @@ public class DescriptionDrinks implements RequestHandler {
 
     Gson gson = new Gson();
 
-    if (drinks.getValue().equals("tee")) {
+    if (drinks.getValue().equals("tee") || drinks.getValue().equals("teesorten")) {
 
       ResponseDescriptionTee response = gson.fromJson(resStr, ResponseDescriptionTee.class);
       speechText = "Wir haben " + response.toString();
 
-    } else if (drinks.getValue().equals("bier")) {
+    } else if (drinks.getValue().equals("bier") || drinks.getValue().equals("biersorten")) {
       ResponseDescriptionBeer response = gson.fromJson(resStr, ResponseDescriptionBeer.class);
       speechText = "Wir haben " + response.toString();
     }
