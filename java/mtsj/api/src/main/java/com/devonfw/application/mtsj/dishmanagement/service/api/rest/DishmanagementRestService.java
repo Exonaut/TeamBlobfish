@@ -122,28 +122,6 @@ public interface DishmanagementRestService {
       @PathParam("categoryname") String categoryname);
 
   /**
-   * Delegates to {@link Dishmanagement#findDishesByDrinks}.
-   *
-   * @param searchCriteriaTo the pagination and search criteria to be used for finding dishes.
-   * @return the {@link PaginatedListTo list} of matching {@link DishEto}s.
-   */
-  @Path("/dish/drinks")
-  @POST
-  @CrossOrigin
-  public Page<DishCto> findDishesByDrinks(DishSearchCriteriaTo searchCriteriaTo);
-
-  /**
-   * Delegates to {@link Dishmanagement#findDishesByDining}.
-   *
-   * @param searchCriteriaTo the pagination and search criteria to be used for finding dishes.
-   * @return the {@link PaginatedListTo list} of matching {@link DishEto}s.
-   */
-  @Path("/dish/dining")
-  @POST
-  @CrossOrigin
-  public Page<DishCto> findDishesByDining(DishSearchCriteriaTo searchCriteriaTo);
-
-  /**
    * Delegates to {@link Dishmanagement#findIngredient}.
    *
    * @param id the ID of the {@link IngredientEto}

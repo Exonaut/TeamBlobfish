@@ -11,30 +11,32 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.alexa.helloworld.handlers;
+package com.alexa.myThaiStar.handlers;
 
-import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.dispatcher.request.handler.RequestHandler;
-import com.amazon.ask.model.Response;
+import static com.amazon.ask.request.Predicates.requestType;
 
 import java.util.Optional;
 
-import static com.amazon.ask.request.Predicates.intentName;
+import com.amazon.ask.dispatcher.request.handler.HandlerInput;
+import com.amazon.ask.dispatcher.request.handler.RequestHandler;
+import com.amazon.ask.model.LaunchRequest;
+import com.amazon.ask.model.Response;
 
-public class HelpIntentHandler implements RequestHandler {
+public class LaunchRequestHandler implements RequestHandler {
 
-    @Override
-    public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName("AMAZON.HelpIntent"));
-    }
+  @Override
+  public boolean canHandle(HandlerInput input) {
 
-    @Override
-    public Optional<Response> handle(HandlerInput input) {
-        String speechText = "You can say hello to me!";
-        return input.getResponseBuilder()
-                .withSpeech(speechText)
-                .withSimpleCard("HelloWorld", speechText)
-                .withReprompt(speechText)
-                .build();
-    }
+    return input.matches(requestType(LaunchRequest.class));
+  }
+
+  @Override
+  public Optional<Response> handle(HandlerInput input) {
+
+    String speechText = "Willkommen bei MyThaiStar";
+
+    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("HelloWorld", speechText)
+        .withReprompt(speechText).build();
+  }
+
 }

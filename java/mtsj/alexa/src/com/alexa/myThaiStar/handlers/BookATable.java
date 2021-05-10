@@ -11,7 +11,7 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.alexa.helloworld.handlers;
+package com.alexa.myThaiStar.handlers;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
@@ -50,7 +50,7 @@ public class BookATable implements RequestHandler {
   @Override
   public boolean canHandle(HandlerInput input) {
 
-    return input.matches(intentName("BookATable"));
+    return input.matches(intentName("bookATable"));
   }
 
   @Override
@@ -70,7 +70,7 @@ public class BookATable implements RequestHandler {
     String name = input.getServiceClientFactory().getUpsService().getProfileName();
     String userEmail = input.getServiceClientFactory().getUpsService().getProfileEmail();
 
-    Request myApiRequest = new Request();
+    com.entity.booking.Request myApiRequest = new Request();
     myApiRequest.booking = new PayloadBookTable();
     myApiRequest.booking.email = userEmail;
     myApiRequest.booking.assistants = personCount.getValue();
@@ -85,15 +85,14 @@ public class BookATable implements RequestHandler {
     try {
       bo.basicPost(payload, BASE_URL + "/mythaistar/services/rest/bookingmanagement/v1/booking");
     } catch (Exception ex) {
-      speechText = "Es ist ein Fehler bei MyThaiStar aufgetreten !";
+      speechText = "Es tut mir leid. Bitte wiederholen Sie Ihre Angaben";
       return input.getResponseBuilder().withSpeech(speechText + "\n " + payload)
           .withSimpleCard("BookATable", speechText + " \n " + payload).build();
     }
 
-    speechText = "Vielen Dank. Ihre Resverierung wurde aufgenommen. Wir freuen uns auf Ihren Besuch";
+    speechText = "Vielen Dank. Ihre Reservierung wurde aufgenommen. Wir freuen uns auf Ihren Besuch";
 
-    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText)
-        .withReprompt("Test").build();
+    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText).build();
   }
 
   public String getFormatAndCalculate(String date_time) {
