@@ -15,6 +15,7 @@ import { CoreModule } from '../../../../core/core.module';
 import { GetAllUsersData } from '../../../../../in-memory-test-data/db-users';
 import { DebugElement } from '@angular/core';
 import { provideMockStore } from '@ngrx/store/testing';
+import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 
 const translocoServiceStub = {
   selectTranslateObject: of({
@@ -26,15 +27,22 @@ const userCockpitServiceStub = {
   getUsers: jasmine.createSpy('getUsers').and.returnValue(
     of({content: GetAllUsersData}),
   ),
-};
-
-const activatedRouteStub = {
-
+  changePassword: jasmine.createSpy('changePassword').and.returnValue(
+    of({})
+  )
 };
 
 const matDialogRefStub = {
-
+  close: jasmine.createSpy('close'),
 };
+
+const formValueStub = {
+  password: "Password",
+}
+
+const snackBarServiceStub = {
+  openSnack: jasmine.createSpy('openSnack'),
+}
 
 class TestBedSetUp {
   static loadUserCockpitServiceStud(userCockpitStub: any): any {
@@ -45,6 +53,7 @@ class TestBedSetUp {
         { provide: UserCockpitService, useValue: userCockpitStub },
         { provide: MAT_DIALOG_DATA, useValue: GetAllUsersData[0]},
         { provide: MatDialogRef, useValue: matDialogRefStub},
+        { provide: SnackBarService, useValue: snackBarServiceStub},
         TranslocoService,
         provideMockStore({ initialState }),
       ],
@@ -91,13 +100,37 @@ describe('UserDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create component and verify content of ChangePasswordDialog', fakeAsync(() => {
+  it('should create component of ChangePasswordDialog', fakeAsync(() => {
     spyOn(translocoService, 'selectTranslateObject').and.returnValue(
       translocoServiceStub.selectTranslateObject,
     );
     fixture.detectChanges();
     tick();
     expect(component).toBeTruthy();
-    expect(component.data).toEqual(GetAllUsersData[0]);
   }));
+
+  it('should verify content of ChangePasswordDialog', () => {
+    expect(component.data).toEqual(GetAllUsersData[0]);
+  });
+
+  it('should change the Password', () => {
+    spyOn(component, 'closeWithRefresh').and.callThrough();
+
+    component.changePassword(formValueStub);
+
+    expect(userCockpitServiceStub.changePassword).toHaveBeenCalled();
+    expect(component.closeWithRefresh).toHaveBeenCalled();
+    expect(snackBarServiceStub.openSnack).toHaveBeenCalled();
+  });
+
+  it('should close the dialog', () => {
+    component.close();
+    expect(matDialogRefStub.close).toHaveBeenCalledWith();
+  })
+
+  it('should close the dialog with refresh return', () => {
+    component.closeWithRefresh;
+    expect(matDialogRefStub.close).toHaveBeenCalledWith(true);
+  })
+
 });
