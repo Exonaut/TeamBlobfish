@@ -1,4 +1,4 @@
-package com.entity.bookATable;
+package com.entity.booking;
 
 public class PayloadBookTable {
   public String bookingDate;

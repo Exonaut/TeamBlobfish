@@ -25,7 +25,6 @@
     <module>api</module>
     <module>core</module>
     <module>server</module>
-    <module>alexa-myThaiStar</module>
   </modules>
 
   <dependencyManagement>

@@ -11,7 +11,8 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.entity.menu.ResponseMenu;
+import com.entity.menu.ResponseMenuDrinks;
+import com.entity.menu.ResponseMenuDishes;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 
@@ -68,17 +69,20 @@ public class CallFoodMenu implements RequestHandler {
 
     Gson gson = new Gson();
 
-    ResponseMenu response = gson.fromJson(resStr, ResponseMenu.class);
-
     if (menu.getValue().equals("getränkekarte") || menu.getValue().equals("trinken")) {
+
+      ResponseMenuDrinks response = gson.fromJson(resStr, ResponseMenuDrinks.class);
+
       speechText = "Wir haben " + response.toString()
           + ". Wenn Sie mehr über unsere Auswahl zu Tee oder Bier haben möchten, dann sagen sie zum Beispiel: Was gibt es für Teesorten oder was gibt es für Biersorten";
 
     } else if (menu.getValue().equals("speisekarte") || menu.getValue().equals("essen")) {
 
+      ResponseMenuDishes response = gson.fromJson(resStr, ResponseMenuDishes.class);
+
       speechText = "Wir haben " + response.toString()
-          + " Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Thai green chicken curry erfahren. "
-          + "Wenn Sie bereits eine Auswahl getroffen haben, dann sagen Sie zum Beispiel: Ich möchte das Gericht Thai green chicken curry bestellen";
+          + " Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Menu1 erfahren. "
+          + "Wenn Sie bereits eine Auswahl getroffen haben, dann sagen Sie zum Beispiel: Ich möchte Menu2 bestellen";
 
     }
 

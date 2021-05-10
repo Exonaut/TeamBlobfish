@@ -11,7 +11,7 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.entity.menu.ResponseDescriptionFood;
+import com.entity.menu.ResponseDescriptionDishes;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 
@@ -19,11 +19,11 @@ import com.tools.BasicOperations;
  * TODO Spielecke This type ...
  *
  */
-public class DescriptionFood implements RequestHandler {
+public class DescriptionDishes implements RequestHandler {
 
   public static String BASE_URL;
 
-  public DescriptionFood(String baseUrl) {
+  public DescriptionDishes(String baseUrl) {
 
     BASE_URL = baseUrl;
   }
@@ -31,7 +31,7 @@ public class DescriptionFood implements RequestHandler {
   @Override
   public boolean canHandle(HandlerInput input) {
 
-    return input.matches(intentName("descriptionFood"));
+    return input.matches(intentName("descriptionDish"));
   }
 
   @Override
@@ -42,7 +42,11 @@ public class DescriptionFood implements RequestHandler {
     Intent intent = intentRequest.getIntent();
     Map<String, Slot> slots = intent.getSlots();
 
-    Slot food = slots.get("food");
+    Slot dishName = slots.get("dishName");
+    // Slot foodS = slots.get("foodS");
+    // Slot foodT = slots.get("foodT");
+
+    // String dishName = food.getValue() + " " + foodS.getValue() + " " + foodT.getValue();
 
     String speechText = "";
     String payload = "{\"categories\":[{\"id\":\"0\"},{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"},{\"id\":\"4\"},{\"id\":\"5\"},{\"id\":\"6\"},{\"id\":\"7\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}\r\n";
@@ -61,11 +65,11 @@ public class DescriptionFood implements RequestHandler {
 
     Gson gson = new Gson();
 
-    ResponseDescriptionFood response = gson.fromJson(resStr, ResponseDescriptionFood.class);
+    ResponseDescriptionDishes response = gson.fromJson(resStr, ResponseDescriptionDishes.class);
 
-    speechText = response.getFoodDescription(food.getValue());
+    speechText = response.getDishesDescription(dishName.getValue());
 
-    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("descriptionDrinks", speechText).build();
+    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("descriptionFood", speechText).build();
   }
 
 }
