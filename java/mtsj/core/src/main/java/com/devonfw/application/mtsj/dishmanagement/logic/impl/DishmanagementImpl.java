@@ -188,10 +188,11 @@ public class DishmanagementImpl extends AbstractComponentFacade implements Dishm
     return getBeanMapper().map(resultEntity, DishEto.class);
   }
 
-  public Page<DishCto> findDishesByCategory(DishSearchCriteriaTo criteria, String categoryName) {
+  @Override
+  public Page<DishCto> findDishesByCategory(DishSearchCriteriaTo searchCriteriaTo, String categoryName) {
 
     List<DishCto> ctos = new ArrayList<>();
-    Page<DishCto> searchResult = findDishCtos(criteria);
+    Page<DishCto> searchResult = findDishCtos(searchCriteriaTo);
     for (DishCto dish : searchResult.getContent()) {
       for (CategoryEto category : dish.getCategories()) {
         if (category.getName().equals(categoryName)) {
@@ -199,7 +200,41 @@ public class DishmanagementImpl extends AbstractComponentFacade implements Dishm
         }
       }
     }
-    Pageable pagResultTo = PageRequest.of(criteria.getPageable().getPageNumber(), ctos.size());
+    Pageable pagResultTo = PageRequest.of(searchCriteriaTo.getPageable().getPageNumber(), ctos.size());
+    Page<DishCto> pagListTo = new PageImpl<>(ctos, pagResultTo, pagResultTo.getPageSize());
+    return pagListTo;
+  }
+
+  @Override
+  public Page<DishCto> findDishesByDrinks(DishSearchCriteriaTo searchCriteriaTo) {
+
+    List<DishCto> ctos = new ArrayList<>();
+    Page<DishCto> searchResult = findDishCtos(searchCriteriaTo);
+    for (DishCto dish : searchResult.getContent()) {
+      for (CategoryEto category : dish.getCategories()) {
+        if (category.getName().equals("Drinks")) {
+          ctos.add(dish);
+        }
+      }
+    }
+    Pageable pagResultTo = PageRequest.of(searchCriteriaTo.getPageable().getPageNumber(), ctos.size());
+    Page<DishCto> pagListTo = new PageImpl<>(ctos, pagResultTo, pagResultTo.getPageSize());
+    return pagListTo;
+  }
+
+  @Override
+  public Page<DishCto> findDishesByDining(DishSearchCriteriaTo searchCriteriaTo) {
+
+    List<DishCto> ctos = new ArrayList<>();
+    Page<DishCto> searchResult = findDishCtos(searchCriteriaTo);
+    for (DishCto dish : searchResult.getContent()) {
+      for (CategoryEto category : dish.getCategories()) {
+        if (!category.getName().equals("Drinks")) {
+          ctos.add(dish);
+        }
+      }
+    }
+    Pageable pagResultTo = PageRequest.of(searchCriteriaTo.getPageable().getPageNumber(), ctos.size());
     Page<DishCto> pagListTo = new PageImpl<>(ctos, pagResultTo, pagResultTo.getPageSize());
     return pagListTo;
   }

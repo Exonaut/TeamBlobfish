@@ -97,4 +97,25 @@ public class DishmanagementRestServiceImpl implements DishmanagementRestService 
     return this.dishmanagement.findIngredientEtos(searchCriteriaTo);
   }
 
+  @Override
+  public Page<DishCto> findDishesByCategory(DishSearchCriteriaTo searchCriteriaTo, String categoryName) {
+
+    Page<DishCto> pageDishCto = this.dishmanagement.findDishesByCategory(searchCriteriaTo, categoryName);
+    return pageDishCto;
+  }
+
+  @Override
+  public Page<DishCto> findDishesByDrinks(DishSearchCriteriaTo searchCriteriaTo) {
+
+    Page<DishCto> pageDishCto = this.dishmanagement.findDishesByDrinks(searchCriteriaTo);
+    return pageDishCto;
+  }
+
+  @Override
+  public Page<DishCto> findDishesByDining(DishSearchCriteriaTo searchCriteriaTo) {
+
+    Page<DishCto> pageDishCto = this.dishmanagement.findDishesByDining(searchCriteriaTo);
+    return pageDishCto;
+  }
+
 }
