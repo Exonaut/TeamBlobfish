@@ -8,4 +8,6 @@ public class PayloadBookTable {
   public String email;
 
   public String assistants;
+
+  public String bookingType;
 }
