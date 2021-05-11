@@ -76,6 +76,7 @@ public class BookATable implements RequestHandler {
     myApiRequest.booking.assistants = personCount.getValue();
     myApiRequest.booking.bookingDate = date_time;
     myApiRequest.booking.name = name;
+    myApiRequest.booking.bookingType = "0";
 
     BasicOperations bo = new BasicOperations();
     String speechText = "";
