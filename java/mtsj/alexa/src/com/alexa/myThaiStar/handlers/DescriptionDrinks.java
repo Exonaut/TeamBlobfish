@@ -11,8 +11,8 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.entity.menu.ResponseDescriptionBeer;
-import com.entity.menu.ResponseDescriptionTee;
+import com.entity.dish.ResponseDescriptionBeer;
+import com.entity.dish.ResponseDescriptionTee;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 

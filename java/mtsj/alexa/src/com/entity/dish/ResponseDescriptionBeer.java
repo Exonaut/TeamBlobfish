@@ -1,4 +1,4 @@
-package com.entity.menu;
+package com.entity.dish;
 
 public class ResponseDescriptionBeer {
 

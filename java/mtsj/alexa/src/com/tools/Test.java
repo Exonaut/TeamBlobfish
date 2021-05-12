@@ -1,35 +1,48 @@
 package com.tools;
 
-import com.entity.menu.ResponseDescriptionDishes;
+import org.apache.http.message.BasicHeader;
+
+import com.entity.booking.ResponseBooking;
 import com.google.gson.Gson;
 
 public class Test {
 
-  public static String BASE_URL = "https://277dbd81918c.ngrok.io";
+  public static String BASE_URL = "https://8b148edf102e.ngrok.io";
 
   public static void main(String[] args) {
 
     String speechText = "";
-    String payload = "{\"categories\":[{\"id\":\"0\"},{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"},{\"id\":\"4\"},{\"id\":\"5\"},{\"id\":\"6\"},{\"id\":\"7\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
+    String payload = "{\"username\":\"waiter\",\"password\":\"waiter\"}";
 
     BasicOperations bo = new BasicOperations();
 
     String resStr = "nischt";
 
     try {
-      resStr = bo.basicPost(payload, BASE_URL + "/mythaistar/services/rest/dishmanagement/v1/dish/search");
+      resStr = bo.basicPost(payload, BASE_URL + "/mythaistar/login");
     } catch (Exception ex) {
       speechText = "Es ist ein Fehler bei MyThaiStar aufgetreten !";
     }
 
     Gson gson = new Gson();
 
-    ResponseDescriptionDishes response = gson.fromJson(resStr, ResponseDescriptionDishes.class);
+    String authorizationBearer = bo.getSpecificHeader("Authorization");
 
-    speechText = response.getDishesDescription("thai green chicken curry");
+    payload = "{\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[]}}";
 
-    System.out.println(speechText);
+    BasicOperations bo2 = new BasicOperations();
+
+    bo2.reqHeaders = new BasicHeader[] { new BasicHeader("Authorization", authorizationBearer) };
+
+    try {
+      resStr = bo2.basicPost(payload, BASE_URL + "/mythaistar/services/rest/bookingmanagement/v1/booking/search");
+    } catch (Exception ex) {
+      speechText = "Es ist ein Fehler bei MyThaiStar aufgetreten !";
+    }
+
+    ResponseBooking response = gson.fromJson(resStr, ResponseBooking.class);
+
+    System.out.println(resStr);
 
   }
-
 }

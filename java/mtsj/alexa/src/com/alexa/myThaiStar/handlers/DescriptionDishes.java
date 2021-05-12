@@ -11,14 +11,10 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.entity.menu.ResponseDescriptionDishes;
+import com.entity.dish.ResponseDescriptionDishes;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 
-/**
- * TODO Spielecke This type ...
- *
- */
 public class DescriptionDishes implements RequestHandler {
 
   public static String BASE_URL;
@@ -43,10 +39,6 @@ public class DescriptionDishes implements RequestHandler {
     Map<String, Slot> slots = intent.getSlots();
 
     Slot dishName = slots.get("dishName");
-    // Slot foodS = slots.get("foodS");
-    // Slot foodT = slots.get("foodT");
-
-    // String dishName = food.getValue() + " " + foodS.getValue() + " " + foodT.getValue();
 
     String speechText = "";
     String payload = "{\"categories\":[{\"id\":\"0\"},{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"},{\"id\":\"4\"},{\"id\":\"5\"},{\"id\":\"6\"},{\"id\":\"7\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}\r\n";

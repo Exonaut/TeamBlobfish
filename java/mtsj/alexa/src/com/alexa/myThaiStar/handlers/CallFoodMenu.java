@@ -11,8 +11,8 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.entity.menu.ResponseMenuDishes;
-import com.entity.menu.ResponseMenuDrinks;
+import com.entity.dish.ResponseMenuDishes;
+import com.entity.dish.ResponseMenuDrinks;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 
