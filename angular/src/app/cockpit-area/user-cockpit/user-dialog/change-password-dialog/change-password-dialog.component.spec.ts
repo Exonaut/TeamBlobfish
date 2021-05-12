@@ -37,12 +37,12 @@ const matDialogRefStub = {
 };
 
 const formValueStub = {
-  password: "Password",
-}
+  password: 'Password',
+};
 
 const snackBarServiceStub = {
   openSnack: jasmine.createSpy('openSnack'),
-}
+};
 
 class TestBedSetUp {
   static loadUserCockpitServiceStud(userCockpitStub: any): any {
@@ -126,31 +126,31 @@ describe('UserDialogComponent', () => {
   it('should close the dialog', () => {
     component.close();
     expect(matDialogRefStub.close).toHaveBeenCalledWith();
-  })
+  });
 
   it('should close the dialog with refresh return', () => {
     component.closeWithRefresh();
     expect(matDialogRefStub.close).toHaveBeenCalledWith(true);
-  })
+  });
 
   it('should have a password field', () => {
     const pw = fixture.debugElement.nativeElement.querySelector('input[name=password][validateEqual=confirmPassword][type=password][required]');
     expect(pw).toBeTruthy();
-  })
+  });
 
   it('should have a confirm password field', () => {
     const cpw = fixture.debugElement.nativeElement.querySelector('input[name=confirmPassword][validateEqual=password][type=password][required]');
     expect(cpw).toBeTruthy();
-  })
+  });
 
   it('should have an apply button', () => {
     const apply = fixture.debugElement.nativeElement.querySelector('button[name=submit][type=submit]');
     expect(apply).toBeTruthy();
-  })
+  });
 
   it('should have a cancel button', () => {
     const cancel = fixture.debugElement.nativeElement.querySelector('button[name=cancel][type=button]');
     expect(cancel).toBeTruthy();
-  })
+  });
 
 });

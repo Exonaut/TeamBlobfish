@@ -88,10 +88,6 @@ export class UserDialogComponent implements OnInit {
       });
   }
 
-  applyChanges(): void {
-    this.close();
-  }
-
   /**
    * Delete account with id
    */
