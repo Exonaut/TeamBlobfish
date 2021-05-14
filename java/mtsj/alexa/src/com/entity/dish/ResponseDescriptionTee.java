@@ -7,7 +7,7 @@ public class ResponseDescriptionTee {
   @Override
   public String toString() {
 
-    return this.content[0].dish.getDescription().replace("Darjeeling Green Tea,", "Darjeeling Green Tea und");
+    return this.content[0].dish.description.replace("Darjeeling Green Tea,", "Darjeeling Green Tea und");
 
   }
 }

@@ -62,7 +62,7 @@ public class CallFoodMenu implements RequestHandler {
     try {
       resStr = bo.basicPost(payload, BASE_URL + "/mythaistar/services/rest/dishmanagement/v1/dish/search");
     } catch (Exception ex) {
-      speechText = "Es tut mir leid. Bitte wiederholen Sie Ihre Angaben";
+      speechText = "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt";
       return input.getResponseBuilder().withSpeech(speechText + "\n " + payload)
           .withSimpleCard("BookATable", speechText + " \n " + payload).build();
     }

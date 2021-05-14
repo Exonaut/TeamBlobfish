@@ -10,4 +10,6 @@ public class Booking {
   public String assistants;
 
   public String bookingType;
+
+  public String bookingToken;
 }

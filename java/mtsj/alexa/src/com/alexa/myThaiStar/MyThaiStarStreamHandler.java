@@ -21,6 +21,9 @@ import com.alexa.myThaiStar.handlers.DescriptionDishes;
 import com.alexa.myThaiStar.handlers.FallbackIntentHandler;
 import com.alexa.myThaiStar.handlers.HelpIntentHandler;
 import com.alexa.myThaiStar.handlers.LaunchRequestHandler;
+import com.alexa.myThaiStar.handlers.MakeAOrderHome;
+import com.alexa.myThaiStar.handlers.MakeAOrderHomeCompleted;
+import com.alexa.myThaiStar.handlers.MakeAOrderHomeInProgress;
 import com.alexa.myThaiStar.handlers.SessionEndedRequestHandler;
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
@@ -28,7 +31,7 @@ import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://524351a3b00e.ngrok.io";
+  public static final String BASE_URL = "https://5befbaea6e41.ngrok.io";
 
   private static Skill getSkill() {
 
@@ -38,6 +41,9 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new CallFoodMenu(BASE_URL),
             new DescriptionDrinks(BASE_URL),
             new DescriptionDishes(BASE_URL),
+            new MakeAOrderHome(BASE_URL),
+            new MakeAOrderHomeInProgress(BASE_URL),
+            new MakeAOrderHomeCompleted(BASE_URL),
             new HelpIntentHandler(),
             new LaunchRequestHandler(),
             new SessionEndedRequestHandler(),

@@ -28,9 +28,9 @@ public class BasicOperations {
 
   org.apache.http.client.config.RequestConfig RequestConfig;
 
-  Header[] reqHeaders;
+  public Header[] reqHeaders;
 
-  Header[] resheaders;
+  public Header[] resheaders;
 
   public BasicOperations() {
 

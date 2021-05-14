@@ -4,7 +4,7 @@ package com.login;
  * TODO Spielecke This type ...
  *
  */
-public class Request {
+public class RequestLogin {
 
   public String username;
 
