@@ -23,28 +23,39 @@ import com.alexa.myThaiStar.handlers.HelpIntentHandler;
 import com.alexa.myThaiStar.handlers.LaunchRequestHandler;
 import com.alexa.myThaiStar.handlers.SessionEndedRequestHandler;
 import com.alexa.myThaiStar.handlers.Order.AddMenu;
-import com.alexa.myThaiStar.handlers.Order.AmountGivenConfirmSlot;
 import com.alexa.myThaiStar.handlers.Order.Amount;
-import com.alexa.myThaiStar.handlers.Order.Completed;
-import com.alexa.myThaiStar.handlers.Order.Extra;
-import com.alexa.myThaiStar.handlers.Order.MakeAOrderHome;
+import com.alexa.myThaiStar.handlers.Order.AmountGivenConfirmSlot;
 import com.alexa.myThaiStar.handlers.Order.AnotherDishYesNo;
+import com.alexa.myThaiStar.handlers.Order.Completed;
+import com.alexa.myThaiStar.handlers.Order.Started;
+import com.alexa.myThaiStar.handlers.Order.ShowExtras;
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
 import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://f648cc47a401.ngrok.io";
+  public static final String BASE_URL = "https://08d2b6edb3e5.ngrok.io";
 
   private static Skill getSkill() {
 
     return Skills.standard()
-        .addRequestHandlers(new CancelandStopIntentHandler(), new BookATable(BASE_URL), new CallFoodMenu(BASE_URL),
-            new DescriptionDrinks(BASE_URL), new DescriptionDishes(BASE_URL), new MakeAOrderHome(BASE_URL),
-            new Extra(), new AnotherDishYesNo(), new HelpIntentHandler(), new LaunchRequestHandler(),
-            new SessionEndedRequestHandler(), new FallbackIntentHandler(), new Completed(), new Amount(),
-            new AmountGivenConfirmSlot(), new AddMenu())
+        .addRequestHandlers(new CancelandStopIntentHandler(),
+            new BookATable(BASE_URL),
+            new CallFoodMenu(BASE_URL),
+            new DescriptionDrinks(BASE_URL),
+            new DescriptionDishes(BASE_URL),
+            new Started(BASE_URL),
+            new ShowExtras(),
+            new AnotherDishYesNo(),
+            new HelpIntentHandler(),
+            new LaunchRequestHandler(),
+            new SessionEndedRequestHandler(),
+            new FallbackIntentHandler(),
+            new Completed(),
+            new Amount(),
+            new AmountGivenConfirmSlot(),
+            new AddMenu())
 
         // Add your skill id below
         .withSkillId("amzn1.ask.skill.2cb6b023-f36d-43f9-8c18-3b509cf3f2d6").build();

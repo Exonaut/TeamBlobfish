@@ -10,8 +10,9 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
+import com.tools.HelperOrderClass;
 
-public class Extra implements IntentRequestHandler {
+public class ShowExtras implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
@@ -29,10 +30,10 @@ public class Extra implements IntentRequestHandler {
 
     Slot menu = intentRequest.getIntent().getSlots().get("menu");
 
-    String dishId = DataFromToDatabase.getDishId(menu.getValue());
+    String dishId = HelperOrderClass.getDishId(menu.getValue());
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("extra", intentRequest.getIntent())
-        .withSpeech(DataFromToDatabase.getExtras(dishId) + " Wenn Sie keine Extras möchten, dann sagen Sie: nein Danke.")
+        .withSpeech(HelperOrderClass.getExtrasName(dishId) + " Wenn Sie keine Extras möchten, dann sagen Sie: nein Danke.")
         .withReprompt("Welche Extras möchten Sie?").build();
 
   }

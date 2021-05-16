@@ -1,13 +1,8 @@
-package com.alexa.myThaiStar.handlers.Order;
+package com.tools;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 import com.alexa.myThaiStar.MyThaiStarStreamHandler;
-import com.amazon.ask.model.Intent;
-import com.amazon.ask.model.IntentRequest;
-import com.amazon.ask.model.Slot;
 import com.entity.dish.Content;
 import com.entity.dish.ResponseDescriptionDishes;
 import com.entity.dish.ResponseMenuDishes;
@@ -15,15 +10,14 @@ import com.entity.orderline.Extras;
 import com.entity.orderline.OrderLines;
 import com.entity.orderline.RequestOrder;
 import com.google.gson.Gson;
-import com.tools.BasicOperations;
 
-public class DataFromToDatabase {
+public class HelperOrderClass {
 
   public static String BASE_URL = MyThaiStarStreamHandler.BASE_URL;
 
-  public static RequestOrder req = new RequestOrder();
+  public static RequestOrder req;
 
-  public static String getExtras(String dishID) {
+  public static String getExtrasName(String dishID) {
 
     BasicOperations bo = new BasicOperations();
     Gson gson = new Gson();
@@ -55,6 +49,45 @@ public class DataFromToDatabase {
 
   }
 
+  public static ArrayList<String> getExtrasNameArray() {
+
+    BasicOperations bo = new BasicOperations();
+    Gson gson = new Gson();
+    String resStr = "";
+
+    String payload = "{\"categories\":[],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
+
+    try {
+      resStr = bo.basicPost(payload, BASE_URL + "/mythaistar/services/rest/dishmanagement/v1/dish/search");
+    } catch (Exception ex) {
+      return null;
+    }
+
+    ResponseMenuDishes response = gson.fromJson(resStr, ResponseMenuDishes.class);
+
+    ArrayList<String> extraArray = new ArrayList<>();
+
+    for (Content c : response.content) {
+      for (Extras e : c.extras) {
+
+        boolean found = false;
+        for (String s : extraArray) {
+
+          if (e.name.equals(s))
+            found = true;
+
+        }
+
+        if (!found)
+          extraArray.add(e.name);
+
+      }
+    }
+
+    return extraArray;
+
+  }
+
   public static String sendOrder() {
 
     BasicOperations bo = new BasicOperations();
@@ -62,10 +95,12 @@ public class DataFromToDatabase {
 
     String payload = gson.toJson(req);
 
+    String resp = "";
     try {
-      bo.basicPost(payload, BASE_URL + "/mythaistar/services/rest/ordermanagement/v1/order");
+      resp = bo.basicPost(payload, BASE_URL + "/mythaistar/services/rest/ordermanagement/v1/order");
     } catch (Exception ex) {
-      String speechText = "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt";
+      String speechText = "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt "
+          + payload;
       return speechText;
     }
 
@@ -126,26 +161,7 @@ public class DataFromToDatabase {
         return response.content[i].dish.id;
       }
     }
-
     return null;
-  }
-
-  public static void setDefaultNone(IntentRequest intentRequest) {
-
-    Intent intent = intentRequest.getIntent();
-    Map<String, Slot> slots = intent.getSlots();
-
-    List<Slot> values = slots.values().stream().collect(Collectors.toList());
-
-    for (Slot sl : values) {
-
-      Slot updateSlot = Slot.builder().withName(sl.getValue()).withValue("None").build();
-
-      // Push the updated slot into the intent object
-      intentRequest.getIntent().getSlots().put(sl.getValue(), updateSlot);
-
-    }
-
   }
 
 }

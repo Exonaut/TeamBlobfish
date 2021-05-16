@@ -14,11 +14,13 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.entity.booking.Content;
 import com.entity.booking.ResponseBooking;
+import com.entity.orderline.RequestOrder;
 import com.google.gson.Gson;
 import com.login.RequestLogin;
 import com.tools.BasicOperations;
+import com.tools.HelperOrderClass;
 
-public class MakeAOrderHome implements IntentRequestHandler {
+public class Started implements IntentRequestHandler {
 
   private static String BASE_URL;
 
@@ -27,7 +29,7 @@ public class MakeAOrderHome implements IntentRequestHandler {
    *
    * @param baseUrl
    */
-  public MakeAOrderHome(String baseUrl) {
+  public Started(String baseUrl) {
 
     BASE_URL = baseUrl;
   }
@@ -94,7 +96,10 @@ public class MakeAOrderHome implements IntentRequestHandler {
     for (Content c : response.content) {
 
       if (c.booking.email.equals(userEmail)) {
-        DataFromToDatabase.req.booking.bookingToken = c.booking.bookingToken;
+
+        HelperOrderClass.req = new RequestOrder();
+
+        HelperOrderClass.req.booking.bookingToken = c.booking.bookingToken;
         return true;
       }
     }
