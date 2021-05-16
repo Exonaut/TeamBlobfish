@@ -1,9 +1,11 @@
 package com.entity.orderline;
 
+import java.util.ArrayList;
+
 public class OrderLines {
 
-  public OrderLine orderline;
+  public OrderLine orderLine = new OrderLine();
 
-  public Extras[] extras;
+  public ArrayList<Extras> extras = new ArrayList<Extras>();
 
 }

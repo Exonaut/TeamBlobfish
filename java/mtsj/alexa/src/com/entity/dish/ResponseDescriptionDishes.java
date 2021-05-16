@@ -6,7 +6,7 @@ package com.entity.dish;
  */
 public class ResponseDescriptionDishes {
 
-  private Content[] content;
+  public Content[] content;
 
   public String getDishesDescription(String dishName) {
 

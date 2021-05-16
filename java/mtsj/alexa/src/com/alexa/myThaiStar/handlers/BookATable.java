@@ -17,7 +17,7 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.entity.booking.Booking;
-import com.entity.booking.Request;
+import com.entity.booking.RequestBooking;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 
@@ -58,7 +58,7 @@ public class BookATable implements RequestHandler {
     String name = input.getServiceClientFactory().getUpsService().getProfileName();
     String userEmail = input.getServiceClientFactory().getUpsService().getProfileEmail();
 
-    com.entity.booking.Request myApiRequest = new Request();
+    com.entity.booking.RequestBooking myApiRequest = new RequestBooking();
     myApiRequest.booking = new Booking();
     myApiRequest.booking.email = userEmail;
     myApiRequest.booking.assistants = personCount.getValue();

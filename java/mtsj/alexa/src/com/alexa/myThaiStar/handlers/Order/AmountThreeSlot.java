@@ -1,4 +1,4 @@
-package com.alexa.myThaiStar.handlers;
+package com.alexa.myThaiStar.handlers.Order;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
@@ -14,11 +14,11 @@ import com.amazon.ask.model.Response;
  * TODO Spielecke This type ...
  *
  */
-public class MakeAOrderHomeCompleted implements IntentRequestHandler {
+public class AmountThreeSlot implements IntentRequestHandler {
 
   public static String BASE_URL;
 
-  public MakeAOrderHomeCompleted(String baseUrl) {
+  public AmountThreeSlot(String baseUrl) {
 
     BASE_URL = baseUrl;
   }
@@ -27,19 +27,18 @@ public class MakeAOrderHomeCompleted implements IntentRequestHandler {
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return (handlerInput.matches(intentName("makeAOrderHome"))
-        && intentRequest.getDialogState() == DialogState.COMPLETED);
+        && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
+        && intentRequest.getIntent().getSlots().get("menuThree").getValue() != null
+        && intentRequest.getIntent().getSlots().get("extraThree").getValue() != null
+        && intentRequest.getIntent().getSlots().get("amountThree").getValue() == null;
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    if (intentRequest.getIntent().getSlots().get("menuOne").getValue().equals("nichts"))
-      return handlerInput.getResponseBuilder()
-          .withSpeech(
-              "Keine Buchungs ID gefunden. Bitte buchen Sie zuerst einen Tisch, bevor Sie eine Bestellung vornehmen.")
-          .build();
-
-    return handlerInput.getResponseBuilder().withSpeech("Test3").build();
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("amountThree", intentRequest.getIntent())
+        .withSpeech("Wie oft möchten Sie, dass von Ihnen ausgewählte Menu bestellen ?").withReprompt("Wie oft ?")
+        .build();
   }
 
 }

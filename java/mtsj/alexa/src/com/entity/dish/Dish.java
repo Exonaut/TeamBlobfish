@@ -6,4 +6,8 @@ public class Dish {
 
   public String description;
 
+  public String price;
+
+  public String id;
+
 }

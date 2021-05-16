@@ -1,4 +1,4 @@
-package com.alexa.myThaiStar.handlers;
+package com.alexa.myThaiStar.handlers.Order;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
@@ -37,6 +37,7 @@ public class MakeAOrderHome implements IntentRequestHandler {
 
     return (handlerInput.matches(intentName("makeAOrderHome"))
         && intentRequest.getDialogState() == DialogState.STARTED);
+
   }
 
   @Override
@@ -73,18 +74,17 @@ public class MakeAOrderHome implements IntentRequestHandler {
           .withSimpleCard("BookATable", speechText + " \n " + payload).build();
     }
 
-    String userEmail = handlerInput.getServiceClientFactory().getUpsService().getProfileEmail();
-
     ResponseBooking response = gson.fromJson(respStr, ResponseBooking.class);
     if (!bookingIDAvailable(response, handlerInput)) {
       Slot updateSlot = Slot.builder().withName("menuOne").withValue("nichts").build();
+
       // Push the updated slot into the intent object
       intentRequest.getIntent().getSlots().put("menuOne", updateSlot);
-      return handlerInput.getResponseBuilder().withSpeech(userEmail + "nicht gefunden")
-          .withReprompt(userEmail + "nicht gefunden").addDelegateDirective(intentRequest.getIntent()).build();
+      return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
     }
 
-    return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("menuOne", intentRequest.getIntent())
+        .withSpeech("Wie lautet Ihr erstes Gericht?").withReprompt("Was möchten Sie essen?").build();
   }
 
   public boolean bookingIDAvailable(ResponseBooking response, HandlerInput handlerInput) {
@@ -93,8 +93,10 @@ public class MakeAOrderHome implements IntentRequestHandler {
 
     for (Content c : response.content) {
 
-      if (c.booking.email.equals(userEmail))
+      if (c.booking.email.equals(userEmail)) {
+        DataFromDatabase.req.booking.bookingToken = c.booking.bookingToken;
         return true;
+      }
     }
 
     return false;
