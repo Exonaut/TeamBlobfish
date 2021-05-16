@@ -1,6 +1,6 @@
 package com.tools;
 
-import com.alexa.myThaiStar.handlers.Order.DataFromDatabase;
+import com.alexa.myThaiStar.handlers.Order.DataFromToDatabase;
 import com.entity.dish.ResponseDescriptionDishes;
 import com.entity.orderline.RequestOrder;
 import com.google.gson.Gson;
@@ -13,7 +13,7 @@ public class Test {
 
   public static void main(String[] args) {
 
-    System.out.println(DataFromDatabase.getExtrasID("tofu"));
+    System.out.println(DataFromToDatabase.getExtrasID("tofu"));
 
   }
 

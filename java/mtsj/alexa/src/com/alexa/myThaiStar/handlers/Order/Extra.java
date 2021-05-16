@@ -10,38 +10,29 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.entity.orderline.RequestOrder;
 
-public class ExtraOneSlot implements IntentRequestHandler {
-
-  public static String BASE_URL;
-
-  public static RequestOrder req = new RequestOrder();
-
-  public ExtraOneSlot(String baseUrl) {
-
-    BASE_URL = baseUrl;
-  }
+public class Extra implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return (handlerInput.matches(intentName("makeAOrderHome"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
-        && intentRequest.getIntent().getSlots().get("menuOne").getValue() != null
-        && intentRequest.getIntent().getSlots().get("extraOne").getValue() == null;
+        && intentRequest.getIntent().getSlots().get("menu").getValue() != null
+        && intentRequest.getIntent().getSlots().get("extra").getValue() == null
+        && !intentRequest.getIntent().getSlots().get("yesNoOne").getConfirmationStatusAsString().equals("DENIED");
 
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    Slot menuOne = intentRequest.getIntent().getSlots().get("menuOne");
+    Slot menu = intentRequest.getIntent().getSlots().get("menu");
 
-    String dishId = DataFromDatabase.getDishId(menuOne.getValue());
+    String dishId = DataFromToDatabase.getDishId(menu.getValue());
 
-    return handlerInput.getResponseBuilder().addElicitSlotDirective("extraOne", intentRequest.getIntent())
-        .withSpeech(DataFromDatabase.getExtras(dishId) + " Wenn Sie keine Extras möchten, dann sagen Sie: nein Danke.")
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("extra", intentRequest.getIntent())
+        .withSpeech(DataFromToDatabase.getExtras(dishId) + " Wenn Sie keine Extras möchten, dann sagen Sie: nein Danke.")
         .withReprompt("Welche Extras möchten Sie?").build();
 
   }

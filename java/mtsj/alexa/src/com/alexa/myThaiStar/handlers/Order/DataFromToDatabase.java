@@ -17,7 +17,7 @@ import com.entity.orderline.RequestOrder;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 
-public class DataFromDatabase {
+public class DataFromToDatabase {
 
   public static String BASE_URL = MyThaiStarStreamHandler.BASE_URL;
 
@@ -52,6 +52,24 @@ public class DataFromDatabase {
     }
 
     return extraStr;
+
+  }
+
+  public static String sendOrder() {
+
+    BasicOperations bo = new BasicOperations();
+    Gson gson = new Gson();
+
+    String payload = gson.toJson(req);
+
+    try {
+      bo.basicPost(payload, BASE_URL + "/mythaistar/services/rest/ordermanagement/v1/order");
+    } catch (Exception ex) {
+      String speechText = "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt";
+      return speechText;
+    }
+
+    return "Vielen Dank. Ihre Bestellung wurde aufgenommen";
 
   }
 

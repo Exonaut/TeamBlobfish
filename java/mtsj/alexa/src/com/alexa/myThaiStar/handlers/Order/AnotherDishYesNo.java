@@ -10,41 +10,43 @@ import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
+import com.amazon.ask.model.Slot;
 import com.entity.orderline.Extras;
 import com.entity.orderline.OrderLines;
-import com.entity.orderline.RequestOrder;
 
-public class YesNoSlotOne implements IntentRequestHandler {
-
-  public static String BASE_URL;
-
-  public static RequestOrder req = new RequestOrder();
-
-  public YesNoSlotOne(String baseUrl) {
-
-    BASE_URL = baseUrl;
-  }
+public class AnotherDishYesNo implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return (handlerInput.matches(intentName("makeAOrderHome"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
-        && !intentRequest.getIntent().getSlots().get("amountOne").getConfirmationStatusAsString().equals("NONE")
-        && intentRequest.getIntent().getSlots().get("yesNoOne").getConfirmationStatusAsString().equals("NONE")
-        && intentRequest.getIntent().getSlots().get("menuTwo").getValue() == null;
+        && !intentRequest.getIntent().getSlots().get("amount").getConfirmationStatusAsString().equals("NONE")
+        && intentRequest.getIntent().getSlots().get("yesNoOne").getConfirmationStatusAsString().equals("NONE");
 
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
+    Slot menu = intentRequest.getIntent().getSlots().get("menu");
+
     OrderLines tmp = new OrderLines();
     ArrayList<Extras> extras = new ArrayList<Extras>();
 
-    extras.add(null)
+    Extras extra = new Extras();
 
-    DataFromDatabase.req.orderLines.add(tmp.extras.a);
+    extra.id = DataFromToDatabase.getExtrasID(intentRequest.getIntent().getSlots().get("extra").getValue());
+
+    extras.add(extra);
+
+    tmp.extras.addAll(extras);
+
+    tmp.orderLine.amount = intentRequest.getIntent().getSlots().get("amount").getValue();
+    tmp.orderLine.dishId = DataFromToDatabase.getDishId(menu.getValue());
+    tmp.orderLine.comment = "";
+
+    DataFromToDatabase.req.orderLines.add(tmp);
 
     return handlerInput.getResponseBuilder().addConfirmSlotDirective("yesNoOne", intentRequest.getIntent())
         .withSpeech("Möchten Sie noch etwas zum essen bestellen?").withReprompt("Darf es noch etwa sein?").build();

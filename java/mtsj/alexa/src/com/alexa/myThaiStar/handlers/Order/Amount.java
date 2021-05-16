@@ -10,32 +10,25 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 
-public class YesNoSlotThree implements IntentRequestHandler {
-
-  public static String BASE_URL;
-
-  public YesNoSlotThree(String baseUrl) {
-
-    BASE_URL = baseUrl;
-  }
+public class Amount implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return (handlerInput.matches(intentName("makeAOrderHome"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
-        && !intentRequest.getIntent().getSlots().get("amountThree").getConfirmationStatusAsString().equals("NONE")
-        && intentRequest.getIntent().getSlots().get("yesNoThree").getConfirmationStatusAsString().equals("NONE")
-        && intentRequest.getIntent().getSlots().get("menuFour").getValue() == null;
-
+        && intentRequest.getIntent().getSlots().get("menu").getValue() != null
+        && intentRequest.getIntent().getSlots().get("extra").getValue() != null
+        && !intentRequest.getIntent().getSlots().get("yesNoOne").getConfirmationStatusAsString().equals("DENIED")
+        && intentRequest.getIntent().getSlots().get("amount").getValue() == null;
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    return handlerInput.getResponseBuilder().addConfirmSlotDirective("yesNoThree", intentRequest.getIntent())
-        .withSpeech("Möchten Sie noch etwas zum essen bestellen?").withReprompt("Darf es noch etwa sein?").build();
-
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("amount", intentRequest.getIntent())
+        .withSpeech("Wie oft möchten Sie, dass von Ihnen ausgewählte Menu bestellen ?").withReprompt("Wie oft ?")
+        .build();
   }
 
 }

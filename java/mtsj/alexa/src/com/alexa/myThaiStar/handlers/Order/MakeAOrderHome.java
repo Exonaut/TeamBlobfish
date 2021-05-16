@@ -76,14 +76,14 @@ public class MakeAOrderHome implements IntentRequestHandler {
 
     ResponseBooking response = gson.fromJson(respStr, ResponseBooking.class);
     if (!bookingIDAvailable(response, handlerInput)) {
-      Slot updateSlot = Slot.builder().withName("menuOne").withValue("nichts").build();
+      Slot updateSlot = Slot.builder().withName("menu").withValue("nichts").build();
 
       // Push the updated slot into the intent object
-      intentRequest.getIntent().getSlots().put("menuOne", updateSlot);
+      intentRequest.getIntent().getSlots().put("menu", updateSlot);
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
     }
 
-    return handlerInput.getResponseBuilder().addElicitSlotDirective("menuOne", intentRequest.getIntent())
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("menu", intentRequest.getIntent())
         .withSpeech("Wie lautet Ihr erstes Gericht?").withReprompt("Was möchten Sie essen?").build();
   }
 
@@ -94,7 +94,7 @@ public class MakeAOrderHome implements IntentRequestHandler {
     for (Content c : response.content) {
 
       if (c.booking.email.equals(userEmail)) {
-        DataFromDatabase.req.booking.bookingToken = c.booking.bookingToken;
+        DataFromToDatabase.req.booking.bookingToken = c.booking.bookingToken;
         return true;
       }
     }
