@@ -15,22 +15,24 @@ import com.entity.orderline.Extras;
 import com.entity.orderline.OrderLines;
 import com.tools.HelperOrderClass;
 
-public class AddMenu implements IntentRequestHandler {
+public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return (handlerInput.matches(intentName("makeAOrderHome"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
-        && !intentRequest.getIntent().getSlots().get("yesNoOne").getConfirmationStatusAsString().equals("NONE");
+        && intentRequest.getIntent().getSlots().get("yesNoEat").getValue() != null
+        && intentRequest.getIntent().getSlots().get("yesNoDrink").getValue() == null;
 
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    Slot menu = intentRequest.getIntent().getSlots().get("menu");
+    Slot menu = intentRequest.getIntent().getSlots().get("dishOrder");
     Slot extra = intentRequest.getIntent().getSlots().get("extra");
+    Slot yesNo = intentRequest.getIntent().getSlots().get("yesNoEat");
 
     OrderLines tmp = new OrderLines();
     ArrayList<Extras> extrasArray = new ArrayList<>();
@@ -55,21 +57,23 @@ public class AddMenu implements IntentRequestHandler {
 
     HelperOrderClass.req.orderLines.add(tmp);
 
-    Slot yesNo = intentRequest.getIntent().getSlots().get("yesNoOne");
+    if (yesNo.getValue().equals("ja")) {
 
-    if (yesNo.getConfirmationStatusAsString().equals("CONFIRMED")) {
       Slot updateSlot = Slot.builder().withConfirmationStatus("NONE").withName("amount").withValue(null).build();
       intentRequest.getIntent().getSlots().put("amount", updateSlot);
       Slot updateSlot2 = Slot.builder().withName("extra").withValue(null).build();
       intentRequest.getIntent().getSlots().put("extra", updateSlot2);
-      Slot updateSlot3 = Slot.builder().withName("menu").withValue(null).build();
-      intentRequest.getIntent().getSlots().put("menu", updateSlot3);
+      Slot updateSlot3 = Slot.builder().withName("dishOrder").withValue(null).build();
+      intentRequest.getIntent().getSlots().put("dishOrder", updateSlot3);
+      Slot updateSlot4 = Slot.builder().withName("yesNoEat").withValue(null).build();
+      intentRequest.getIntent().getSlots().put("yesNoEat", updateSlot4);
 
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("menu", intentRequest.getIntent())
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
           .withSpeech("Wie lautet Ihr weiteres Gericht?").withReprompt("Was möchten Sie essen?").build();
     }
 
-    return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoDrink", intentRequest.getIntent())
+        .withSpeech("Möchten Sie etwas zum trinken haben?").withReprompt("Möchten Sie etwas trinken?").build();
 
   }
 

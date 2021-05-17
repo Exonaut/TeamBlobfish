@@ -11,10 +11,6 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.tools.HelperOrderClass;
 
-/**
- * TODO Spielecke This type ...
- *
- */
 public class Completed implements IntentRequestHandler {
 
   @Override
@@ -27,7 +23,7 @@ public class Completed implements IntentRequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    if (intentRequest.getIntent().getSlots().get("menu").getValue().equals("nichts"))
+    if (intentRequest.getIntent().getSlots().get("dishOrder").getValue() == null)
       return handlerInput.getResponseBuilder()
           .withSpeech(
               "Keine Buchungs ID gefunden. Bitte buchen Sie zuerst einen Tisch, bevor Sie eine Bestellung vornehmen.")

@@ -11,7 +11,6 @@ import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
-import com.amazon.ask.model.Slot;
 import com.entity.booking.Content;
 import com.entity.booking.ResponseBooking;
 import com.entity.orderline.RequestOrder;
@@ -20,7 +19,7 @@ import com.login.RequestLogin;
 import com.tools.BasicOperations;
 import com.tools.HelperOrderClass;
 
-public class Started implements IntentRequestHandler {
+public class StartedOrderDishes implements IntentRequestHandler {
 
   private static String BASE_URL;
 
@@ -29,7 +28,7 @@ public class Started implements IntentRequestHandler {
    *
    * @param baseUrl
    */
-  public Started(String baseUrl) {
+  public StartedOrderDishes(String baseUrl) {
 
     BASE_URL = baseUrl;
   }
@@ -78,14 +77,10 @@ public class Started implements IntentRequestHandler {
 
     ResponseBooking response = gson.fromJson(respStr, ResponseBooking.class);
     if (!bookingIDAvailable(response, handlerInput)) {
-      Slot updateSlot = Slot.builder().withName("menu").withValue("nichts").build();
-
-      // Push the updated slot into the intent object
-      intentRequest.getIntent().getSlots().put("menu", updateSlot);
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
     }
 
-    return handlerInput.getResponseBuilder().addElicitSlotDirective("menu", intentRequest.getIntent())
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
         .withSpeech("Wie lautet Ihr erstes Gericht?").withReprompt("Was möchten Sie essen?").build();
   }
 

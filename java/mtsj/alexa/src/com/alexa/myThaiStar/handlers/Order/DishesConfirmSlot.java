@@ -15,14 +15,14 @@ import com.amazon.ask.model.Slot;
  * TODO Spielecke This type ...
  *
  */
-public class AmountGivenConfirmSlot implements IntentRequestHandler {
+public class DishesConfirmSlot implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return (handlerInput.matches(intentName("makeAOrderHome"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
-        && intentRequest.getIntent().getSlots().get("menu").getValue() != null
+        && intentRequest.getIntent().getSlots().get("dishOrder").getValue() != null
         && intentRequest.getIntent().getSlots().get("extra").getValue() != null
         && intentRequest.getIntent().getSlots().get("amount").getValue() != null
         && intentRequest.getIntent().getSlots().get("amount").getConfirmationStatusAsString().equals("NONE");
@@ -32,7 +32,7 @@ public class AmountGivenConfirmSlot implements IntentRequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    Slot menu = intentRequest.getIntent().getSlots().get("menu");
+    Slot menu = intentRequest.getIntent().getSlots().get("dishOrder");
     Slot extra = intentRequest.getIntent().getSlots().get("extra");
     Slot amount = intentRequest.getIntent().getSlots().get("amount");
 

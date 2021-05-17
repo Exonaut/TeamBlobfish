@@ -10,24 +10,22 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 
-public class Amount implements IntentRequestHandler {
+public class AmountDrinks implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return (handlerInput.matches(intentName("makeAOrderHome"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
-        && intentRequest.getIntent().getSlots().get("menu").getValue() != null
-        && intentRequest.getIntent().getSlots().get("extra").getValue() != null
-        && !intentRequest.getIntent().getSlots().get("yesNoOne").getConfirmationStatusAsString().equals("DENIED")
-        && intentRequest.getIntent().getSlots().get("amount").getValue() == null;
+        && intentRequest.getIntent().getSlots().get("drink").getValue() != null
+        && intentRequest.getIntent().getSlots().get("amountDrinks").getValue() == null;
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    return handlerInput.getResponseBuilder().addElicitSlotDirective("amount", intentRequest.getIntent())
-        .withSpeech("Wie oft möchten Sie, dass von Ihnen ausgewählte Menu bestellen ?").withReprompt("Wie oft ?")
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("amountDrinks", intentRequest.getIntent())
+        .withSpeech("Wie oft möchten Sie, dass von Ihnen ausgewählte Getränk bestellen ?").withReprompt("Wie oft ?")
         .build();
   }
 
