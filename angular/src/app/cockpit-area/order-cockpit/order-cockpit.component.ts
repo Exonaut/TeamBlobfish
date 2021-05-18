@@ -46,7 +46,8 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     'booking.email',
     'booking.bookingToken',
     'booking.orderStatus',
-    'booking.paymentStatus'
+    'booking.paymentStatus',
+    'booking.actions'
   ];
 
   pageSizes: number[];
@@ -111,7 +112,8 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           { name: 'booking.email', label: cockpitTable.emailH },
           { name: 'booking.bookingToken', label: cockpitTable.bookingTokenH },
           { name: 'booking.bookingStatus', label: cockpitTable.bookingStateH},
-          { name: 'booking.paymentStatus', label: cockpitTable.paymentStateH}
+          { name: 'booking.paymentStatus', label: cockpitTable.paymentStateH},
+          { name: 'booking.actions', label: cockpitTable.actionsH},
         ];
       });
   }
@@ -187,15 +189,32 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     this.applyFilters();
   }
 
-  selected(selection: OrderListView): void {
-    this.dialog.open(OrderDialogComponent, {
-      width: '80%',
-      data: selection,
-    }).afterClosed().subscribe((data: boolean) => {
-      if (data === true) { // Reload orders if dialog was edited
-        this.applyFilters();
-      }
-    });
+  selected(event, selection: OrderListView): void {
+    if (!event.target.className.includes('button')) {
+      this.dialog.open(OrderDialogComponent, {
+        width: '80%',
+        data: selection,
+      }).afterClosed().subscribe((data: boolean) => {
+        if (data === true) { // Reload orders if dialog was edited
+          this.applyFilters();
+        }
+      });
+    }
+  }
+
+  applyChanges(element: any, orderStatus: number, paymentStatus: number): void {
+    if (orderStatus == 5) paymentStatus = 1;
+    this.waiterCockpitService.setOrderStatus(element.order.id, orderStatus) // Send order status
+      .subscribe(
+        (dataA: any) => {
+          this.waiterCockpitService.setPaymentStatus(element.order.id, paymentStatus) // Send payment status
+            .subscribe(
+              (dataB: any) => {
+                this.applyFilters();
+              }
+            );
+        }
+      );
   }
 
   ngOnDestroy(): void {
