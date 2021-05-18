@@ -18,13 +18,21 @@ import { DebugElement } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserListView } from '../../shared/view-models/interfaces';
+import { By } from '@angular/platform-browser';
+import { click } from 'app/shared/common/test-utils';
 
 const translocoServiceStub = {
-  selectTranslateObject: of({
-    idH: 'ID',
-    nameH: 'Name',
-    emailH: 'E-Mail'
-  } as any),
+  selectTranslateObject:
+    of({
+      idH: 'ID',
+      nameH: 'Name',
+      emailH: 'E-Mail',
+      roleH: 'Role',
+      guest: 'Guest',
+      waiter: 'Waiter',
+      manager: 'Manager',
+      admin: 'Admin',
+    } as any),
 };
 
 const mockDialog = {
@@ -34,9 +42,9 @@ const mockDialog = {
 };
 
 const userCockpitServiceStub = {
-  getUsers(): Observable<any> {
-    return of({content: GetAllUsersData});
-  }
+  getUsers: jasmine.createSpy('getUsers').and.returnValue(
+    of({content: GetAllUsersData}),
+  ),
 };
 
 const activatedRouteStub = {
@@ -90,6 +98,9 @@ describe('UserCockpitComponent', () => {
         userCockpitService = TestBed.inject(UserCockpitService);
         dialog = TestBed.inject(MatDialog);
         translocoService = TestBed.inject(TranslocoService);
+        spyOn(translocoService, 'selectTranslateObject').and.returnValue(
+          translocoServiceStub.selectTranslateObject
+        );
       });
   }));
 
@@ -100,13 +111,64 @@ describe('UserCockpitComponent', () => {
   });
 
   it('should create component and verify content of UserCockpit', fakeAsync(() => {
-    spyOn(translocoService, 'selectTranslateObject').and.returnValue(
-      translocoServiceStub.selectTranslateObject,
-    );
     fixture.detectChanges();
     tick();
     expect(component).toBeTruthy();
     expect(component.users).toEqual(GetAllUsersData);
     expect(component.totalUsers).toBe(1);
   }));
+
+  // Translation labels
+  it('should verify table header names', () => {
+    expect(component.columns[0].label === 'ID').toBeTruthy();
+    expect(component.columns[1].label === 'Name').toBeTruthy();
+    expect(component.columns[2].label === 'E-Mail').toBeTruthy();
+    expect(component.columns[3].label === 'Role').toBeTruthy();
+  });
+
+  it('should verify role names', () => {
+    expect(component.roleNames[0].label === 'Guest').toBeTruthy();
+    expect(component.roleNames[1].label === 'Waiter').toBeTruthy();
+    expect(component.roleNames[2].label === 'Manager').toBeTruthy();
+    expect(component.roleNames[3].label === 'Admin').toBeTruthy();
+  });
+
+  // Columns
+  it('should have an ID column', () => {
+    const header = fixture.debugElement.nativeElement.querySelector('th.idHeader');
+    expect(header).toBeTruthy();
+    const data = fixture.debugElement.nativeElement.querySelector('td.idData');
+    expect(data).toBeTruthy();
+  });
+
+  it('should have a Name column', () => {
+    const header = fixture.debugElement.nativeElement.querySelector('th.nameHeader');
+    expect(header).toBeTruthy();
+    const data = fixture.debugElement.nativeElement.querySelector('td.nameData');
+    expect(data).toBeTruthy();
+  });
+
+  it('should have a E-Mail column', () => {
+    const header = fixture.debugElement.nativeElement.querySelector('th.emailHeader');
+    expect(header).toBeTruthy();
+    const data = fixture.debugElement.nativeElement.querySelector('td.emailData');
+    expect(data).toBeTruthy();
+  });
+
+  it('should have a Role column', () => {
+    const header = fixture.debugElement.nativeElement.querySelector('th.roleHeader');
+    expect(header).toBeTruthy();
+    const data = fixture.debugElement.nativeElement.querySelector('td.roleData');
+    expect(data).toBeTruthy();
+  });
+
+  // Row Logic
+  it('should open UserDialogComponent dialog on click of row', fakeAsync(() => {
+    fixture.detectChanges();
+    const clearFilter = fixture.debugElement.nativeElement.querySelector('tr[mat-row]');
+    click(clearFilter);
+    tick();
+    expect(dialog.open).toHaveBeenCalled();
+  }));
+
 });
