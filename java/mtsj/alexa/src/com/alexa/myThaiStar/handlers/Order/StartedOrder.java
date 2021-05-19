@@ -19,7 +19,7 @@ import com.login.RequestLogin;
 import com.tools.BasicOperations;
 import com.tools.HelperOrderClass;
 
-public class StartedOrderDishes implements IntentRequestHandler {
+public class StartedOrder implements IntentRequestHandler {
 
   private static String BASE_URL;
 
@@ -28,7 +28,7 @@ public class StartedOrderDishes implements IntentRequestHandler {
    *
    * @param baseUrl
    */
-  public StartedOrderDishes(String baseUrl) {
+  public StartedOrder(String baseUrl) {
 
     BASE_URL = baseUrl;
   }

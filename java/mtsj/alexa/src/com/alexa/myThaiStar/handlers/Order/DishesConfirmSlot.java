@@ -11,10 +11,6 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 
-/**
- * TODO Spielecke This type ...
- *
- */
 public class DishesConfirmSlot implements IntentRequestHandler {
 
   @Override

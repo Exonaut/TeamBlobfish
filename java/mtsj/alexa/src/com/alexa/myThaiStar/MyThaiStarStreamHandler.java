@@ -31,7 +31,7 @@ import com.alexa.myThaiStar.handlers.Order.AnotherDishYesNo;
 import com.alexa.myThaiStar.handlers.Order.AnotherDrinkOrDoUWantCloseOrder;
 import com.alexa.myThaiStar.handlers.Order.AnotherDrinkYesNo;
 import com.alexa.myThaiStar.handlers.Order.Completed;
-import com.alexa.myThaiStar.handlers.Order.StartedOrderDishes;
+import com.alexa.myThaiStar.handlers.Order.StartedOrder;
 import com.alexa.myThaiStar.handlers.Order.WhatDoUWantDoDrink;
 import com.alexa.myThaiStar.handlers.Order.ShowExtrasDishes;
 import com.amazon.ask.Skill;
@@ -40,7 +40,7 @@ import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://5cb113416aab.ngrok.io";
+  public static final String BASE_URL = "https://1291459d3aa0.ngrok.io";
 
   private static Skill getSkill() {
 
@@ -50,7 +50,7 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new CallFoodMenu(BASE_URL),
             new DescriptionDrinks(BASE_URL),
             new DescriptionDishes(BASE_URL),
-            new StartedOrderDishes(BASE_URL),
+            new StartedOrder(BASE_URL),
             new ShowExtrasDishes(),
             new AnotherDishYesNo(),
             new AnotherDrinkYesNo(),

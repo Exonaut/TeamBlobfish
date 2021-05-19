@@ -73,7 +73,7 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
     }
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoDrink", intentRequest.getIntent())
-        .withSpeech("Möchten Sie etwas zum trinken haben?").withReprompt("Möchten Sie etwas trinken?").build();
+        .withSpeech("Möchten Sie etwas zum trinken bestellen?").withReprompt("Möchten Sie etwas trinken?").build();
 
   }
 

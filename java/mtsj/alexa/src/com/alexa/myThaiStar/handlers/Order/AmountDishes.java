@@ -27,7 +27,7 @@ public class AmountDishes implements IntentRequestHandler {
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("amount", intentRequest.getIntent())
-        .withSpeech("Wie oft möchten Sie, dass von Ihnen ausgewählte Menu bestellen ?").withReprompt("Wie oft ?")
+        .withSpeech("Wie oft möchten Sie, dass von Ihnen ausgewählte Gericht bestellen ?").withReprompt("Wie oft ?")
         .build();
   }
 
