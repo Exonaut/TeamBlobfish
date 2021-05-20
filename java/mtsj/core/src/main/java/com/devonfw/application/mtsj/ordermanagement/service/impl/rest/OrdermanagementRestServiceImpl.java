@@ -98,4 +98,15 @@ public class OrdermanagementRestServiceImpl implements OrdermanagementRestServic
     return this.ordermanagement.setNewPaymentStatus(id, paymentstatus);
   }
 
+  // @Override
+  // public OrderEto setServingTime(long id, Instant servingtime) {
+  //
+  // return this.ordermanagement.setServingTime(id, servingtime);
+  // }
+  @Override
+  public OrderEto setServingTime(OrderCto order) {
+
+    return this.ordermanagement.setServingTime(order);
+  }
+
 }

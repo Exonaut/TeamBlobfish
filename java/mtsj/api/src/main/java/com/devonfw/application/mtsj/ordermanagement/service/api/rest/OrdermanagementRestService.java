@@ -31,14 +31,19 @@ import com.devonfw.application.mtsj.ordermanagement.logic.api.Ordermanagement;
 public interface OrdermanagementRestService {
 
   /**
-   * Delegates to {@link Ordermanagement#findOrder}.
+   * Delegates to {@link Ordermanagement#setServingTime}
    *
    * @param id the ID of the {@link OrderEto}
-   * @return the {@link OrderEto}
+   * @param servingtime the serving time of the {@link OrderEto}
+   * @return the {@link OrderEto} serving time 'servingtime'
    */
-  @GET
-  @Path("/order/{id}/")
-  public OrderCto getOrder(@PathParam("id") long id);
+  // @PATCH
+  // @Path("/order/setservingtime/{id}/{servingtime}")
+  // public OrderEto setServingTime(@PathParam("id") long id, @PathParam("servingtime") Instant servingtime);
+
+  @PATCH
+  @Path("/order/setservingtime")
+  public OrderEto setServingTime(OrderCto order);
 
   /**
    * Delegates to {@link Ordermanagement#setNewStatus}
@@ -60,6 +65,16 @@ public interface OrdermanagementRestService {
   @PATCH
   @Path("/order/setpayment/{id}/{paymentstatus}")
   public OrderEto setNewPaymentStatus(@PathParam("id") long id, @PathParam("paymentstatus") long paymentstatus);
+
+  /**
+   * Delegates to {@link Ordermanagement#findOrder}.
+   *
+   * @param id the ID of the {@link OrderEto}
+   * @return the {@link OrderEto}
+   */
+  @GET
+  @Path("/order/{id}/")
+  public OrderCto getOrder(@PathParam("id") long id);
 
   /**
    * Delegates to {@link Ordermanagement#saveOrder}.

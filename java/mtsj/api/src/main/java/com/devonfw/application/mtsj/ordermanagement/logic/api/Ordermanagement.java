@@ -19,9 +19,18 @@ import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderedDishesS
 public interface Ordermanagement {
 
   /**
+   *
+   * @param id The id 'id' of the Order.
+   * @param servingtime The serving time 'servingtime' of the Order.
+   * @return The {@link OrderEto} with id 'id' and serving time 'servingtime'
+   */
+  // OrderEto setServingTime(Long id, Instant servingtime);
+  OrderEto setServingTime(OrderCto order);
+
+  /**
    * set new ordered status
    *
-   * @param id
+   * @param id The id 'id' of the Order.
    * @param orderstatus
    * @return The {@link OrderEto} with id 'id' and order status 'orderstatus'
    */
@@ -30,7 +39,7 @@ public interface Ordermanagement {
   /**
    * set new payment status
    *
-   * @param id
+   * @param id The id 'id' of the Order.
    * @param paymentstatus
    * @return The {@link OrderEto} with id 'id' and payment status 'paymentstatus'
    */

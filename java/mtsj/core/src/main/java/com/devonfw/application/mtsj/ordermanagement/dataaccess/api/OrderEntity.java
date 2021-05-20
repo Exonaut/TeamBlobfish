@@ -1,5 +1,6 @@
 package com.devonfw.application.mtsj.ordermanagement.dataaccess.api;
 
+import java.time.Instant;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -37,6 +38,8 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
   private Long orderstatus;
 
   private Long paymentstatus;
+
+  private Instant servingtime;
 
   /**
    * @return booking
@@ -205,6 +208,24 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
     } else {
       this.paymentstatus = (long) 0;
     }
+  }
+
+  @Override
+  public Instant getServingTime() {
+
+    return this.servingtime;
+  }
+
+  @Override
+  public void setServingTime(Instant servingtime) {
+
+    if (servingtime != null) {
+      this.servingtime = servingtime;
+    } else {
+      // create default serving time '00:00:00'
+      this.servingtime = null;
+    }
+
   }
 
 }
