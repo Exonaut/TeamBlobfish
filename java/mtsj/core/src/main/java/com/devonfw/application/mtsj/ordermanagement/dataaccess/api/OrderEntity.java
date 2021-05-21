@@ -222,7 +222,6 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
     if (servingtime != null) {
       this.servingtime = servingtime;
     } else {
-      // create default serving time '00:00:00'
       this.servingtime = null;
     }
 
