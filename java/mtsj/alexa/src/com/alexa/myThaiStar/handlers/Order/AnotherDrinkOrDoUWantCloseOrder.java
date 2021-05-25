@@ -10,8 +10,6 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.entity.orderline.OrderLines;
-import com.tools.HelperOrderClass;
 
 public class AnotherDrinkOrDoUWantCloseOrder implements IntentRequestHandler {
 
@@ -27,17 +25,7 @@ public class AnotherDrinkOrDoUWantCloseOrder implements IntentRequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    Slot drink = intentRequest.getIntent().getSlots().get("drink");
-    Slot amountDrinks = intentRequest.getIntent().getSlots().get("amountDrinks");
     Slot yesNoAnotherDrink = intentRequest.getIntent().getSlots().get("yesNoAnotherDrink");
-
-    OrderLines tmp = new OrderLines();
-
-    tmp.orderLine.amount = amountDrinks.getValue();
-    tmp.orderLine.dishId = HelperOrderClass.getDishId(drink.getValue());
-    tmp.orderLine.comment = "";
-
-    HelperOrderClass.req.orderLines.add(tmp);
 
     if (yesNoAnotherDrink.getValue().equals("ja")) {
 
@@ -45,16 +33,20 @@ public class AnotherDrinkOrDoUWantCloseOrder implements IntentRequestHandler {
       intentRequest.getIntent().getSlots().put("amountDrinks", updateSlot);
       Slot updateSlot3 = Slot.builder().withName("drink").withValue(null).build();
       intentRequest.getIntent().getSlots().put("drink", updateSlot3);
-      Slot updateSlot4 = Slot.builder().withName("yesNoDrink").withValue(null).build();
-      intentRequest.getIntent().getSlots().put("yesNoDrink", updateSlot4);
       Slot updateSlot5 = Slot.builder().withName("yesNoAnotherDrink").withValue(null).build();
       intentRequest.getIntent().getSlots().put("yesNoAnotherDrink", updateSlot5);
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
           .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie noch zum trinken?").build();
+    } else if (yesNoAnotherDrink.getValue().equals("nein")) {
+
+      return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
+
     }
 
-    return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoAnotherDrink", intentRequest.getIntent())
+        .withSpeech("Ich habe Sie leider nicht verstanden. Möchten Sie noch etwas zum trinken bestellen?")
+        .withReprompt("Möchten Sie noch etwas trinken?").build();
 
   }
 

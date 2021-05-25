@@ -30,11 +30,16 @@ public class WhatDoUWantDoDrink implements IntentRequestHandler {
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
           .withSpeech("Welches Getränk möchten Sie?").withReprompt("Welches Getränk möchten Sie?").build();
 
+    } else if (intentRequest.getIntent().getSlots().get("yesNoDrink").getValue().equals("nein")) {
+
+      return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
+
     }
 
-    return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent())
-        .withSpeech("Wie oft möchten Sie, dass von Ihnen ausgewählte Menu bestellen ?").withReprompt("Wie oft ?")
-        .build();
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoDrink", intentRequest.getIntent())
+        .withSpeech("Ich habe Sie leider nicht verstanden. Möchten Sie etwas zum trinken bestellen?")
+        .withReprompt("Möchten Sie etwas trinken?").build();
+
   }
 
 }

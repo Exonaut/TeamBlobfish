@@ -57,8 +57,7 @@ public class StartedOrder implements IntentRequestHandler {
       respStr = bo.basicPost(payload, BASE_URL + "/mythaistar/login");
     } catch (Exception ex) {
       speechText = "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt";
-      return handlerInput.getResponseBuilder().withSpeech(speechText + "\n " + payload)
-          .withSimpleCard("BookATable", speechText + " \n " + payload).build();
+      return handlerInput.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText).build();
     }
 
     String authorizationBearer = bo.getSpecificHeader("Authorization");
@@ -71,8 +70,7 @@ public class StartedOrder implements IntentRequestHandler {
       respStr = bo2.basicPost(payload, BASE_URL + "/mythaistar/services/rest/bookingmanagement/v1/booking/search");
     } catch (Exception ex) {
       speechText = "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt";
-      return handlerInput.getResponseBuilder().withSpeech(speechText + "\n " + payload)
-          .withSimpleCard("BookATable", speechText + " \n " + payload).build();
+      return handlerInput.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText).build();
     }
 
     ResponseBooking response = gson.fromJson(respStr, ResponseBooking.class);

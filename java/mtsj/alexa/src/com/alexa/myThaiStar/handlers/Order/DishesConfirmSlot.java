@@ -28,11 +28,11 @@ public class DishesConfirmSlot implements IntentRequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    Slot menu = intentRequest.getIntent().getSlots().get("dishOrder");
+    Slot dish = intentRequest.getIntent().getSlots().get("dishOrder");
     Slot extra = intentRequest.getIntent().getSlots().get("extra");
     Slot amount = intentRequest.getIntent().getSlots().get("amount");
 
-    String speechText = "Ich habe zu Ihrer Bestellung " + menu.getValue() + " mit " + extra.getValue() + " "
+    String speechText = "Ich habe zu Ihrer Bestellung " + dish.getValue() + " mit " + extra.getValue() + " "
         + amount.getValue() + " mal hinzugefügt. Ist dies korrekt?";
 
     return handlerInput.getResponseBuilder().addConfirmSlotDirective("amount", intentRequest.getIntent())

@@ -40,7 +40,7 @@ import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://1291459d3aa0.ngrok.io";
+  public static final String BASE_URL = "https://e29e5d3a8f49.ngrok.io";
 
   private static Skill getSkill() {
 

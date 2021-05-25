@@ -28,13 +28,18 @@ public class ShowExtrasDishes implements IntentRequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    Slot menu = intentRequest.getIntent().getSlots().get("dishOrder");
+    Slot dish = intentRequest.getIntent().getSlots().get("dishOrder");
 
-    String dishId = HelperOrderClass.getDishId(menu.getValue());
+    String dishId = HelperOrderClass.getDishId(dish.getValue());
+
+    if (dishId == null)
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
+          .withSpeech("Ich habe Sie leider nicht verstanden. Welches Gericht möchten Sie?")
+          .withReprompt("Welches Gericht möchten Sie?").build();
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("extra", intentRequest.getIntent())
         .withSpeech(
-            HelperOrderClass.getExtrasName(dishId) + " Wenn Sie keine Extras möchten, dann sagen Sie: nein Danke.")
+            HelperOrderClass.getExtrasName(dishId) + " Wenn Sie keine Extras möchten, dann sagen Sie: ohne extras.")
         .withReprompt("Welche Extras möchten Sie?").build();
 
   }

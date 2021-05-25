@@ -136,7 +136,7 @@ public class HelperOrderClass {
       }
     }
 
-    return extraID;
+    return null;
 
   }
 
