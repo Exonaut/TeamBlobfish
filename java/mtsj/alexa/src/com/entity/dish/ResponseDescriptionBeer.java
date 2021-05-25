@@ -1,4 +1,4 @@
-package com.entity.menu;
+package com.entity.dish;
 
 public class ResponseDescriptionBeer {
 
@@ -7,7 +7,7 @@ public class ResponseDescriptionBeer {
   @Override
   public String toString() {
 
-    return this.content[1].dish.getDescription().replace("Types: Ales", "Ales").replace(" Malts. Styles:", "")
+    return this.content[1].dish.description.replace("Types: Ales", "Ales").replace(" Malts. Styles:", "")
         .replace("&", "und").replace("Strong,", "Strong und");
   }
 

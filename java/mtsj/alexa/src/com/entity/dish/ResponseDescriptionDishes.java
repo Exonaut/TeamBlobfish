@@ -1,4 +1,4 @@
-package com.entity.menu;
+package com.entity.dish;
 
 /**
  * TODO Spielecke This type ...
@@ -6,13 +6,13 @@ package com.entity.menu;
  */
 public class ResponseDescriptionDishes {
 
-  private Content[] content;
+  public Content[] content;
 
   public String getDishesDescription(String dishName) {
 
     for (int i = 0; i < this.content.length; i++) {
-      if (this.content[i].dish.getName().toLowerCase().equals(dishName)) {
-        return this.content[i].dish.getDescription().replaceAll("&", "and");
+      if (this.content[i].dish.name.toLowerCase().equals(dishName)) {
+        return this.content[i].dish.description.replaceAll("&", "and");
 
       }
 

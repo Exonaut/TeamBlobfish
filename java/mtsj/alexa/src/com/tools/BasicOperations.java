@@ -24,13 +24,13 @@ public class BasicOperations {
 
   final int TIME_OUT = 10000;
 
-  public CookieMonster cookieMonster = new CookieMonster();
-
   HttpClient http = null;
 
   org.apache.http.client.config.RequestConfig RequestConfig;
 
-  Header[] basicHeaders;
+  public Header[] reqHeaders;
+
+  public Header[] resheaders;
 
   public BasicOperations() {
 
@@ -43,7 +43,7 @@ public class BasicOperations {
 
     HttpGet httpGet = new HttpGet(url);
     httpGet.setConfig(this.RequestConfig);
-    httpGet.setHeaders(this.basicHeaders);
+    httpGet.setHeaders(this.reqHeaders);
 
     System.out.println(url);
     HttpResponse httpResponse = this.http.execute(httpGet);
@@ -89,7 +89,6 @@ public class BasicOperations {
 
     HttpClientBuilder builder = HttpClientBuilder.create();
 
-    builder.setDefaultCookieStore(this.cookieMonster.httpCookieStore);
     builder.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0");
     builder.setRedirectStrategy(new LaxRedirectStrategy());
     builder.setRetryHandler(retryHandler);
@@ -113,11 +112,13 @@ public class BasicOperations {
 
     HttpPost httpPost = new HttpPost(url);
     httpPost.setConfig(this.RequestConfig);
-    httpPost.setHeaders(this.basicHeaders);
+    httpPost.setHeaders(this.reqHeaders);
 
     StringEntity entity = new StringEntity(json_payload, ContentType.APPLICATION_JSON);
     httpPost.setEntity(entity);
     HttpResponse httpResponse = this.http.execute(httpPost);
+
+    this.resheaders = httpResponse.getAllHeaders();
 
     String return_string = InputToString(httpResponse.getEntity().getContent());
 
@@ -143,6 +144,15 @@ public class BasicOperations {
     }
 
     return return_string;
+  }
+
+  public String getSpecificHeader(String specificHeader) {
+
+    for (Header header : this.resheaders) {
+      if (header.getName().equals(specificHeader))
+        return header.getValue();
+    }
+    return "";
   }
 
   public String InputToString(InputStream in) throws IOException {

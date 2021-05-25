@@ -1,34 +1,52 @@
 package com.tools;
 
-import com.entity.menu.ResponseDescriptionDishes;
-import com.google.gson.Gson;
+import java.util.ArrayList;
+
+import com.entity.orderline.Extras;
+import com.entity.orderline.OrderLines;
 
 public class Test {
 
-  public static String BASE_URL = "https://277dbd81918c.ngrok.io";
+  public static String BASE_URL = "https://08d2b6edb3e5.ngrok.io";
 
   public static void main(String[] args) {
 
-    String speechText = "";
-    String payload = "{\"categories\":[{\"id\":\"0\"},{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"},{\"id\":\"4\"},{\"id\":\"5\"},{\"id\":\"6\"},{\"id\":\"7\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
+    String menu1 = "thai green chicken curry";
+    String menu2 = "thai Peanut Beef";
 
-    BasicOperations bo = new BasicOperations();
+    String extra1 = "tofu und extra curry";
+    String extra2 = "tofu";
 
-    String resStr = "nischt";
+    test(menu1, extra1);
+    test(menu2, extra2);
 
-    try {
-      resStr = bo.basicPost(payload, BASE_URL + "/mythaistar/services/rest/dishmanagement/v1/dish/search");
-    } catch (Exception ex) {
-      speechText = "Es ist ein Fehler bei MyThaiStar aufgetreten !";
+    System.out.println(HelperOrderClass.sendOrder());
+
+  }
+
+  public static void test(String menu, String extra) {
+
+    OrderLines tmp = new OrderLines();
+    ArrayList<Extras> extrasArray = new ArrayList<>();
+    ArrayList<String> extrasNameArray = HelperOrderClass.getExtrasNameArray();
+
+    for (String s : extrasNameArray) {
+
+      if (extra.contains(s.toLowerCase())) {
+        Extras extras = new Extras();
+        extras.id = HelperOrderClass.getExtrasID(s.toLowerCase());
+        extrasArray.add(extras);
+      }
+
     }
 
-    Gson gson = new Gson();
+    tmp.extras.addAll(extrasArray);
+    tmp.orderLine.amount = "2";
+    tmp.orderLine.dishId = HelperOrderClass.getDishId(menu);
+    tmp.orderLine.comment = "";
 
-    ResponseDescriptionDishes response = gson.fromJson(resStr, ResponseDescriptionDishes.class);
-
-    speechText = response.getDishesDescription("thai green chicken curry");
-
-    System.out.println(speechText);
+    HelperOrderClass.req.orderLines.add(tmp);
+    HelperOrderClass.req.booking.bookingToken = "CB_20210516_da0503fd42d6a8349fe8bfc988312c82";
 
   }
 

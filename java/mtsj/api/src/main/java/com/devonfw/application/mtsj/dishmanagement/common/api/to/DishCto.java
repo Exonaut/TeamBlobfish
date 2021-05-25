@@ -16,7 +16,7 @@ public class DishCto extends AbstractCto {
 
   private ImageEto image;
 
-  private List<IngredientEto> extras;
+  public List<IngredientEto> extras;
 
   private List<CategoryEto> categories;
 
