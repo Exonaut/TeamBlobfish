@@ -10,7 +10,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 
-public class HomeWhatDoUWantDoDrink implements IntentRequestHandler {
+public class WhatDoUWantDoDrink implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {

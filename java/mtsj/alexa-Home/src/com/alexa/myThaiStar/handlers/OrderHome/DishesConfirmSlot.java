@@ -11,7 +11,7 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 
-public class HomeDishesConfirmSlot implements IntentRequestHandler {
+public class DishesConfirmSlot implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {

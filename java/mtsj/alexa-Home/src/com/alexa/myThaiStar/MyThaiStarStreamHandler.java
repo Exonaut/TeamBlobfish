@@ -22,18 +22,18 @@ import com.alexa.myThaiStar.handlers.FallbackIntentHandler;
 import com.alexa.myThaiStar.handlers.HelpIntentHandler;
 import com.alexa.myThaiStar.handlers.LaunchRequestHandler;
 import com.alexa.myThaiStar.handlers.SessionEndedRequestHandler;
-import com.alexa.myThaiStar.handlers.OrderHome.HomeAmountDishes;
-import com.alexa.myThaiStar.handlers.OrderHome.HomeAmountDrinks;
-import com.alexa.myThaiStar.handlers.OrderHome.HomeAnotherDishOrDoUWantToDrink;
-import com.alexa.myThaiStar.handlers.OrderHome.HomeAnotherDishYesNo;
-import com.alexa.myThaiStar.handlers.OrderHome.HomeAnotherDrinkOrDoUWantCloseOrder;
-import com.alexa.myThaiStar.handlers.OrderHome.HomeAnotherDrinkYesNo;
-import com.alexa.myThaiStar.handlers.OrderHome.HomeCompleted;
-import com.alexa.myThaiStar.handlers.OrderHome.HomeDishesConfirmSlot;
-import com.alexa.myThaiStar.handlers.OrderHome.HomeDrinksConfirmSlot;
-import com.alexa.myThaiStar.handlers.OrderHome.HomeShowExtrasDishes;
-import com.alexa.myThaiStar.handlers.OrderHome.HomeStartedOrder;
-import com.alexa.myThaiStar.handlers.OrderHome.HomeWhatDoUWantDoDrink;
+import com.alexa.myThaiStar.handlers.OrderHome.AmountDishes;
+import com.alexa.myThaiStar.handlers.OrderHome.AmountDrinks;
+import com.alexa.myThaiStar.handlers.OrderHome.AnotherDishOrDoUWantToDrink;
+import com.alexa.myThaiStar.handlers.OrderHome.AnotherDishYesNo;
+import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkOrDoUWantCloseOrder;
+import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkYesNo;
+import com.alexa.myThaiStar.handlers.OrderHome.Completed;
+import com.alexa.myThaiStar.handlers.OrderHome.DishesConfirmSlot;
+import com.alexa.myThaiStar.handlers.OrderHome.DrinksConfirmSlot;
+import com.alexa.myThaiStar.handlers.OrderHome.ShowExtrasDishes;
+import com.alexa.myThaiStar.handlers.OrderHome.StartedOrder;
+import com.alexa.myThaiStar.handlers.OrderHome.WhatDoUWantDoDrink;
 
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
@@ -51,22 +51,22 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new CallFoodMenu(BASE_URL),
             new DescriptionDrinks(BASE_URL),
             new DescriptionDishes(BASE_URL),
-            new HomeStartedOrder(BASE_URL),
-            new HomeShowExtrasDishes(),
-            new HomeAnotherDishYesNo(),
-            new HomeAnotherDrinkYesNo(),
+            new StartedOrder(BASE_URL),
+            new ShowExtrasDishes(),
+            new AnotherDishYesNo(),
+            new AnotherDrinkYesNo(),
             new HelpIntentHandler(),
             new LaunchRequestHandler(),
             new SessionEndedRequestHandler(),
             new FallbackIntentHandler(),
-            new HomeCompleted(),
-            new HomeAmountDishes(),
-            new HomeAmountDrinks(),
-            new HomeDishesConfirmSlot(),
-            new HomeDrinksConfirmSlot(),
-            new HomeAnotherDishOrDoUWantToDrink(),
-            new HomeAnotherDrinkOrDoUWantCloseOrder(),
-            new HomeWhatDoUWantDoDrink ())
+            new Completed(),
+            new AmountDishes(),
+            new AmountDrinks(),
+            new DishesConfirmSlot(),
+            new DrinksConfirmSlot(),
+            new AnotherDishOrDoUWantToDrink(),
+            new AnotherDrinkOrDoUWantCloseOrder(),
+            new WhatDoUWantDoDrink ())
         // Add your skill id below
         .withSkillId("amzn1.ask.skill.2cb6b023-f36d-43f9-8c18-3b509cf3f2d6").build();
   }

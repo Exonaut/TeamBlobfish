@@ -13,7 +13,7 @@ import com.amazon.ask.model.Slot;
 import com.entity.orderline.OrderLines;
 import com.tools.HelperOrderClass;
 
-public class HomeAnotherDrinkYesNo implements IntentRequestHandler {
+public class AnotherDrinkYesNo implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {

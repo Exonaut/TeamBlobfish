@@ -12,7 +12,7 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.tools.HelperOrderClass;
 
-public class HomeShowExtrasDishes implements IntentRequestHandler {
+public class ShowExtrasDishes implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {

@@ -11,7 +11,7 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.tools.HelperOrderClass;
 
-public class HomeCompleted implements IntentRequestHandler {
+public class Completed implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {

@@ -14,7 +14,7 @@ import com.amazon.ask.model.Slot;
 import com.entity.orderline.Extras;
 import com.tools.HelperOrderClass;
 
-public class HomeAmountDishes implements IntentRequestHandler {
+public class AmountDishes implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
