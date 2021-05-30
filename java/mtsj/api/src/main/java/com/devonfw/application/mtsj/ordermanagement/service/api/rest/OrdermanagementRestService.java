@@ -30,17 +30,13 @@ import com.devonfw.application.mtsj.ordermanagement.logic.api.Ordermanagement;
 @Produces(MediaType.APPLICATION_JSON)
 public interface OrdermanagementRestService {
 
-  /**
-   * Delegates to {@link Ordermanagement#setServingTime}
-   *
-   * @param id the ID of the {@link OrderEto}
-   * @param servingtime the serving time of the {@link OrderEto}
-   * @return the {@link OrderEto} serving time 'servingtime'
-   */
-  // @PATCH
-  // @Path("/order/setservingtime/{id}/{servingtime}")
-  // public OrderEto setServingTime(@PathParam("id") long id, @PathParam("servingtime") Instant servingtime);
-
+  // /**
+  // * Delegates to {@link Ordermanagement#setServingTime}
+  // *
+  // * @param id the ID of the {@link OrderEto}
+  // * @param servingtime the serving time of the {@link OrderEto}
+  // * @return the {@link OrderEto} serving time 'servingtime'
+  // */
   @PATCH
   @Path("/order/setservingtime")
   public OrderEto setServingTime(OrderCto order);

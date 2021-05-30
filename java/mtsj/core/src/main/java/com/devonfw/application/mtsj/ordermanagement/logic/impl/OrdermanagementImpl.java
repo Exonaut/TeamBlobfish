@@ -556,23 +556,11 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
 
   }
 
-  // @Override
-  // public OrderEto setServingTime(Long id, Instant servingtime) {
-  //
-  // OrderEntity entity = getOrderDao().find(id);
-  // entity.setServingTime(servingtime);
-  // OrderEntity resultEntity = getOrderDao().save(entity);
-  // LOG.debug("The serving time '{}' with id '{}' has been updated.", resultEntity.getServingTime(),
-  // resultEntity.getId());
-  //
-  // return getBeanMapper().map(resultEntity, OrderEto.class);
-  // }
-
   @Override
   public OrderEto setServingTime(OrderCto order) {
 
     OrderEntity entity = getOrderDao().find(order.getOrder().getId());
-    entity.setServingTime(order.getOrder().getServingTime());
+    entity.setServingTime(order.getServingTime());
     OrderEntity resultEntity = getOrderDao().save(entity);
     LOG.debug("The serving time '{}' with id '{}' has been updated.", resultEntity.getServingTime(),
         resultEntity.getId());

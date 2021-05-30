@@ -24,7 +24,6 @@ public interface Ordermanagement {
    * @param servingtime The serving time 'servingtime' of the Order.
    * @return The {@link OrderEto} with id 'id' and serving time 'servingtime'
    */
-  // OrderEto setServingTime(Long id, Instant servingtime);
   OrderEto setServingTime(OrderCto order);
 
   /**

@@ -2,6 +2,8 @@ package com.devonfw.application.mtsj.ordermanagement.common.api.to;
 
 import java.time.Instant;
 
+import javax.validation.constraints.Future;
+
 import com.devonfw.application.mtsj.ordermanagement.common.api.Order;
 import com.devonfw.module.basic.common.api.to.AbstractEto;
 
@@ -22,6 +24,7 @@ public class OrderEto extends AbstractEto implements Order {
 
   private Long paymentstatus;
 
+  @Future
   private Instant servingtime;
 
   /**
