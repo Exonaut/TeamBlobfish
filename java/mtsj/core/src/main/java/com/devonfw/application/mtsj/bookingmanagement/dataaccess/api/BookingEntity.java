@@ -44,9 +44,18 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
 
   private TableEntity table;
 
+  @JoinColumn(name = "idTable", updatable = false, insertable = false)
+  private Long tableId;
+
   private OrderEntity order;
 
+  @JoinColumn(name = "idOrder", updatable = false, insertable = false)
+  private Long orderId;
+
   private UserEntity user;
+
+  @JoinColumn(name = "idUser", updatable = false, insertable = false)
+  private Long userId;
 
   private List<InvitedGuestEntity> invitedGuests;
 
@@ -193,8 +202,8 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @return table
    */
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "idTable")
+  // @ManyToOne(fetch = FetchType.EAGER)
+  // @JoinColumn(name = "idTable")
   public TableEntity getTable() {
 
     return this.table;
@@ -258,31 +267,34 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
 
   @Override
   @Transient
+  @ManyToOne(fetch = FetchType.EAGER)
   public Long getTableId() {
 
-    if (this.table == null) {
-      return null;
-    }
-    return this.table.getId();
+    // if (this.table == null) {
+    // return null;
+    // }
+    // return this.table.getId();
+    return this.tableId;
   }
 
   @Override
   public void setTableId(Long tableId) {
 
-    if (tableId == null) {
-      this.table = null;
-    } else {
-      TableEntity tableEntity = new TableEntity();
-      tableEntity.setId(tableId);
-      this.table = tableEntity;
-    }
+    // if (tableId == null) {
+    // this.table = null;
+    // } else {
+    // TableEntity tableEntity = new TableEntity();
+    // tableEntity.setId(tableId);
+    // this.table = tableEntity;
+    // }
+    this.tableId = tableId;
   }
 
   /**
    * @return order
    */
-  @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "idOrder")
+  // @OneToOne(fetch = FetchType.EAGER)
+  // @JoinColumn(name = "idOrder")
   public OrderEntity getOrder() {
 
     return this.order;
@@ -298,24 +310,27 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
 
   @Override
   @Transient
+  @OneToOne(fetch = FetchType.EAGER)
   public Long getOrderId() {
 
-    if (this.order == null) {
-      return null;
-    }
-    return this.order.getId();
+    // if (this.order == null) {
+    // return null;
+    // }
+    // return this.order.getId();
+    return this.orderId;
   }
 
   @Override
   public void setOrderId(Long orderId) {
 
-    if (orderId == null) {
-      this.order = null;
-    } else {
-      OrderEntity orderEntity = new OrderEntity();
-      orderEntity.setId(orderId);
-      this.order = orderEntity;
-    }
+    // if (orderId == null) {
+    // this.order = null;
+    // } else {
+    // OrderEntity orderEntity = new OrderEntity();
+    // orderEntity.setId(orderId);
+    // this.order = orderEntity;
+    // }
+    this.orderId = orderId;
   }
 
   /**
@@ -338,6 +353,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @return assistants
    */
+  @Override
   public Integer getAssistants() {
 
     return this.assistants;
@@ -346,6 +362,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @param assistants new value of {@link #getassistants}.
    */
+  @Override
   public void setAssistants(Integer assistants) {
 
     this.assistants = assistants;
@@ -354,8 +371,8 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @return user
    */
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "idUser")
+  // @ManyToOne(fetch = FetchType.EAGER)
+  // @JoinColumn(name = "idUser")
   public UserEntity getUser() {
 
     return this.user;
@@ -371,24 +388,27 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
 
   @Override
   @Transient
+  @ManyToOne(fetch = FetchType.EAGER)
   public Long getUserId() {
 
-    if (this.user == null) {
-      return null;
-    }
-    return this.user.getId();
+    // if (this.user == null) {
+    // return null;
+    // }
+    // return this.user.getId();
+    return this.userId;
   }
 
   @Override
   public void setUserId(Long userId) {
 
-    if (userId == null) {
-      this.user = null;
-    } else {
-      UserEntity userEntity = new UserEntity();
-      userEntity.setId(userId);
-      this.user = userEntity;
-    }
+    // if (userId == null) {
+    // this.user = null;
+    // } else {
+    // UserEntity userEntity = new UserEntity();
+    // userEntity.setId(userId);
+    // this.user = userEntity;
+    // }
+    this.userId = userId;
   }
 
 }
