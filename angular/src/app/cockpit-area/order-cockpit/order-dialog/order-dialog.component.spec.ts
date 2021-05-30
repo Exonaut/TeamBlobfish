@@ -19,16 +19,16 @@ import { TranslocoService } from '@ngneat/transloco';
 
 
 
-// const translocoServiceStub = {
-//   selectTranslateObject: of({
-//     creationDate: 'Reservation Date',
-//     name: 'Email',
-//     email: 'Reference Number',
-//     tableId: 'Owner',
-//     orderStatus: 'Table',
-//     paymentStatus: 'Creation date',
-//   } as any),
-// };
+const translocoServiceStub = {
+  selectTranslateObject: of({
+    creationDate: 'Reservation Date',
+    name: 'Email',
+    email: 'Reference Number',
+    tableId: 'Owner',
+    orderStatus: 'Table',
+    paymentStatus: 'Creation date',
+  } as any),
+};
 
 const waiterCockpitServiceStub = {
   getTotalPrice: jasmine.createSpy('getTotalPrice').and.returnValue(
@@ -76,6 +76,9 @@ describe('OrderDialogComponent', () => {
       el = fixture.debugElement;
       fixture.detectChanges();
       translocoService = TestBed.inject(TranslocoService);
+      spyOn(translocoService, 'selectTranslateObject',).and.returnValue(
+        translocoServiceStub.selectTranslateObject
+      )
     });
   }));
 
