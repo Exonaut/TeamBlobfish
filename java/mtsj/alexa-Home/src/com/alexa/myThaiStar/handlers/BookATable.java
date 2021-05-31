@@ -55,8 +55,12 @@ public class BookATable implements RequestHandler {
 
     String date_time = getFormatAndCalculate(date.getValue() + " " + time.getValue());
 
-    String name = input.getServiceClientFactory().getUpsService().getProfileName();
-    String userEmail = input.getServiceClientFactory().getUpsService().getProfileEmail();
+    // commented out for unit tests
+    // String name = input.getServiceClientFactory().getUpsService().getProfileName();
+    // String userEmail = input.getServiceClientFactory().getUpsService().getProfileEmail();
+
+    String name = "Tony";
+    String userEmail = "tony2510@gmx.de";
 
     com.entity.booking.RequestBooking myApiRequest = new RequestBooking();
     myApiRequest.booking = new Booking();
@@ -79,7 +83,8 @@ public class BookATable implements RequestHandler {
           .withSimpleCard("BookATable", speechText + " \n " + payload).build();
     }
 
-    speechText = "Vielen Dank. Ihre Reservierung wurde aufgenommen. Wir freuen uns auf Ihren Besuch.";
+    speechText = "Vielen Dank. Ihre Reservierung wurde aufgenommen. Wir freuen uns auf Ihren Besuch." + date.getValue()
+        + time.getValue();
 
     return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText).build();
   }
