@@ -19,14 +19,6 @@ import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderedDishesS
 public interface Ordermanagement {
 
   /**
-   *
-   * @param id The id 'id' of the Order.
-   * @param servingtime The serving time 'servingtime' of the Order.
-   * @return The {@link OrderEto} with id 'id' and serving time 'servingtime'
-   */
-  // OrderEto setServingTime(OrderCto order);
-
-  /**
    * set new ordered status
    *
    * @param id The id 'id' of the Order.

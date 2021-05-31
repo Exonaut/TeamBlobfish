@@ -255,6 +255,7 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       orderLineEntity.setDishId(lineCto.getOrderLine().getDishId());
       orderLineEntity.setAmount(lineCto.getOrderLine().getAmount());
       orderLineEntity.setComment(lineCto.getOrderLine().getComment());
+      orderLineEntity.setServingTime(lineCto.getOrderLine().getServingTime());
       orderLineEntities.add(orderLineEntity);
     }
 
@@ -263,7 +264,6 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
     // initialize, validate orderEntity here if necessary
     orderEntity = getValidatedOrder(orderEntity.getBooking().getBookingToken(), orderEntity);
     orderEntity.setOrderLines(orderLineEntities);
-    orderEntity.setServingTime(order.getServingTime());
     OrderEntity resultOrderEntity = getOrderDao().save(orderEntity);
     LOG.debug("Order with id '{}' has been created.", resultOrderEntity.getId());
 
@@ -556,16 +556,4 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
     return getBeanMapper().map(resultOrderPayment, OrderEto.class);
 
   }
-
-  // @Override
-  // public OrderEto setServingTime(OrderCto order) {
-  //
-  // OrderEntity entity = getOrderDao().find(order.getOrder().getId());
-  // entity.setServingTime(order.getServingTime());
-  // OrderEntity resultEntity = getOrderDao().save(entity);
-  // LOG.debug("The serving time '{}' with id '{}' has been updated.", resultEntity.getServingTime(),
-  // resultEntity.getId());
-  //
-  // return getBeanMapper().map(resultEntity, OrderEto.class);
-  // }
 }

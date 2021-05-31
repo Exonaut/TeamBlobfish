@@ -1,7 +1,5 @@
 package com.devonfw.application.mtsj.ordermanagement.common.api;
 
-import java.time.Instant;
-
 import com.devonfw.application.mtsj.general.common.api.ApplicationEntity;
 
 public interface Order extends ApplicationEntity {
@@ -25,9 +23,5 @@ public interface Order extends ApplicationEntity {
   public Long getPaymentStatus();
 
   public void setPaymentStatus(Long paymentstatus);
-
-  public Instant getServingTime();
-
-  public void setServingTime(Instant servingtime);
 
 }

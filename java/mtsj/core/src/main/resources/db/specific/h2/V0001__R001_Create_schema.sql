@@ -81,7 +81,6 @@ CREATE TABLE Orders (
   idHost BIGINT,
   orderstatus BIGINT,
   paymentstatus BIGINT,
-  servingtime TIMESTAMP,
   CONSTRAINT PK_Order PRIMARY KEY(id),
   CONSTRAINT FK_Order_idBooking FOREIGN KEY(idBooking) REFERENCES Booking(id) NOCHECK,
   CONSTRAINT FK_Order_idInvitedGuest FOREIGN KEY(idInvitedGuest) REFERENCES InvitedGuest(id) NOCHECK
@@ -160,6 +159,7 @@ CREATE TABLE OrderLine (
   amount INTEGER,
   comment VARCHAR (255),
   idOrder BIGINT NOT NULL,
+  servingTime TIMESTAMP,
   CONSTRAINT PK_OrderLine PRIMARY KEY(id),
   CONSTRAINT FK_OrderLine_idDish FOREIGN KEY(idDish) REFERENCES Dish(id) NOCHECK,
   CONSTRAINT FK_OrderLine_idOrder FOREIGN KEY(idOrder) REFERENCES Orders(id) NOCHECK
