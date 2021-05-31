@@ -168,7 +168,6 @@ export class OrderDialogComponent implements OnInit {
   }
 
   applyChanges(): void {
-
     this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedStatus) // Send order status
       .subscribe(
         (dataA: any) => {

@@ -12,6 +12,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TranslocoService } from '@ngneat/transloco';
 import { of } from 'rxjs/internal/observable/of';
@@ -25,6 +26,7 @@ import { By } from '@angular/platform-browser';
 import { click } from '../../shared/common/test-utils';
 import { ascSortOrder } from '../../../in-memory-test-data/db-order-asc-sort';
 import { orderData } from '../../../in-memory-test-data/db-order';
+import { ActivatedRoute } from '@angular/router';
 
 const mockDialog = {
   open: jasmine.createSpy('open').and.returnValue({
@@ -40,6 +42,8 @@ const translocoServiceStub = {
     ownerH: 'Owner',
     tableH: 'Table',
     creationDateH: 'Creation date',
+    bookingStateH: 'Status',
+    paymentStateH: 'Payment',
   } as any),
 };
 
@@ -51,6 +55,10 @@ const waiterCockpitServiceSortStub = {
   getOrders: jasmine.createSpy('getOrders').and.returnValue(of(ascSortOrder)),
 };
 
+const activatedRouteStub = {
+  data: of({archive: false})
+};
+
 class TestBedSetUp {
   static loadWaiterCockpitServiceStud(waiterCockpitStub: any): any {
     const initialState = { config };
@@ -59,6 +67,7 @@ class TestBedSetUp {
       providers: [
         { provide: MatDialog, useValue: mockDialog },
         { provide: WaiterCockpitService, useValue: waiterCockpitStub },
+        { provie: ActivatedRoute, useValue: activatedRouteStub},
         TranslocoService,
         ConfigService,
         provideMockStore({ initialState }),
@@ -68,6 +77,7 @@ class TestBedSetUp {
         ReactiveFormsModule,
         getTranslocoModule(),
         CoreModule,
+        RouterTestingModule,
       ],
     });
   }
@@ -97,55 +107,74 @@ describe('OrderCockpitComponent', () => {
         waiterCockpitService = TestBed.inject(WaiterCockpitService);
         dialog = TestBed.inject(MatDialog);
         translocoService = TestBed.inject(TranslocoService);
+        spyOn(translocoService, 'selectTranslateObject').and.returnValue(
+          translocoServiceStub.selectTranslateObject
+        );
       });
   }));
 
-  // it('should create component and verify content and total records of orders', fakeAsync(() => {
-  //   spyOn(translocoService, 'selectTranslateObject').and.returnValue(
-  //     translocoServiceStub.selectTranslateObject,
-  //   );
-  //   fixture.detectChanges();
-  //   tick();
-  //   expect(component).toBeTruthy();
-  //   expect(component.orders).toEqual(orderData.content);
-  //   expect(component.totalOrders).toBe(8);
-  // }));
+  beforeEach(() => {
+    fixture = TestBed.createComponent(OrderCockpitComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-  // it('should go to next page of orders', () => {
-  //   component.page({
-  //     pageSize: 100,
-  //     pageIndex: 2,
-  //     length: 50,
-  //   });
-  //   expect(component.orders).toEqual(orderData.content);
-  //   expect(component.totalOrders).toBe(8);
-  // });
+  it('should create component', () => {
+    expect(component).toBeTruthy();
+  });
 
-  // it('should clear form and reset', fakeAsync(() => {
-  //   const clearFilter = el.query(By.css('.orderClearFilters'));
-  //   click(clearFilter);
-  //   fixture.detectChanges();
-  //   tick();
-  //   expect(component.orders).toEqual(orderData.content);
-  //   expect(component.totalOrders).toBe(8);
-  // }));
+  it('should verify table header names', () => {
+    expect(component.columns[0].label === 'Reservation Date').toBeTruthy();
+    expect(component.columns[1].label === 'Email').toBeTruthy();
+    expect(component.columns[2].label === 'Reference Number').toBeTruthy();
+    expect(component.columns[3].label === 'Status').toBeTruthy();
+    expect(component.columns[4].label === 'Payment').toBeTruthy();
+  });
+
+  it('should verify content and total records of orders', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+    expect(component.orders).toEqual(orderData.content);
+    expect(component.totalOrders).toBe(8);
+  }));
+
+  it('should go to next page of orders', () => {
+    component.page({
+      pageSize: 100,
+      pageIndex: 2,
+      length: 50,
+    });
+    expect(component.orders).toEqual(orderData.content);
+    expect(component.totalOrders).toBe(8);
+  });
+
+  it('should clear form and reset', fakeAsync(() => {
+    const clearFilter = el.query(By.css('.orderClearFilters'));
+    click(clearFilter);
+    fixture.detectChanges();
+    tick();
+    expect(component.orders).toEqual(orderData.content);
+    expect(component.totalOrders).toBe(8);
+  }));
 
   // it('should open OrderDialogComponent dialog on click of row', fakeAsync(() => {
+  //   const rows = el.queryAll(By.css('.mat-row'));
+  //   console.warn(rows);
+  //   click(rows[0]);
   //   fixture.detectChanges();
-  //   const clearFilter = el.queryAll(By.css('.mat-row'));
-  //   click(clearFilter[0]);
   //   tick();
   //   expect(dialog.open).toHaveBeenCalled();
   // }));
 
-  // it('should filter the order table on click of submit', fakeAsync(() => {
-  //   fixture.detectChanges();
-  //   const submit = el.query(By.css('.orderApplyFilters'));
-  //   click(submit);
-  //   tick();
-  //   expect(component.orders).toEqual(orderData.content);
-  //   expect(component.totalOrders).toBe(8);
-  // }));
+  it('should filter the order table on click of submit', fakeAsync(() => {
+    fixture.detectChanges();
+    const submit = el.query(By.css('.orderApplyFilters'));
+    click(submit);
+    tick();
+    expect(component.orders).toEqual(orderData.content);
+    expect(component.totalOrders).toBe(8);
+  }));
+
 });
 
 describe('TestingOrderCockpitComponentWithSortOrderData', () => {
@@ -175,12 +204,12 @@ describe('TestingOrderCockpitComponentWithSortOrderData', () => {
       });
   }));
 
-  // it('should sort records of orders', () => {
-  //   component.sort({
-  //     active: 'Reservation Date',
-  //     direction: 'asc',
-  //   });
-  //   expect(component.orders).toEqual(ascSortOrder.content);
-  //   expect(component.totalOrders).toBe(8);
-  // });
+  it('should sort records of orders', () => {
+    component.sort({
+      active: 'Reservation Date',
+      direction: 'asc',
+    });
+    expect(component.orders).toEqual(ascSortOrder.content);
+    expect(component.totalOrders).toBe(8);
+  });
 });
