@@ -37,9 +37,9 @@ public interface OrdermanagementRestService {
   // * @param servingtime the serving time of the {@link OrderEto}
   // * @return the {@link OrderEto} serving time 'servingtime'
   // */
-  @PATCH
-  @Path("/order/setservingtime")
-  public OrderEto setServingTime(OrderCto order);
+  // @PATCH
+  // @Path("/order/setservingtime")
+  // public OrderEto setServingTime(OrderCto order);
 
   /**
    * Delegates to {@link Ordermanagement#setNewStatus}

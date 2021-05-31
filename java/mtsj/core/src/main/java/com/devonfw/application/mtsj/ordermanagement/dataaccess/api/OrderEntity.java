@@ -16,7 +16,6 @@ import com.devonfw.application.mtsj.bookingmanagement.dataaccess.api.BookingEnti
 import com.devonfw.application.mtsj.bookingmanagement.dataaccess.api.InvitedGuestEntity;
 import com.devonfw.application.mtsj.general.dataaccess.api.ApplicationPersistenceEntity;
 import com.devonfw.application.mtsj.ordermanagement.common.api.Order;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * The {@link com.devonfw.application.mtsj.general.dataaccess.api.ApplicationPersistenceEntity persistent entity} for
@@ -40,7 +39,7 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
 
   private Long paymentstatus;
 
-  @JsonIgnoreProperties(ignoreUnknown = true)
+  // @JsonIgnoreProperties(ignoreUnknown = true)
   private Instant servingtime;
 
   /**
@@ -221,12 +220,7 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
   @Override
   public void setServingTime(Instant servingtime) {
 
-    if (servingtime != null) {
-      this.servingtime = servingtime;
-    } else {
-      this.servingtime = null;
-    }
-
+    this.servingtime = servingtime;
   }
 
 }

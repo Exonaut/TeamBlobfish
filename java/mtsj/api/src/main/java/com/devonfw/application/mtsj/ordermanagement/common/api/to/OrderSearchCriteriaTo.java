@@ -1,5 +1,7 @@
 package com.devonfw.application.mtsj.ordermanagement.common.api.to;
 
+import java.time.Instant;
+
 import com.devonfw.application.mtsj.general.common.api.to.AbstractSearchCriteriaTo;
 import com.devonfw.module.basic.common.api.query.StringSearchConfigTo;
 
@@ -31,6 +33,8 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
   private Long[] orderstatus;
 
   private Long[] paymentstatus;
+
+  private Instant[] servingtime;
 
   /**
    * The constructor.
@@ -190,6 +194,22 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
   public void setPaymentstatus(Long[] paymentstatus) {
 
     this.paymentstatus = paymentstatus;
+  }
+
+  /**
+   * @return servingtime
+   */
+  public Instant[] getServingtime() {
+
+    return this.servingtime;
+  }
+
+  /**
+   * @param servingtime new value of {@link #getservingtime}.
+   */
+  public void setServingtime(Instant[] servingtime) {
+
+    this.servingtime = servingtime;
   }
 
 }
