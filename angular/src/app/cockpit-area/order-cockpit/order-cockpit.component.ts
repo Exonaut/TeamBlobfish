@@ -203,7 +203,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   }
 
   applyChanges(element: any, orderStatus: number, paymentStatus: number): void {
-    if (orderStatus == 5) paymentStatus = 1;
+    if (orderStatus === 5) { paymentStatus = 1; }
     this.waiterCockpitService.setOrderStatus(element.order.id, orderStatus) // Send order status
       .subscribe(
         (dataA: any) => {
