@@ -16,20 +16,7 @@ public class ResponseMenuDishes {
       else
         sb.append(this.content[i].dish.name);
     }
-
-    String str = sb.toString().replaceFirst("", " Menu 1: ");
-
-    String strMenu = "";
-    int j = 2;
-    for (int i = 0; i < str.length(); i++) {
-      if (str.charAt(i) == ',') {
-        strMenu += ". Menu " + j + ":";
-        j++;
-      } else
-        strMenu += "" + str.charAt(i);
-    }
-
-    return strMenu;
+    return sb.toString();
   }
 
 }
