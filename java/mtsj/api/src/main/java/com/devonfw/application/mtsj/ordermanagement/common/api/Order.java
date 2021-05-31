@@ -23,4 +23,5 @@ public interface Order extends ApplicationEntity {
   public Long getPaymentStatus();
 
   public void setPaymentStatus(Long paymentstatus);
+
 }

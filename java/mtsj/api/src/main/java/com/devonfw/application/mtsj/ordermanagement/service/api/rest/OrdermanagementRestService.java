@@ -31,16 +31,6 @@ import com.devonfw.application.mtsj.ordermanagement.logic.api.Ordermanagement;
 public interface OrdermanagementRestService {
 
   /**
-   * Delegates to {@link Ordermanagement#findOrder}.
-   *
-   * @param id the ID of the {@link OrderEto}
-   * @return the {@link OrderEto}
-   */
-  @GET
-  @Path("/order/{id}/")
-  public OrderCto getOrder(@PathParam("id") long id);
-
-  /**
    * Delegates to {@link Ordermanagement#setNewStatus}
    *
    * @param id the ID of the {@link OrderEto}
@@ -60,6 +50,16 @@ public interface OrdermanagementRestService {
   @PATCH
   @Path("/order/setpayment/{id}/{paymentstatus}")
   public OrderEto setNewPaymentStatus(@PathParam("id") long id, @PathParam("paymentstatus") long paymentstatus);
+
+  /**
+   * Delegates to {@link Ordermanagement#findOrder}.
+   *
+   * @param id the ID of the {@link OrderEto}
+   * @return the {@link OrderEto}
+   */
+  @GET
+  @Path("/order/{id}/")
+  public OrderCto getOrder(@PathParam("id") long id);
 
   /**
    * Delegates to {@link Ordermanagement#saveOrder}.

@@ -21,7 +21,7 @@ public interface Ordermanagement {
   /**
    * set new ordered status
    *
-   * @param id
+   * @param id The id 'id' of the Order.
    * @param orderstatus
    * @return The {@link OrderEto} with id 'id' and order status 'orderstatus'
    */
@@ -30,7 +30,7 @@ public interface Ordermanagement {
   /**
    * set new payment status
    *
-   * @param id
+   * @param id The id 'id' of the Order.
    * @param paymentstatus
    * @return The {@link OrderEto} with id 'id' and payment status 'paymentstatus'
    */

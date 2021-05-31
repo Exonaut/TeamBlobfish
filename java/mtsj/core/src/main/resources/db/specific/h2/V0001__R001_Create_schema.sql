@@ -159,6 +159,7 @@ CREATE TABLE OrderLine (
   amount INTEGER,
   comment VARCHAR (255),
   idOrder BIGINT NOT NULL,
+  servingTime TIMESTAMP,
   CONSTRAINT PK_OrderLine PRIMARY KEY(id),
   CONSTRAINT FK_OrderLine_idDish FOREIGN KEY(idDish) REFERENCES Dish(id) NOCHECK,
   CONSTRAINT FK_OrderLine_idOrder FOREIGN KEY(idOrder) REFERENCES Orders(id) NOCHECK
