@@ -57,7 +57,7 @@ const waiterCockpitServiceSortStub = {
 
 const activatedRouteStub = {
   data: of({archive: false})
-}
+};
 
 class TestBedSetUp {
   static loadWaiterCockpitServiceStud(waiterCockpitStub: any): any {
@@ -107,9 +107,9 @@ describe('OrderCockpitComponent', () => {
         waiterCockpitService = TestBed.inject(WaiterCockpitService);
         dialog = TestBed.inject(MatDialog);
         translocoService = TestBed.inject(TranslocoService);
-        spyOn(translocoService, 'selectTranslateObject',).and.returnValue(
+        spyOn(translocoService, 'selectTranslateObject').and.returnValue(
           translocoServiceStub.selectTranslateObject
-        )
+        );
       });
   }));
 
@@ -117,18 +117,18 @@ describe('OrderCockpitComponent', () => {
     fixture = TestBed.createComponent(OrderCockpitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  })
+  });
 
   it('should create component', () => {
     expect(component).toBeTruthy();
   });
 
   it('should verify table header names', () => {
-    expect(component.columns[0].label == 'Reservation Date').toBeTruthy();
-    expect(component.columns[1].label == 'Email').toBeTruthy();
-    expect(component.columns[2].label == 'Reference Number').toBeTruthy();
-    expect(component.columns[3].label == 'Status').toBeTruthy();
-    expect(component.columns[4].label == 'Payment').toBeTruthy();
+    expect(component.columns[0].label === 'Reservation Date').toBeTruthy();
+    expect(component.columns[1].label === 'Email').toBeTruthy();
+    expect(component.columns[2].label === 'Reference Number').toBeTruthy();
+    expect(component.columns[3].label === 'Status').toBeTruthy();
+    expect(component.columns[4].label === 'Payment').toBeTruthy();
   });
 
   it('should verify content and total records of orders', fakeAsync(() => {
