@@ -31,18 +31,13 @@ public class UserEntity extends ApplicationPersistenceEntity implements User {
 
   private boolean twoFactorStatus;
 
-  @JoinColumn(name = "idRole", updatable = false, insertable = false)
-  private Long userRoleId;
-
   private UserRoleEntity userRole;
 
-  private List<Long> bookingId;
+  private Long userRoleId;
 
   private List<BookingEntity> bookings;
 
   private List<DishEntity> favourites;
-
-  private List<Long> favouritesId;
 
   private static final long serialVersionUID = 1L;
 
@@ -138,8 +133,8 @@ public class UserEntity extends ApplicationPersistenceEntity implements User {
   /**
    * @return userRole
    */
-  // @ManyToOne(fetch = FetchType.EAGER)
-  // @JoinColumn(name = "idRole")
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "idRole")
   public UserRoleEntity getUserRole() {
 
     return this.userRole;
@@ -173,34 +168,6 @@ public class UserEntity extends ApplicationPersistenceEntity implements User {
   }
 
   /**
-   *
-   * @return
-   */
-  // @ManyToMany
-  // @JoinTable(name = "UserFavourite", joinColumns = {
-  // @javax.persistence.JoinColumn(name = "idUser") }, inverseJoinColumns = @javax.persistence.JoinColumn(name =
-  // "idDish"))
-  public List<Long> getFavouriteId() {
-
-    // for (int i = 0; i < this.favourites.size(); i++) {
-    // this.favouritesId.add(i, this.favourites.get(i).getId());
-    // }
-
-    return this.favouritesId;
-  }
-
-  /**
-   *
-   * @param favourites
-   */
-  public void setFavouriteId(List<DishEntity> favourites) {
-
-    for (int i = 0; i < this.favourites.size(); i++) {
-      this.favouritesId.add(i, this.favourites.get(i).getId());
-    }
-  }
-
-  /**
    * @return bookings
    */
   @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
@@ -217,27 +184,14 @@ public class UserEntity extends ApplicationPersistenceEntity implements User {
     this.bookings = bookings;
   }
 
-  /**
-   *
-   * @return
-   */
-  // @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-  public List<Long> getBookingId() {
-
-    for (int i = 0; i < this.bookings.size(); i++) {
-      this.bookingId.add(i, this.bookings.get(i).getId());
-    }
-    return this.bookingId;
-  }
-
   @Override
   @Transient
-  @ManyToOne(fetch = FetchType.EAGER)
   public Long getUserRoleId() {
 
-    // if (this.userRoleId == null) {
-    // return null;
-    // }
+    if (this.userRole == null) {
+      return null;
+    }
+    this.userRoleId = this.userRole.getId();
     // return this.userRole.getId();
     return this.userRoleId;
   }
@@ -245,15 +199,14 @@ public class UserEntity extends ApplicationPersistenceEntity implements User {
   @Override
   public void setUserRoleId(Long userRoleId) {
 
-    // if (userRoleId == null) {
-    // this.userRole = null;
-    // this.userRoleId = null;
-    // } else {
-    // UserRoleEntity userRoleEntity = new UserRoleEntity();
-    // userRoleEntity.setId(userRoleId);
-    // this.userRole = userRoleEntity;
-    this.userRoleId = userRoleId;
+    if (userRoleId == null) {
+      this.userRole = null;
+      this.userRoleId = null;
+    } else {
+      UserRoleEntity userRoleEntity = new UserRoleEntity();
+      userRoleEntity.setId(userRoleId);
+      this.userRole = userRoleEntity;
+      this.userRoleId = userRoleId;
+    }
   }
 }
-
-// }

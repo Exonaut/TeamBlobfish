@@ -44,18 +44,9 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
 
   private TableEntity table;
 
-  @JoinColumn(name = "idTable", updatable = false, insertable = false)
-  private Long tableId;
-
   private OrderEntity order;
 
-  @JoinColumn(name = "idOrder", updatable = false, insertable = false)
-  private Long orderId;
-
   private UserEntity user;
-
-  @JoinColumn(name = "idUser", updatable = false, insertable = false)
-  private Long userId;
 
   private List<InvitedGuestEntity> invitedGuests;
 
@@ -202,8 +193,8 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @return table
    */
-  // @ManyToOne(fetch = FetchType.EAGER)
-  // @JoinColumn(name = "idTable")
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "idTable")
   public TableEntity getTable() {
 
     return this.table;
@@ -267,34 +258,31 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
 
   @Override
   @Transient
-  @ManyToOne(fetch = FetchType.EAGER)
   public Long getTableId() {
 
-    // if (this.table == null) {
-    // return null;
-    // }
-    // return this.table.getId();
-    return this.tableId;
+    if (this.table == null) {
+      return null;
+    }
+    return this.table.getId();
   }
 
   @Override
   public void setTableId(Long tableId) {
 
-    // if (tableId == null) {
-    // this.table = null;
-    // } else {
-    // TableEntity tableEntity = new TableEntity();
-    // tableEntity.setId(tableId);
-    // this.table = tableEntity;
-    // }
-    this.tableId = tableId;
+    if (tableId == null) {
+      this.table = null;
+    } else {
+      TableEntity tableEntity = new TableEntity();
+      tableEntity.setId(tableId);
+      this.table = tableEntity;
+    }
   }
 
   /**
    * @return order
    */
-  // @OneToOne(fetch = FetchType.EAGER)
-  // @JoinColumn(name = "idOrder")
+  @OneToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "idOrder")
   public OrderEntity getOrder() {
 
     return this.order;
@@ -310,27 +298,24 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
 
   @Override
   @Transient
-  @OneToOne(fetch = FetchType.EAGER)
   public Long getOrderId() {
 
-    // if (this.order == null) {
-    // return null;
-    // }
-    // return this.order.getId();
-    return this.orderId;
+    if (this.order == null) {
+      return null;
+    }
+    return this.order.getId();
   }
 
   @Override
   public void setOrderId(Long orderId) {
 
-    // if (orderId == null) {
-    // this.order = null;
-    // } else {
-    // OrderEntity orderEntity = new OrderEntity();
-    // orderEntity.setId(orderId);
-    // this.order = orderEntity;
-    // }
-    this.orderId = orderId;
+    if (orderId == null) {
+      this.order = null;
+    } else {
+      OrderEntity orderEntity = new OrderEntity();
+      orderEntity.setId(orderId);
+      this.order = orderEntity;
+    }
   }
 
   /**
@@ -371,8 +356,8 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @return user
    */
-  // @ManyToOne(fetch = FetchType.EAGER)
-  // @JoinColumn(name = "idUser")
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "idUser")
   public UserEntity getUser() {
 
     return this.user;
@@ -388,27 +373,24 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
 
   @Override
   @Transient
-  @ManyToOne(fetch = FetchType.EAGER)
   public Long getUserId() {
 
-    // if (this.user == null) {
-    // return null;
-    // }
-    // return this.user.getId();
-    return this.userId;
+    if (this.user == null) {
+      return null;
+    }
+    return this.user.getId();
   }
 
   @Override
   public void setUserId(Long userId) {
 
-    // if (userId == null) {
-    // this.user = null;
-    // } else {
-    // UserEntity userEntity = new UserEntity();
-    // userEntity.setId(userId);
-    // this.user = userEntity;
-    // }
-    this.userId = userId;
+    if (userId == null) {
+      this.user = null;
+    } else {
+      UserEntity userEntity = new UserEntity();
+      userEntity.setId(userId);
+      this.user = userEntity;
+    }
   }
 
 }

@@ -195,6 +195,12 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
     return getBeanMapper().map(resultEntity, UserRoleEto.class);
   }
 
+  private UserRoleEto getUserRole(Long userRoleId) {
+
+    UserRoleEntity userRole = getUserRoleDao().find(userRoleId);
+    return getBeanMapper().map(userRole, UserRoleEto.class);
+  }
+
   /**
    * Assigns a randomly generated secret for an specific user
    *
