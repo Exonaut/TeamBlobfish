@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -210,6 +211,16 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
       LOG.debug("MD5 Algorithm not available at the enviroment");
     }
 
+    // search a Table
+    TableSearchCriteriaTo newTable = new TableSearchCriteriaTo();
+    newTable.setSeatsNumber(bookingEntity.getAssistants());
+    Pageable sortedByName = PageRequest.of(0, 9);
+    newTable.setPageable(sortedByName);
+    Page<TableEto> eto = findTableEtos(newTable);
+    Random r = new Random();
+    int randomTable = r.nextInt(eto.getContent().size());
+    bookingEntity.setTable(getBeanMapper().map(eto.getContent().get(randomTable), TableEntity.class));
+
     bookingEntity.setCreationDate(Instant.now());
     bookingEntity.setExpirationDate(bookingEntity.getBookingDate().minus(Duration.ofHours(1)));
 
@@ -267,6 +278,7 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
     return getBeanMapper().map(getInvitedGuestDao().find(id), InvitedGuestEto.class);
   }
 
+  @Override
   public List<InvitedGuestEto> findInvitedGuestByBooking(Long bookingId) {
 
     List<InvitedGuestEntity> invitedGuestList = getInvitedGuestDao().findInvitedGuestByBooking(bookingId);
@@ -357,6 +369,7 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
     return getBeanMapper().map(resultEntity, TableEto.class);
   }
 
+  @Override
   public InvitedGuestEto acceptInvite(String guestToken) {
 
     Objects.requireNonNull(guestToken);
@@ -429,6 +442,7 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
       invitedMailContent.append(booking.getEmail()).append(" has invited you to an event on My Thai Star restaurant")
           .append("\n");
       invitedMailContent.append("Booking Date: ").append(booking.getBookingDate()).append("\n");
+      invitedMailContent.append("Booking Table: ").append(booking.getTable().getId()).append("\n");
 
       String linkAccept = getClientUrl() + "/booking/acceptInvite/" + guest.getGuestToken();
 
@@ -455,6 +469,7 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
           .append("\n");
       hostMailContent.append("Booking CODE: ").append(booking.getBookingToken()).append("\n");
       hostMailContent.append("Booking Date: ").append(booking.getBookingDate()).append("\n");
+      hostMailContent.append("Booking Table: ").append(booking.getTable().getId()).append("\n");
       if (!booking.getInvitedGuests().isEmpty()) {
         hostMailContent.append("Guest list:").append("\n");
         for (InvitedGuestEntity guest : booking.getInvitedGuests()) {
@@ -480,6 +495,7 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
           .append(booking.getBooking().getEmail()).append(">").append("\n");
       guestMailContent.append("Guest CODE: ").append(guest.getGuestToken()).append("\n");
       guestMailContent.append("Booking Date: ").append(booking.getBooking().getBookingDate()).append("\n");
+      guestMailContent.append("Booking Table: ").append(booking.getTable().getId()).append("\n");
 
       String cancellationLink = getClientUrl() + "/booking/rejectInvite/" + guest.getGuestToken();
 
