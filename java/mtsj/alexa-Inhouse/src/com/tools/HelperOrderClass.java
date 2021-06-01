@@ -17,6 +17,8 @@ public class HelperOrderClass {
 
   public static RequestOrder req;
 
+  public static ArrayList<Extras> extras;
+
   public static String getExtrasName(String dishID) {
 
     BasicOperations bo = new BasicOperations();
@@ -34,7 +36,9 @@ public class HelperOrderClass {
 
     String extraStr = "Zu diesem Gericht können Sie ";
 
-    for (int i = 0; i < response.extras.size(); i++) {
+    extras = response.extras;
+
+    for (int i = 0; i < extras.size(); i++) {
 
       if (i < response.extras.size() - 1)
         extraStr += response.extras.get(i).name + " für "

@@ -42,19 +42,17 @@ public class AmountDishes implements IntentRequestHandler {
 
     ArrayList<Extras> extrasArray = new ArrayList<>();
 
-    ArrayList<String> extrasNameArray = HelperOrderClass.getExtrasNameArray();
+    for (Extras s : HelperOrderClass.extras) {
 
-    for (String s : extrasNameArray) {
-
-      if (extra.getValue().contains(s.toLowerCase())) {
+      if (extra.getValue().contains(s.name.toLowerCase())) {
         Extras extras = new Extras();
-        extras.id = HelperOrderClass.getExtrasID(s.toLowerCase());
+        extras.id = s.id;
         extrasArray.add(extras);
       }
 
     }
 
-    if (extrasArray.get(0).id == null) {
+    if (extrasArray.size() == 0) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("extra", intentRequest.getIntent())
           .withSpeech("Welche Extras möchten Sie? Wenn Sie keine Extras möchten, dann sagen Sie: ohne extras.")

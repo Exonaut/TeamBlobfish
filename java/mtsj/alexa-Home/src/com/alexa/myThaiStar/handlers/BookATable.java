@@ -83,8 +83,7 @@ public class BookATable implements RequestHandler {
           .withSimpleCard("BookATable", speechText + " \n " + payload).build();
     }
 
-    speechText = "Vielen Dank. Ihre Reservierung wurde aufgenommen. Wir freuen uns auf Ihren Besuch." + date.getValue()
-        + time.getValue();
+    speechText = "Vielen Dank. Ihre Reservierung wurde aufgenommen. Wir freuen uns auf Ihren Besuch.";
 
     return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText).build();
   }

@@ -81,8 +81,7 @@ public class CallFoodMenu implements RequestHandler {
       ResponseMenuDishes response = gson.fromJson(resStr, ResponseMenuDishes.class);
 
       speechText = "Wir haben " + response.toString()
-          + " Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Thai green chicken curry erfahren. "
-          + "Wenn Sie bereits eine Auswahl getroffen haben, dann sagen Sie zum Beispiel: Ich möchte Thai green chicken curry bestellen";
+          + " Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Thai green chicken curry erfahren.";
 
     }
 
