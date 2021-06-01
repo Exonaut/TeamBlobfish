@@ -25,7 +25,7 @@ import com.alexa.myThaiStar.handlers.OrderInhouse.AmountDishes;
 import com.alexa.myThaiStar.handlers.OrderInhouse.AmountDrinks;
 import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDishOrDoUWantToDrink;
 import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDishYesNo;
-import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDrinkOrDoUWantCloseOrder;
+import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDrinkOrCloseOrder;
 import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDrinkYesNo;
 import com.alexa.myThaiStar.handlers.OrderInhouse.Completed;
 import com.alexa.myThaiStar.handlers.OrderInhouse.CustomerDetailsConfirmSlot;
@@ -62,7 +62,7 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new DishesConfirmSlot(),
             new Completed(),
             new AnotherDrinkYesNo(),
-            new AnotherDrinkOrDoUWantCloseOrder(),
+            new AnotherDrinkOrCloseOrder(),
             new AnotherDishYesNo(),
             new AnotherDishOrDoUWantToDrink(),
             new AmountDrinks(),

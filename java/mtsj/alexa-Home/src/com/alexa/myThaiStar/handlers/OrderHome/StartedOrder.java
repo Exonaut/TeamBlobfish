@@ -91,8 +91,9 @@ public class StartedOrder implements IntentRequestHandler {
       if (c.booking.email.equals(userEmail)) {
 
         HelperOrderClass.req = new RequestOrder();
-
         HelperOrderClass.req.booking.bookingToken = c.booking.bookingToken;
+        HelperOrderClass.req.booking.bookingDate = c.booking.bookingDate.replace(".000000000", "");
+
         return true;
       }
     }

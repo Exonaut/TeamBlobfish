@@ -42,6 +42,7 @@ public class AnotherDishYesNo implements IntentRequestHandler {
 
       ArrayList<String> extrasNameArray = HelperOrderClass.getExtrasNameArray();
 
+      //TODO statisches extrasNameArray wird in AmountDishes auch wieder so aufgerufen
       for (String s : extrasNameArray) {
 
         if (extra.getValue().contains(s.toLowerCase())) {

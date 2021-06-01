@@ -1,5 +1,6 @@
 package com.devonfw.application.mtsj.ordermanagement.dataaccess.api;
 
+import java.time.Instant;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -37,6 +38,21 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
   private Long orderstatus;
 
   private Long paymentstatus;
+
+  private Instant serveTime;
+
+  @Override
+  public void setServeTime(Instant servetime) {
+
+    this.serveTime = servetime;
+
+  }
+
+  @Override
+  public Instant getServeTime() {
+
+    return this.serveTime;
+  }
 
   /**
    * @return booking

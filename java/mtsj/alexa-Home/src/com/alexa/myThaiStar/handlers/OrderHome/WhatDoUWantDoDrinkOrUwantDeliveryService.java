@@ -10,7 +10,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 
-public class WhatDoUWantDoDrink implements IntentRequestHandler {
+public class WhatDoUWantDoDrinkOrUwantDeliveryService implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
@@ -18,7 +18,8 @@ public class WhatDoUWantDoDrink implements IntentRequestHandler {
     return handlerInput.matches(intentName("makeAOrderHome"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS
         && intentRequest.getIntent().getSlots().get("yesNoDrink").getValue() != null
-        && intentRequest.getIntent().getSlots().get("drink").getValue() == null;
+        && intentRequest.getIntent().getSlots().get("drink").getValue() == null
+        && intentRequest.getIntent().getSlots().get("deliveryServiceYesNo").getValue() == null;
 
   }
 
@@ -32,7 +33,9 @@ public class WhatDoUWantDoDrink implements IntentRequestHandler {
 
     } else if (intentRequest.getIntent().getSlots().get("yesNoDrink").getValue().equals("nein")) {
 
-      return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("deliveryServiceYesNo", intentRequest.getIntent())
+          .withSpeech("Möchten Sie sich die Bestellung liefern lassen ?").withReprompt("Wünschen Sie eine Lieferung ?")
+          .build();
 
     }
 

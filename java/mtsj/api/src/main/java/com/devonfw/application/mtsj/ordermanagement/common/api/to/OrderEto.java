@@ -1,5 +1,7 @@
 package com.devonfw.application.mtsj.ordermanagement.common.api.to;
 
+import java.time.Instant;
+
 import com.devonfw.application.mtsj.ordermanagement.common.api.Order;
 import com.devonfw.module.basic.common.api.to.AbstractEto;
 
@@ -19,6 +21,21 @@ public class OrderEto extends AbstractEto implements Order {
   private Long orderstatus;
 
   private Long paymentstatus;
+
+  private Instant servetime;
+
+  @Override
+  public void setServeTime(Instant servetime) {
+
+    this.servetime = servetime;
+
+  }
+
+  @Override
+  public Instant getServeTime() {
+
+    return this.servetime;
+  }
 
   /**
    * @return bookingToken

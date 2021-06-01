@@ -15,8 +15,6 @@ public class StartedOrder implements IntentRequestHandler {
 
   private static String BASE_URL;
 
-  private static long flexTime = 1800000;
-
   /**
    * The constructor.
    *

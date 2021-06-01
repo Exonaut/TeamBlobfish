@@ -1,4 +1,4 @@
-package com.alexa.myThaiStar.handlers.OrderInhouse;
+package com.alexa.myThaiStar.handlers.OrderHome;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
@@ -11,14 +11,15 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 
-public class AnotherDrinkOrDoUWantCloseOrder implements IntentRequestHandler {
+public class AnotherDrinkOrDeliveryService implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    return (handlerInput.matches(intentName("makeAOrderInhouse"))
+    return (handlerInput.matches(intentName("makeAOrderHome"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
-        && intentRequest.getIntent().getSlots().get("yesNoAnotherDrink").getValue() != null;
+        && intentRequest.getIntent().getSlots().get("yesNoAnotherDrink").getValue() != null
+        && intentRequest.getIntent().getSlots().get("deliveryServiceYesNo").getValue() == null;
 
   }
 
@@ -40,7 +41,9 @@ public class AnotherDrinkOrDoUWantCloseOrder implements IntentRequestHandler {
           .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie noch zum trinken?").build();
     } else if (yesNoAnotherDrink.getValue().equals("nein")) {
 
-      return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("deliveryServiceYesNo", intentRequest.getIntent())
+          .withSpeech("Möchten Sie sich die Bestellung liefern lassen ?").withReprompt("Wünschen Sie eine Lieferung ?")
+          .build();
 
     }
 

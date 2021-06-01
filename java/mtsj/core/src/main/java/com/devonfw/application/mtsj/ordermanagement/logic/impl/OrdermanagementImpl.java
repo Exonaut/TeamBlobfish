@@ -255,11 +255,13 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       orderLineEntity.setDishId(lineCto.getOrderLine().getDishId());
       orderLineEntity.setAmount(lineCto.getOrderLine().getAmount());
       orderLineEntity.setComment(lineCto.getOrderLine().getComment());
-      orderLineEntity.setServingTime(lineCto.getOrderLine().getServingTime());
       orderLineEntities.add(orderLineEntity);
     }
 
     OrderEntity orderEntity = getBeanMapper().map(order, OrderEntity.class);
+
+    orderEntity.setServeTime(order.getOrder().getServeTime());
+
     String token = orderEntity.getBooking().getBookingToken();
     // initialize, validate orderEntity here if necessary
     orderEntity = getValidatedOrder(orderEntity.getBooking().getBookingToken(), orderEntity);

@@ -1,8 +1,14 @@
 package com.devonfw.application.mtsj.ordermanagement.common.api;
 
+import java.time.Instant;
+
 import com.devonfw.application.mtsj.general.common.api.ApplicationEntity;
 
 public interface Order extends ApplicationEntity {
+
+  public void setServeTime(Instant servetime);
+
+  public Instant getServeTime();
 
   public Long getBookingId();
 

@@ -26,14 +26,16 @@ import com.alexa.myThaiStar.handlers.OrderHome.AmountDishes;
 import com.alexa.myThaiStar.handlers.OrderHome.AmountDrinks;
 import com.alexa.myThaiStar.handlers.OrderHome.AnotherDishOrDoUWantToDrink;
 import com.alexa.myThaiStar.handlers.OrderHome.AnotherDishYesNo;
-import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkOrDoUWantCloseOrder;
+import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkOrDeliveryService;
 import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkYesNo;
+import com.alexa.myThaiStar.handlers.OrderHome.CloseOrder;
+import com.alexa.myThaiStar.handlers.OrderHome.CloseOrderOrServingTime;
 import com.alexa.myThaiStar.handlers.OrderHome.Completed;
 import com.alexa.myThaiStar.handlers.OrderHome.DishesConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderHome.DrinksConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderHome.ShowExtrasDishes;
 import com.alexa.myThaiStar.handlers.OrderHome.StartedOrder;
-import com.alexa.myThaiStar.handlers.OrderHome.WhatDoUWantDoDrink;
+import com.alexa.myThaiStar.handlers.OrderHome.WhatDoUWantDoDrinkOrUwantDeliveryService;
 
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
@@ -41,7 +43,7 @@ import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://25f2211fd86b.ngrok.io";
+  public static final String BASE_URL = "https://4b8f873e8877.ngrok.io";
 
   private static Skill getSkill() {
 
@@ -65,8 +67,11 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new DishesConfirmSlot(),
             new DrinksConfirmSlot(),
             new AnotherDishOrDoUWantToDrink(),
-            new AnotherDrinkOrDoUWantCloseOrder(),
-            new WhatDoUWantDoDrink ())
+            new AnotherDrinkOrDeliveryService(),
+            new WhatDoUWantDoDrinkOrUwantDeliveryService (),
+            new CloseOrderOrServingTime(),
+            new CloseOrder()
+            )
         // Add your skill id below
         .withSkillId("amzn1.ask.skill.2cb6b023-f36d-43f9-8c18-3b509cf3f2d6").build();
   }

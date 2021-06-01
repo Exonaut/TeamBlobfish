@@ -1,6 +1,10 @@
 package com.tools;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.alexa.myThaiStar.MyThaiStarStreamHandler;
 import com.entity.dish.Content;
@@ -50,6 +54,96 @@ public class HelperOrderClass {
     }
 
     return extraStr;
+
+  }
+
+  public static String getFormatDateTimeAndCalculate(String date_time) {
+
+    SimpleDateFormat olfFormat = new SimpleDateFormat("yyyy-M-dd HH:mm");
+
+    SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    Date date = null;
+    try {
+      date = olfFormat.parse(date_time);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+    cal.add(Calendar.HOUR_OF_DAY, -2);
+
+    return newFormat.format(cal.getTime());
+
+  }
+
+  public static String getTimeFormat(String timeFormat, int defaultServeTime) {
+
+    SimpleDateFormat newFormat = new SimpleDateFormat("HH:mm");
+
+    SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    Date date = null;
+    try {
+      date = oldFormat.parse(timeFormat);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+    cal.add(Calendar.MINUTE, defaultServeTime);
+
+    return newFormat.format(cal.getTime());
+
+  }
+
+  public static String getDateFormat(String dateFormat) {
+
+    SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    Date date = null;
+    try {
+      date = oldFormat.parse(dateFormat);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+
+    return newFormat.format(cal.getTime());
+
+  }
+
+  public static String convertSecondsToDateTime(String bookingDateTime) {
+
+    long bookingDateTimeMilliseconds = Long.parseLong(bookingDateTime) * 1000;
+
+    Date formatDateTime = new Date(bookingDateTimeMilliseconds);
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    return sdf.format(formatDateTime);
+  }
+
+  public static boolean compareTime(String reservationTime, String serveTime) {
+
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+    Date resTime = null;
+    Date setTime = null;
+
+    try {
+      resTime = sdf.parse(reservationTime);
+      setTime = sdf.parse(serveTime);
+    } catch (ParseException e) {
+      return false;
+    }
+
+    if (resTime.after(setTime))
+      return false;
+
+    return true;
 
   }
 

@@ -2,7 +2,6 @@ package com.alexa.myThaiStar.handlers.OrderInhouse;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
-import java.util.Date;
 import java.util.Optional;
 
 import org.apache.http.message.BasicHeader;
@@ -12,11 +11,8 @@ import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
-import com.amazon.ask.model.Slot;
 import com.entity.booking.Booking;
-import com.entity.booking.Content;
 import com.entity.booking.ResponseBooking;
-import com.entity.orderline.RequestOrder;
 import com.google.gson.Gson;
 import com.login.RequestLogin;
 import com.tools.BasicOperations;
@@ -82,7 +78,7 @@ public class CustomerDetailsConfirmSlot implements IntentRequestHandler {
 
     ResponseBooking response = gson.fromJson(respStr, ResponseBooking.class);
 
-    Booking booking = tableBooked(response, intentRequest);
+    Booking booking = HelperOrderClass.tableBooked(response, intentRequest);
 
     if (booking == null)
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
@@ -92,31 +88,6 @@ public class CustomerDetailsConfirmSlot implements IntentRequestHandler {
             + HelperOrderClass.req.booking.assistants + ". Email: " + HelperOrderClass.req.booking.email
             + ". Sind Ihre Daten korrekt?")
         .withReprompt("Sind Ihre Daten korrekt?").build();
-  }
-
-  public Booking tableBooked(ResponseBooking response, IntentRequest intentRequest) {
-
-    Slot queryTable = intentRequest.getIntent().getSlots().get("queryTable");
-    Date date = new Date();
-    long timeNow = date.getTime();
-
-    for (Content c : response.content) {
-      if (Integer.parseInt(c.booking.tableId) == Integer.parseInt(queryTable.getValue())
-          && Math.abs((Long.parseLong(c.booking.bookingDate.replace(".000000000", "")) * 1000) - timeNow) <= flexTime) {
-
-        HelperOrderClass.req = new RequestOrder();
-        HelperOrderClass.req.booking.bookingToken = c.booking.bookingToken;
-        HelperOrderClass.req.booking.name = c.booking.name;
-        HelperOrderClass.req.booking.assistants = c.booking.assistants;
-        HelperOrderClass.req.booking.email = c.booking.email;
-
-        return c.booking;
-
-      }
-
-    }
-
-    return null;
   }
 
 }
