@@ -25,6 +25,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class OrderCockpitComponent implements OnInit, OnDestroy {
   private translocoSubscription = Subscription.EMPTY;
+  private orderStatusTranslocoSubscription = Subscription.EMPTY;
+  private paymentStatusTranslocoSubscription = Subscription.EMPTY;
+
   private pageable: Pageable = {
     pageSize: 8,
     pageNumber: 0,
@@ -60,8 +63,8 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     paymentstatus: [],
   };
 
-  statusNamesMap: string[];
-  paymentNamesMap: string[];
+  orderStatusTranslation: any[];
+  paymentStatusTranslation: any[];
 
   archiveMode = false;
   title = 'cockpit.orders.title';
@@ -85,6 +88,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           this.title = 'cockpit.orders.archive';
           this.filters.paymentstatus = [1, 2];
           this.filters.orderstatus = [5, 6];
+          this.displayedColumns.pop();
         }
         else
         {
@@ -97,8 +101,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     });
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
-      this.setStatusNamesMap(event);
-      this.setPaymentNamesMap(event);
+      this.getTranslationSubscriptions(event);
       moment.locale(this.translocoService.getActiveLang());
     });
   }
@@ -118,34 +121,17 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       });
   }
 
-  /** Set the translation lookup array for status names */
-  setStatusNamesMap(lang: string): void {
-    this.translocoSubscription = this.translocoService
-      .selectTranslateObject('cockpit.status', {}, lang)
-      .subscribe((cockpitStatus) => {
-        this.statusNamesMap = [
-          cockpitStatus.recorded,
-          cockpitStatus.cooking,
-          cockpitStatus.ready,
-          cockpitStatus.handingover,
-          cockpitStatus.delivered,
-          cockpitStatus.completed,
-          cockpitStatus.canceled
-        ]; }
-      );
+  getTranslationSubscriptions(lang: string): void {
+    this.orderStatusTranslocoSubscription = this.waiterCockpitService.updateOrderStatusTranslation(this.translocoService, lang);
+    this.paymentStatusTranslocoSubscription = this.waiterCockpitService.updatePaymentStatusTranslation(this.translocoService, lang);
   }
 
-  /** Set the translation lookup array for payment status names */
-  setPaymentNamesMap(lang: string): void {
-    this.translocoSubscription = this.translocoService
-      .selectTranslateObject('cockpit.payment', {}, lang)
-      .subscribe((cockpitStatus) => {
-        this.paymentNamesMap = [
-          cockpitStatus.pending,
-          cockpitStatus.payed,
-          cockpitStatus.refunded
-        ]; }
-      );
+  getOrderStatusTranslation(): string[] {
+    return this.waiterCockpitService.orderStatusTranslation;
+  }
+
+  getPaymentStatusTranslation(): string[] {
+    return this.waiterCockpitService.paymentStatusTranslation;
   }
 
   /** Get Orders from backend meeting current filter requirements */
@@ -219,5 +205,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.translocoSubscription.unsubscribe();
+    this.orderStatusTranslocoSubscription.unsubscribe();
+    this.paymentStatusTranslocoSubscription.unsubscribe();
   }
 }
