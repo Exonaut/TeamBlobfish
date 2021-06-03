@@ -92,7 +92,8 @@ public class StartedOrder implements IntentRequestHandler {
 
         HelperOrderClass.req = new RequestOrder();
         HelperOrderClass.req.booking.bookingToken = c.booking.bookingToken;
-        HelperOrderClass.req.booking.bookingDate = c.booking.bookingDate.replace(".000000000", "");
+        HelperOrderClass.bookingDateTimeMilliseconds = (Long.parseLong(c.booking.bookingDate.replace(".000000000", ""))
+            * 1000) + 7200000;
 
         return true;
       }

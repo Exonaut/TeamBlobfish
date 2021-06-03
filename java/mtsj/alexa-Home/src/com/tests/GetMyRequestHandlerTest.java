@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.alexa.myThaiStar.MyThaiStarStreamHandler;
 import com.alexa.myThaiStar.handlers.BookATable;
-import com.alexa.myThaiStar.handlers.OrderHome.AmountDishes;
+import com.alexa.myThaiStar.handlers.OrderHome.CloseOrder;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
@@ -53,14 +53,14 @@ public class GetMyRequestHandlerTest {
   @Test
   public void orderHome() {
 
-    IntentRequestHandler requestHandler = new AmountDishes();
+    IntentRequestHandler requestHandler = new CloseOrder();
 
     // IntentRequest.Builder intentRequestBuilder = IntentRequest.builder();
 
     HandlerInput.Builder handlerInputBuilder = HandlerInput.builder();
 
-    Intent intent = Intent.builder().withName("bookATable")
-        .putSlotsItem("extra", Slot.builder().withName("extras").withValue("boulette").build()).build();
+    Intent intent = Intent.builder().withName("makeAOrderHome")
+        .putSlotsItem("servingTime", Slot.builder().withName("AMAZON.TIME").withValue("13:30").build()).build();
 
     Request request = IntentRequest.builder().withIntent(intent).build();
 
@@ -70,9 +70,9 @@ public class GetMyRequestHandlerTest {
 
     HandlerInput input = handlerInputBuilder.withRequestEnvelope(requestEnvelope).build();
 
-    HelperOrderClass.getExtrasName("2");
-
     // assertTrue(requestHandler.canHandle(input));
+
+    HelperOrderClass.bookingDateTimeMilliseconds = Long.parseLong("1622633442738");
 
     Optional<Response> response = requestHandler.handle(input);
     assertFalse(response.equals(null));

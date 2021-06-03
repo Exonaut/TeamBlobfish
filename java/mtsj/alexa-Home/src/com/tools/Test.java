@@ -55,7 +55,14 @@ public class Test {
     //
     // HelperOrderClass.sendOrder();
 
-    System.out.println(HelperOrderClass.compareTime("13:00", "15:00"));
+    String currentTime = HelperOrderClass
+        .getTimeFormat(HelperOrderClass.convertMillisecondsToDateTime(System.currentTimeMillis()));
+
+    if (!HelperOrderClass.compareCurrentTimeServeTime("13:46", currentTime)) {
+
+      System.out.println(HelperOrderClass.compareCurrentTimeServeTime("13:15", currentTime));
+
+    }
 
   }
 

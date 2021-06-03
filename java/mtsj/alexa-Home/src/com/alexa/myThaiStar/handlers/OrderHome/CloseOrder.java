@@ -27,15 +27,28 @@ public class CloseOrder implements IntentRequestHandler {
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     Slot serveTime = intentRequest.getIntent().getSlots().get("servingTime");
-    String bookingDateTime = HelperOrderClass.convertSecondsToDateTime(HelperOrderClass.req.booking.bookingDate);
-    String bookingTime = HelperOrderClass.getTimeFormat(bookingDateTime, 0);
+    String bookingDateTime = HelperOrderClass
+        .convertMillisecondsToDateTime(HelperOrderClass.bookingDateTimeMilliseconds);
+    String bookingTime = HelperOrderClass.getTimeFormat(bookingDateTime);
     String bookingDate = HelperOrderClass.getDateFormat(bookingDateTime);
+    String currentTime = HelperOrderClass
+        .getTimeFormat(HelperOrderClass.convertMillisecondsToDateTime(System.currentTimeMillis() + 7200000));
 
-    if (!HelperOrderClass.compareTime(bookingTime, serveTime.getValue())) {
+    if (!HelperOrderClass.compareCurrentTimeServeTime(serveTime.getValue(), currentTime)) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
-          .withSpeech("Die Servierzeit, " + serveTime.getValue()
-              + " muss hinter Ihrer Buchungszeit liegen. Welche Servierzeit wünschen Sie? ")
+          .withSpeech(
+              "Die Servierzeit, " + serveTime.getValue() + " Uhr muss mindestens 30 minuten hinter der aktuellen Zeit "
+                  + currentTime + " Uhr liegen. Geben Sie die Servierzeit erneut an. Welche Servierzeit wünschen Sie?")
+          .withReprompt("Welche Servierzeit wünschen Sie?").build();
+
+    }
+
+    if (!HelperOrderClass.compareBookingTimeServeTime(bookingTime, serveTime.getValue())) {
+
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
+          .withSpeech("Die Servierzeit " + serveTime.getValue() + " Uhr liegt nicht hinter Ihrer Buchungszeit"
+              + bookingTime + ". Geben Sie die Servierzeit erneut an. Welche Servierzeit wünschen Sie?")
           .withReprompt("Welche Servierzeit wünschen Sie?").build();
 
     }

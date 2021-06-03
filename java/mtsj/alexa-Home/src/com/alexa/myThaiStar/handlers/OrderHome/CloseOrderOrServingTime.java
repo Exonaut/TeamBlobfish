@@ -28,12 +28,14 @@ public class CloseOrderOrServingTime implements IntentRequestHandler {
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     Slot deliveryServiceYesNo = intentRequest.getIntent().getSlots().get("deliveryServiceYesNo");
-    String bookingDateTime = HelperOrderClass.convertSecondsToDateTime(HelperOrderClass.req.booking.bookingDate);
-    String bookingTime = HelperOrderClass.getTimeFormat(bookingDateTime, 0);
+    String bookingDateTime = HelperOrderClass
+        .convertMillisecondsToDateTime(HelperOrderClass.bookingDateTimeMilliseconds);
+    String bookingTime = HelperOrderClass.getTimeFormat(bookingDateTime);
     String bookingDate = HelperOrderClass.getDateFormat(bookingDateTime);
 
     if (deliveryServiceYesNo.getValue().equals("ja")) {
 
+      // TODO Lieferung yesNo in DB ?
       HelperOrderClass.req.order.serveTime = HelperOrderClass
           .getFormatDateTimeAndCalculate(bookingDate + " " + bookingTime);
 
@@ -44,7 +46,7 @@ public class CloseOrderOrServingTime implements IntentRequestHandler {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
           .withSpeech("Sie haben am " + bookingDate + " um " + bookingTime
-              + "Uhr, einen Tisch reserviert. Sie können jetzt eine Servierzeit angeben. Welche Servierzeit wünschen Sie?")
+              + " Uhr, einen Tisch reserviert. Sie können jetzt eine Servierzeit angeben. Welche Servierzeit wünschen Sie?")
           .withReprompt("Welche Servierzeit wünschen Sie?").build();
 
     }

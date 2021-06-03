@@ -21,6 +21,8 @@ public class HelperOrderClass {
 
   public static RequestOrder req;
 
+  public static long bookingDateTimeMilliseconds;
+
   public static ArrayList<Extras> extras;
 
   public static String getExtrasName(String dishID) {
@@ -77,7 +79,7 @@ public class HelperOrderClass {
 
   }
 
-  public static String getTimeFormat(String timeFormat, int defaultServeTime) {
+  public static String getTimeFormat(String timeFormat) {
 
     SimpleDateFormat newFormat = new SimpleDateFormat("HH:mm");
 
@@ -91,7 +93,6 @@ public class HelperOrderClass {
 
     Calendar cal = Calendar.getInstance();
     cal.setTime(date);
-    cal.add(Calendar.MINUTE, defaultServeTime);
 
     return newFormat.format(cal.getTime());
 
@@ -116,17 +117,15 @@ public class HelperOrderClass {
 
   }
 
-  public static String convertSecondsToDateTime(String bookingDateTime) {
+  public static String convertMillisecondsToDateTime(long milliSeconds) {
 
-    long bookingDateTimeMilliseconds = Long.parseLong(bookingDateTime) * 1000;
-
-    Date formatDateTime = new Date(bookingDateTimeMilliseconds);
+    Date formatDateTime = new Date(milliSeconds);
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     return sdf.format(formatDateTime);
   }
 
-  public static boolean compareTime(String reservationTime, String serveTime) {
+  public static boolean compareBookingTimeServeTime(String bookingTime, String serveTime) {
 
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
@@ -134,13 +133,41 @@ public class HelperOrderClass {
     Date setTime = null;
 
     try {
-      resTime = sdf.parse(reservationTime);
+      resTime = sdf.parse(bookingTime);
       setTime = sdf.parse(serveTime);
     } catch (ParseException e) {
       return false;
     }
 
     if (resTime.after(setTime))
+      return false;
+
+    return true;
+
+  }
+
+  public static boolean compareCurrentTimeServeTime(String serveTime, String currentTime) {
+
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+    Date serTime = null;
+    Date curTime = null;
+
+    try {
+      curTime = sdf.parse(currentTime);
+      serTime = sdf.parse(serveTime);
+    } catch (ParseException e) {
+      return false;
+    }
+
+    Calendar calSerTime = Calendar.getInstance();
+    Calendar calCurTime = Calendar.getInstance();
+    calSerTime.setTime(serTime);
+    calCurTime.setTime(curTime);
+
+    calCurTime.add(Calendar.MINUTE, 30);
+
+    if (!calSerTime.after(calCurTime))
       return false;
 
     return true;
