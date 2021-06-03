@@ -165,7 +165,7 @@ public class HelperOrderClass {
     calSerTime.setTime(serTime);
     calCurTime.setTime(curTime);
 
-    calCurTime.add(Calendar.MINUTE, 30);
+    calCurTime.add(Calendar.MINUTE, 29);
 
     if (!calSerTime.after(calCurTime))
       return false;

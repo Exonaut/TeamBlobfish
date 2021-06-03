@@ -29,7 +29,7 @@ import com.alexa.myThaiStar.handlers.OrderHome.AnotherDishYesNo;
 import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkOrDeliveryService;
 import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkYesNo;
 import com.alexa.myThaiStar.handlers.OrderHome.CloseOrder;
-import com.alexa.myThaiStar.handlers.OrderHome.CloseOrderOrServingTime;
+import com.alexa.myThaiStar.handlers.OrderHome.CloseOrderOrMakeServingTime;
 import com.alexa.myThaiStar.handlers.OrderHome.Completed;
 import com.alexa.myThaiStar.handlers.OrderHome.DishesConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderHome.DrinksConfirmSlot;
@@ -43,7 +43,7 @@ import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://5bd9ff24d162.ngrok.io";
+  public static final String BASE_URL = "https://bb99bd8a8251.ngrok.io";
 
   private static Skill getSkill() {
 
@@ -69,7 +69,7 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new AnotherDishOrDoUWantToDrink(),
             new AnotherDrinkOrDeliveryService(),
             new WhatDoUWantDoDrinkOrUwantDeliveryService (),
-            new CloseOrderOrServingTime(),
+            new CloseOrderOrMakeServingTime(),
             new CloseOrder()
             )
         // Add your skill id below

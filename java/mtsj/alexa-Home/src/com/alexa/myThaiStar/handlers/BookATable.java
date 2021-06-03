@@ -52,12 +52,8 @@ public class BookATable implements RequestHandler {
 
     String date_time = HelperOrderClass.getFormatDateTimeAndCalculate(date.getValue() + " " + time.getValue());
 
-    // commented out for unit tests
-    // String name = input.getServiceClientFactory().getUpsService().getProfileName();
-    // String userEmail = input.getServiceClientFactory().getUpsService().getProfileEmail();
-
-    String name = "Tony";
-    String userEmail = "tony2510@gmx.de";
+    String name = input.getServiceClientFactory().getUpsService().getProfileName();
+    String userEmail = input.getServiceClientFactory().getUpsService().getProfileEmail();
 
     com.entity.booking.RequestBooking myApiRequest = new RequestBooking();
     myApiRequest.booking = new Booking();
@@ -76,8 +72,7 @@ public class BookATable implements RequestHandler {
       bo.basicPost(payload, BASE_URL + "/mythaistar/services/rest/bookingmanagement/v1/booking");
     } catch (Exception ex) {
       speechText = "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt";
-      return input.getResponseBuilder().withSpeech(speechText + "\n " + payload)
-          .withSimpleCard("BookATable", speechText + " \n " + payload).build();
+      return input.getResponseBuilder().withSpeech(speechText).build();
     }
 
     speechText = "Vielen Dank. Ihre Reservierung wurde aufgenommen. Wir freuen uns auf Ihren Besuch.";

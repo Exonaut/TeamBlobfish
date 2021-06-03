@@ -49,8 +49,6 @@ public class AnotherDrinkYesNo implements IntentRequestHandler {
       intentRequest.getIntent().getSlots().put("amountDrinks", updateSlot);
       Slot updateSlot3 = Slot.builder().withName("drink").withValue(null).build();
       intentRequest.getIntent().getSlots().put("drink", updateSlot3);
-      // Slot updateSlot4 = Slot.builder().withName("yesNoDrink").withValue(null).build();
-      // intentRequest.getIntent().getSlots().put("yesNoDrink", updateSlot4);
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
           .withSpeech("Bitte geben Sie Ihr Getränk erneut ein. Was möchten Sie zum trinken? ")

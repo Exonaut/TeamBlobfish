@@ -25,8 +25,10 @@ import com.alexa.myThaiStar.handlers.OrderInhouse.AmountDishes;
 import com.alexa.myThaiStar.handlers.OrderInhouse.AmountDrinks;
 import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDishOrDoUWantToDrink;
 import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDishYesNo;
-import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDrinkOrCloseOrder;
+import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDrinkOrServeTimeYesNo;
 import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDrinkYesNo;
+import com.alexa.myThaiStar.handlers.OrderInhouse.CloseOrder;
+import com.alexa.myThaiStar.handlers.OrderInhouse.CloseOrderOrMakeServingTime;
 import com.alexa.myThaiStar.handlers.OrderInhouse.Completed;
 import com.alexa.myThaiStar.handlers.OrderInhouse.CustomerDetailsConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderInhouse.DishesConfirmSlot;
@@ -34,7 +36,7 @@ import com.alexa.myThaiStar.handlers.OrderInhouse.DrinksConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderInhouse.QueryTable;
 import com.alexa.myThaiStar.handlers.OrderInhouse.ShowExtrasDishes;
 import com.alexa.myThaiStar.handlers.OrderInhouse.StartedOrder;
-import com.alexa.myThaiStar.handlers.OrderInhouse.WhatDoUWantDoDrink;
+import com.alexa.myThaiStar.handlers.OrderInhouse.WhatDoUWantDoDrinkOrServeTimeYesNo;
 
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
@@ -42,7 +44,7 @@ import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://25f2211fd86b.ngrok.io";
+  public static final String BASE_URL = "https://bb99bd8a8251.ngrok.io";
 
   private static Skill getSkill() {
 
@@ -56,19 +58,21 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new SessionEndedRequestHandler(),
             new FallbackIntentHandler(),
             new StartedOrder(BASE_URL),
-            new WhatDoUWantDoDrink(),
+            new WhatDoUWantDoDrinkOrServeTimeYesNo(),
             new ShowExtrasDishes(),
             new DrinksConfirmSlot(),
             new DishesConfirmSlot(),
             new Completed(),
             new AnotherDrinkYesNo(),
-            new AnotherDrinkOrCloseOrder(),
+            new AnotherDrinkOrServeTimeYesNo(),
             new AnotherDishYesNo(),
             new AnotherDishOrDoUWantToDrink(),
             new AmountDrinks(),
             new AmountDishes(),
             new QueryTable(),
-            new CustomerDetailsConfirmSlot(BASE_URL))
+            new CustomerDetailsConfirmSlot(BASE_URL),
+            new CloseOrderOrMakeServingTime(),
+            new CloseOrder())
         // Add your skill id below
         .withSkillId("amzn1.ask.skill.b8b902af-2c98-409c-92be-3d0ff9c3096f").build();
   }

@@ -10,7 +10,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 
-public class WhatDoUWantDoDrink implements IntentRequestHandler {
+public class WhatDoUWantDoDrinkOrServeTimeYesNo implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
@@ -18,7 +18,8 @@ public class WhatDoUWantDoDrink implements IntentRequestHandler {
     return handlerInput.matches(intentName("makeAOrderInhouse"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS
         && intentRequest.getIntent().getSlots().get("yesNoDrink").getValue() != null
-        && intentRequest.getIntent().getSlots().get("drink").getValue() == null;
+        && intentRequest.getIntent().getSlots().get("drink").getValue() == null
+        && intentRequest.getIntent().getSlots().get("serveTimeYesNo").getValue() == null;
 
   }
 
@@ -32,7 +33,13 @@ public class WhatDoUWantDoDrink implements IntentRequestHandler {
 
     } else if (intentRequest.getIntent().getSlots().get("yesNoDrink").getValue().equals("nein")) {
 
-      return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("serveTimeYesNo", intentRequest.getIntent())
+          .withSpeech(
+              "Sie haben die Möglichkeit, eine Servierzeit anzugeben. Wenn Sie keine Servierzeit angeben möchten, "
+                  + "wird Ihnen Ihr Essen in 30 minuten serviert. Wenn Sie eine Servierzeit angeben möchten, "
+                  + "dann muss die Servierzeit mindestens 30 minuten hinter der aktuellen Zeit liegen. "
+                  + "Möchten Sie eine Servierzeit angeben?")
+          .withReprompt("Welche Servierzeit wünschen Sie?").build();
 
     }
 

@@ -1,6 +1,9 @@
 package com.tools;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.alexa.myThaiStar.MyThaiStarStreamHandler;
@@ -26,6 +29,33 @@ public class HelperOrderClass {
 
   public static ArrayList<Extras> extras;
 
+  public static String convertMillisecondsToDateTime(long milliSeconds) {
+
+    Date formatDateTime = new Date(milliSeconds);
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    return sdf.format(formatDateTime);
+  }
+
+  public static String getTimeFormat(String timeFormat) {
+
+    SimpleDateFormat newFormat = new SimpleDateFormat("HH:mm");
+
+    SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    Date date = null;
+    try {
+      date = oldFormat.parse(timeFormat);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+
+    return newFormat.format(cal.getTime());
+
+  }
+
   public static Booking tableBooked(ResponseBooking response, IntentRequest intentRequest) {
 
     Slot queryTable = intentRequest.getIntent().getSlots().get("queryTable");
@@ -33,8 +63,11 @@ public class HelperOrderClass {
     long timeNow = date.getTime();
 
     for (com.entity.booking.Content c : response.content) {
+
+      String tmpBookingId = c.booking.bookingDate.substring(0, 10) + "";
+
       if (Integer.parseInt(c.booking.tableId) == Integer.parseInt(queryTable.getValue())
-          && Math.abs((Long.parseLong(c.booking.bookingDate.replace(".000000000", "")) * 1000) - timeNow) <= flexTime) {
+          && Math.abs((Long.parseLong(tmpBookingId) * 1000) - timeNow) <= flexTime) {
 
         HelperOrderClass.req = new RequestOrder();
         HelperOrderClass.req.booking.bookingToken = c.booking.bookingToken;
@@ -49,6 +82,73 @@ public class HelperOrderClass {
     }
 
     return null;
+  }
+
+  public static String getDateFormat(String dateFormat) {
+
+    SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    Date date = null;
+    try {
+      date = oldFormat.parse(dateFormat);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+
+    return newFormat.format(cal.getTime());
+
+  }
+
+  public static String getFormatDateTimeAndCalculate(String date_time) {
+
+    SimpleDateFormat olfFormat = new SimpleDateFormat("yyyy-M-dd HH:mm");
+
+    SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    Date date = null;
+    try {
+      date = olfFormat.parse(date_time);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+    cal.add(Calendar.HOUR_OF_DAY, -2);
+
+    return newFormat.format(cal.getTime());
+
+  }
+
+  public static boolean compareCurrentTimeServeTime(String serveTime, String currentTime) {
+
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+    Date serTime = null;
+    Date curTime = null;
+
+    try {
+      curTime = sdf.parse(currentTime);
+      serTime = sdf.parse(serveTime);
+    } catch (ParseException e) {
+      return false;
+    }
+
+    Calendar calSerTime = Calendar.getInstance();
+    Calendar calCurTime = Calendar.getInstance();
+    calSerTime.setTime(serTime);
+    calCurTime.setTime(curTime);
+
+    calCurTime.add(Calendar.MINUTE, 29);
+
+    if (!calSerTime.after(calCurTime))
+      return false;
+
+    return true;
+
   }
 
   public static String getExtrasName(String dishID) {

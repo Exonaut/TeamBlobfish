@@ -60,7 +60,7 @@ public class CustomerDetailsConfirmSlot implements IntentRequestHandler {
       bo.basicPost(payload, BASE_URL + "/mythaistar/login");
     } catch (Exception ex) {
       speechText = "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt";
-      return handlerInput.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText).build();
+      return handlerInput.getResponseBuilder().withSpeech(speechText).build();
     }
 
     String authorizationBearer = bo.getSpecificHeader("Authorization");
@@ -84,9 +84,9 @@ public class CustomerDetailsConfirmSlot implements IntentRequestHandler {
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
     return handlerInput.getResponseBuilder().addConfirmSlotDirective("queryTable", intentRequest.getIntent())
-        .withSpeech("Name: " + HelperOrderClass.req.booking.name + ". Anzahl der Gäste: "
-            + HelperOrderClass.req.booking.assistants + ". Email: " + HelperOrderClass.req.booking.email
-            + ". Sind Ihre Daten korrekt?")
+        .withSpeech("Name: " + HelperOrderClass.req.booking.name + "\n" + " Anzahl der Gäste: "
+            + HelperOrderClass.req.booking.assistants + "\n" + "Buchungsemail: " + HelperOrderClass.req.booking.email
+            + "\n" + ". Sind Ihre Daten korrekt?")
         .withReprompt("Sind Ihre Daten korrekt?").build();
   }
 

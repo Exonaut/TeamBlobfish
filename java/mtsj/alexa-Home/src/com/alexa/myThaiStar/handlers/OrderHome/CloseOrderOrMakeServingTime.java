@@ -12,7 +12,7 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.tools.HelperOrderClass;
 
-public class CloseOrderOrServingTime implements IntentRequestHandler {
+public class CloseOrderOrMakeServingTime implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {

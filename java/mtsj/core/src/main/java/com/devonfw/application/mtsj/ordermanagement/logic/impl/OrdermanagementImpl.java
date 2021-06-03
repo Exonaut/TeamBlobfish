@@ -260,7 +260,8 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
 
     OrderEntity orderEntity = getBeanMapper().map(order, OrderEntity.class);
 
-    orderEntity.setServeTime(order.getOrder().getServeTime());
+    if (order.getOrder() != null)
+      orderEntity.setServeTime(order.getOrder().getServeTime());
 
     String token = orderEntity.getBooking().getBookingToken();
     // initialize, validate orderEntity here if necessary

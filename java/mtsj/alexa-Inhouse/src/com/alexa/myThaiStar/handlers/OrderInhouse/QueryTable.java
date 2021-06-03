@@ -24,7 +24,7 @@ public class QueryTable implements IntentRequestHandler {
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("queryTable", intentRequest.getIntent())
-        .withSpeech("Wir freuen uns dass Sie uns besuchen. Wie lautet Ihre Tischnummer?")
+        .withSpeech("Wie lautet Ihre Tischnummer?")
         .withReprompt("Wie lautet Ihre Tischnummer? Ihre Tischnummer finden Sie in Ihrer Buchungsbestätigung.").build();
   }
 

@@ -1,4 +1,4 @@
-package com.alexa.myThaiStar.handlers.OrderHome;
+package com.alexa.myThaiStar.handlers.OrderInhouse;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
@@ -17,7 +17,7 @@ public class CloseOrder implements IntentRequestHandler {
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    return handlerInput.matches(intentName("makeAOrderHome"))
+    return handlerInput.matches(intentName("makeAOrderInhouse"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS
         && intentRequest.getIntent().getSlots().get("servingTime").getValue() != null;
 
@@ -27,12 +27,12 @@ public class CloseOrder implements IntentRequestHandler {
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     Slot serveTime = intentRequest.getIntent().getSlots().get("servingTime");
-    String bookingDateTime = HelperOrderClass
-        .convertMillisecondsToDateTime(HelperOrderClass.bookingDateTimeMilliseconds);
-    String bookingTime = HelperOrderClass.getTimeFormat(bookingDateTime);
-    String bookingDate = HelperOrderClass.getDateFormat(bookingDateTime);
+
     String currentTime = HelperOrderClass
         .getTimeFormat(HelperOrderClass.convertMillisecondsToDateTime(System.currentTimeMillis() + 7200000));
+
+    String currentDate = HelperOrderClass
+        .getDateFormat(HelperOrderClass.convertMillisecondsToDateTime(System.currentTimeMillis() + 7200000));
 
     if (!HelperOrderClass.compareCurrentTimeServeTime(serveTime.getValue(), currentTime)) {
 
@@ -44,17 +44,8 @@ public class CloseOrder implements IntentRequestHandler {
 
     }
 
-    if (!HelperOrderClass.compareBookingTimeServeTime(bookingTime, serveTime.getValue())) {
-
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
-          .withSpeech("Die Servierzeit " + serveTime.getValue() + " Uhr liegt nicht hinter Ihrer Buchungszeit"
-              + bookingTime + ". Geben Sie die Servierzeit erneut an. Welche Servierzeit wünschen Sie?")
-          .withReprompt("Welche Servierzeit wünschen Sie?").build();
-
-    }
-
     HelperOrderClass.req.order.serveTime = HelperOrderClass
-        .getFormatDateTimeAndCalculate(bookingDate + " " + serveTime.getValue());
+        .getFormatDateTimeAndCalculate(currentDate + " " + serveTime.getValue());
 
     return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
