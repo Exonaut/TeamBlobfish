@@ -82,6 +82,7 @@ CREATE TABLE Orders (
   orderstatus BIGINT,
   paymentstatus BIGINT,
   servetime TIMESTAMP,
+  deliveryservice BIGINT,
   CONSTRAINT PK_Order PRIMARY KEY(id),
   CONSTRAINT FK_Order_idBooking FOREIGN KEY(idBooking) REFERENCES Booking(id) NOCHECK,
   CONSTRAINT FK_Order_idInvitedGuest FOREIGN KEY(idInvitedGuest) REFERENCES InvitedGuest(id) NOCHECK

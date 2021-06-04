@@ -10,8 +10,9 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
+import com.tools.HelperOrderClass;
 
-public class AnotherDrinkOrDeliveryService implements IntentRequestHandler {
+public class AnotherDrinkOrMakeServingTime implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
@@ -19,12 +20,17 @@ public class AnotherDrinkOrDeliveryService implements IntentRequestHandler {
     return (handlerInput.matches(intentName("makeAOrderHome"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
         && intentRequest.getIntent().getSlots().get("yesNoAnotherDrink").getValue() != null
-        && intentRequest.getIntent().getSlots().get("deliveryServiceYesNo").getValue() == null;
+        && intentRequest.getIntent().getSlots().get("servingTime").getValue() == null;
 
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
+
+    String bookingDateTime = HelperOrderClass
+        .convertMillisecondsToDateTime(HelperOrderClass.bookingDateTimeMilliseconds);
+    String bookingTime = HelperOrderClass.getTimeFormat(bookingDateTime);
+    String bookingDate = HelperOrderClass.getDateFormat(bookingDateTime);
 
     Slot yesNoAnotherDrink = intentRequest.getIntent().getSlots().get("yesNoAnotherDrink");
 
@@ -41,9 +47,10 @@ public class AnotherDrinkOrDeliveryService implements IntentRequestHandler {
           .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie noch zum trinken?").build();
     } else if (yesNoAnotherDrink.getValue().equals("nein")) {
 
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("deliveryServiceYesNo", intentRequest.getIntent())
-          .withSpeech("Möchten Sie sich die Bestellung liefern lassen ?").withReprompt("Wünschen Sie eine Lieferung ?")
-          .build();
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
+          .withSpeech("Sie haben am " + bookingDate + " um " + bookingTime
+              + " Uhr, einen Tisch reserviert. Sie können jetzt eine Servierzeit angeben. Welche Servierzeit wünschen Sie?")
+          .withReprompt("Welche Servierzeit wünschen Sie?").build();
 
     }
 

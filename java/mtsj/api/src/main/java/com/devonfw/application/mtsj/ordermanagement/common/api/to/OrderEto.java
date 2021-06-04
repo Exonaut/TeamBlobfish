@@ -24,6 +24,8 @@ public class OrderEto extends AbstractEto implements Order {
 
   private Instant servetime;
 
+  private String deliveryservice;
+
   @Override
   public void setServeTime(Instant servetime) {
 
@@ -160,6 +162,19 @@ public class OrderEto extends AbstractEto implements Order {
   public void setPaymentStatus(Long payment) {
 
     this.paymentstatus = payment;
+  }
+
+  @Override
+  public void setDeliveryservice(String deliveryservice) {
+
+    this.deliveryservice = deliveryservice;
+
+  }
+
+  @Override
+  public String getDeliveryservice() {
+
+    return this.deliveryservice;
   }
 
 }

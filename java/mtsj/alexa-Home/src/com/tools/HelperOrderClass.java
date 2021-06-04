@@ -6,7 +6,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.http.message.BasicHeader;
+
 import com.alexa.myThaiStar.MyThaiStarStreamHandler;
+import com.amazon.ask.dispatcher.request.handler.HandlerInput;
+import com.entity.booking.Booking;
+import com.entity.booking.RequestBooking;
+import com.entity.booking.ResponseBooking;
 import com.entity.dish.Content;
 import com.entity.dish.ResponseDescriptionDishes;
 import com.entity.dish.ResponseMenuDishes;
@@ -14,6 +20,7 @@ import com.entity.orderline.Extras;
 import com.entity.orderline.OrderLines;
 import com.entity.orderline.RequestOrder;
 import com.google.gson.Gson;
+import com.login.RequestLogin;
 
 public class HelperOrderClass {
 
@@ -24,6 +31,8 @@ public class HelperOrderClass {
   public static long bookingDateTimeMilliseconds;
 
   public static ArrayList<Extras> extras;
+
+  public static int counterBookingIDs;
 
   public static String getExtrasName(String dishID) {
 
@@ -57,6 +66,95 @@ public class HelperOrderClass {
 
     return extraStr;
 
+  }
+
+  public static String bookATable(String userEmail, String name, String date_time, String personCount) {
+
+    com.entity.booking.RequestBooking myApiRequest = new RequestBooking();
+    myApiRequest.booking = new Booking();
+    myApiRequest.booking.email = userEmail;
+    myApiRequest.booking.assistants = personCount;
+    myApiRequest.booking.bookingDate = date_time;
+    myApiRequest.booking.name = name;
+    myApiRequest.booking.bookingType = "0";
+
+    BasicOperations bo = new BasicOperations();
+    String speechText = "";
+    Gson gson = new Gson();
+    String payload = gson.toJson(myApiRequest);
+
+    try {
+      bo.basicPost(payload, BASE_URL + "/mythaistar/services/rest/bookingmanagement/v1/booking");
+    } catch (Exception ex) {
+      return null;
+    }
+
+    return "Vielen Dank. Ihre Reservierung wurde aufgenommen. Wir freuen uns auf Ihren Besuch.";
+
+  }
+
+  public static ResponseBooking getAllBookings() {
+
+    RequestLogin req = new RequestLogin();
+    req.password = "waiter";
+    req.username = "waiter";
+    Gson gson = new Gson();
+    String payload = gson.toJson(req);
+    String respStr = "";
+    BasicOperations bo = new BasicOperations();
+
+    try {
+      bo.basicPost(payload, BASE_URL + "/mythaistar/login");
+    } catch (Exception ex) {
+      return null;
+    }
+
+    String authorizationBearer = bo.getSpecificHeader("Authorization");
+    payload = "{\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[]}}";
+
+    BasicOperations bo2 = new BasicOperations();
+    bo2.reqHeaders = new BasicHeader[] { new BasicHeader("Authorization", authorizationBearer) };
+
+    try {
+      respStr = bo2.basicPost(payload, BASE_URL + "/mythaistar/services/rest/bookingmanagement/v1/booking/search");
+    } catch (Exception ex) {
+      return null;
+    }
+
+    ResponseBooking response = gson.fromJson(respStr, ResponseBooking.class);
+
+    return response;
+
+  }
+
+  public static int bookingIDAvailable(ResponseBooking response, HandlerInput handlerInput) {
+
+    String userEmail = handlerInput.getServiceClientFactory().getUpsService().getProfileEmail();
+
+    counterBookingIDs = 0;
+    for (com.entity.booking.Content c : response.content) {
+
+      if (c.booking.email.equals(userEmail)) {
+
+        counterBookingIDs++;
+
+        if (counterBookingIDs == 1) {
+
+          String tmpBookingId = c.booking.bookingDate.substring(0, 10) + "";
+
+          HelperOrderClass.req = new RequestOrder();
+          HelperOrderClass.req.booking.bookingToken = c.booking.bookingToken;
+          HelperOrderClass.bookingDateTimeMilliseconds = (Long.parseLong(tmpBookingId) * 1000) + 7200000;
+          HelperOrderClass.req.booking.name = c.booking.name;
+          HelperOrderClass.req.booking.assistants = c.booking.assistants;
+          HelperOrderClass.req.booking.email = c.booking.email;
+
+        }
+
+      }
+    }
+
+    return counterBookingIDs;
   }
 
   public static String getFormatDateTimeAndCalculate(String date_time) {

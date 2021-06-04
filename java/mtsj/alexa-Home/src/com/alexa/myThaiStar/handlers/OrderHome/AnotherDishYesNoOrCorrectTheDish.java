@@ -15,7 +15,7 @@ import com.entity.orderline.Extras;
 import com.entity.orderline.OrderLines;
 import com.tools.HelperOrderClass;
 
-public class AnotherDishYesNo implements IntentRequestHandler {
+public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {

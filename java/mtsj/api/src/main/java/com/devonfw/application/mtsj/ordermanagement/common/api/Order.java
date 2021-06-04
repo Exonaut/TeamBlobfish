@@ -30,4 +30,8 @@ public interface Order extends ApplicationEntity {
 
   public void setPaymentStatus(Long paymentstatus);
 
+  public void setDeliveryservice(String deliveryservice);
+
+  public String getDeliveryservice();
+
 }

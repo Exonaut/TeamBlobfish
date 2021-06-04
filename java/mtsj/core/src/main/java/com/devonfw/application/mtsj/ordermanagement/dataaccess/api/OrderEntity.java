@@ -41,6 +41,8 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
 
   private Instant serveTime;
 
+  private String deliveryservice;
+
   @Override
   public void setServeTime(Instant servetime) {
 
@@ -221,6 +223,18 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
     } else {
       this.paymentstatus = (long) 0;
     }
+  }
+
+  @Override
+  public String getDeliveryservice() {
+
+    return this.deliveryservice;
+  }
+
+  @Override
+  public void setDeliveryservice(String deliveryservice) {
+
+    this.deliveryservice = deliveryservice;
   }
 
 }

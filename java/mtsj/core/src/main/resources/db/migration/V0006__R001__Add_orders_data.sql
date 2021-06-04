@@ -1,12 +1,12 @@
-INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime) VALUES (0, 1, 0, null, 0, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP));
-INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime) VALUES (1, 1, 3, 0, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP));
-INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime) VALUES (2, 1, 3, 1, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP));
-INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime) VALUES (3, 1, 3, 2, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP));
-INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime) VALUES (4, 1, 3, 3, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP));
-INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime) VALUES (5, 1, 3, 4, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP));
+INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime, deliveryservice) VALUES (0, 1, 0, null, 0, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP), 0);
+INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime, deliveryservice) VALUES (1, 1, 3, 0, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP), 0);
+INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime, deliveryservice) VALUES (2, 1, 3, 1, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP), 0);
+INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime, deliveryservice) VALUES (3, 1, 3, 2, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP), 0);
+INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime, deliveryservice) VALUES (4, 1, 3, 3, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP), 0);
+INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime, deliveryservice) VALUES (5, 1, 3, 4, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP), 0);
 
-INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime) VALUES (6, 1, 4, 8, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP));
-INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime) VALUES (7, 1, 4, 9, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP));
+INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime, deliveryservice) VALUES (6, 1, 4, 8, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP), 0);
+INSERT INTO Orders (id, modificationCounter, idBooking, idInvitedGuest, idHost, orderstatus, paymentstatus, servetime, deliveryservice) VALUES (7, 1, 4, 9, null, 0, 0, DATEADD('DAY', 5, CURRENT_TIMESTAMP), 0);
 
 INSERT INTO OrderLine (id, modificationCounter, idDish, amount, comment, idOrder) VALUES (0, 1, 0, 2, 'please not too spicy', 0);
 INSERT INTO OrderLine (id, modificationCounter, idDish, amount, comment, idOrder) VALUES (1, 1, 4, 1, null, 0);
