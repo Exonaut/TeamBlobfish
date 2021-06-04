@@ -1,5 +1,7 @@
 package com.devonfw.application.mtsj.usermanagement.common.api.to;
 
+import java.util.List;
+
 import com.devonfw.application.mtsj.usermanagement.common.api.User;
 import com.devonfw.module.basic.common.api.to.AbstractEto;
 
@@ -19,6 +21,8 @@ public class UserEto extends AbstractEto implements User {
   private boolean twoFactorStatus;
 
   private Long userRoleId;
+
+  private List<Long> bookingsId;
 
   @Override
   public String getUsername() {
@@ -130,6 +134,19 @@ public class UserEto extends AbstractEto implements User {
     }
 
     return true;
+  }
+
+  @Override
+  public List<Long> getBookingsId() {
+
+    return this.bookingsId;
+  }
+
+  @Override
+  public void setBookingsId(List<Long> bookingsId) {
+
+    this.bookingsId = bookingsId;
+
   }
 
 }

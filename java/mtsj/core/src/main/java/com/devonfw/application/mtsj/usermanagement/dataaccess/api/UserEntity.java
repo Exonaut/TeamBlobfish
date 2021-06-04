@@ -37,6 +37,8 @@ public class UserEntity extends ApplicationPersistenceEntity implements User {
 
   private List<BookingEntity> bookings;
 
+  private List<Long> bookingId;
+
   private List<DishEntity> favourites;
 
   private static final long serialVersionUID = 1L;
@@ -208,5 +210,22 @@ public class UserEntity extends ApplicationPersistenceEntity implements User {
       this.userRole = userRoleEntity;
       this.userRoleId = userRoleId;
     }
+  }
+
+  @Override
+  public List<Long> getBookingsId() {
+
+    for (int i = 0; i < this.bookings.size(); i++) {
+      this.bookingId.add(this.bookings.get(i).getId());
+    }
+    // TODO Auto-generated method stub
+    return this.bookingId;
+  }
+
+  @Override
+  public void setBookingsId(List<Long> bookingsId) {
+
+    this.bookingId = bookingsId;
+
   }
 }

@@ -1,5 +1,7 @@
 package com.devonfw.application.mtsj.usermanagement.common.api;
 
+import java.util.List;
+
 import com.devonfw.application.mtsj.general.common.api.ApplicationEntity;
 
 public interface User extends ApplicationEntity {
@@ -23,5 +25,9 @@ public interface User extends ApplicationEntity {
   public boolean getTwoFactorStatus();
 
   public void setTwoFactorStatus(boolean twoFactorStatus);
+
+  public List<Long> getBookingsId();
+
+  public void setBookingsId(List<Long> bookingsId);
 
 }
