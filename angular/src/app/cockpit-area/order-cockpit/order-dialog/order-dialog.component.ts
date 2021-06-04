@@ -67,8 +67,6 @@ export class OrderDialogComponent implements OnInit {
   ngOnInit(): void {
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
-      this.setStatusNamesMap(event);
-      this.setPaymentNamesMap(event);
     });
 
     this.totalPrice = this.waiterCockpitService.getTotalPrice(
@@ -114,34 +112,12 @@ export class OrderDialogComponent implements OnInit {
       });
   }
 
-  /** Set the translation lookup array for status names */
-  setStatusNamesMap(lang: string): void {
-    this.translocoService
-      .selectTranslateObject('cockpit.status', {}, lang)
-      .subscribe((cockpitStatus) => {
-        this.statusNamesMap = [
-          cockpitStatus.recorded,
-          cockpitStatus.cooking,
-          cockpitStatus.ready,
-          cockpitStatus.handingover,
-          cockpitStatus.delivered,
-          cockpitStatus.completed,
-          cockpitStatus.canceled
-        ]; }
-      );
+  getOrderStatusTranslation(): string[] {
+    return this.waiterCockpitService.orderStatusTranslation;
   }
 
-  /** Set the translation lookup array for payment status names */
-  setPaymentNamesMap(lang: string): void {
-    this.translocoService
-      .selectTranslateObject('cockpit.payment', {}, lang)
-      .subscribe((cockpitStatus) => {
-        this.paymentNamesMap = [
-          cockpitStatus.pending,
-          cockpitStatus.payed,
-          cockpitStatus.refunded
-        ]; }
-      );
+  getPaymentStatusTranslation(): string[] {
+    return this.waiterCockpitService.paymentStatusTranslation;
   }
 
   page(pagingEvent: PageEvent): void {

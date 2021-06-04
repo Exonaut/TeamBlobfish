@@ -65,7 +65,8 @@
     "comment": "Comment",
     "total": "Total",
     "referenceNumber": "Reference number",
-    "role": "Role"
+    "role": "Role",
+    "orderStatus": "Order Status"
   },
   "bookTable": {
     "title": "You can invite your friends to lunch or book a table",
@@ -208,7 +209,7 @@
       "ownerH": "Owner",
       "tableH": "Table",
       "creationDateH": "Creation date",
-      "bookingStateH": "Status",
+      "bookingStateH": "Order Status",
       "paymentStateH": "Payment",
       "actionsH": "Actions"
     },

@@ -40,6 +40,21 @@
               name="bookingToken"
             />
           </mat-form-field>
+          <mat-form-field color="accent" class="searchBy">
+            <mat-select
+              class="orderStatus"
+              [(value)]="filters.orderstatus"
+              multiple
+              [placeholder]="'formFields.orderStatus' | transloco"
+            >
+              <mat-option
+                *ngFor="let state of getOrderStatusTranslation().slice(0 , -2)"
+                [value]="getOrderStatusTranslation().indexOf(state)"
+              >
+                {{ state }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="align-right">
@@ -140,11 +155,19 @@
                   mat-button
                   type="button"
                   color="accent"
-                  (click)="applyChanges(element, element.order.orderStatus + 1, element.order.paymentStatus)"
+                  (click)="
+                    applyChanges(
+                      element,
+                      element.order.orderStatus + 1,
+                      element.order.paymentStatus
+                    )
+                  "
                 >
-                  {{ getOrderStatusTranslation()[element.order.orderStatus + 1] }}
-                  <span *ngIf="element.order.orderStatus + 1 === 5 ">
-                    ({{paymentStatusTranslation[1]}})
+                  {{
+                    getOrderStatusTranslation()[element.order.orderStatus + 1]
+                  }}
+                  <span *ngIf="element.order.orderStatus + 1 === 5">
+                    ({{ paymentStatusTranslation[1] }})
                   </span>
                 </button>
               </td>
