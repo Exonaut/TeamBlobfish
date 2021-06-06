@@ -46,10 +46,8 @@ export class OrderDialogComponent implements OnInit {
   filteredData: OrderView[] = this.datao;
   totalPrice: number;
 
-  statusNamesMap: string[];
-  paymentNamesMap: string[];
-  selectedStatus: number;
-  selectedPayment: number;
+  selectedOrderStatus: number;
+  selectedPaymentStatus: number;
 
   constructor(
     private waiterCockpitService: WaiterCockpitService,
@@ -75,8 +73,8 @@ export class OrderDialogComponent implements OnInit {
     this.datao = this.waiterCockpitService.orderComposer(this.data.orderLines);
     this.datat.push(this.data);
     this.filter();
-    this.selectedStatus = this.data.order.orderStatus;
-    this.selectedPayment = this.data.order.paymentStatus;
+    this.selectedOrderStatus = this.data.order.orderStatus;
+    this.selectedPaymentStatus = this.data.order.paymentStatus;
   }
 
   setTableHeaders(lang: string): void {
@@ -112,10 +110,16 @@ export class OrderDialogComponent implements OnInit {
       });
   }
 
+  /** Establish Observer Subscription for Order- and Paymentstatus translations on WaiterCockpitService
+   * @param lang - The language to use
+   */
   getOrderStatusTranslation(): string[] {
     return this.waiterCockpitService.orderStatusTranslation;
   }
 
+  /** Get Order Status translation from WaiterCockpitService
+   * @returns the translation array
+   */
   getPaymentStatusTranslation(): string[] {
     return this.waiterCockpitService.paymentStatusTranslation;
   }
@@ -134,20 +138,23 @@ export class OrderDialogComponent implements OnInit {
   }
 
   increaseStatus(): void {
-    this.selectedStatus = _.clamp(this.data.order.orderStatus + 1, 0, this.statusNamesMap.length - 2);
+    this.selectedOrderStatus = _.clamp(this.data.order.orderStatus + 1, 0, this.getOrderStatusTranslation().length - 2);
 
-    if (this.selectedStatus === this.statusNamesMap.length - 2) {
-      this.selectedPayment = 1;
+    if (this.selectedOrderStatus === this.getOrderStatusTranslation().length - 2) {
+      this.selectedPaymentStatus = 1;
     }
 
     this.applyChanges();
   }
 
+  /**
+   * Apply selected Order- and Paymentstatus and then close the dialog
+   */
   applyChanges(): void {
-    this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedStatus) // Send order status
+    this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedOrderStatus) // Send order status
       .subscribe(
         (dataA: any) => {
-          this.waiterCockpitService.setPaymentStatus(this.data.order.id, this.selectedPayment) // Send payment status
+          this.waiterCockpitService.setPaymentStatus(this.data.order.id, this.selectedPaymentStatus) // Send payment status
             .subscribe(
               (dataB: any) => {
                 this.data.order = dataB;
@@ -159,23 +166,23 @@ export class OrderDialogComponent implements OnInit {
   }
 
   autoChangePaymentStatus(event: MatSelectChange): void {
-    if (event.value < this.statusNamesMap.length - 2 && this.selectedPayment >= 2) { // Change to pending
-      this.selectedPayment = 0;
+    if (event.value < this.getOrderStatusTranslation().length - 2 && this.selectedPaymentStatus >= 2) { // Change to pending
+      this.selectedPaymentStatus = 0;
     }
-    if (event.value === this.statusNamesMap.length - 1) { // Change to refunded
-      this.selectedPayment = 2;
+    if (event.value === this.getOrderStatusTranslation().length - 1) { // Change to refunded
+      this.selectedPaymentStatus = 2;
     }
-    if (event.value === this.statusNamesMap.length - 2) { // Change to payed
-      this.selectedPayment = 1;
+    if (event.value === this.getOrderStatusTranslation().length - 2) { // Change to payed
+      this.selectedPaymentStatus = 1;
     }
   }
 
   autoChangeOrderStatus(event: MatSelectChange): void {
     if (event.value === 2) { // Change to canceled
-      this.selectedStatus = this.statusNamesMap.length - 1;
+      this.selectedOrderStatus = this.getOrderStatusTranslation().length - 1;
     }
-    if (event.value < 2 && this.selectedStatus >= this.statusNamesMap.length - 2) { // Change to canceled
-      this.selectedStatus = 0;
+    if (event.value < 2 && this.selectedOrderStatus >= this.getOrderStatusTranslation().length - 2) { // Change to canceled
+      this.selectedOrderStatus = 0;
     }
   }
 

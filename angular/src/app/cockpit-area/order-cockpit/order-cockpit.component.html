@@ -142,6 +142,7 @@
         </td>
       </ng-container>
 
+      <!-- Order Actions column -->
       <ng-container matColumnDef="booking.actions">
         <th mat-header-cell *matHeaderCellDef>{{ columns[5].label }}</th>
         <td mat-cell *matCellDef="let element">
@@ -167,7 +168,7 @@
                     getOrderStatusTranslation()[element.order.orderStatus + 1]
                   }}
                   <span *ngIf="element.order.orderStatus + 1 === 5">
-                    ({{ paymentStatusTranslation[1] }})
+                    ({{ getPaymentStatusTranslation()[1] }})
                   </span>
                 </button>
               </td>
@@ -178,7 +179,7 @@
                   name="cancelOrder"
                   mat-button
                   type="button"
-                  color="warning"
+                  color="warn"
                   (click)="applyChanges(element, 6, 2)"
                 >
                   {{ 'buttons.cancel' | transloco }}

@@ -66,6 +66,12 @@ export class WaiterCockpitService {
     );
   }
 
+  /**
+   * Updates the Order Status of an Order
+   * @param id - The ID of the order to modify
+   * @param newStatus - The new Order Status to set
+   * @returns An Observable of the http-Request
+   */
   setOrderStatus(
     id: number,
     newStatus: number
@@ -79,6 +85,12 @@ export class WaiterCockpitService {
     );
   }
 
+  /**
+   * Updates the Payment Status of an Order
+   * @param id - The ID of the order to modify
+   * @param newStatus - The new Payment Status to set
+   * @returns An Observable of the http-Request
+   */
   setPaymentStatus(
     id: number,
     newPayment: number
@@ -118,6 +130,11 @@ export class WaiterCockpitService {
     return orders;
   }
 
+  /** Establishes a subscription to the Order Status Translation and sets the services translation array
+   * @param TranslocoService - The TranslocoService to use
+   * @param lang - The language to use
+   * @returns The Subscription to the Observable
+   */
   updateOrderStatusTranslation(translocoService: TranslocoService, lang: string): Subscription {
     return translocoService
     .selectTranslateObject('cockpit.status', {}, lang)
@@ -134,6 +151,11 @@ export class WaiterCockpitService {
     );
   }
 
+  /** Establishes a subscription to the Payment Status Translation and sets the services translation array
+   * @param TranslocoService - The TranslocoService to use
+   * @param lang - The language to use
+   * @returns The Subscription to the Observable
+   */
   updatePaymentStatusTranslation(translocoService: TranslocoService, lang: string): Subscription {
     return translocoService
       .selectTranslateObject('cockpit.payment', {}, lang)

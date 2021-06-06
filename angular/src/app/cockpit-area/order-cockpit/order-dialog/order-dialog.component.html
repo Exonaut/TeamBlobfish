@@ -32,7 +32,7 @@
       <ng-container matColumnDef="orderStatus">
         <th mat-header-cell *matHeaderCellDef class="statusHeader"> {{columnst[5].label}} </th>
         <td mat-cell *matCellDef="let element" class="statusData"> 
-          <mat-select class="status-selection" [(value)]="selectedStatus" (selectionChange)="autoChangePaymentStatus($event)">
+          <mat-select class="status-selection" [(value)]="selectedOrderStatus" (selectionChange)="autoChangePaymentStatus($event)">
               <mat-option *ngFor="let state of getOrderStatusTranslation()" [value]="getOrderStatusTranslation().indexOf(state)">
                 {{state}}
               </mat-option>
@@ -43,7 +43,7 @@
       <ng-container matColumnDef="paymentStatus">
         <th mat-header-cell *matHeaderCellDef class="paymentHeader"> {{columnst[6].label}} </th>
         <td mat-cell *matCellDef="let element" class="paymentData"> 
-          <mat-select class="payment-selection" [(value)]="selectedPayment" (selectionChange)="autoChangeOrderStatus($event)">
+          <mat-select class="payment-selection" [(value)]="selectedPaymentStatus" (selectionChange)="autoChangeOrderStatus($event)">
               <mat-option *ngFor="let payment of getPaymentStatusTranslation()" [value]="getPaymentStatusTranslation().indexOf(payment)">
                 {{payment}}
               </mat-option>

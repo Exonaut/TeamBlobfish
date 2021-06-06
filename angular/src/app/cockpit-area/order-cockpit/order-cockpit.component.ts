@@ -63,9 +63,6 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     paymentstatus: [],
   };
 
-  orderStatusTranslation: any[];
-  paymentStatusTranslation: any[];
-
   archiveMode = false;
   title = 'cockpit.orders.title';
 
@@ -121,15 +118,24 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       });
   }
 
+  /** Establish Observer Subscription for Order- and Paymentstatus translations on WaiterCockpitService
+   * @param lang - The language to use
+   */
   getTranslationSubscriptions(lang: string): void {
     this.orderStatusTranslocoSubscription = this.waiterCockpitService.updateOrderStatusTranslation(this.translocoService, lang);
     this.paymentStatusTranslocoSubscription = this.waiterCockpitService.updatePaymentStatusTranslation(this.translocoService, lang);
   }
 
+  /** Get Order Status translation from WaiterCockpitService
+   * @returns the translation array
+   */
   getOrderStatusTranslation(): string[] {
     return this.waiterCockpitService.orderStatusTranslation;
   }
 
+  /** Get Payment Status translation from WaiterCockpitService
+   * @returns the translation array
+   */
   getPaymentStatusTranslation(): string[] {
     return this.waiterCockpitService.paymentStatusTranslation;
   }
@@ -175,8 +181,12 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     this.applyFilters();
   }
 
+  /** Open the OrderDialogComponent for when clicking on a row
+   * @param event - The HTML Event
+   * @param selection - The selected Order
+   */
   selected(event, selection: OrderListView): void {
-    if (!event.target.className.includes('button')) {
+    if (!event.target.className.includes('button')) { // Exclude action buttons
       this.dialog.open(OrderDialogComponent, {
         width: '80%',
         data: selection,
@@ -188,6 +198,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     }
   }
 
+  /** Apply Order Status, Payment Status and then reload orders  */
   applyChanges(element: any, orderStatus: number, paymentStatus: number): void {
     if (orderStatus === 5) { paymentStatus = 1; }
     this.waiterCockpitService.setOrderStatus(element.order.id, orderStatus) // Send order status
