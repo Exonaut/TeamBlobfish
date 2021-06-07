@@ -140,6 +140,20 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     return this.waiterCockpitService.paymentStatusTranslation;
   }
 
+  /**
+   * Slices the Order Status translation array for regular or archive mode
+   * @returns The sliced translation array
+   */
+  getOrderStatusTranslationSlice(): string[] {
+    if (!this.archiveMode) {
+      return this.getOrderStatusTranslation().slice(0, -2);
+    }
+    else 
+    {
+      return this.getOrderStatusTranslation().slice(-2);
+    }
+  }
+
   /** Get Orders from backend meeting current filter requirements */
   applyFilters(): void {
     this.waiterCockpitService

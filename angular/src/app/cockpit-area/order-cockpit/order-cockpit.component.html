@@ -48,7 +48,7 @@
               [placeholder]="'formFields.orderStatus' | transloco"
             >
               <mat-option
-                *ngFor="let state of getOrderStatusTranslation().slice(0 , -2)"
+                *ngFor="let state of getOrderStatusTranslationSlice()"
                 [value]="getOrderStatusTranslation().indexOf(state)"
               >
                 {{ state }}
