@@ -88,7 +88,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           this.title = 'cockpit.orders.archive';
           this.filters.paymentstatus = [1, 2];
           this.filters.orderstatus = [5, 6];
-          this.displayedColumns.slice(0, 5);
+          this.displayedColumns = this.displayedColumns.slice(0, 5);
         }
         else
         {
