@@ -46,6 +46,8 @@
               [(value)]="filters.orderstatus"
               multiple
               [placeholder]="'formFields.orderStatus' | transloco"
+              required
+              [formControl]="orderStatusSelected"
             >
               <mat-option
                 *ngFor="let state of getOrderStatusTranslationSlice()"
@@ -54,6 +56,24 @@
                 {{ state }}
               </mat-option>
             </mat-select>
+          </mat-form-field>
+          <mat-form-field color="accent" class="searchBy">
+            <mat-select
+              class="paymentStatus"
+              [(value)]="filters.paymentstatus"
+              multiple
+              [placeholder]="'formFields.paymentStatus' | transloco"
+              required
+              [formControl]="paymentStatusSelected"
+            >
+              <mat-option
+                *ngFor="let state of getPaymentStatusTranslationSlice()"
+                [value]="getPaymentStatusTranslation().indexOf(state)"
+              >
+                {{ state }}
+              </mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="paymentStatusSelected.hasError('required')"></mat-error> -->
           </mat-form-field>
         </div>
       </div>
@@ -73,6 +93,7 @@
           mat-button
           type="submit"
           color="accent"
+          [disabled]="!(filters.orderstatus.length > 0 && filters.paymentstatus.length > 0)"
         >
           {{ 'buttons.applyFilters' | transloco }}
         </button>

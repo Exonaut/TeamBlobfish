@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
@@ -59,12 +59,15 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     bookingDate: undefined,
     email: undefined,
     bookingToken: undefined,
-    orderstatus: [],
-    paymentstatus: [],
+    orderstatus: undefined,
+    paymentstatus: undefined,
   };
 
   archiveMode = false;
   title = 'cockpit.orders.title';
+
+  orderStatusSelected: FormControl;
+  paymentStatusSelected: FormControl;
 
   constructor(
     private dialog: MatDialog,
@@ -85,7 +88,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           this.title = 'cockpit.orders.archive';
           this.filters.paymentstatus = [1, 2];
           this.filters.orderstatus = [5, 6];
-          this.displayedColumns.pop();
+          this.displayedColumns.slice(0, 5);
         }
         else
         {
@@ -101,6 +104,12 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       this.getTranslationSubscriptions(event);
       moment.locale(this.translocoService.getActiveLang());
     });
+    this.orderStatusSelected = new FormControl(this.filters.orderstatus, [
+      Validators.required
+    ]);
+    this.paymentStatusSelected = new FormControl(this.filters.paymentstatus, [
+      Validators.required
+    ]);;
   }
 
   setTableHeaders(lang: string): void {
@@ -154,6 +163,20 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     }
   }
 
+    /**
+   * Slices the Payment Status translation array for regular or archive mode
+   * @returns The sliced translation array
+   */
+     getPaymentStatusTranslationSlice(): string[] {
+      if (!this.archiveMode) {
+        return this.getPaymentStatusTranslation().slice(0, 2);
+      }
+      else 
+      {
+        return this.getPaymentStatusTranslation().slice(1);
+      }
+    }
+
   /** Get Orders from backend meeting current filter requirements */
   applyFilters(): void {
     this.waiterCockpitService
@@ -171,6 +194,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   /** Clear filters */
   clearFilters(filters: NgForm): void {
     filters.reset();
+    this.ngOnInit();
     this.applyFilters();
     this.pagingBar.firstPage();
   }
