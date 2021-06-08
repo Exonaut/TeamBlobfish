@@ -212,7 +212,8 @@
       "creationDateH": "Creation date",
       "bookingStateH": "Order Status",
       "paymentStateH": "Payment",
-      "actionsH": "Actions"
+      "actionsH": "Actions",
+      "nameH": "Name"
     },
     "status": {
       "recorded": "Recorded",

@@ -46,6 +46,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = [
     'booking.bookingDate',
+    'booking.name',
     'booking.email',
     'booking.bookingToken',
     'booking.orderStatus',
@@ -61,6 +62,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     bookingToken: undefined,
     orderstatus: undefined,
     paymentstatus: undefined,
+    name: undefined
   };
 
   archiveMode = false;
@@ -86,15 +88,15 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
         {
           this.archiveMode = true;
           this.title = 'cockpit.orders.archive';
-          this.filters.paymentstatus = [1, 2];
-          this.filters.orderstatus = [5, 6];
-          this.displayedColumns = this.displayedColumns.slice(0, 5);
+          this.filters.paymentstatus = [1, 2]; // Payed, Refunded
+          this.filters.orderstatus = [5, 6]; // Completed, Canceled
+          this.displayedColumns = this.displayedColumns.slice(0, 5); // Remove actions from archive view
         }
         else
         {
           this.archiveMode = false;
           this.title = 'cockpit.orders.title';
-          this.filters.paymentstatus = [0, 1];
+          this.filters.paymentstatus = [0, 1]; // Pending, Payed
           this.filters.orderstatus = [0, 1, 2, 3, 4];
         }
         this.applyFilters();
@@ -118,6 +120,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       .subscribe((cockpitTable) => {
         this.columns = [
           { name: 'booking.bookingDate', label: cockpitTable.reservationDateH },
+          { name: 'booking.name', label: cockpitTable.nameH },
           { name: 'booking.email', label: cockpitTable.emailH },
           { name: 'booking.bookingToken', label: cockpitTable.bookingTokenH },
           { name: 'booking.bookingStatus', label: cockpitTable.bookingStateH},
@@ -224,7 +227,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
    * @param selection - The selected Order
    */
   selected(event, selection: OrderListView): void {
-    if (!event.target.className.includes('button')) { // Exclude action buttons
+    if (!event.target.className.includes('button') && !event.target.className.includes('advanceOrder')) { // Exclude action buttons
       this.dialog.open(OrderDialogComponent, {
         width: '80%',
         data: selection,
