@@ -24,7 +24,49 @@ public class OrderEto extends AbstractEto implements Order {
 
   private Instant servetime;
 
-  private String deliveryservice;
+  private String city;
+
+  private String street;
+
+  private String streetNr;
+
+  @Override
+  public String getStreetNr() {
+
+    return this.streetNr;
+  }
+
+  @Override
+  public void setStreetNr(String streetNr) {
+
+    this.streetNr = streetNr;
+
+  }
+
+  @Override
+  public void setCity(String city) {
+
+    this.city = city;
+  }
+
+  @Override
+  public String getCity() {
+
+    return this.city;
+  }
+
+  @Override
+  public void setStreet(String street) {
+
+    this.street = street;
+
+  }
+
+  @Override
+  public String getStreet() {
+
+    return this.street;
+  }
 
   @Override
   public void setServeTime(Instant servetime) {
@@ -162,19 +204,6 @@ public class OrderEto extends AbstractEto implements Order {
   public void setPaymentStatus(Long payment) {
 
     this.paymentstatus = payment;
-  }
-
-  @Override
-  public void setDeliveryservice(String deliveryservice) {
-
-    this.deliveryservice = deliveryservice;
-
-  }
-
-  @Override
-  public String getDeliveryservice() {
-
-    return this.deliveryservice;
   }
 
 }

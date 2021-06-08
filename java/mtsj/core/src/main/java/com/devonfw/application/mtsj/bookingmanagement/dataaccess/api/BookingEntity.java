@@ -338,6 +338,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @return assistants
    */
+  @Override
   public Integer getAssistants() {
 
     return this.assistants;
@@ -346,6 +347,7 @@ public class BookingEntity extends ApplicationPersistenceEntity implements Booki
   /**
    * @param assistants new value of {@link #getassistants}.
    */
+  @Override
   public void setAssistants(Integer assistants) {
 
     this.assistants = assistants;

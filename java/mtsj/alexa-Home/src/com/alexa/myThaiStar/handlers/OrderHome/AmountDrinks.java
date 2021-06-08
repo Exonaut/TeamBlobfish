@@ -10,7 +10,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelperOrderClass;
+import com.tools.HelpClass;
 
 public class AmountDrinks implements IntentRequestHandler {
 
@@ -28,9 +28,9 @@ public class AmountDrinks implements IntentRequestHandler {
 
     Slot drink = intentRequest.getIntent().getSlots().get("drink");
 
-    String dishId = HelperOrderClass.getDishId(drink.getValue());
+    HelpClass.dishID = HelpClass.getDishId(drink.getValue());
 
-    if (dishId == null) {
+    if (HelpClass.dishID == null) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
           .withSpeech("Ich habe Sie leider nicht verstanden. Welches Getränk möchten Sie?")

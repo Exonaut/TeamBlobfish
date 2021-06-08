@@ -14,7 +14,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelperOrderClass;
+import com.tools.HelpClass;
 
 public class CloseOrderOrMakeServingTime implements IntentRequestHandler {
 
@@ -35,11 +35,11 @@ public class CloseOrderOrMakeServingTime implements IntentRequestHandler {
 
     if (serveTimeYesNo.getValue().equals("nein")) {
 
-      String currentTime = HelperOrderClass
-          .getTimeFormat(HelperOrderClass.convertMillisecondsToDateTime(System.currentTimeMillis() + 7200000));
+      String currentTime = HelpClass
+          .getTimeFormat(HelpClass.convertMillisecondsToDateTime(System.currentTimeMillis() + 7200000));
 
-      String currentDate = HelperOrderClass
-          .getDateFormat(HelperOrderClass.convertMillisecondsToDateTime(System.currentTimeMillis() + 7200000));
+      String currentDate = HelpClass
+          .getDateFormat(HelpClass.convertMillisecondsToDateTime(System.currentTimeMillis() + 7200000));
 
       SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
@@ -55,7 +55,7 @@ public class CloseOrderOrMakeServingTime implements IntentRequestHandler {
 
       SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
-      HelperOrderClass.req.order.serveTime = HelperOrderClass
+      HelpClass.req.order.serveTime = HelpClass
           .getFormatDateTimeAndCalculate(currentDate + " " + timeFormat.format(calSerTime.getTime()));
 
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();

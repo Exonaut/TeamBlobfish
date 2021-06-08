@@ -10,7 +10,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelperOrderClass;
+import com.tools.HelpClass;
 
 public class StartedDeliveryService implements IntentRequestHandler {
 
@@ -38,8 +38,8 @@ public class StartedDeliveryService implements IntentRequestHandler {
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoCustomerDetails", intentRequest.getIntent())
         .withSpeech("Ich habe Sie leider nicht verstanden. Wollen Sie mit diesen Daten Name: "
-            + HelperOrderClass.req.booking.name + "\n" + " Anzahl der Gäste: " + HelperOrderClass.req.booking.assistants
-            + "\n" + "Buchungsemail: " + HelperOrderClass.req.booking.email + "\n" + " fortfahren?")
+            + HelpClass.req.booking.name + "\n" + " Anzahl der Gäste: " + HelpClass.req.booking.assistants
+            + "\n" + "Buchungsemail: " + HelpClass.req.booking.email + "\n" + " fortfahren?")
         .withReprompt("Wollen Sie mit diese Daten fortfahren?").build();
   }
 

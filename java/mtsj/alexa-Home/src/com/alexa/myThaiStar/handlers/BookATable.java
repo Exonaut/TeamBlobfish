@@ -12,7 +12,7 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelperOrderClass;
+import com.tools.HelpClass;
 
 public class BookATable implements RequestHandler {
 
@@ -29,16 +29,24 @@ public class BookATable implements RequestHandler {
     IntentRequest intentRequest = (IntentRequest) request;
     Intent intent = intentRequest.getIntent();
     Map<String, Slot> slots = intent.getSlots();
+    String speechText = "Vielen Dank für Ihre Reservierung. Wir freuen uns auf Ihren Besuch.";
 
     Slot personCount = slots.get("guests");
     Slot time = slots.get("time");
     Slot date = slots.get("date");
 
-    String date_time = HelperOrderClass.getFormatDateTimeAndCalculate(date.getValue() + " " + time.getValue());
+    String date_time = HelpClass.getFormatDateTimeAndSubtractTwoHours(date.getValue() + " " + time.getValue());
     String name = input.getServiceClientFactory().getUpsService().getProfileName();
     String userEmail = input.getServiceClientFactory().getUpsService().getProfileEmail();
+    String bookingType = "1";
 
-    String speechText = HelperOrderClass.bookATable(userEmail, name, date_time, personCount.getValue());
+    String response = HelpClass.bookATable(userEmail, name, date_time, personCount.getValue(), bookingType);
+
+    if (response == null) {
+
+      speechText = "Es tut mir leid, es ist ein Problem aufgetreten. Probieren Sie es zu einem späteren Zeitpunkt.";
+
+    }
 
     return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText).build();
   }

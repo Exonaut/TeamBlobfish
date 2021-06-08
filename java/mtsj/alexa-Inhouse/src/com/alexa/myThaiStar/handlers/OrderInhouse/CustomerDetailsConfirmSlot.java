@@ -4,8 +4,6 @@ import static com.amazon.ask.request.Predicates.intentName;
 
 import java.util.Optional;
 
-import org.apache.http.message.BasicHeader;
-
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -13,26 +11,9 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.entity.booking.Booking;
 import com.entity.booking.ResponseBooking;
-import com.google.gson.Gson;
-import com.login.RequestLogin;
-import com.tools.BasicOperations;
-import com.tools.HelperOrderClass;
+import com.tools.HelpClass;
 
 public class CustomerDetailsConfirmSlot implements IntentRequestHandler {
-
-  private static String BASE_URL;
-
-  private static long flexTime = 1800000;
-
-  /**
-   * The constructor.
-   *
-   * @param baseUrl
-   */
-  public CustomerDetailsConfirmSlot(String baseUrl) {
-
-    BASE_URL = baseUrl;
-  }
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
@@ -47,46 +28,17 @@ public class CustomerDetailsConfirmSlot implements IntentRequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    RequestLogin req = new RequestLogin();
-    req.password = "waiter";
-    req.username = "waiter";
-    Gson gson = new Gson();
-    String payload = gson.toJson(req);
-    String speechText = "";
-    String respStr = "";
-    BasicOperations bo = new BasicOperations();
+    ResponseBooking response = HelpClass.getAllBookings();
 
-    try {
-      bo.basicPost(payload, BASE_URL + "/mythaistar/login");
-    } catch (Exception ex) {
-      speechText = "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt";
-      return handlerInput.getResponseBuilder().withSpeech(speechText).build();
-    }
-
-    String authorizationBearer = bo.getSpecificHeader("Authorization");
-    payload = "{\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[]}}";
-
-    BasicOperations bo2 = new BasicOperations();
-    bo2.reqHeaders = new BasicHeader[] { new BasicHeader("Authorization", authorizationBearer) };
-
-    try {
-      respStr = bo2.basicPost(payload, BASE_URL + "/mythaistar/services/rest/bookingmanagement/v1/booking/search");
-    } catch (Exception ex) {
-      speechText = "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt";
-      return handlerInput.getResponseBuilder().withSpeech(speechText).build();
-    }
-
-    ResponseBooking response = gson.fromJson(respStr, ResponseBooking.class);
-
-    Booking booking = HelperOrderClass.tableBooked(response, intentRequest);
+    Booking booking = HelpClass.tableBooked(response, intentRequest);
 
     if (booking == null)
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
     return handlerInput.getResponseBuilder().addConfirmSlotDirective("queryTable", intentRequest.getIntent())
-        .withSpeech("Name: " + HelperOrderClass.req.booking.name + "\n" + " Anzahl der Gäste: "
-            + HelperOrderClass.req.booking.assistants + "\n" + "Buchungsemail: " + HelperOrderClass.req.booking.email
-            + "\n" + ". Sind Ihre Daten korrekt?")
+        .withSpeech(
+            "Name: " + HelpClass.req.booking.name + "\n" + " Anzahl der Gäste: " + HelpClass.req.booking.assistants
+                + "\n" + "Buchungsemail: " + HelpClass.req.booking.email + "\n" + ". Sind Ihre Daten korrekt?")
         .withReprompt("Sind Ihre Daten korrekt?").build();
   }
 

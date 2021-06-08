@@ -4,8 +4,12 @@ public class Orders {
 
   public String serveTime;
 
-  public String deliveryservice;
-
   public String email;
+
+  public String city;
+
+  public String street;
+
+  public String streetNr;
 
 }

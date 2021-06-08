@@ -14,4 +14,6 @@ public class Booking {
   public String bookingToken;
 
   public String tableId;
+
+  public String deliveryservice;
 }

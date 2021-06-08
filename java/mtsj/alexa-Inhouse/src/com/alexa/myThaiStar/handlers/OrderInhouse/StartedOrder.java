@@ -13,18 +13,6 @@ import com.amazon.ask.model.Slot;
 
 public class StartedOrder implements IntentRequestHandler {
 
-  private static String BASE_URL;
-
-  /**
-   * The constructor.
-   *
-   * @param baseUrl
-   */
-  public StartedOrder(String baseUrl) {
-
-    BASE_URL = baseUrl;
-  }
-
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
@@ -40,11 +28,8 @@ public class StartedOrder implements IntentRequestHandler {
 
     Slot queryTable = intentRequest.getIntent().getSlots().get("queryTable");
 
-    if (queryTable.getConfirmationStatusAsString().equals("DENIED")) {
-
+    if (queryTable.getConfirmationStatusAsString().equals("DENIED"))
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
-
-    }
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
         .withSpeech("Hallo schön dass Sie uns besuchen. Wie lautet Ihr erstes Gericht?")

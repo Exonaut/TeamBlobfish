@@ -1,4 +1,4 @@
-package com.alexa.myThaiStar.handlers.OrderHome;
+package com.alexa.myThaiStar.handlers.OrderInhouse;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
@@ -20,7 +20,7 @@ public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    return handlerInput.matches(intentName("makeAOrderHome"))
+    return handlerInput.matches(intentName("makeAOrderInhouse"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS
         && !intentRequest.getIntent().getSlots().get("amount").getConfirmationStatusAsString().equals("NONE")
         && intentRequest.getIntent().getSlots().get("yesNoEat").getValue() == null;

@@ -61,7 +61,7 @@ public class DescriptionDishes implements RequestHandler {
 
     speechText = response.getDishesDescription(dishName.getValue());
 
-    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("descriptionFood", speechText).build();
+    return input.getResponseBuilder().withSpeech(speechText).build();
   }
 
 }

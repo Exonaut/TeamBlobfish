@@ -21,12 +21,12 @@ import com.alexa.myThaiStar.handlers.FallbackIntentHandler;
 import com.alexa.myThaiStar.handlers.HelpIntentHandler;
 import com.alexa.myThaiStar.handlers.LaunchRequestHandler;
 import com.alexa.myThaiStar.handlers.SessionEndedRequestHandler;
-import com.alexa.myThaiStar.handlers.OrderInhouse.AmountDishes;
+import com.alexa.myThaiStar.handlers.OrderInhouse.AmountDishesOrCorrectExtras;
 import com.alexa.myThaiStar.handlers.OrderInhouse.AmountDrinks;
 import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDishOrDoUWantToDrink;
-import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDishYesNo;
+import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDishYesNoOrCorrectTheDish;
 import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDrinkOrServeTimeYesNo;
-import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDrinkYesNo;
+import com.alexa.myThaiStar.handlers.OrderInhouse.AnotherDrinkYesNoOrCorrectTheDrink;
 import com.alexa.myThaiStar.handlers.OrderInhouse.CloseOrder;
 import com.alexa.myThaiStar.handlers.OrderInhouse.CloseOrderOrMakeServingTime;
 import com.alexa.myThaiStar.handlers.OrderInhouse.Completed;
@@ -34,7 +34,7 @@ import com.alexa.myThaiStar.handlers.OrderInhouse.CustomerDetailsConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderInhouse.DishesConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderInhouse.DrinksConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderInhouse.QueryTable;
-import com.alexa.myThaiStar.handlers.OrderInhouse.ShowExtrasDishes;
+import com.alexa.myThaiStar.handlers.OrderInhouse.WhichExtrasDishes;
 import com.alexa.myThaiStar.handlers.OrderInhouse.StartedOrder;
 import com.alexa.myThaiStar.handlers.OrderInhouse.WhatDoUWantDoDrinkOrServeTimeYesNo;
 
@@ -44,33 +44,33 @@ import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://bb99bd8a8251.ngrok.io";
+  public static final String BASE_URL = "https://a0681af777e4.ngrok.io";
 
   private static Skill getSkill() {
 
     return Skills.standard()
         .addRequestHandlers(new CancelandStopIntentHandler(),
-            new CallFoodMenu(BASE_URL),
+            new CallFoodMenu(),
             new DescriptionDrinks(BASE_URL),
             new DescriptionDishes(BASE_URL),
             new HelpIntentHandler(),
             new LaunchRequestHandler(),
             new SessionEndedRequestHandler(),
             new FallbackIntentHandler(),
-            new StartedOrder(BASE_URL),
+            new StartedOrder(),
             new WhatDoUWantDoDrinkOrServeTimeYesNo(),
-            new ShowExtrasDishes(),
+            new WhichExtrasDishes(),
             new DrinksConfirmSlot(),
             new DishesConfirmSlot(),
             new Completed(),
-            new AnotherDrinkYesNo(),
+            new AnotherDrinkYesNoOrCorrectTheDrink(),
             new AnotherDrinkOrServeTimeYesNo(),
-            new AnotherDishYesNo(),
+            new AnotherDishYesNoOrCorrectTheDish(),
             new AnotherDishOrDoUWantToDrink(),
             new AmountDrinks(),
-            new AmountDishes(),
+            new AmountDishesOrCorrectExtras(),
             new QueryTable(),
-            new CustomerDetailsConfirmSlot(BASE_URL),
+            new CustomerDetailsConfirmSlot(),
             new CloseOrderOrMakeServingTime(),
             new CloseOrder())
         // Add your skill id below
