@@ -198,7 +198,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   clearFilters(filters: NgForm): void {
     filters.reset();
     this.ngOnInit();
-    this.applyFilters();
+    // this.applyFilters();
     this.pagingBar.firstPage();
   }
 
