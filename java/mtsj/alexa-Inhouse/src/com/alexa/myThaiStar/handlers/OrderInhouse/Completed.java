@@ -10,7 +10,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelperOrderClass;
+import com.tools.HelpClass;
 
 public class Completed implements IntentRequestHandler {
 
@@ -27,10 +27,6 @@ public class Completed implements IntentRequestHandler {
     Slot dishOrder = intentRequest.getIntent().getSlots().get("dishOrder");
     Slot queryTable = intentRequest.getIntent().getSlots().get("queryTable");
 
-    if (dishOrder.getValue() == null)
-      return handlerInput.getResponseBuilder()
-          .withSpeech("Es tut mir leid, zu der jetzigen Uhrzeit wurde der Tisch nicht reserviert").build();
-
     if (queryTable.getConfirmationStatusAsString().equals("DENIED")) {
 
       return handlerInput.getResponseBuilder().withSpeech("Es tut mir leid, bitte starten Sie Ihre Bestellung erneut")
@@ -38,7 +34,11 @@ public class Completed implements IntentRequestHandler {
 
     }
 
-    String speechText = HelperOrderClass.sendOrder();
+    if (dishOrder.getValue() == null)
+      return handlerInput.getResponseBuilder()
+          .withSpeech("Es tut mir leid, zu der jetzigen Uhrzeit wurde der Tisch nicht reserviert").build();
+
+    String speechText = HelpClass.sendOrder();
 
     return handlerInput.getResponseBuilder().withSpeech(speechText).build();
   }

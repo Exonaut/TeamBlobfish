@@ -1,4 +1,4 @@
-package com.alexa.myThaiStar.handlers.OrderHome;
+package com.alexa.myThaiStar.handlers.OrderInhouse;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
@@ -11,14 +11,15 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 
-public class AnotherDrinkOrDoUWantCloseOrder implements IntentRequestHandler {
+public class AnotherDrinkOrServeTimeYesNo implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    return (handlerInput.matches(intentName("makeAOrderHome"))
+    return (handlerInput.matches(intentName("makeAOrderInhouse"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
-        && intentRequest.getIntent().getSlots().get("yesNoAnotherDrink").getValue() != null;
+        && intentRequest.getIntent().getSlots().get("yesNoAnotherDrink").getValue() != null
+        && intentRequest.getIntent().getSlots().get("serveTimeYesNo").getValue() == null;
 
   }
 
@@ -40,7 +41,13 @@ public class AnotherDrinkOrDoUWantCloseOrder implements IntentRequestHandler {
           .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie noch zum trinken?").build();
     } else if (yesNoAnotherDrink.getValue().equals("nein")) {
 
-      return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("serveTimeYesNo", intentRequest.getIntent())
+          .withSpeech(
+              "Sie haben die Möglichkeit, eine Servierzeit anzugeben. Wenn Sie keine Servierzeit angeben möchten, "
+                  + "wird Ihnen Ihr Essen in 30 minuten serviert. Wenn Sie eine Servierzeit angeben möchten, "
+                  + "dann muss die Servierzeit mindestens 30 minuten hinter der aktuellen Zeit liegen. "
+                  + "Möchten Sie eine Servierzeit angeben?")
+          .withReprompt("Welche Servierzeit wünschen Sie?").build();
 
     }
 

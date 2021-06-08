@@ -1,6 +1,5 @@
 package com.devonfw.application.mtsj.ordermanagement.dataaccess.api;
 
-import java.time.Instant;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -34,8 +33,6 @@ public class OrderLineEntity extends ApplicationPersistenceEntity implements Ord
   private Integer amount;
 
   private String comment;
-
-  private Instant servingtime;
 
   private static final long serialVersionUID = 1L;
 
@@ -172,19 +169,6 @@ public class OrderLineEntity extends ApplicationPersistenceEntity implements Ord
   public void setDish(DishEntity dish) {
 
     this.dish = dish;
-  }
-
-  @Override
-  public Instant getServingTime() {
-
-    return this.servingtime;
-  }
-
-  @Override
-  public void setServingTime(Instant servingtime) {
-
-    this.servingtime = servingtime;
-
   }
 
 }

@@ -255,11 +255,18 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       orderLineEntity.setDishId(lineCto.getOrderLine().getDishId());
       orderLineEntity.setAmount(lineCto.getOrderLine().getAmount());
       orderLineEntity.setComment(lineCto.getOrderLine().getComment());
-      orderLineEntity.setServingTime(lineCto.getOrderLine().getServingTime());
       orderLineEntities.add(orderLineEntity);
     }
 
     OrderEntity orderEntity = getBeanMapper().map(order, OrderEntity.class);
+
+    if (order.getOrder() != null) {
+      orderEntity.setServeTime(order.getOrder().getServeTime());
+      orderEntity.setCity(order.getOrder().getCity());
+      orderEntity.setStreet(order.getOrder().getStreet());
+      orderEntity.setStreetNr(order.getOrder().getStreetNr());
+    }
+
     String token = orderEntity.getBooking().getBookingToken();
     // initialize, validate orderEntity here if necessary
     orderEntity = getValidatedOrder(orderEntity.getBooking().getBookingToken(), orderEntity);
@@ -381,6 +388,19 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       }
       orderEntity.setBookingId(guest.getBookingId());
       orderEntity.setInvitedGuestId(guest.getId());
+    } else if (getOrderType(token) == BookingType.ORDER) {
+
+      BookingCto booking = getBookingbyToken(token);
+      if (booking == null) {
+        throw new NoBookingException();
+      }
+      List<OrderCto> currentOrders = getBookingOrders(booking.getBooking().getId());
+      if (!currentOrders.isEmpty()) {
+        throw new OrderAlreadyExistException();
+      }
+
+      orderEntity.setBookingId(booking.getBooking().getId());
+
     }
 
     return orderEntity;
@@ -393,7 +413,11 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       return BookingType.COMMON;
     } else if (token.startsWith("GB_")) {
       return BookingType.INVITED;
-    } else {
+    } else if (token.startsWith("DB_")) {
+      return BookingType.ORDER;
+    }
+
+    else {
       throw new WrongTokenException();
     }
   }
@@ -499,9 +523,14 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
         throw new NoInviteException();
       }
       return guest.getEmail();
-    } else
+    } else if (getOrderType(token) == BookingType.ORDER) {
 
-    {
+      BookingCto booking = getBookingbyToken(token);
+      if (booking == null) {
+        throw new NoBookingException();
+      }
+      return booking.getBooking().getEmail();
+    } else {
       return null;
     }
   }

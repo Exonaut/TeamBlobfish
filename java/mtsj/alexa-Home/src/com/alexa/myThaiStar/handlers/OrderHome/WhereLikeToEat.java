@@ -1,4 +1,4 @@
-package com.alexa.myThaiStar.handlers.OrderInhouse;
+package com.alexa.myThaiStar.handlers.OrderHome;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
@@ -10,12 +10,12 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 
-public class QueryTable implements IntentRequestHandler {
+public class WhereLikeToEat implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    return (handlerInput.matches(intentName("makeAOrderInhouse"))
+    return (handlerInput.matches(intentName("makeAOrderHome"))
         && intentRequest.getDialogState() == DialogState.STARTED);
 
   }
@@ -23,9 +23,9 @@ public class QueryTable implements IntentRequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    return handlerInput.getResponseBuilder().addElicitSlotDirective("queryTable", intentRequest.getIntent())
-        .withSpeech("Wie lautet Ihre Tischnummer?")
-        .withReprompt("Wie lautet Ihre Tischnummer? Ihre Tischnummer finden Sie in Ihrer Buchungsbestätigung.").build();
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("whereLikeToEat", intentRequest.getIntent())
+        .withSpeech("Möchten Sie sich das Essen liefern lassen oder möchten Sie im Restaurant essen?")
+        .withReprompt("Wo möchten Sie essen?").build();
   }
 
 }

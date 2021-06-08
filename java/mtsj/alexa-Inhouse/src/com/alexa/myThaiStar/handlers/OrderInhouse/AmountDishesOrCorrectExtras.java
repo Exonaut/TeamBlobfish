@@ -1,4 +1,4 @@
-package com.alexa.myThaiStar.handlers.OrderHome;
+package com.alexa.myThaiStar.handlers.OrderInhouse;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
@@ -12,14 +12,14 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.entity.orderline.Extras;
-import com.tools.HelperOrderClass;
+import com.tools.HelpClass;
 
-public class AmountDishes implements IntentRequestHandler {
+public class AmountDishesOrCorrectExtras implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    return (handlerInput.matches(intentName("makeAOrderHome"))
+    return (handlerInput.matches(intentName("makeAOrderInhouse"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
         && intentRequest.getIntent().getSlots().get("dishOrder").getValue() != null
         && intentRequest.getIntent().getSlots().get("extra").getValue() != null
@@ -42,7 +42,7 @@ public class AmountDishes implements IntentRequestHandler {
 
     ArrayList<Extras> extrasArray = new ArrayList<>();
 
-    for (Extras s : HelperOrderClass.extras) {
+    for (Extras s : HelpClass.extras) {
 
       if (extra.getValue().contains(s.name.toLowerCase())) {
         Extras extras = new Extras();
@@ -55,7 +55,7 @@ public class AmountDishes implements IntentRequestHandler {
     if (extrasArray.size() == 0) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("extra", intentRequest.getIntent())
-          .withSpeech("Ich habe sie leider nicht verstanden. Welche Extras möchten Sie?")
+          .withSpeech("Welche Extras möchten Sie? Wenn Sie keine Extras möchten, dann sagen Sie: ohne extras.")
           .withReprompt("Welche Extras möchten Sie?").build();
 
     }

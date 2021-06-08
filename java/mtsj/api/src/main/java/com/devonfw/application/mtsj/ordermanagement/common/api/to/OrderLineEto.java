@@ -1,7 +1,5 @@
 package com.devonfw.application.mtsj.ordermanagement.common.api.to;
 
-import java.time.Instant;
-
 import com.devonfw.application.mtsj.ordermanagement.common.api.OrderLine;
 import com.devonfw.module.basic.common.api.to.AbstractEto;
 
@@ -19,8 +17,6 @@ public class OrderLineEto extends AbstractEto implements OrderLine {
   private Integer amount;
 
   private String comment;
-
-  private Instant servingtime;
 
   @Override
   public Long getOrderId() {
@@ -131,18 +127,5 @@ public class OrderLineEto extends AbstractEto implements OrderLine {
       return false;
     }
     return true;
-  }
-
-  @Override
-  public Instant getServingTime() {
-
-    return this.servingtime;
-  }
-
-  @Override
-  public void setServingTime(Instant servingtime) {
-
-    this.servingtime = servingtime;
-
   }
 }

@@ -6,7 +6,7 @@ package com.devonfw.application.mtsj.bookingmanagement.common.api.datatype;
  */
 public enum BookingType {
 
-  COMMON, INVITED;
+  COMMON, INVITED, ORDER;
 
   public boolean isCommon() {
 
@@ -16,6 +16,11 @@ public enum BookingType {
   public boolean isInvited() {
 
     return (this == INVITED);
+  }
+
+  public boolean isOrder() {
+
+    return (this == ORDER);
   }
 
 }
