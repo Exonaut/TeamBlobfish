@@ -36,20 +36,20 @@ public class CallFoodMenu implements RequestHandler {
     Map<String, Slot> slots = intent.getSlots();
     Gson gson = new Gson();
     Slot menu = slots.get("menu");
-    String respStr = "";
+    String resStr = "";
 
     if (menu.getValue().equals("getränkekarte") || menu.getValue().equals("trinken")) {
       payload = "{\"categories\":[{\"id\":\"8\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
 
-      respStr = HelpClass.callFoodMenu(payload);
+      resStr = HelpClass.callFoodMenu(payload);
 
-      if (respStr == null)
+      if (resStr == null)
         return input.getResponseBuilder()
             .withSpeech(
                 "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt.")
             .build();
 
-      ResponseMenuDrinks response = gson.fromJson(respStr, ResponseMenuDrinks.class);
+      ResponseMenuDrinks response = gson.fromJson(resStr, ResponseMenuDrinks.class);
 
       speechText = "Wir haben " + response.toString()
           + ". Wenn Sie mehr über unsere Auswahl zu Tee oder Bier haben möchten, dann sagen sie zum Beispiel: Was gibt es für Teesorten oder was gibt es für Biersorten";
@@ -61,15 +61,15 @@ public class CallFoodMenu implements RequestHandler {
     if (menu.getValue().equals("speisekarte") || menu.getValue().equals("essen")) {
       payload = "{\"categories\":[{\"id\":\"0\"},{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"},{\"id\":\"4\"},{\"id\":\"5\"},{\"id\":\"6\"},{\"id\":\"7\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
 
-      respStr = HelpClass.callFoodMenu(payload);
+      resStr = HelpClass.callFoodMenu(payload);
 
-      if (respStr == null)
+      if (resStr == null)
         return input.getResponseBuilder()
             .withSpeech(
                 "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt.")
             .build();
 
-      ResponseMenuDishes response = gson.fromJson(respStr, ResponseMenuDishes.class);
+      ResponseMenuDishes response = gson.fromJson(resStr, ResponseMenuDishes.class);
 
       speechText = "Wir haben " + response.toString()
           + ". Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Thai green chicken curry erfahren.";
