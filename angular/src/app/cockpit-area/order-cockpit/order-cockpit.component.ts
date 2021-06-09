@@ -243,7 +243,9 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** Apply Order Status, Payment Status and then reload orders  */
+  /** 
+   * Apply Order Status, Payment Status and then reload orders
+   */
   applyChanges(element: any, orderStatus: number, paymentStatus: number): void {
     this.undoValues.push({
       id: element.order.id,
@@ -269,6 +271,9 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       );
   }
 
+  /**
+   * Undo the last performed action
+   */
   undoLastChange() {
     this.waiterCockpitService.setOrderStatus(this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].orderStatus) // Send order status
       .subscribe(

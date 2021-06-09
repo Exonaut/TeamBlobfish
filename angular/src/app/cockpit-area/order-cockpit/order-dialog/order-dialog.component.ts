@@ -150,7 +150,7 @@ export class OrderDialogComponent implements OnInit {
           this.waiterCockpitService.setPaymentStatus(this.data.order.id, this.selectedPaymentStatus) // Send payment status
             .subscribe(
               (dataB: any) => {
-                this.parrent.undoValues.push({
+                this.parrent.undoValues.push({ // Add change to undo stack of parrent OrderCockpitComponent
                   id: this.data.order.id,
                   orderStatus: this.data.order.orderStatus,
                   paymentStatus: this.data.order.paymentStatus

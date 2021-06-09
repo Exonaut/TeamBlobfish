@@ -209,9 +209,7 @@
                     )
                   "
                 >
-                  <span class="advanceOrder">
-                    {{ 'buttons.apply' | transloco }}
-                  </span>
+                  <mat-icon>save_alt</mat-icon>
                   {{
                     getOrderStatusTranslation()[element.order.orderStatus + 1]
                   }}
@@ -230,7 +228,7 @@
                   color="warn"
                   (click)="applyChanges(element, 6, 2)"
                 >
-                  {{ 'buttons.cancelOrder' | transloco }}
+                  <mat-icon>clear</mat-icon>
                 </button>
               </td>
             </tr>
@@ -261,6 +259,7 @@
           [disabled]="!(undoValues.length > 0)"
           color="warn"
         >
+        <mat-icon>reply</mat-icon>
         {{ 'buttons.undoAction' | transloco }}
         </button>
       </td>
