@@ -272,7 +272,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Undo the last performed action
+   * Undo the last performed action (includes changes through dialog)
    */
   undoLastChange() {
     this.waiterCockpitService.setOrderStatus(this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].orderStatus) // Send order status
