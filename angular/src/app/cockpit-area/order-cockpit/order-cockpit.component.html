@@ -198,9 +198,8 @@
                   *ngIf="!archiveMode"
                   class="advanceOrder"
                   name="advanceOrder"
-                  mat-button
+                  mat-raised-button
                   type="button"
-                  color="accent"
                   (click)="
                     applyChanges(
                       element,
@@ -209,7 +208,7 @@
                     )
                   "
                 >
-                  <mat-icon>save_alt</mat-icon>
+                  <mat-icon>arrow_forward</mat-icon>
                   {{
                     getOrderStatusTranslation()[element.order.orderStatus + 1]
                   }}
@@ -223,7 +222,7 @@
                   *ngIf="!archiveMode"
                   class="cancelOrder"
                   name="cancelOrder"
-                  mat-button
+                  mat-fab
                   type="button"
                   color="warn"
                   (click)="applyChanges(element, 6, 2)"
