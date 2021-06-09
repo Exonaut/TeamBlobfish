@@ -276,11 +276,15 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
    */
   undoLastChange(): void {
     // Send order status
-    this.waiterCockpitService.setOrderStatus(this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].orderStatus)
+    this.waiterCockpitService.setOrderStatus(
+        this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].orderStatus
+      )
       .subscribe(
         (dataA: any) => {
           // Send payment status
-          this.waiterCockpitService.setPaymentStatus(this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].paymentStatus)
+          this.waiterCockpitService.setPaymentStatus(
+              this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].paymentStatus
+            )
             .subscribe(
               (dataB: any) => {
                 this.applyFilters();
