@@ -47,9 +47,10 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = [
     'booking.bookingDate',
+    'booking.serveTime',
     'booking.name',
     'booking.email',
-    'booking.bookingToken',
+    // 'booking.bookingToken',
     'booking.orderStatus',
     'booking.paymentStatus',
     'booking.actions'
@@ -127,9 +128,10 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           { name: 'booking.name', label: cockpitTable.nameH },
           { name: 'booking.email', label: cockpitTable.emailH },
           { name: 'booking.bookingToken', label: cockpitTable.bookingTokenH },
-          { name: 'booking.bookingStatus', label: cockpitTable.bookingStateH},
-          { name: 'booking.paymentStatus', label: cockpitTable.paymentStateH},
-          { name: 'booking.actions', label: cockpitTable.actionsH},
+          { name: 'booking.serveTime', label: cockpitTable.serveTimeH },
+          { name: 'booking.bookingStatus', label: cockpitTable.bookingStateH },
+          { name: 'booking.paymentStatus', label: cockpitTable.paymentStateH },
+          { name: 'booking.actions', label: cockpitTable.actionsH },
         ];
       });
   }
@@ -231,7 +233,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
    * @param selection - The selected Order
    */
   selected(event, selection: OrderListView): void {
-    if (!event.target.className.includes('button') && !event.target.className.includes('advanceOrder')) { // Exclude action buttons
+    if (!event.target.className.includes('cancelOrder') && !event.target.className.includes('advanceOrder')) { // Exclude action buttons
       this.dialog.open(OrderDialogComponent, {
         width: '80%',
         data: {selection, parrent: this},

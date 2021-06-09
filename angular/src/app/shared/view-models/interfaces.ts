@@ -156,6 +156,7 @@ export interface SaveOrderResponse {
   revision: any;
   orderStatus: number;
   paymentStatus: number;
+  serveTime: string;
 }
 
 // Roles

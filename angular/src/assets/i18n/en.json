@@ -214,7 +214,8 @@
       "bookingStateH": "Order Status",
       "paymentStateH": "Payment",
       "actionsH": "Actions",
-      "nameH": "Name"
+      "nameH": "Name",
+      "serveTimeH": "Serving Time"
     },
     "status": {
       "recorded": "Recorded",

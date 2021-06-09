@@ -167,10 +167,20 @@
         </td>
       </ng-container>
 
+      <!-- Serve time column -->
+      <ng-container matColumnDef="booking.serveTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ columns[4].label }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.order.serveTime | amFromUnix | amDateFormat: 'hh:mm a' }}
+        </td>
+      </ng-container>
+
       <!-- Order Status Column -->
       <ng-container matColumnDef="booking.orderStatus">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ columns[4].label }}
+          {{ columns[5].label }}
         </th>
         <td mat-cell *matCellDef="let element">
           {{ getOrderStatusTranslation()[element.order.orderStatus] }}
@@ -180,7 +190,7 @@
       <!-- Payment Status Column -->
       <ng-container matColumnDef="booking.paymentStatus">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ columns[5].label }}
+          {{ columns[6].label }}
         </th>
         <td mat-cell *matCellDef="let element">
           {{ getPaymentStatusTranslation()[element.order.paymentStatus] }}
@@ -208,10 +218,12 @@
                     )
                   "
                 >
-                  <mat-icon>arrow_forward</mat-icon>
-                  {{
-                    getOrderStatusTranslation()[element.order.orderStatus + 1]
-                  }}
+                  <mat-icon class="advanceOrder">arrow_forward</mat-icon>
+                  <span class="advanceOrder">
+                    {{
+                      getOrderStatusTranslation()[element.order.orderStatus + 1]
+                    }}
+                  </span>                 
                   <span class="advanceOrder" *ngIf="element.order.orderStatus + 1 === 5">
                     ({{ getPaymentStatusTranslation()[1] }})
                   </span>
@@ -227,7 +239,7 @@
                   color="warn"
                   (click)="applyChanges(element, 6, 2)"
                 >
-                  <mat-icon>clear</mat-icon>
+                  <mat-icon class="cancelOrder">clear</mat-icon>
                 </button>
               </td>
             </tr>

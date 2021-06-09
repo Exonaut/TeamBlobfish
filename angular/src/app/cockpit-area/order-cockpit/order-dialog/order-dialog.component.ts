@@ -27,6 +27,7 @@ export class OrderDialogComponent implements OnInit {
   displayedColumnsT: string[] = [
     'bookingDate',
     'creationDate',
+    'serveTime',
     'name',
     'email',
     'tableId',
@@ -91,7 +92,8 @@ export class OrderDialogComponent implements OnInit {
           { name: 'email', label: cockpitTable.emailH },
           { name: 'tableId', label: cockpitTable.tableH },
           { name: 'bookingStatus', label: cockpitTable.bookingStateH },
-          { name: 'paymentStatus', label: cockpitTable.paymentStateH }
+          { name: 'paymentStatus', label: cockpitTable.paymentStateH },
+          { name: "serveTime", label: cockpitTable.serveTimeH },
         ];
       });
 
