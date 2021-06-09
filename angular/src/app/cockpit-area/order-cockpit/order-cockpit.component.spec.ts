@@ -44,15 +44,49 @@ const translocoServiceStub = {
     creationDateH: 'Creation date',
     bookingStateH: 'Status',
     paymentStateH: 'Payment',
+    nameH: 'Name',
+    actionsH: 'Actions'
   } as any),
 };
 
 const waiterCockpitServiceStub = {
   getOrders: jasmine.createSpy('getOrders').and.returnValue(of(orderData)),
+  updateOrderStatusTranslation: jasmine.createSpy('updateOrderStatusTranslation').and.returnValue(of({}).subscribe()),
+  updatePaymentStatusTranslation: jasmine.createSpy('updatePaymentStatusTranslation').and.returnValue(of({}).subscribe()),
+  orderStatusTranslation: [
+    'Recorded',
+    'Cooking',
+    'Ready',
+    'Handing Over',
+    'Delivered',
+    'Completed',
+    'Canceled'
+  ],
+  paymentStatusTranslation: [
+    'Pending',
+    'Payed',
+    'Refunded'
+  ]
 };
 
 const waiterCockpitServiceSortStub = {
   getOrders: jasmine.createSpy('getOrders').and.returnValue(of(ascSortOrder)),
+  updateOrderStatusTranslation: jasmine.createSpy('updateOrderStatusTranslation').and.returnValue(of({}).subscribe()),
+  updatePaymentStatusTranslation: jasmine.createSpy('updatePaymentStatusTranslation').and.returnValue(of({}).subscribe()),
+  orderStatusTranslation: [
+    'Recorded',
+    'Cooking',
+    'Ready',
+    'Handing Over',
+    'Delivered',
+    'Completed',
+    'Canceled'
+  ],
+  paymentStatusTranslation: [
+    'Pending',
+    'Payed',
+    'Refunded'
+  ]
 };
 
 const activatedRouteStub = {
@@ -125,10 +159,12 @@ describe('OrderCockpitComponent', () => {
 
   it('should verify table header names', () => {
     expect(component.columns[0].label === 'Reservation Date').toBeTruthy();
-    expect(component.columns[1].label === 'Email').toBeTruthy();
-    expect(component.columns[2].label === 'Reference Number').toBeTruthy();
-    expect(component.columns[3].label === 'Status').toBeTruthy();
-    expect(component.columns[4].label === 'Payment').toBeTruthy();
+    expect(component.columns[1].label === 'Name').toBeTruthy();
+    expect(component.columns[2].label === 'Email').toBeTruthy();
+    expect(component.columns[3].label === 'Reference Number').toBeTruthy();
+    expect(component.columns[4].label === 'Status').toBeTruthy();
+    expect(component.columns[5].label === 'Payment').toBeTruthy();
+    expect(component.columns[6].label === 'Actions').toBeTruthy();
   });
 
   it('should verify content and total records of orders', fakeAsync(() => {

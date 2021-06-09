@@ -111,7 +111,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     ]);
     this.paymentStatusSelected = new FormControl(this.filters.paymentstatus, [
       Validators.required
-    ]);;
+    ]);
   }
 
   setTableHeaders(lang: string): void {
@@ -160,21 +160,21 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     if (!this.archiveMode) {
       return this.getOrderStatusTranslation().slice(0, -2);
     }
-    else 
+    else
     {
       return this.getOrderStatusTranslation().slice(-2);
     }
   }
 
     /**
-   * Slices the Payment Status translation array for regular or archive mode
-   * @returns The sliced translation array
-   */
+     * Slices the Payment Status translation array for regular or archive mode
+     * @returns The sliced translation array
+     */
      getPaymentStatusTranslationSlice(): string[] {
       if (!this.archiveMode) {
         return this.getPaymentStatusTranslation().slice(0, 2);
       }
-      else 
+      else
       {
         return this.getPaymentStatusTranslation().slice(1);
       }

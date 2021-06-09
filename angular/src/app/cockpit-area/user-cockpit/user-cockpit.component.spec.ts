@@ -43,7 +43,7 @@ const mockDialog = {
 
 const userCockpitServiceStub = {
   getUsers: jasmine.createSpy('getUsers').and.returnValue(
-    of({content: GetAllUsersData}),
+    of({content: GetAllUsersData, totalElements: 1}),
   ),
 };
 
