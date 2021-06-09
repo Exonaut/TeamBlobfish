@@ -32,6 +32,8 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
 
   private Long[] paymentstatus;
 
+  private String name;
+
   /**
    * The constructor.
    */
@@ -190,6 +192,22 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
   public void setPaymentstatus(Long[] paymentstatus) {
 
     this.paymentstatus = paymentstatus;
+  }
+
+  /**
+   * @return paymentstatus
+   */
+  public String getName() {
+
+    return this.name;
+  }
+
+  /**
+   * @param name new value of {@link #getName}.
+   */
+  public void setName(String name) {
+
+    this.name = name;
   }
 
 }

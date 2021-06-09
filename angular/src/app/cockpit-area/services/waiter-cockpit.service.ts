@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 import {
   FilterCockpit,
   Pageable,
   Sort,
 } from 'app/shared/backend-models/interfaces';
 import { cloneDeep, map } from 'lodash';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { exhaustMap } from 'rxjs/operators';
 import { ConfigService } from '../../core/config/config.service';
 import {
@@ -33,6 +34,9 @@ export class WaiterCockpitService {
   private readonly restServiceRoot$: Observable<
     string
   > = this.config.getRestServiceRoot();
+
+  orderStatusTranslation: string[];
+  paymentStatusTranslation: string[];
 
   constructor(
     private http: HttpClient,
@@ -62,6 +66,12 @@ export class WaiterCockpitService {
     );
   }
 
+  /**
+   * Updates the Order Status of an Order
+   * @param id - The ID of the order to modify
+   * @param newStatus - The new Order Status to set
+   * @returns An Observable of the http-Request
+   */
   setOrderStatus(
     id: number,
     newStatus: number
@@ -75,6 +85,12 @@ export class WaiterCockpitService {
     );
   }
 
+  /**
+   * Updates the Payment Status of an Order
+   * @param id - The ID of the order to modify
+   * @param newStatus - The new Payment Status to set
+   * @returns An Observable of the http-Request
+   */
   setPaymentStatus(
     id: number,
     newPayment: number
@@ -112,6 +128,44 @@ export class WaiterCockpitService {
       o.extras = map(o.extras, 'name').join(', ');
     });
     return orders;
+  }
+
+  /** Establishes a subscription to the Order Status Translation and sets the services translation array
+   * @param TranslocoService - The TranslocoService to use
+   * @param lang - The language to use
+   * @returns The Subscription to the Observable
+   */
+  updateOrderStatusTranslation(translocoService: TranslocoService, lang: string): Subscription {
+    return translocoService
+    .selectTranslateObject('cockpit.status', {}, lang)
+    .subscribe((cockpitStatus) => {
+      this.orderStatusTranslation = [
+        cockpitStatus.recorded,
+        cockpitStatus.cooking,
+        cockpitStatus.ready,
+        cockpitStatus.handingover,
+        cockpitStatus.delivered,
+        cockpitStatus.completed,
+        cockpitStatus.canceled
+      ]; }
+    );
+  }
+
+  /** Establishes a subscription to the Payment Status Translation and sets the services translation array
+   * @param TranslocoService - The TranslocoService to use
+   * @param lang - The language to use
+   * @returns The Subscription to the Observable
+   */
+  updatePaymentStatusTranslation(translocoService: TranslocoService, lang: string): Subscription {
+    return translocoService
+      .selectTranslateObject('cockpit.payment', {}, lang)
+      .subscribe((cockpitStatus) => {
+        this.paymentStatusTranslation = [
+          cockpitStatus.pending,
+          cockpitStatus.payed,
+          cockpitStatus.refunded
+        ]; }
+      );
   }
 
   getTotalPrice(orderLines: OrderView[]): number {

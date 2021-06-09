@@ -24,6 +24,17 @@
           </mat-form-field>
         </div>
         <div class="formDesktopRow">
+          <!-- Name Filter -->
+          <mat-form-field color="accent" class="searchBy">
+            <input
+              matInput
+              [placeholder]="'formFields.name' | transloco"
+              [(ngModel)]="filters.name"
+              name="name"
+            />
+          </mat-form-field>
+
+          <!-- Email Filter -->
           <mat-form-field color="accent" class="searchBy">
             <input
               matInput
@@ -32,6 +43,8 @@
               name="email"
             />
           </mat-form-field>
+
+          <!-- Ref Number Filter -->
           <mat-form-field color="accent" class="searchBy">
             <input
               matInput
@@ -39,6 +52,44 @@
               [(ngModel)]="filters.bookingToken"
               name="bookingToken"
             />
+          </mat-form-field>
+
+          <!-- Order Status Filter -->
+          <mat-form-field color="accent" class="searchBy">
+            <mat-select
+              class="orderStatus"
+              [(value)]="filters.orderstatus"
+              multiple
+              [placeholder]="'formFields.orderStatus' | transloco"
+              required
+              [formControl]="orderStatusSelected"
+            >
+              <mat-option
+                *ngFor="let state of getOrderStatusTranslationSlice()"
+                [value]="getOrderStatusTranslation().indexOf(state)"
+              >
+                {{ state }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Payment Status Filter -->
+          <mat-form-field color="accent" class="searchBy">
+            <mat-select
+              class="paymentStatus"
+              [(value)]="filters.paymentstatus"
+              multiple
+              [placeholder]="'formFields.paymentStatus' | transloco"
+              required
+              [formControl]="paymentStatusSelected"
+            >
+              <mat-option
+                *ngFor="let state of getPaymentStatusTranslationSlice()"
+                [value]="getPaymentStatusTranslation().indexOf(state)"
+              >
+                {{ state }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>
@@ -58,6 +109,7 @@
           mat-button
           type="submit"
           color="accent"
+          [disabled]="!(filters.orderstatus.length > 0 && filters.paymentstatus.length > 0)"
         >
           {{ 'buttons.applyFilters' | transloco }}
         </button>
@@ -89,10 +141,18 @@
         </td>
       </ng-container>
 
+      <!-- Owner Column -->
+      <ng-container matColumnDef="booking.name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ columns[1].label }}
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.booking.name }}</td>
+      </ng-container>
+
       <!-- Email Column -->
       <ng-container matColumnDef="booking.email">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ columns[1].label }}
+          {{ columns[2].label }}
         </th>
         <td mat-cell *matCellDef="let element">{{ element.booking.email }}</td>
       </ng-container>
@@ -100,35 +160,36 @@
       <!-- Ref No Column -->
       <ng-container matColumnDef="booking.bookingToken">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ columns[2].label }}
+          {{ columns[3].label }}
         </th>
         <td mat-cell *matCellDef="let element">
           {{ element.booking.bookingToken }}
         </td>
       </ng-container>
 
-      <!-- Status Column -->
+      <!-- Order Status Column -->
       <ng-container matColumnDef="booking.orderStatus">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ columns[3].label }}
-        </th>
-        <td mat-cell *matCellDef="let element">
-          {{ statusNamesMap[element.order.orderStatus] }}
-        </td>
-      </ng-container>
-
-      <!-- Payment Column -->
-      <ng-container matColumnDef="booking.paymentStatus">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ columns[4].label }}
         </th>
         <td mat-cell *matCellDef="let element">
-          {{ paymentNamesMap[element.order.paymentStatus] }}
+          {{ getOrderStatusTranslation()[element.order.orderStatus] }}
         </td>
       </ng-container>
 
+      <!-- Payment Status Column -->
+      <ng-container matColumnDef="booking.paymentStatus">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ columns[5].label }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ getPaymentStatusTranslation()[element.order.paymentStatus] }}
+        </td>
+      </ng-container>
+
+      <!-- Order Actions column -->
       <ng-container matColumnDef="booking.actions">
-        <th mat-header-cell *matHeaderCellDef>{{ columns[5].label }}</th>
+        <th mat-header-cell *matHeaderCellDef>{{ columns[6].label }}</th>
         <td mat-cell *matCellDef="let element">
           <table class="innerTable">
             <tr>
@@ -140,11 +201,22 @@
                   mat-button
                   type="button"
                   color="accent"
-                  (click)="applyChanges(element, element.order.orderStatus + 1, element.order.paymentStatus)"
+                  (click)="
+                    applyChanges(
+                      element,
+                      element.order.orderStatus + 1,
+                      element.order.paymentStatus
+                    )
+                  "
                 >
-                  {{ statusNamesMap[element.order.orderStatus + 1] }}
-                  <span *ngIf="element.order.orderStatus + 1 === 5 ">
-                    ({{paymentNamesMap[1]}})
+                  <span class="advanceOrder">
+                    {{ 'buttons.apply' | transloco }}
+                  </span>
+                  {{
+                    getOrderStatusTranslation()[element.order.orderStatus + 1]
+                  }}
+                  <span class="advanceOrder" *ngIf="element.order.orderStatus + 1 === 5">
+                    ({{ getPaymentStatusTranslation()[1] }})
                   </span>
                 </button>
               </td>
@@ -155,10 +227,10 @@
                   name="cancelOrder"
                   mat-button
                   type="button"
-                  color="warning"
+                  color="warn"
                   (click)="applyChanges(element, 6, 2)"
                 >
-                  {{ 'buttons.cancel' | transloco }}
+                  {{ 'buttons.cancelOrder' | transloco }}
                 </button>
               </td>
             </tr>

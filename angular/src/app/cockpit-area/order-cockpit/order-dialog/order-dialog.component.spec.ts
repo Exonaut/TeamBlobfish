@@ -129,20 +129,6 @@ describe('OrderDialogComponent', () => {
     expect(component.columnso[4].label === 'Price').toBeTruthy();
   });
 
-  it('should verify status names', () => {
-    expect(component.statusNamesMap[0] === 'Recorded').toBeTruthy();
-    expect(component.statusNamesMap[1] === 'Cooking').toBeTruthy();
-    expect(component.statusNamesMap[2] === 'Ready').toBeTruthy();
-    expect(component.statusNamesMap[3] === 'Handing Over').toBeTruthy();
-    expect(component.statusNamesMap[4] === 'Delivered').toBeTruthy();
-    expect(component.statusNamesMap[5] === 'Completed').toBeTruthy();
-    expect(component.statusNamesMap[6] === 'Canceled').toBeTruthy();
-
-    expect(component.paymentNamesMap[0] === 'Pending').toBeTruthy();
-    expect(component.paymentNamesMap[1] === 'Payed').toBeTruthy();
-    expect(component.paymentNamesMap[2] === 'Refunded').toBeTruthy();
-  });
-
   it('should call the service when applying changes and close the dialog', () => {
     component.applyChanges();
     expect(waiterCockpitServiceStub.setOrderStatus).toHaveBeenCalled();
