@@ -17,6 +17,7 @@ import { WaiterCockpitService } from '../services/waiter-cockpit.service';
 import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
+import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 
 @Component({
   selector: 'app-cockpit-order-cockpit',
@@ -71,12 +72,15 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   orderStatusSelected: FormControl;
   paymentStatusSelected: FormControl;
 
+  undoValues: any[] = [];
+
   constructor(
     private dialog: MatDialog,
     private translocoService: TranslocoService,
     private waiterCockpitService: WaiterCockpitService,
     private configService: ConfigService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snack: SnackBarService
   ) {
     this.pageSizes = this.configService.getValues().pageSizes;
   }
@@ -230,7 +234,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     if (!event.target.className.includes('button') && !event.target.className.includes('advanceOrder')) { // Exclude action buttons
       this.dialog.open(OrderDialogComponent, {
         width: '80%',
-        data: selection,
+        data: {selection: selection, parrent: this},
       }).afterClosed().subscribe((data: boolean) => {
         if (data === true) { // Reload orders if dialog was edited
           this.applyFilters();
@@ -241,6 +245,11 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
 
   /** Apply Order Status, Payment Status and then reload orders  */
   applyChanges(element: any, orderStatus: number, paymentStatus: number): void {
+    this.undoValues.push({
+      id: element.order.id,
+      orderStatus: element.order.orderStatus,
+      paymentStatus: element.order.paymentStatus
+    });
     if (orderStatus === 5) { paymentStatus = 1; }
     this.waiterCockpitService.setOrderStatus(element.order.id, orderStatus) // Send order status
       .subscribe(
@@ -249,6 +258,31 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
             .subscribe(
               (dataB: any) => {
                 this.applyFilters();
+                this.snack.openSnack(
+                  this.translocoService.translate('cockpit.status.changeStatusSuccess'),
+                  6000,
+                  'green'
+                );
+              }
+            );
+        }
+      );
+  }
+
+  undoLastChange() {
+    this.waiterCockpitService.setOrderStatus(this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].orderStatus) // Send order status
+      .subscribe(
+        (dataA: any) => {
+          this.waiterCockpitService.setPaymentStatus(this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].paymentStatus) // Send payment status
+            .subscribe(
+              (dataB: any) => {
+                this.applyFilters();
+                this.snack.openSnack(
+                  this.translocoService.translate('cockpit.status.undoChangeSuccess'),
+                  6000,
+                  'green'
+                );
+                this.undoValues.pop();
               }
             );
         }

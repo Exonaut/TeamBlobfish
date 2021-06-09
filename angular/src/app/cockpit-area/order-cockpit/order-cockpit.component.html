@@ -250,13 +250,32 @@
   <div class="property-text-center noResults" *ngIf="orders.length === 0">
     <h3>{{ 'table.noResults' | transloco }}.</h3>
   </div>
-  <mat-paginator
-    #pagingBar
-    [length]="totalOrders"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizes"
-    [showFirstLastButtons]="true"
-    (page)="page($event)"
-  >
-  </mat-paginator>
+  <table>
+    <tr>
+      <td>
+        <button type="button"
+          mat-button
+          type="button"
+          class="undoButton"
+          (click)="undoLastChange()"
+          [disabled]="!(undoValues.length > 0)"
+          color="warn"
+        >
+        {{ 'buttons.undoAction' | transloco }}
+        </button>
+      </td>
+      <td>
+        <mat-paginator
+          #pagingBar
+          [length]="totalOrders"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizes"
+          [showFirstLastButtons]="true"
+          (page)="page($event)"
+        >
+        </mat-paginator>
+      </td>
+    </tr>
+  </table>
+
 </mat-card>
