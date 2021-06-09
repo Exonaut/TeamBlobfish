@@ -137,16 +137,6 @@ export class OrderDialogComponent implements OnInit {
     setTimeout(() => (this.filteredData = newData));
   }
 
-  increaseStatus(): void {
-    this.selectedOrderStatus = _.clamp(this.data.order.orderStatus + 1, 0, this.getOrderStatusTranslation().length - 2);
-
-    if (this.selectedOrderStatus === this.getOrderStatusTranslation().length - 2) {
-      this.selectedPaymentStatus = 1;
-    }
-
-    this.applyChanges();
-  }
-
   /**
    * Apply selected Order- and Paymentstatus and then close the dialog
    */
