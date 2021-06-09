@@ -198,9 +198,8 @@
                   *ngIf="!archiveMode"
                   class="advanceOrder"
                   name="advanceOrder"
-                  mat-button
+                  mat-raised-button
                   type="button"
-                  color="accent"
                   (click)="
                     applyChanges(
                       element,
@@ -209,9 +208,7 @@
                     )
                   "
                 >
-                  <span class="advanceOrder">
-                    {{ 'buttons.apply' | transloco }}
-                  </span>
+                  <mat-icon>arrow_forward</mat-icon>
                   {{
                     getOrderStatusTranslation()[element.order.orderStatus + 1]
                   }}
@@ -225,12 +222,12 @@
                   *ngIf="!archiveMode"
                   class="cancelOrder"
                   name="cancelOrder"
-                  mat-button
+                  mat-fab
                   type="button"
                   color="warn"
                   (click)="applyChanges(element, 6, 2)"
                 >
-                  {{ 'buttons.cancelOrder' | transloco }}
+                  <mat-icon>clear</mat-icon>
                 </button>
               </td>
             </tr>
@@ -250,13 +247,33 @@
   <div class="property-text-center noResults" *ngIf="orders.length === 0">
     <h3>{{ 'table.noResults' | transloco }}.</h3>
   </div>
-  <mat-paginator
-    #pagingBar
-    [length]="totalOrders"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizes"
-    [showFirstLastButtons]="true"
-    (page)="page($event)"
-  >
-  </mat-paginator>
+  <table>
+    <tr>
+      <td>
+        <button type="button"
+          mat-button
+          type="button"
+          class="undoButton"
+          (click)="undoLastChange()"
+          [disabled]="!(undoValues.length > 0)"
+          color="warn"
+        >
+        <mat-icon>reply</mat-icon>
+        {{ 'buttons.undoAction' | transloco }}
+        </button>
+      </td>
+      <td>
+        <mat-paginator
+          #pagingBar
+          [length]="totalOrders"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizes"
+          [showFirstLastButtons]="true"
+          (page)="page($event)"
+        >
+        </mat-paginator>
+      </td>
+    </tr>
+  </table>
+
 </mat-card>

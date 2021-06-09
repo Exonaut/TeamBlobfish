@@ -21,7 +21,8 @@
     "createUser": "Create User",
     "create": "Create",
     "changePassword": "Change Password",
-    "sendPasswordResetLink": "Send Password Reset Link"
+    "sendPasswordResetLink": "Send Password Reset Link",
+    "undoAction": "Undo Action"
   },
   "table": {
     "rowsPage": "Rows per page",
@@ -222,7 +223,10 @@
       "handingover": "Handing Over",
       "delivered": "Delivered",
       "completed": "Completed",
-      "canceled": "Canceled"
+      "canceled": "Canceled",
+      "changeStatusSuccess": "Status successfully updated",
+      "changeStatusFailure": "Status change error",
+      "undoChangeSuccess": "Change successfully reverted"
     },
     "payment": {
       "pending": "Pending",

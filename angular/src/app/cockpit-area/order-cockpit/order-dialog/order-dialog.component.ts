@@ -7,6 +7,7 @@ import { WaiterCockpitService } from '../../services/waiter-cockpit.service';
 import { TranslocoService } from '@ngneat/transloco';
 import * as _ from 'lodash';
 import { MatSelectChange } from '@angular/material/select';
+import { OrderCockpitComponent } from '../order-cockpit.component';
 
 @Component({
   selector: 'app-cockpit-order-dialog',
@@ -19,6 +20,7 @@ export class OrderDialogComponent implements OnInit {
 
   pageSize = 4;
 
+  parrent: OrderCockpitComponent;
   data: OrderDialogData = new OrderDialogData();
   datat: OrderDialogData[] = [];
   columnst: any[];
@@ -56,10 +58,11 @@ export class OrderDialogComponent implements OnInit {
     private configService: ConfigService,
     public dialog: MatDialogRef<OrderDialogComponent>,
   ) {
-    this.data.orderLines = dialogData.orderLines;
-    this.data.booking = dialogData.booking;
-    this.data.order = dialogData.order;
+    this.data.orderLines = dialogData.selection.orderLines;
+    this.data.booking = dialogData.selection.booking;
+    this.data.order = dialogData.selection.order;
     this.pageSizes = this.configService.getValues().pageSizesDialog;
+    this.parrent = dialogData.parrent;
   }
 
   ngOnInit(): void {
@@ -147,7 +150,11 @@ export class OrderDialogComponent implements OnInit {
           this.waiterCockpitService.setPaymentStatus(this.data.order.id, this.selectedPaymentStatus) // Send payment status
             .subscribe(
               (dataB: any) => {
-                this.data.order = dataB;
+                this.parrent.undoValues.push({ // Add change to undo stack of parrent OrderCockpitComponent
+                  id: this.data.order.id,
+                  orderStatus: this.data.order.orderStatus,
+                  paymentStatus: this.data.order.paymentStatus
+                });
                 this.dialog.close(true); // Close dialog with refresh flag
               }
             );

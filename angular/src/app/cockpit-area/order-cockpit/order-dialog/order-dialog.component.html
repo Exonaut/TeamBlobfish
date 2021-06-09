@@ -157,11 +157,13 @@
   </mat-paginator>
   <div class="align-right actionButtons">
     <!-- Accept -->
-    <button mat-button class="submitButton" type="submit" color="accent">
+    <button mat-raised-button class="submitButton" type="submit" color="accent">
+      <mat-icon>save_alt</mat-icon>
       {{ 'buttons.apply' | transloco | uppercase }}
     </button>
     <!-- Cancel -->
-    <button mat-button class="cancelButton" mat-dialog-close color="accent">
+    <button mat-raised-button class="cancelButton" mat-dialog-close>
+      <mat-icon>block</mat-icon>
       {{ 'buttons.cancel' | transloco | uppercase }}
     </button>
   </div>

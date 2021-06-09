@@ -27,6 +27,7 @@ import { click } from '../../shared/common/test-utils';
 import { ascSortOrder } from '../../../in-memory-test-data/db-order-asc-sort';
 import { orderData } from '../../../in-memory-test-data/db-order';
 import { ActivatedRoute } from '@angular/router';
+import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 
 const mockDialog = {
   open: jasmine.createSpy('open').and.returnValue({
@@ -102,6 +103,7 @@ class TestBedSetUp {
         { provide: MatDialog, useValue: mockDialog },
         { provide: WaiterCockpitService, useValue: waiterCockpitStub },
         { provie: ActivatedRoute, useValue: activatedRouteStub},
+        SnackBarService,
         TranslocoService,
         ConfigService,
         provideMockStore({ initialState }),
