@@ -154,7 +154,7 @@ export class OrderDialogComponent implements OnInit {
                   id: this.data.order.id,
                   orderStatus: this.data.order.orderStatus,
                   paymentStatus: this.data.order.paymentStatus
-                })
+                });
                 this.dialog.close(true); // Close dialog with refresh flag
               }
             );

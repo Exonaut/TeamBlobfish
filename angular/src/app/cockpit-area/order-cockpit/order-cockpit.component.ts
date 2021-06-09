@@ -234,7 +234,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     if (!event.target.className.includes('button') && !event.target.className.includes('advanceOrder')) { // Exclude action buttons
       this.dialog.open(OrderDialogComponent, {
         width: '80%',
-        data: {selection: selection, parrent: this},
+        data: {selection, parrent: this},
       }).afterClosed().subscribe((data: boolean) => {
         if (data === true) { // Reload orders if dialog was edited
           this.applyFilters();
@@ -243,7 +243,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** 
+  /**
    * Apply Order Status, Payment Status and then reload orders
    */
   applyChanges(element: any, orderStatus: number, paymentStatus: number): void {
@@ -274,11 +274,13 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   /**
    * Undo the last performed action (includes changes through dialog)
    */
-  undoLastChange() {
-    this.waiterCockpitService.setOrderStatus(this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].orderStatus) // Send order status
+  undoLastChange(): void {
+    // Send order status
+    this.waiterCockpitService.setOrderStatus(this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].orderStatus)
       .subscribe(
         (dataA: any) => {
-          this.waiterCockpitService.setPaymentStatus(this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].paymentStatus) // Send payment status
+          // Send payment status
+          this.waiterCockpitService.setPaymentStatus(this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].paymentStatus)
             .subscribe(
               (dataB: any) => {
                 this.applyFilters();
