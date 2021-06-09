@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import com.devonfw.application.mtsj.bookingmanagement.common.api.to.BookingCto;
+import com.devonfw.application.mtsj.bookingmanagement.common.api.to.BookingEto;
 import com.devonfw.application.mtsj.bookingmanagement.logic.api.Bookingmanagement;
 import com.devonfw.application.mtsj.general.common.ApplicationComponentTest;
 
@@ -12,7 +13,7 @@ import com.devonfw.application.mtsj.general.common.ApplicationComponentTest;
  * Test for {@link Bookingmanagement}
  *
  */
-class BookingmanagementImplTest extends ApplicationComponentTest {
+class BookingmanagementTest extends ApplicationComponentTest {
 
   @Inject
   private Bookingmanagement bookingManagement;
@@ -23,6 +24,12 @@ class BookingmanagementImplTest extends ApplicationComponentTest {
   public void doSetUp() {
 
     super.setUp();
+
+    BookingEto booking = new BookingEto();
+    booking.setBookingToken("CB_20170509_123502555Z");
+
+    booking.setCanceled(false);
+    booking.setAssistants(3);
 
   }
 

@@ -86,6 +86,8 @@ public class OrdermanagementTest extends ApplicationComponentTest {
     BookingEto bookingEto = new BookingEto();
     bookingEto.setBookingToken("CB_20170510_123502595Z");
     this.orderCto = new OrderCto();
+    this.orderCto.setPaymentStatus((long) 0);
+    this.orderCto.setOrderStatus((long) 0);
     this.orderCto.setBooking(bookingEto);
     this.orderCto.setOrderLines(lines);
 
@@ -109,6 +111,23 @@ public class OrdermanagementTest extends ApplicationComponentTest {
 
     BookingEto bookingEto = new BookingEto();
     bookingEto.setBookingToken("wrongToken");
+    this.orderCto.setBooking(bookingEto);
+    try {
+      this.orderManagement.saveOrder(this.orderCto);
+    } catch (Exception e) {
+      WrongTokenException wte = new WrongTokenException();
+      assertThat(e.getClass()).isEqualTo(wte.getClass());
+    }
+  }
+
+  /**
+   * Tests that an order with a empty token is not created
+   */
+  @Test
+  public void orderAnOrderWithEmptyToken() {
+
+    BookingEto bookingEto = new BookingEto();
+    bookingEto.setBookingToken("");
     this.orderCto.setBooking(bookingEto);
     try {
       this.orderManagement.saveOrder(this.orderCto);
@@ -167,5 +186,10 @@ public class OrdermanagementTest extends ApplicationComponentTest {
       NoInviteException ni = new NoInviteException();
       assertThat(e.getClass()).isEqualTo(ni.getClass());
     }
+  }
+
+  @Test
+  public void deleteAnOrder() {
+
   }
 }
