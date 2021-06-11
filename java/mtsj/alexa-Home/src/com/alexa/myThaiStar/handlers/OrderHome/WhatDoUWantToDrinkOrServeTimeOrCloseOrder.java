@@ -12,7 +12,7 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.tools.HelpClass;
 
-public class WhatDoUWantDoDrinkOrEnterTheAdressCityOrServeTime implements IntentRequestHandler {
+public class WhatDoUWantToDrinkOrServeTimeOrCloseOrder implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
@@ -21,8 +21,7 @@ public class WhatDoUWantDoDrinkOrEnterTheAdressCityOrServeTime implements Intent
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS
         && intentRequest.getIntent().getSlots().get("yesNoDrink").getValue() != null
         && intentRequest.getIntent().getSlots().get("drink").getValue() == null
-        && intentRequest.getIntent().getSlots().get("servingTime").getValue() == null
-        && intentRequest.getIntent().getSlots().get("city").getValue() == null;
+        && intentRequest.getIntent().getSlots().get("servingTime").getValue() == null;
 
   }
 
@@ -36,11 +35,9 @@ public class WhatDoUWantDoDrinkOrEnterTheAdressCityOrServeTime implements Intent
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
           .withSpeech("Welches Getränk möchten Sie?").withReprompt("Welches Getränk möchten Sie?").build();
 
-    if (yesNoDrink.getValue().equals("nein") && whereLikeToEat.getValue().equals("liefern")) {
+    if (whereLikeToEat.getValue().equals("liefern")) {
 
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("city", intentRequest.getIntent()).withSpeech(
-          "Um Ihnen das Essen liefern zu können, benötige ich Ihre Adresse. Wie lautet die Stadt, in der Sie wohnen?")
-          .withReprompt("Wie lautet die Stadt, in der Sie wohnen?").build();
+      return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
     }
 
     if (yesNoDrink.getValue().equals("nein")) {
