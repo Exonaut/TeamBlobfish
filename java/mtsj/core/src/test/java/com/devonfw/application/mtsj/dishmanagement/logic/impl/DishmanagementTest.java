@@ -63,4 +63,13 @@ public class DishmanagementTest extends ApplicationComponentTest {
     assertThat(result.getContent().get(0).getDish().getName()).isEqualTo("Thai Spicy Basil Fried Rice");
   }
 
+  @Test
+  public void filterDishesByCategory() {
+
+    DishSearchCriteriaTo criteria = new DishSearchCriteriaTo();
+    List<CategoryEto> categories = new ArrayList<>();
+
+    criteria.setCategories(categories);
+
+  }
 }

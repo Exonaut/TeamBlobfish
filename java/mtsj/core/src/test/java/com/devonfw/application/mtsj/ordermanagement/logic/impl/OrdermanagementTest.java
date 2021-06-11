@@ -21,6 +21,7 @@ import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderCto;
 import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderEto;
 import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderLineCto;
 import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderLineEto;
+import com.devonfw.application.mtsj.ordermanagement.dataaccess.api.repo.OrderRepository;
 import com.devonfw.application.mtsj.ordermanagement.logic.api.Ordermanagement;
 
 /**
@@ -32,6 +33,9 @@ public class OrdermanagementTest extends ApplicationComponentTest {
 
   @Inject
   private Ordermanagement orderManagement;
+
+  @Inject
+  private OrderRepository repo;
 
   OrderCto orderCto;
 
@@ -86,11 +90,10 @@ public class OrdermanagementTest extends ApplicationComponentTest {
     BookingEto bookingEto = new BookingEto();
     bookingEto.setBookingToken("CB_20170510_123502595Z");
     this.orderCto = new OrderCto();
-    this.orderCto.setPaymentStatus((long) 0);
-    this.orderCto.setOrderStatus((long) 0);
     this.orderCto.setBooking(bookingEto);
     this.orderCto.setOrderLines(lines);
 
+    // user2 ohne order
   }
 
   /**
@@ -188,8 +191,4 @@ public class OrdermanagementTest extends ApplicationComponentTest {
     }
   }
 
-  @Test
-  public void deleteAnOrder() {
-
-  }
 }
