@@ -46,7 +46,8 @@ const translocoServiceStub = {
     bookingStateH: 'Status',
     paymentStateH: 'Payment',
     nameH: 'Name',
-    actionsH: 'Actions'
+    actionsH: 'Actions',
+    serveTimeH: 'Serving Time',
   } as any),
 };
 
@@ -164,9 +165,10 @@ describe('OrderCockpitComponent', () => {
     expect(component.columns[1].label === 'Name').toBeTruthy();
     expect(component.columns[2].label === 'Email').toBeTruthy();
     expect(component.columns[3].label === 'Reference Number').toBeTruthy();
-    expect(component.columns[4].label === 'Status').toBeTruthy();
-    expect(component.columns[5].label === 'Payment').toBeTruthy();
-    expect(component.columns[6].label === 'Actions').toBeTruthy();
+    expect(component.columns[4].label === 'Serving Time').toBeTruthy();
+    expect(component.columns[5].label === 'Status').toBeTruthy();
+    expect(component.columns[6].label === 'Payment').toBeTruthy();
+    expect(component.columns[7].label === 'Actions').toBeTruthy();
   });
 
   it('should verify content and total records of orders', fakeAsync(() => {
