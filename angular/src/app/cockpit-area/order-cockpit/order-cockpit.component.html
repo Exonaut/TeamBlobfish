@@ -45,19 +45,19 @@
           </mat-form-field>
 
           <!-- Ref Number Filter -->
-          <mat-form-field color="accent" class="searchBy">
+          <!-- <mat-form-field color="accent" class="searchBy">
             <input
               matInput
               [placeholder]="'formFields.referenceNumber' | transloco"
               [(ngModel)]="filters.bookingToken"
               name="bookingToken"
             />
-          </mat-form-field>
+          </mat-form-field> -->
 
           <!-- Order Status Filter -->
           <mat-form-field color="accent" class="searchBy">
             <mat-select
-              class="orderStatus"
+              class="orderStatusFilter"
               [(value)]="filters.orderstatus"
               multiple
               [placeholder]="'formFields.orderStatus' | transloco"
@@ -74,9 +74,9 @@
           </mat-form-field>
 
           <!-- Payment Status Filter -->
-          <mat-form-field color="accent" class="searchBy">
+          <mat-form-field color="accent" class="searchBy" *ngIf="!archiveMode">
             <mat-select
-              class="paymentStatus"
+              class="paymentStatusFilter"
               [(value)]="filters.paymentstatus"
               multiple
               [placeholder]="'formFields.paymentStatus' | transloco"
@@ -169,7 +169,7 @@
 
       <!-- Serve time column -->
       <ng-container matColumnDef="booking.serveTime">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="serveTime">
           {{ columns[4].label }}
         </th>
         <td mat-cell *matCellDef="let element">
@@ -179,7 +179,7 @@
 
       <!-- Order Status Column -->
       <ng-container matColumnDef="booking.orderStatus">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="orderStatus">
           {{ columns[5].label }}
         </th>
         <td mat-cell *matCellDef="let element">
@@ -189,17 +189,23 @@
 
       <!-- Payment Status Column -->
       <ng-container matColumnDef="booking.paymentStatus">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="paymentStatus">
           {{ columns[6].label }}
         </th>
         <td mat-cell *matCellDef="let element">
+          <mat-checkbox class="paymentCheckbox"
+            [checked]="element.order.paymentStatus"
+            (change)="applyChanges(element, element.order.orderStatus, +!!$event.checked)"
+            [disabled]="archiveMode"
+          >
+          </mat-checkbox>
           {{ getPaymentStatusTranslation()[element.order.paymentStatus] }}
         </td>
       </ng-container>
 
       <!-- Order Actions column -->
       <ng-container matColumnDef="booking.actions">
-        <th mat-header-cell *matHeaderCellDef>{{ columns[6].label }}</th>
+        <th mat-header-cell *matHeaderCellDef>{{ columns[7].label }}</th>
         <td mat-cell *matCellDef="let element">
           <table class="innerTable">
             <tr>
@@ -234,16 +240,29 @@
                   *ngIf="!archiveMode"
                   class="cancelOrder"
                   name="cancelOrder"
-                  mat-fab
+                  mat-raised-button
                   type="button"
                   color="warn"
-                  (click)="applyChanges(element, 6, 2)"
+                  (click)="applyChanges(element, 6, 0)"
                 >
                   <mat-icon class="cancelOrder">clear</mat-icon>
+                  <span class="cancelOrder">
+                    {{ 'buttons.cancelOrder' | transloco }}
+                  </span>
                 </button>
               </td>
             </tr>
           </table>
+        </td>
+      </ng-container>
+
+      <!-- Table Id Column -->
+      <ng-container matColumnDef="booking.tableId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="tableId">
+          {{ columns[8].label }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.booking.tableId }}
         </td>
       </ng-container>
 

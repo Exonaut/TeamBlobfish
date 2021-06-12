@@ -53,9 +53,18 @@ td:not(:nth-child(1)) {
 }
 
 button.advanceOrder {
-  min-width: 200px;
+  min-width: 185px;
   text-align: left;
-  margin-right: 16px;
+}
+
+.tableId {
+  width: 5%;
+}
+
+.serveTime,
+.orderStatus,
+.paymentStatus {
+  width: 9%;
 }
 
 .noResults {
