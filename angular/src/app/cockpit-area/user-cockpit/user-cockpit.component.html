@@ -163,6 +163,7 @@
                   mat-raised-button
                   type="button"
                   [matTooltip]="'buttons.editUser' | transloco"
+                  (click)="editUser(element)"
                 >
                   <mat-icon class="editUser">settings</mat-icon>
                 </button>
@@ -173,6 +174,7 @@
                   mat-raised-button
                   type="button"
                   [matTooltip]="'buttons.sendPasswordResetLink' | transloco"
+                  (click)="resetPassword(element)"
                 >
                   <mat-icon class="pwResetMail">email</mat-icon>
                   <span *ngIf="hoverResetPw === element.id">
@@ -186,6 +188,7 @@
                   mat-raised-button
                   type="button"
                   [matTooltip]="'buttons.changePassword' | transloco"
+                  (click)="changePassword(element)"
                 >
                   <mat-icon class="pwChange">lock</mat-icon>
                   <span *ngIf="hoverChangePw === element.id">
@@ -200,6 +203,7 @@
                   type="button"
                   color="warn"
                   [matTooltip]="'buttons.deleteAccount' | transloco"
+                  (click)="deleteUser(element)"
                 >
                   <mat-icon class="deleteUser">clear</mat-icon>
                 </button>
@@ -224,6 +228,7 @@
     <tr>
       <td>
         <button mat-button (click)="openCreateUserDialog()" color="accent">
+          <mat-icon>account_circle</mat-icon>
           {{ 'buttons.createUser' | transloco | uppercase }}
         </button>
       </td>

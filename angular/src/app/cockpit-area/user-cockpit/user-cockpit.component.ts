@@ -18,6 +18,8 @@ import { ActivatedRoute } from '@angular/router';
 import { UserCockpitService } from '../services/user-cockpit.service';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import { CreateUserDialogComponent } from './create-user-dialog/create-user-dialog.component';
+import { ChangePasswordDialogComponent } from './user-dialog/change-password-dialog/change-password-dialog.component';
+import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 
 @Component({
   selector: 'app-user-cockpit',
@@ -70,6 +72,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private route: ActivatedRoute,
     private userCockpitService: UserCockpitService,
+    private snack: SnackBarService,
   ) {
     this.pageSizes = this.configService.getValues().pageSizes;
   }
@@ -174,5 +177,45 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  deleteUser(element: any): void {
+    this.userCockpitService.deleteUser(element.id).subscribe((data: any) => (
+        this.snack.openSnack(
+          this.translocoService.translate('cockpit.user.deleteUserSuccess'),
+          6000,
+          'green'
+        ),
+        this.applyFilters()
+      ),
+    );
+  }
+
+  changePassword(element: any): void {
+    this.dialog.open(ChangePasswordDialogComponent, {
+      width: '30%',
+      data: element,
+    }).afterClosed().subscribe((data: boolean) => {
+      if (data === true) { // Reload users if dialog was edited
+        this.applyFilters();
+      }
+    });
+  }
+
+  resetPassword(element: any): void {
+    this.userCockpitService
+    .sendPasswordResetLink(element)
+    .subscribe((data: any) => {
+      this.snack.openSnack(
+        this.translocoService.translate('cockpit.user.sendPasswordResetLinkSuccess'),
+        6000,
+        'green'
+      );
+    });
+  }
+
+  editUser(element: any): void {
+
+  }
+
 }
 
