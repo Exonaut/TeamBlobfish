@@ -48,6 +48,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     'user.name',
     'user.email',
     'user.role',
+    'user.actions',
   ];
 
   pageSizes: number[];
@@ -57,6 +58,10 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     email: undefined,
     role: undefined,
   };
+
+  hoverChangePw: -1;
+  hoverResetPw: -1;
+  hoverDeleteUser: -1;
 
   constructor(
     private dialog: MatDialog,
@@ -86,6 +91,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
           { name: 'user.name', label: userTable.nameH },
           { name: 'user.email', label: userTable.emailH },
           { name: 'user.role', label: userTable.roleH },
+          { name: 'user.actions', label: userTable.actionsH },
         ];
       });
   }

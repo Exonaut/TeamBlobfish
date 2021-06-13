@@ -23,7 +23,8 @@
     "changePassword": "Change Password",
     "sendPasswordResetLink": "Send Password Reset Link",
     "undoAction": "Undo Action",
-    "clear": "Clear"
+    "clear": "Clear",
+    "editUser": "Edit User"
   },
   "table": {
     "rowsPage": "Rows per page",
@@ -250,7 +251,8 @@
       "deleteUserSuccess": "User successfully deleted",
       "deleteUserError": "An error has occured while trying to delete the user",
       "changePasswordSuccess": "Password successfully changed",
-      "sendPasswordResetLinkSuccess": "Reset link has been send"
+      "sendPasswordResetLinkSuccess": "Reset link has been send",
+      "actionsH": "Actions"
     }
   }
 }
