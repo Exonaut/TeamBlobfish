@@ -48,6 +48,7 @@ const translocoServiceStub = {
     nameH: 'Name',
     actionsH: 'Actions',
     serveTimeH: 'Serving Time',
+    tableIdH: 'Table ID',
   } as any),
 };
 
@@ -169,6 +170,7 @@ describe('OrderCockpitComponent', () => {
     expect(component.columns[5].label === 'Status').toBeTruthy();
     expect(component.columns[6].label === 'Payment').toBeTruthy();
     expect(component.columns[7].label === 'Actions').toBeTruthy();
+    expect(component.columns[8].label === 'Table ID').toBeTruthy();
   });
 
   it('should verify content and total records of orders', fakeAsync(() => {
@@ -196,15 +198,6 @@ describe('OrderCockpitComponent', () => {
     expect(component.orders).toEqual(orderData.content);
     expect(component.totalOrders).toBe(8);
   }));
-
-  // it('should open OrderDialogComponent dialog on click of row', fakeAsync(() => {
-  //   const rows = el.queryAll(By.css('.mat-row'));
-  //   console.warn(rows);
-  //   click(rows[0]);
-  //   fixture.detectChanges();
-  //   tick();
-  //   expect(dialog.open).toHaveBeenCalled();
-  // }));
 
   it('should filter the order table on click of submit', fakeAsync(() => {
     fixture.detectChanges();

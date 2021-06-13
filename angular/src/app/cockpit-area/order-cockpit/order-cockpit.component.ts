@@ -49,11 +49,24 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     'booking.bookingDate',
     'booking.serveTime',
     'booking.name',
-    'booking.email',
+    'booking.tableId',
+    // 'booking.email',
     // 'booking.bookingToken',
     'booking.orderStatus',
     'booking.paymentStatus',
     'booking.actions'
+  ];
+
+  displayedColumnsArchive: string[] = [
+    'booking.bookingDate',
+    // 'booking.serveTime',
+    'booking.name',
+    // 'booking.tableId',
+    // 'booking.email',
+    // 'booking.bookingToken',
+    'booking.orderStatus',
+    'booking.paymentStatus',
+    // 'booking.actions'
   ];
 
   pageSizes: number[];
@@ -93,9 +106,9 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
         {
           this.archiveMode = true;
           this.title = 'cockpit.orders.archive';
-          this.filters.paymentstatus = [1, 2]; // Payed, Refunded
+          this.filters.paymentstatus = [0, 1]; // Payed, Refunded
           this.filters.orderstatus = [5, 6]; // Completed, Canceled
-          this.displayedColumns = this.displayedColumns.slice(0, 6); // Remove actions from archive view
+          this.displayedColumns = this.displayedColumnsArchive; // Remove actions from archive view
         }
         else
         {
@@ -132,6 +145,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
           { name: 'booking.bookingStatus', label: cockpitTable.bookingStateH },
           { name: 'booking.paymentStatus', label: cockpitTable.paymentStateH },
           { name: 'booking.actions', label: cockpitTable.actionsH },
+          { name: 'booking.tableId', label: cockpitTable.tableIdH },
         ];
       });
   }
@@ -204,7 +218,6 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   clearFilters(filters: NgForm): void {
     filters.reset();
     this.ngOnInit();
-    // this.applyFilters();
     this.pagingBar.firstPage();
   }
 
@@ -233,7 +246,10 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
    * @param selection - The selected Order
    */
   selected(event, selection: OrderListView): void {
-    if (!event.target.className.includes('cancelOrder') && !event.target.className.includes('advanceOrder')) { // Exclude action buttons
+    if (!event.target.className.includes('cancelOrder')
+        && !event.target.className.includes('advanceOrder')
+        && !event.target.className.includes('mat-checkbox')
+      ) { // Exclude action buttons
       this.dialog.open(OrderDialogComponent, {
         width: '80%',
         data: {selection, parrent: this},
@@ -254,7 +270,8 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       orderStatus: element.order.orderStatus,
       paymentStatus: element.order.paymentStatus
     });
-    if (orderStatus === 5) { paymentStatus = 1; }
+    // if (orderStatus === 5) { paymentStatus = 1; }
+    // if (orderStatus === 6) { paymentStatus = 0; }
     this.waiterCockpitService.setOrderStatus(element.order.id, orderStatus) // Send order status
       .subscribe(
         (dataA: any) => {

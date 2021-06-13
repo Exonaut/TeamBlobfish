@@ -22,7 +22,8 @@
     "create": "Create",
     "changePassword": "Change Password",
     "sendPasswordResetLink": "Send Password Reset Link",
-    "undoAction": "Undo Action"
+    "undoAction": "Undo Action",
+    "clear": "Clear"
   },
   "table": {
     "rowsPage": "Rows per page",
@@ -215,7 +216,8 @@
       "paymentStateH": "Payment",
       "actionsH": "Actions",
       "nameH": "Name",
-      "serveTimeH": "Serving Time"
+      "serveTimeH": "Serving Time",
+      "tableIdH": "Table"
     },
     "status": {
       "recorded": "Recorded",

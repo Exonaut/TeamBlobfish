@@ -149,7 +149,7 @@ export class OrderDialogComponent implements OnInit {
     this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedOrderStatus) // Send order status
       .subscribe(
         (dataA: any) => {
-          this.waiterCockpitService.setPaymentStatus(this.data.order.id, this.selectedPaymentStatus) // Send payment status
+          this.waiterCockpitService.setPaymentStatus(this.data.order.id, +!!this.selectedPaymentStatus) // Send payment status
             .subscribe(
               (dataB: any) => {
                 this.parrent.undoValues.push({ // Add change to undo stack of parrent OrderCockpitComponent
@@ -162,27 +162,6 @@ export class OrderDialogComponent implements OnInit {
             );
         }
       );
-  }
-
-  autoChangePaymentStatus(event: MatSelectChange): void {
-    if (event.value < this.getOrderStatusTranslation().length - 2 && this.selectedPaymentStatus >= 2) { // Change to pending
-      this.selectedPaymentStatus = 0;
-    }
-    if (event.value === this.getOrderStatusTranslation().length - 1) { // Change to refunded
-      this.selectedPaymentStatus = 2;
-    }
-    if (event.value === this.getOrderStatusTranslation().length - 2) { // Change to payed
-      this.selectedPaymentStatus = 1;
-    }
-  }
-
-  autoChangeOrderStatus(event: MatSelectChange): void {
-    if (event.value === 2) { // Change to canceled
-      this.selectedOrderStatus = this.getOrderStatusTranslation().length - 1;
-    }
-    if (event.value < 2 && this.selectedOrderStatus >= this.getOrderStatusTranslation().length - 2) { // Change to canceled
-      this.selectedOrderStatus = 0;
-    }
   }
 
 }
