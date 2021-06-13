@@ -65,9 +65,9 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     // 'booking.email',
     // 'booking.bookingToken',
     'booking.orderStatus',
-    // 'booking.paymentStatus',
+    'booking.paymentStatus',
     // 'booking.actions'
-  ]
+  ];
 
   pageSizes: number[];
 
@@ -246,7 +246,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
    * @param selection - The selected Order
    */
   selected(event, selection: OrderListView): void {
-    if (!event.target.className.includes('cancelOrder') 
+    if (!event.target.className.includes('cancelOrder')
         && !event.target.className.includes('advanceOrder')
         && !event.target.className.includes('mat-checkbox')
       ) { // Exclude action buttons
@@ -270,8 +270,8 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       orderStatus: element.order.orderStatus,
       paymentStatus: element.order.paymentStatus
     });
-    if (orderStatus === 5) { paymentStatus = 1; }
-    if (orderStatus === 6) { paymentStatus = 0; }
+    // if (orderStatus === 5) { paymentStatus = 1; }
+    // if (orderStatus === 6) { paymentStatus = 0; }
     this.waiterCockpitService.setOrderStatus(element.order.id, orderStatus) // Send order status
       .subscribe(
         (dataA: any) => {

@@ -93,7 +93,7 @@ export class OrderDialogComponent implements OnInit {
           { name: 'tableId', label: cockpitTable.tableH },
           { name: 'bookingStatus', label: cockpitTable.bookingStateH },
           { name: 'paymentStatus', label: cockpitTable.paymentStateH },
-          { name: "serveTime", label: cockpitTable.serveTimeH },
+          { name: 'serveTime', label: cockpitTable.serveTimeH },
         ];
       });
 

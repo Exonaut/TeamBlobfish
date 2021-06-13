@@ -130,6 +130,7 @@
       [dataSource]="orders"
       matSort
       (matSortChange)="sort($event)"
+      class="orderTable"
     >
       <!-- Date Column -->
       <ng-container matColumnDef="booking.bookingDate">
@@ -199,7 +200,9 @@
             [disabled]="archiveMode"
           >
           </mat-checkbox>
-          {{ getPaymentStatusTranslation()[element.order.paymentStatus] }}
+          <span *ngIf="!archiveMode">
+            {{ getPaymentStatusTranslation()[element.order.paymentStatus] }}
+          </span>
         </td>
       </ng-container>
 
@@ -230,9 +233,9 @@
                       getOrderStatusTranslation()[element.order.orderStatus + 1]
                     }}
                   </span>                 
-                  <span class="advanceOrder" *ngIf="element.order.orderStatus + 1 === 5">
+                  <!-- <span class="advanceOrder" *ngIf="element.order.orderStatus + 1 === 5">
                     ({{ getPaymentStatusTranslation()[1] }})
-                  </span>
+                  </span> -->
                 </button>
               </td>
               <td>

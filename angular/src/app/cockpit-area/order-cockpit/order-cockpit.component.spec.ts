@@ -46,7 +46,9 @@ const translocoServiceStub = {
     bookingStateH: 'Status',
     paymentStateH: 'Payment',
     nameH: 'Name',
-    actionsH: 'Actions'
+    actionsH: 'Actions',
+    serveTimeH: 'Serving Time',
+    tableIdH: 'Table ID',
   } as any),
 };
 
@@ -164,9 +166,11 @@ describe('OrderCockpitComponent', () => {
     expect(component.columns[1].label === 'Name').toBeTruthy();
     expect(component.columns[2].label === 'Email').toBeTruthy();
     expect(component.columns[3].label === 'Reference Number').toBeTruthy();
-    expect(component.columns[4].label === 'Status').toBeTruthy();
-    expect(component.columns[5].label === 'Payment').toBeTruthy();
-    expect(component.columns[6].label === 'Actions').toBeTruthy();
+    expect(component.columns[4].label === 'Serving Time').toBeTruthy();
+    expect(component.columns[5].label === 'Status').toBeTruthy();
+    expect(component.columns[6].label === 'Payment').toBeTruthy();
+    expect(component.columns[7].label === 'Actions').toBeTruthy();
+    expect(component.columns[8].label === 'Table ID').toBeTruthy();
   });
 
   it('should verify content and total records of orders', fakeAsync(() => {
@@ -194,15 +198,6 @@ describe('OrderCockpitComponent', () => {
     expect(component.orders).toEqual(orderData.content);
     expect(component.totalOrders).toBe(8);
   }));
-
-  // it('should open OrderDialogComponent dialog on click of row', fakeAsync(() => {
-  //   const rows = el.queryAll(By.css('.mat-row'));
-  //   console.warn(rows);
-  //   click(rows[0]);
-  //   fixture.detectChanges();
-  //   tick();
-  //   expect(dialog.open).toHaveBeenCalled();
-  // }));
 
   it('should filter the order table on click of submit', fakeAsync(() => {
     fixture.detectChanges();
