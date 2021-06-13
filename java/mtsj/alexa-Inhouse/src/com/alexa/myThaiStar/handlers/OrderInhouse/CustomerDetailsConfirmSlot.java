@@ -36,9 +36,8 @@ public class CustomerDetailsConfirmSlot implements IntentRequestHandler {
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
     return handlerInput.getResponseBuilder().addConfirmSlotDirective("queryTable", intentRequest.getIntent())
-        .withSpeech(
-            "Name: " + HelpClass.req.booking.name + "\n" + " Anzahl der Gäste: " + HelpClass.req.booking.assistants
-                + "\n" + "Buchungsemail: " + HelpClass.req.booking.email + "\n" + ". Sind Ihre Daten korrekt?")
+        .withSpeech("Dieser Tisch ist reserviert für " + HelpClass.req.booking.name + "\n" + "mit "
+            + HelpClass.req.booking.assistants + " Gästen. Sind Ihre Daten korrekt?")
         .withReprompt("Sind Ihre Daten korrekt?").build();
   }
 

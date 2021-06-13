@@ -1,17 +1,9 @@
 package com.tools;
 
-import java.io.IOException;
 import java.util.Date;
 
-import org.apache.http.message.BasicHeader;
-
-import com.entity.booking.Booking;
-import com.entity.booking.Content;
 import com.entity.booking.ResponseBooking;
-import com.google.gson.Gson;
-import com.login.RequestLogin;
-import com.tools.exceptions.Different;
-import com.tools.exceptions.NotFound;
+import com.entity.orderline.RequestOrder;
 
 public class Test {
 
@@ -21,70 +13,33 @@ public class Test {
 
   public static void main(String[] args) {
 
-    RequestLogin req = new RequestLogin();
-    req.password = "waiter";
-    req.username = "waiter";
-    Gson gson = new Gson();
-    String payload = gson.toJson(req);
+    ResponseBooking r = HelpClass.getAllBookings();
 
-    BasicOperations bo = new BasicOperations();
+    long flexTime = 1800000;
 
-    String resp = "";
-
-    try {
-      resp = bo.basicPost(payload, BASE_URL + "/mythaistar/login");
-    } catch (IOException | NotFound | Different e) {
-      System.out.println("Login Hat nicht funktioniert" + "\n" + resp);
-    }
-
-    String authorizationBearer = bo.getSpecificHeader("Authorization");
-
-    payload = "{\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[]}}";
-
-    BasicOperations bo2 = new BasicOperations();
-
-    bo2.reqHeaders = new BasicHeader[] { new BasicHeader("Authorization", authorizationBearer) };
-
-    try {
-      resp = bo2.basicPost(payload, BASE_URL + "/mythaistar/services/rest/bookingmanagement/v1/booking/search");
-    } catch (IOException | NotFound | Different e) {
-      System.out.println("Die Suche nach Booking hat nicht funktioniert" + "\n" + resp);
-    }
-
-    ResponseBooking booking = gson.fromJson(resp, ResponseBooking.class);
-
-    String bookingDate = booking.content[2].booking.bookingDate.replace(".", "");
-
-    System.out.println(bookingDate);
-
+    int tableid = 7;
     Date date = new Date();
-
     long timeNow = date.getTime();
 
-    Booking book = new Booking();
+    for (com.entity.booking.Content c : r.content) {
 
-    Booking test = booking.content[5].booking;
+      long BookingTimeLong = Long.parseLong(c.booking.bookingDate.substring(0, 10) + "") * 1000;
 
-    long bookDate = (Long.parseLong(test.bookingDate.replace(".000000000", "")) * 1000);
+      long diff = BookingTimeLong - timeNow;
 
-    long diffL = Math.abs(bookDate - timeNow);
+      if (Integer.parseInt(c.booking.tableId) == tableid && Math.abs(diff) <= flexTime) {
 
-    for (Content c : booking.content) {
-      if (Integer.parseInt(c.booking.tableId) == 8
-          && Math.abs((Long.parseLong(c.booking.bookingDate.replace(".000000000", "")) * 1000) - timeNow) <= flexTime) {
+        HelpClass.req = new RequestOrder();
+        HelpClass.req.booking.bookingToken = c.booking.bookingToken;
+        HelpClass.req.booking.name = c.booking.name;
+        HelpClass.req.booking.assistants = c.booking.assistants;
+        HelpClass.req.booking.email = c.booking.email;
 
-        long diff = Math.abs((Long.parseLong(c.booking.bookingDate.replace(".000000000", "")) * 1000) - timeNow);
-
-        book.bookingToken = c.booking.bookingToken;
-        book.name = c.booking.name;
-
-        System.out.println("Das ist die " + diff);
+        System.out.println(c.booking);
 
       }
 
     }
-
-    System.out.println(book);
 
   }
 

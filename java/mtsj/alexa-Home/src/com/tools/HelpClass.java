@@ -154,11 +154,11 @@ public class HelpClass {
 
         if (counterBookingIDs == 1) {
 
-          String tmpBookingId = c.booking.bookingDate.substring(0, 10) + "";
+          String tmpBookingTimeAsString = c.booking.bookingDate.substring(0, 10) + "";
 
           HelpClass.req = new RequestOrder();
           HelpClass.req.booking.bookingToken = c.booking.bookingToken;
-          HelpClass.bookingDateTimeMilliseconds = (Long.parseLong(tmpBookingId) * 1000) + 7200000;
+          HelpClass.bookingDateTimeMilliseconds = (Long.parseLong(tmpBookingTimeAsString) * 1000) + 7200000;
           HelpClass.req.booking.name = c.booking.name;
           HelpClass.req.booking.assistants = c.booking.assistants;
           HelpClass.req.booking.email = c.booking.email;

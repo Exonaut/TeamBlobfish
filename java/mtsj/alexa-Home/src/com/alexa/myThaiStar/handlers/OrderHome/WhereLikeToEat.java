@@ -24,7 +24,8 @@ public class WhereLikeToEat implements IntentRequestHandler {
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("whereLikeToEat", intentRequest.getIntent())
-        .withSpeech("Möchten Sie sich das Essen liefern lassen oder möchten Sie im Restaurant essen?")
+        .withSpeech(
+            "Wollen Sie sich die Bestellung liefern lassen oder ist die Bestellung für einen Tisch im Restaurant?")
         .withReprompt("Wo möchten Sie essen?").build();
   }
 

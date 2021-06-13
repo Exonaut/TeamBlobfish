@@ -19,6 +19,7 @@ public class AnotherDrinkOrServeTimeYesNo implements IntentRequestHandler {
     return (handlerInput.matches(intentName("makeAOrderInhouse"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
         && intentRequest.getIntent().getSlots().get("yesNoAnotherDrink").getValue() != null
+        && !intentRequest.getIntent().getSlots().get("yesNoAnotherDrink").getValue().equals("nichts")
         && intentRequest.getIntent().getSlots().get("serveTimeYesNo").getValue() == null;
 
   }
@@ -27,6 +28,7 @@ public class AnotherDrinkOrServeTimeYesNo implements IntentRequestHandler {
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     Slot yesNoAnotherDrink = intentRequest.getIntent().getSlots().get("yesNoAnotherDrink");
+    Slot dishOrder = intentRequest.getIntent().getSlots().get("dishOrder");
 
     if (yesNoAnotherDrink.getValue().equals("ja")) {
 
@@ -39,7 +41,20 @@ public class AnotherDrinkOrServeTimeYesNo implements IntentRequestHandler {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
           .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie noch zum trinken?").build();
-    } else if (yesNoAnotherDrink.getValue().equals("nein")) {
+    }
+
+    else if (yesNoAnotherDrink.getValue().equals("nein") && dishOrder.getValue() == null) {
+
+      Slot updateSlot = Slot.builder().withName("yesNoAnotherDrink").withValue("nichts").build();
+      intentRequest.getIntent().getSlots().put("yesNoAnotherDrink", updateSlot);
+
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())
+          .withSpeech("Möchten Sie noch etwas zum essen bestellen?").withReprompt("Darf es noch etwas zum essen sein?")
+          .build();
+
+    }
+
+    else if (yesNoAnotherDrink.getValue().equals("nein")) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("serveTimeYesNo", intentRequest.getIntent())
           .withSpeech(

@@ -17,7 +17,7 @@ import com.entity.orderline.RequestOrder;
 import com.google.gson.Gson;
 import com.tools.HelpClass;
 
-public class DeliveryServiceOrCheckCustomerDetails implements IntentRequestHandler {
+public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
@@ -26,7 +26,7 @@ public class DeliveryServiceOrCheckCustomerDetails implements IntentRequestHandl
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
         && intentRequest.getIntent().getSlots().get("whereLikeToEat").getValue() != null
         && intentRequest.getIntent().getSlots().get("yesNoCustomerDetails").getValue() == null
-        && intentRequest.getIntent().getSlots().get("dishOrder").getValue() == null;
+        && intentRequest.getIntent().getSlots().get("eatOrDrink").getValue() == null;
 
   }
 
@@ -57,7 +57,7 @@ public class DeliveryServiceOrCheckCustomerDetails implements IntentRequestHandl
         return handlerInput.getResponseBuilder()
             .addElicitSlotDirective("yesNoCustomerDetails", intentRequest.getIntent())
             .withSpeech(
-                "Sie haben am " + bookingDate + " um " + bookingTime + " Uhr mit" + HelpClass.req.booking.assistants
+                "Sie haben am " + bookingDate + " um " + bookingTime + " Uhr mit " + HelpClass.req.booking.assistants
                     + " Gästen, einen Tisch reserviert. Wollen Sie mit diesen Daten fortfahren?")
             .withReprompt("Wollen Sie mit diese Daten fortfahren?").build();
       }
@@ -70,7 +70,7 @@ public class DeliveryServiceOrCheckCustomerDetails implements IntentRequestHandl
         return handlerInput.getResponseBuilder()
             .addElicitSlotDirective("yesNoCustomerDetails", intentRequest.getIntent())
             .withSpeech("Ich habe mehrere Einträge gefunden. Sie haben am " + bookingDate + " um " + bookingTime
-                + " Uhr mit" + HelpClass.req.booking.assistants
+                + " Uhr mit " + HelpClass.req.booking.assistants
                 + " Gästen, einen Tisch reserviert. Wollen Sie mit diese Daten fortfahren?")
             .withReprompt("Wollen Sie mit diese Daten fortfahren?").build();
       }
@@ -108,15 +108,15 @@ public class DeliveryServiceOrCheckCustomerDetails implements IntentRequestHandl
 
       HelpClass.req.booking.bookingToken = responseBooking.bookingToken;
 
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
-          .withSpeech("Wie lautet Ihr erstes Gericht?").withReprompt("Was möchten Sie essen?").build();
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("eatOrDrink", intentRequest.getIntent())
+          .withSpeech("Möchten Sie mit Essen oder Trinken beginnen?")
+          .withReprompt("Möchten Sie mit Essen oder Trinken beginnen?").build();
 
     }
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("whereLikeToEat", intentRequest.getIntent())
-        .withSpeech("Sie sagten" + whereLikeToEat.getValue()
-            + "Ich habe Sie leider nicht verstanden. Möchten Sie sich das Essen liefern lassen oder möchten Sie im "
-            + "Restaurant essen? Sie können sagen im Restaurant oder liefern lassen")
+        .withSpeech(
+            " Ich habe Sie leider nicht verstanden. Wollen Sie sich die Bestellung liefern lassen oder ist die Bestellung für einen reservierten Tisch im Restaurant? Sie können sagen im Restaurant oder liefern lassen")
         .withReprompt("Wo möchten Sie essen?").build();
   }
 

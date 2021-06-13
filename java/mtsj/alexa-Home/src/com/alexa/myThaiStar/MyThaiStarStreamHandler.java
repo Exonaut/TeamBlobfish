@@ -30,11 +30,12 @@ import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkOrMakeServingTimeOrCl
 import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkYesNoOrCorrectTheDrink;
 import com.alexa.myThaiStar.handlers.OrderHome.CloseOrderOrCorrectTheServeTime;
 import com.alexa.myThaiStar.handlers.OrderHome.Completed;
-import com.alexa.myThaiStar.handlers.OrderHome.DeliveryServiceOrCheckCustomerDetails;
+import com.alexa.myThaiStar.handlers.OrderHome.EatOrDrinkOrCheckCustomerDetails;
 import com.alexa.myThaiStar.handlers.OrderHome.DishesConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderHome.DrinksConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderHome.WhichExtrasDishes;
-import com.alexa.myThaiStar.handlers.OrderHome.StartedOrderOrClose;
+import com.alexa.myThaiStar.handlers.OrderHome.StartEatOrDrink;
+import com.alexa.myThaiStar.handlers.OrderHome.EatOrDrinkOrClose;
 import com.alexa.myThaiStar.handlers.OrderHome.WhatDoUWantToDrinkOrServeTimeOrCloseOrder;
 import com.alexa.myThaiStar.handlers.OrderHome.WhereLikeToEat;
 import com.amazon.ask.Skill;
@@ -43,7 +44,7 @@ import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://aa8f28cd7339.ngrok.io";
+  public static final String BASE_URL = "https://026dab25f381.ngrok.io";
 
   private static Skill getSkill() {
 
@@ -53,7 +54,7 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new CallFoodMenu(),
             new DescriptionDrinks(BASE_URL),
             new DescriptionDishes(BASE_URL),
-            new StartedOrderOrClose(),
+            new EatOrDrinkOrClose(),
             new WhichExtrasDishes(),
             new AnotherDishYesNoOrCorrectTheDish(),
             new AnotherDrinkYesNoOrCorrectTheDrink(),
@@ -71,7 +72,8 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new WhatDoUWantToDrinkOrServeTimeOrCloseOrder (),
             new CloseOrderOrCorrectTheServeTime(),
             new WhereLikeToEat(),
-            new DeliveryServiceOrCheckCustomerDetails()
+            new EatOrDrinkOrCheckCustomerDetails(),
+            new StartEatOrDrink()
             )
         // Add your skill id below
         .withSkillId("amzn1.ask.skill.2cb6b023-f36d-43f9-8c18-3b509cf3f2d6").build();

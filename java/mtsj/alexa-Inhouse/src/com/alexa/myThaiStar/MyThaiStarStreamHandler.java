@@ -34,8 +34,9 @@ import com.alexa.myThaiStar.handlers.OrderInhouse.CustomerDetailsConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderInhouse.DishesConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderInhouse.DrinksConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderInhouse.QueryTable;
-import com.alexa.myThaiStar.handlers.OrderInhouse.WhichExtrasDishes;
 import com.alexa.myThaiStar.handlers.OrderInhouse.StartedOrder;
+import com.alexa.myThaiStar.handlers.OrderInhouse.WhichExtrasDishes;
+import com.alexa.myThaiStar.handlers.OrderInhouse.EatOrDrink;
 import com.alexa.myThaiStar.handlers.OrderInhouse.WhatDoUWantDoDrinkOrServeTimeYesNo;
 
 import com.amazon.ask.Skill;
@@ -44,7 +45,7 @@ import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://a0681af777e4.ngrok.io";
+  public static final String BASE_URL = "https://91f2abb11bc3.ngrok.io";
 
   private static Skill getSkill() {
 
@@ -55,9 +56,10 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new DescriptionDishes(BASE_URL),
             new HelpIntentHandler(),
             new LaunchRequestHandler(),
+            new AnotherDishYesNoOrCorrectTheDish(),
             new SessionEndedRequestHandler(),
             new FallbackIntentHandler(),
-            new StartedOrder(),
+            new EatOrDrink(),
             new WhatDoUWantDoDrinkOrServeTimeYesNo(),
             new WhichExtrasDishes(),
             new DrinksConfirmSlot(),
@@ -65,14 +67,14 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new Completed(),
             new AnotherDrinkYesNoOrCorrectTheDrink(),
             new AnotherDrinkOrServeTimeYesNo(),
-            new AnotherDishYesNoOrCorrectTheDish(),
             new AnotherDishOrDoUWantToDrink(),
             new AmountDrinks(),
             new AmountDishesOrCorrectExtras(),
             new QueryTable(),
             new CustomerDetailsConfirmSlot(),
             new CloseOrderOrMakeServingTime(),
-            new CloseOrder())
+            new CloseOrder(),
+            new StartedOrder())
         // Add your skill id below
         .withSkillId("amzn1.ask.skill.b8b902af-2c98-409c-92be-3d0ff9c3096f").build();
   }

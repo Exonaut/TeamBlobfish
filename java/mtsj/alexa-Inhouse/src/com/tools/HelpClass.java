@@ -30,6 +30,8 @@ public class HelpClass {
 
   public static ArrayList<Extras> extras;
 
+  public static long bookingDateTimeMilliseconds;
+
   public static String dishID;
 
   public static String callFoodMenu(String payload) {
@@ -120,14 +122,18 @@ public class HelpClass {
 
       String BookingTimeLongAsString = c.booking.bookingDate.substring(0, 10) + "";
 
-      if (Integer.parseInt(c.booking.tableId) == Integer.parseInt(queryTable.getValue())
+      if (!c.booking.bookingToken.startsWith("DB_")
+          && Integer.parseInt(c.booking.tableId) == Integer.parseInt(queryTable.getValue())
           && Math.abs((Long.parseLong(BookingTimeLongAsString) * 1000) - timeNow) <= flexTime) {
+
+        String tmpBookingTimeAsString = c.booking.bookingDate.substring(0, 10) + "";
 
         HelpClass.req = new RequestOrder();
         HelpClass.req.booking.bookingToken = c.booking.bookingToken;
         HelpClass.req.booking.name = c.booking.name;
         HelpClass.req.booking.assistants = c.booking.assistants;
         HelpClass.req.booking.email = c.booking.email;
+        HelpClass.bookingDateTimeMilliseconds = (Long.parseLong(tmpBookingTimeAsString) * 1000) + 7200000;
 
         return c.booking;
 
