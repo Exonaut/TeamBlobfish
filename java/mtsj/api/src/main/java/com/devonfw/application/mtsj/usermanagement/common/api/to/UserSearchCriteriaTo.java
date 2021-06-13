@@ -11,11 +11,13 @@ public class UserSearchCriteriaTo extends AbstractSearchCriteriaTo {
 
   private static final long serialVersionUID = 1L;
 
+  private Long id;
+
   private String username;
 
   private String email;
 
-  private Long userRoleId;
+  private Long[] userRoleId;
 
   private StringSearchConfigTo usernameOption;
 
@@ -29,6 +31,16 @@ public class UserSearchCriteriaTo extends AbstractSearchCriteriaTo {
   public UserSearchCriteriaTo() {
 
     super();
+  }
+
+  public Long getId() {
+
+    return this.id;
+  }
+
+  public void setId(Long id) {
+
+    this.id = id;
   }
 
   public String getUsername() {
@@ -51,12 +63,12 @@ public class UserSearchCriteriaTo extends AbstractSearchCriteriaTo {
     this.email = email;
   }
 
-  public Long getUserRoleId() {
+  public Long[] getUserRoleId() {
 
     return this.userRoleId;
   }
 
-  public void setUserRoleId(Long userRoleId) {
+  public void setUserRoleId(Long[] userRoleId) {
 
     this.userRoleId = userRoleId;
   }

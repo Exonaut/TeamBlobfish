@@ -34,7 +34,7 @@ export class FilterUserCockpit {
     id: number;
     username: string;
     email: string;
-    role: number;
+    userRoleId: number;
 }
 
 export class Pageable {

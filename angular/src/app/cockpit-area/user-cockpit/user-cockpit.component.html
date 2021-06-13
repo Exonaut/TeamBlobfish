@@ -49,12 +49,19 @@
             />
           </mat-form-field>
           <mat-form-field color="accent" class="searchBy">
-            <input
-              matInput
+            <mat-select
+              class="orderStatusFilter"
+              [(value)]="filters.userRoleId"
+              multiple
               [placeholder]="'formFields.role' | transloco"
-              [(ngModel)]="filters.role"
-              name="role"
-            />
+            >
+              <mat-option
+                *ngFor="let role of roleNames"
+                [value]="roleNames.indexOf(role)"
+              >
+                {{ role.label }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>

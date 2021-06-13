@@ -43,12 +43,12 @@ export class UserCockpitService {
     let path: string;
     filters.pageable = pageable;
     filters.pageable.sort = sorting;
-    if (filters.email || filters.username || filters.role ) {
+    if (filters.email || filters.username || filters.userRoleId ) {
       path = this.filterUsersRestPath;
     } else {
       delete filters.email;
       delete filters.username;
-      delete filters.role;
+      delete filters.userRoleId;
       path = this.getUsersRestPath;
     }
     return this.restServiceRoot$.pipe(

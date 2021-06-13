@@ -42,11 +42,10 @@ public interface UserRepository extends DefaultRepository<UserEntity> {
       QueryUtil.get().whereString(query, $(alias.getEmail()), email, criteria.getEmailOption());
     }
 
-    Long[] userRole = criteria.getUserRoleId();
-    if (alias.getUserRoleId() != null && userRole != null && userRole.length > 0) {
-      query.where(Alias.$(alias.getUserRoleId()).in(userRole));
-    }
-    Long test = alias.getUserRoleId();
+    /*
+     * Long[] userRole = criteria.getUserRoleId(); if (alias.getUserRole() != null && userRole != null &&
+     * userRole.length > 0) { query.where(Alias.$(alias.getUserRoleId()).in(userRole)); }
+     */
 
     return QueryUtil.get().findPaginated(criteria.getPageable(), query, true);
   }

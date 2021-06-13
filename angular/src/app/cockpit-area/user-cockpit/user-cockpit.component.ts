@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
@@ -59,12 +59,14 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     id: undefined,
     username: undefined,
     email: undefined,
-    role: undefined,
+    userRoleId: undefined,
   };
 
   hoverChangePw: -1;
   hoverResetPw: -1;
   hoverDeleteUser: -1;
+
+  userRoleSelected: FormControl;
 
   constructor(
     private dialog: MatDialog,
@@ -84,6 +86,9 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
       moment.locale(this.translocoService.getActiveLang());
     });
     this.applyFilters();
+    this.userRoleSelected = new FormControl(this.filters.userRoleId, [
+      Validators.required
+    ]);
   }
 
   setTableHeaders(lang: string): void {
@@ -130,6 +135,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   /** Clear filters */
   clearFilters(filters: NgForm): void {
     filters.reset();
+    this.filters.userRoleId = undefined;
     this.applyFilters();
     this.pagingBar.firstPage();
   }
