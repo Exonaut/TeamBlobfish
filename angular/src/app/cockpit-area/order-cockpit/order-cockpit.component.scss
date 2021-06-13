@@ -53,8 +53,12 @@ td:not(:nth-child(1)) {
 }
 
 button.advanceOrder {
-  min-width: 185px;
+  min-width: 150px;
   text-align: left;
+}
+
+.innerTable {
+  text-align: right;
 }
 
 .tableId {
