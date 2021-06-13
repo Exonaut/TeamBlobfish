@@ -27,9 +27,9 @@
           <mat-form-field color="accent" class="searchBy">
             <input
               matInput
-              [placeholder]="'formFields.email' | transloco"
-              [(ngModel)]="filters.email"
-              name="email"
+              [placeholder]="'formFields.id' | transloco"
+              [(ngModel)]="filters.id"
+              name="id"
             />
           </mat-form-field>
           <mat-form-field color="accent" class="searchBy">
@@ -38,6 +38,22 @@
               [placeholder]="'formFields.name' | transloco"
               [(ngModel)]="filters.username"
               name="name"
+            />
+          </mat-form-field>
+          <mat-form-field color="accent" class="searchBy">
+            <input
+              matInput
+              [placeholder]="'formFields.email' | transloco"
+              [(ngModel)]="filters.email"
+              name="email"
+            />
+          </mat-form-field>
+          <mat-form-field color="accent" class="searchBy">
+            <input
+              matInput
+              [placeholder]="'formFields.role' | transloco"
+              [(ngModel)]="filters.role"
+              name="role"
             />
           </mat-form-field>
         </div>

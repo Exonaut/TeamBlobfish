@@ -70,7 +70,8 @@
     "referenceNumber": "Reference number",
     "role": "Role",
     "orderStatus": "Order Status",
-    "paymentStatus": "Payment Status"
+    "paymentStatus": "Payment Status",
+    "id": "ID"
   },
   "bookTable": {
     "title": "You can invite your friends to lunch or book a table",

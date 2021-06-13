@@ -54,6 +54,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   pageSizes: number[];
 
   filters: FilterUserCockpit = {
+    id: undefined,
     username: undefined,
     email: undefined,
     role: undefined,
