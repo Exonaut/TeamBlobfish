@@ -29,6 +29,7 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
 
     Slot yesNoAnotherDrink = intentRequest.getIntent().getSlots().get("yesNoAnotherDrink");
     Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
+    Slot dishOrder = intentRequest.getIntent().getSlots().get("dishOrder");
 
     if (yesNoAnotherDrink.getValue().equals("ja")) {
 
@@ -41,7 +42,15 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
           .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie noch zum trinken?").build();
-    } else if (yesNoAnotherDrink.getValue().equals("nein") && whereLikeToEat.getValue().equals("liefern")) {
+    } else if (yesNoAnotherDrink.getValue().equals("nein") && dishOrder.getValue() == null) {
+
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())
+          .withSpeech("Möchten Sie noch etwas zum essen bestellen?").withReprompt("Darf es noch etwas zum essen sein?")
+          .build();
+
+    }
+
+    else if (yesNoAnotherDrink.getValue().equals("nein") && whereLikeToEat.getValue().equals("liefern")) {
 
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
     }

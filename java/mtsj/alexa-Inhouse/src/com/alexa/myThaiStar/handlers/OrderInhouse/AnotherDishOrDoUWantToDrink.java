@@ -19,16 +19,18 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
     return (handlerInput.matches(intentName("makeAOrderInhouse"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
         && intentRequest.getIntent().getSlots().get("yesNoEat").getValue() != null
-        && intentRequest.getIntent().getSlots().get("yesNoDrink").getValue() == null;
+        && intentRequest.getIntent().getSlots().get("yesNoDrink").getValue() == null
+        && intentRequest.getIntent().getSlots().get("serveTimeYesNo").getValue() == null;
 
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    Slot yesNo = intentRequest.getIntent().getSlots().get("yesNoEat");
+    Slot yesNoEat = intentRequest.getIntent().getSlots().get("yesNoEat");
+    Slot drink = intentRequest.getIntent().getSlots().get("drink");
 
-    if (yesNo.getValue().equals("ja")) {
+    if (yesNoEat.getValue().equals("ja")) {
 
       Slot updateSlot = Slot.builder().withConfirmationStatus("NONE").withName("amount").withValue(null).build();
       intentRequest.getIntent().getSlots().put("amount", updateSlot);
@@ -39,9 +41,25 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
       Slot updateSlot4 = Slot.builder().withName("yesNoEat").withValue(null).build();
       intentRequest.getIntent().getSlots().put("yesNoEat", updateSlot4);
 
+      if (drink.getValue() != null)
+        return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
+            .withSpeech("Wie lautet Ihr Gericht?").withReprompt("Was möchten Sie essen?").build();
+
       return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
           .withSpeech("Wie lautet Ihr weiteres Gericht?").withReprompt("Was möchten Sie essen?").build();
-    } else if (yesNo.getValue().equals("nein")) {
+    } else if (yesNoEat.getValue().equals("nein") && drink.getValue() != null) {
+
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("serveTimeYesNo", intentRequest.getIntent())
+          .withSpeech(
+              "Sie haben die Möglichkeit, eine Servierzeit anzugeben. Wenn Sie keine Servierzeit angeben möchten, "
+                  + "wird Ihnen Ihr Essen in 30 minuten serviert. Wenn Sie eine Servierzeit angeben möchten, "
+                  + "dann muss die Servierzeit mindestens 30 minuten hinter der aktuellen Zeit liegen. "
+                  + "Möchten Sie eine Servierzeit angeben?")
+          .withReprompt("Welche Servierzeit wünschen Sie?").build();
+
+    }
+
+    else if (yesNoEat.getValue().equals("nein")) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoDrink", intentRequest.getIntent())
           .withSpeech("Möchten Sie etwas zum trinken bestellen?").withReprompt("Möchten Sie etwas trinken?").build();

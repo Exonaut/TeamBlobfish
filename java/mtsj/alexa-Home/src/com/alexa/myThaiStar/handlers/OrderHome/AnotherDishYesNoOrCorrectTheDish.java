@@ -54,7 +54,7 @@ public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
       HelpClass.req.orderLines.add(tmpOrderline);
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())
-          .withSpeech("Möchten Sie noch etwas zum essen bestellen?").withReprompt("Darf es noch etwa sein?").build();
+          .withSpeech("Möchten Sie noch etwas zum essen bestellen?").withReprompt("Darf es noch etwas sein?").build();
 
     }
 

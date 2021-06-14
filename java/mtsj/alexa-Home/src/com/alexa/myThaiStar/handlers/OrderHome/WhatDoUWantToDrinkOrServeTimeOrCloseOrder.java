@@ -31,7 +31,7 @@ public class WhatDoUWantToDrinkOrServeTimeOrCloseOrder implements IntentRequestH
     Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
     Slot yesNoDrink = intentRequest.getIntent().getSlots().get("yesNoDrink");
 
-    if (intentRequest.getIntent().getSlots().get("yesNoDrink").getValue().equals("ja"))
+    if (yesNoDrink.getValue().equals("ja"))
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
           .withSpeech("Welches Getränk möchten Sie?").withReprompt("Welches Getränk möchten Sie?").build();
 

@@ -10,16 +10,16 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
 
-public class StartedOrderOrClose implements IntentRequestHandler {
+public class StartEatOrDrink implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return (handlerInput.matches(intentName("makeAOrderHome"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
-        && intentRequest.getIntent().getSlots().get("yesNoCustomerDetails").getValue() != null
+        && intentRequest.getIntent().getSlots().get("eatOrDrink").getValue() != null
+        && intentRequest.getIntent().getSlots().get("yesNoDrink").getValue() == null
         && intentRequest.getIntent().getSlots().get("dishOrder").getValue() == null;
 
   }
@@ -27,20 +27,19 @@ public class StartedOrderOrClose implements IntentRequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    Slot yesNoCustomerDetails = intentRequest.getIntent().getSlots().get("yesNoCustomerDetails");
+    Slot eatOrDrink = intentRequest.getIntent().getSlots().get("eatOrDrink");
 
-    if (yesNoCustomerDetails.getValue().equals("ja"))
+    if (eatOrDrink.getValue().equals("essen"))
       return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
           .withSpeech("Wie lautet Ihr erstes Gericht?").withReprompt("Was möchten Sie essen?").build();
 
-    if (yesNoCustomerDetails.getValue().equals("nein"))
-      return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
+    if (eatOrDrink.getValue().equals("trinken"))
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
+          .withSpeech("Was möchten Sie trinken?").withReprompt("Was möchten Sie zum trinken?").build();
 
-    return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoCustomerDetails", intentRequest.getIntent())
-        .withSpeech("Ich habe Sie leider nicht verstanden. Wollen Sie mit diesen Daten Name: "
-            + HelpClass.req.booking.name + "\n" + " Anzahl der Gäste: " + HelpClass.req.booking.assistants
-            + "\n" + "Buchungsemail: " + HelpClass.req.booking.email + "\n" + " fortfahren?")
-        .withReprompt("Wollen Sie mit diese Daten fortfahren?").build();
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("eatOrDrink", intentRequest.getIntent())
+        .withSpeech("Möchten Sie mit Essen oder Trinken beginnnen?")
+        .withReprompt("Möchten Sie mit Essen oder Trinken beginnnen?").build();
   }
 
 }

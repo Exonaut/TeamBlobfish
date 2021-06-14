@@ -11,31 +11,25 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 
-public class StartedOrder implements IntentRequestHandler {
+public class EatOrDrink implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return (handlerInput.matches(intentName("makeAOrderInhouse"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
-        && intentRequest.getIntent().getSlots().get("eatOrDrink").getValue() != null
-        && intentRequest.getIntent().getSlots().get("dishOrder").getValue() == null
-        && intentRequest.getIntent().getSlots().get("drink").getValue() == null;
+        && !intentRequest.getIntent().getSlots().get("queryTable").getConfirmationStatusAsString().equals("NONE")
+        && intentRequest.getIntent().getSlots().get("eatOrDrink").getValue() == null;
 
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    Slot eatOrDrink = intentRequest.getIntent().getSlots().get("eatOrDrink");
+    Slot queryTable = intentRequest.getIntent().getSlots().get("queryTable");
 
-    if (eatOrDrink.getValue().equals("essen"))
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
-          .withSpeech("Wie lautet Ihr erstes Gericht ?").withReprompt("Was möchten Sie essen?").build();
-
-    if (eatOrDrink.getValue().equals("trinken"))
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
-          .withSpeech("Was möchten Sie zum trinken ?").withReprompt("Was darf es zum trinken sein?").build();
+    if (queryTable.getConfirmationStatusAsString().equals("DENIED"))
+      return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("eatOrDrink", intentRequest.getIntent())
         .withSpeech("Möchten Sie mit Essen oder Trinken beginnen?")

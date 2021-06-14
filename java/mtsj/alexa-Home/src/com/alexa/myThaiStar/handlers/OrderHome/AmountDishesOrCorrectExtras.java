@@ -62,8 +62,8 @@ public class AmountDishesOrCorrectExtras implements IntentRequestHandler {
     }
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("amount", intentRequest.getIntent())
-        .withSpeech("Wie oft möchten Sie, dass von Ihnen ausgewählte Gericht bestellen ? Bitte geben Sie eine Zahl an.")
-        .withReprompt("Wie oft ?").build();
+        .withSpeech("Wie oft möchten Sie, dass von Ihnen ausgewählte Gericht bestellen ?").withReprompt("Wie oft ?")
+        .build();
   }
 
 }
