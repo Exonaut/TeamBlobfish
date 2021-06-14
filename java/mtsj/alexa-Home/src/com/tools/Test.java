@@ -10,7 +10,9 @@ public class Test {
 
   public static void main(String[] args) {
 
-    ResponseBooking resp = HelpClass.getAllBookings();
+    ResponseBooking resp = HelpClass.getAllBookingsAndOrders();
+
+    int av = HelpClass.bookingIDAvailable(resp, "tony2510@gmx.de");
 
     HelpClass.bookingIDAvailable(resp, "tony2510@gmx.de");
 

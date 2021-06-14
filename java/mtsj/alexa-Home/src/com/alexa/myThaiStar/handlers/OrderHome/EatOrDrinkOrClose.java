@@ -28,7 +28,6 @@ public class EatOrDrinkOrClose implements IntentRequestHandler {
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     Slot yesNoCustomerDetails = intentRequest.getIntent().getSlots().get("yesNoCustomerDetails");
-    Slot eatOrDrink = intentRequest.getIntent().getSlots().get("eatOrDrink");
 
     if (yesNoCustomerDetails.getValue().equals("ja"))
       return handlerInput.getResponseBuilder().addElicitSlotDirective("eatOrDrink", intentRequest.getIntent())
@@ -46,7 +45,7 @@ public class EatOrDrinkOrClose implements IntentRequestHandler {
         .withSpeech("Ich habe Sie leider nicht verstanden. Sie haben am " + bookingDate + " um " + bookingTime
             + " Uhr mit" + HelpClass.req.booking.assistants
             + " Gästen, einen Tisch reserviert. Wollen Sie mit diesen Daten fortfahren?")
-        .withReprompt("Wollen Sie mit diese Daten fortfahren?").build();
+        .withReprompt("Wollen Sie mit diesen Daten fortfahren?").build();
   }
 
 }

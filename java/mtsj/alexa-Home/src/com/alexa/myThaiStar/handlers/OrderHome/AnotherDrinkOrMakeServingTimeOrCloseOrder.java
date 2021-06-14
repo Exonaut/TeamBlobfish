@@ -45,7 +45,7 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
     } else if (yesNoAnotherDrink.getValue().equals("nein") && dishOrder.getValue() == null) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())
-          .withSpeech("Möchten Sie noch etwas zum essen bestellen?").withReprompt("Darf es noch etwas zum essen sein?")
+          .withSpeech("Möchten Sie etwas zum essen bestellen?").withReprompt("Darf es noch etwas zum essen sein?")
           .build();
 
     }

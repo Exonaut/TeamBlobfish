@@ -37,7 +37,7 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
 
     if (whereLikeToEat.getValue().equals("restaurant")) {
 
-      ResponseBooking response = HelpClass.getAllBookings();
+      ResponseBooking response = HelpClass.getAllBookingsAndOrders();
 
       if (response == null)
         return handlerInput.getResponseBuilder()
@@ -45,6 +45,10 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
 
       String userEmail = handlerInput.getServiceClientFactory().getUpsService().getProfileEmail();
       HelpClass.counterBookingIDs = HelpClass.bookingIDAvailable(response, userEmail);
+
+      if (HelpClass.counterBookingIDs == -1)
+        return handlerInput.getResponseBuilder()
+            .withSpeech("Es ist ein Problem aufgetreten. Bitte versuchen Sie es zu einem späteren Zeitpunkt.").build();
 
       if (HelpClass.counterBookingIDs == 0)
         return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
@@ -71,8 +75,8 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
             .addElicitSlotDirective("yesNoCustomerDetails", intentRequest.getIntent())
             .withSpeech("Ich habe mehrere Einträge gefunden. Sie haben am " + bookingDate + " um " + bookingTime
                 + " Uhr mit " + HelpClass.req.booking.assistants
-                + " Gästen, einen Tisch reserviert. Wollen Sie mit diese Daten fortfahren?")
-            .withReprompt("Wollen Sie mit diese Daten fortfahren?").build();
+                + " Gästen, einen Tisch reserviert. Wollen Sie mit diesen Daten fortfahren?")
+            .withReprompt("Wollen Sie mit diesen Daten fortfahren?").build();
       }
 
     }

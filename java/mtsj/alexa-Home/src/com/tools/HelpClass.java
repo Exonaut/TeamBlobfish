@@ -35,6 +35,10 @@ public class HelpClass {
 
   public static String dishID;
 
+  public static com.entity.booking.Content[] contentBooking;
+
+  public static com.entity.booking.Content[] contentOrder;
+
   public static String getExtrasName(String dishID) {
 
     BasicOperations bo = new BasicOperations();
@@ -109,7 +113,7 @@ public class HelpClass {
 
   }
 
-  public static ResponseBooking getAllBookings() {
+  public static ResponseBooking getAllBookingsAndOrders() {
 
     RequestLogin req = new RequestLogin();
     req.password = "waiter";
@@ -137,24 +141,55 @@ public class HelpClass {
       return null;
     }
 
-    ResponseBooking response = gson.fromJson(respStr, ResponseBooking.class);
+    ResponseBooking responseBooking = gson.fromJson(respStr, ResponseBooking.class);
 
-    return response;
+    contentBooking = responseBooking.content;
+
+    payload = "{\"orderstatus\":[0,1,2,3,4],\"paymentstatus\":[0,1],\"pageable\":{\"pageSize\":24,\"sort\":[]}}";
+
+    try {
+      respStr = bo2.basicPost(payload, BASE_URL + "/mythaistar/services/rest/ordermanagement/v1/order/search");
+    } catch (Exception ex) {
+      return null;
+    }
+
+    ResponseBooking responseOrder = gson.fromJson(respStr, ResponseBooking.class);
+
+    contentOrder = responseOrder.content;
+
+    return responseBooking;
+
+  }
+
+  public static boolean orderAlreadyExists(String bookingToken) {
+
+    for (com.entity.booking.Content c : contentOrder)
+      if (c.booking.bookingToken.equals(bookingToken))
+        return true;
+
+    return false;
 
   }
 
   public static int bookingIDAvailable(ResponseBooking response, String userEmail) {
 
     counterBookingIDs = 0;
+    long diffTmp = 0;
     for (com.entity.booking.Content c : response.content) {
 
-      if (c.booking.email.equals(userEmail) && !c.booking.bookingToken.startsWith("DB_")) {
+      String tmpBookingTimeAsString = c.booking.bookingDate.substring(0, 10) + "";
+
+      long tmpBookingTimeAsLong = (Long.parseLong(tmpBookingTimeAsString) * 1000);
+      long timeNowAsLong = System.currentTimeMillis();
+
+      if (c.booking.email.equals(userEmail) && tmpBookingTimeAsLong >= timeNowAsLong
+          && !orderAlreadyExists(c.booking.bookingToken)) {
 
         counterBookingIDs++;
 
-        if (counterBookingIDs == 1) {
+        if (diffTmp == 0 || diffTmp > (tmpBookingTimeAsLong - timeNowAsLong)) {
 
-          String tmpBookingTimeAsString = c.booking.bookingDate.substring(0, 10) + "";
+          diffTmp = tmpBookingTimeAsLong - timeNowAsLong;
 
           HelpClass.req = new RequestOrder();
           HelpClass.req.booking.bookingToken = c.booking.bookingToken;

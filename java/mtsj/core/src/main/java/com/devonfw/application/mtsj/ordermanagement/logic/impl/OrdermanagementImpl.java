@@ -388,6 +388,8 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       }
       orderEntity.setBookingId(guest.getBookingId());
       orderEntity.setInvitedGuestId(guest.getId());
+
+      // Order VALIDATION
     } else if (getOrderType(token) == BookingType.ORDER) {
 
       BookingCto booking = getBookingbyToken(token);

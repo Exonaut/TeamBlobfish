@@ -32,8 +32,8 @@ public class AmountDrinks implements IntentRequestHandler {
 
     if (HelpClass.dishID == null) {
 
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
-          .withSpeech("Ich habe Sie leider nicht verstanden. Welches Getränk möchten Sie?")
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent()).withSpeech(
+          "Es tut mir leid, dieses Getränk haben wir leider nicht auf der Getränkekarte. Bitte wählen Sie ein Getränk aus, welches auf der Getränkekarte vorhanden ist.")
           .withReprompt("Welches Getränk möchten Sie?").build();
 
     }

@@ -49,7 +49,7 @@ public class AnotherDrinkOrServeTimeYesNo implements IntentRequestHandler {
       intentRequest.getIntent().getSlots().put("yesNoAnotherDrink", updateSlot);
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())
-          .withSpeech("Möchten Sie noch etwas zum essen bestellen?").withReprompt("Darf es noch etwas zum essen sein?")
+          .withSpeech("Möchten Sie etwas zum essen bestellen?").withReprompt("Darf es noch etwas zum essen sein?")
           .build();
 
     }
