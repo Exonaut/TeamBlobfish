@@ -173,6 +173,7 @@
                   type="button"
                   [matTooltip]="'buttons.editUser' | transloco"
                   (click)="editUser(element)"
+                  [disabled]="element.username === userName"
                 >
                   <mat-icon class="editUser">settings</mat-icon>
                 </button>

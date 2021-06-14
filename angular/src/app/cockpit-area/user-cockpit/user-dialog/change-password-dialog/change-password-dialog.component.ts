@@ -4,6 +4,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UserCockpitService } from 'app/cockpit-area/services/user-cockpit.service';
 import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 import { UserListView } from 'app/shared/view-models/interfaces';
+import { clone } from 'lodash';
 import * as moment from 'moment';
 
 @Component({
@@ -18,6 +19,11 @@ export class ChangePasswordDialogComponent implements OnInit {
   roleNames: any[];
   selectedRole: number;
 
+  title: any = {
+    username: "",
+    id: -1,
+  }
+
   constructor(
     public dialog: MatDialogRef<ChangePasswordDialogComponent>,
     private userCockpitService: UserCockpitService,
@@ -25,7 +31,9 @@ export class ChangePasswordDialogComponent implements OnInit {
     private snack: SnackBarService,
     @Inject(MAT_DIALOG_DATA) dialogData: UserListView,
   ) {
-    this.data = dialogData;
+    this.data = clone(dialogData);
+    this.title.username = this.data.username;
+    this.title.id = this.data.id;
   }
 
   ngOnInit(): void {
