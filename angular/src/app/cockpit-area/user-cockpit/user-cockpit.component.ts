@@ -20,6 +20,8 @@ import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import { CreateUserDialogComponent } from './create-user-dialog/create-user-dialog.component';
 import { ChangePasswordDialogComponent } from './user-dialog/change-password-dialog/change-password-dialog.component';
 import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
+import { Store } from '@ngrx/store';
+import { AuthService } from 'app/core/authentication/auth.service';
 
 @Component({
   selector: 'app-user-cockpit',
@@ -68,6 +70,8 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
 
   userRoleSelected: FormControl;
 
+  userName: string;
+
   constructor(
     private dialog: MatDialog,
     private translocoService: TranslocoService,
@@ -75,6 +79,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private userCockpitService: UserCockpitService,
     private snack: SnackBarService,
+    public auth: AuthService,
   ) {
     this.pageSizes = this.configService.getValues().pageSizes;
   }
@@ -89,6 +94,9 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     this.userRoleSelected = new FormControl(this.filters.userRoleId, [
       Validators.required
     ]);
+    this.auth.getUser().subscribe((data) => {
+      this.userName = data;
+    })
   }
 
   setTableHeaders(lang: string): void {
@@ -122,14 +130,24 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   applyFilters(): void {
     this.userCockpitService
       .getUsers(this.pageable, this.sorting, this.filters)
-      .subscribe((data: any) => {
-        if (!data) {
+      .subscribe(
+        ($data: any) => {
+          if (!$data) {
+            this.users = [];
+          } else {
+            this.users = $data.content;
+          }
+          this.totalUsers = $data.totalElements;
+        },
+        (error) => {
+          this.snack.openSnack(
+            this.translocoService.translate('cockpit.user.fetchUsersError'),
+            6000,
+            'red'
+          )
           this.users = [];
-        } else {
-          this.users = data.content;
         }
-        this.totalUsers = data.totalElements;
-      });
+      );
   }
 
   /** Clear filters */
@@ -185,7 +203,8 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   }
 
   deleteUser(element: any): void {
-    this.userCockpitService.deleteUser(element.id).subscribe((data: any) => (
+    this.userCockpitService.deleteUser(element.id).subscribe(
+      ($data: any) => (
         this.snack.openSnack(
           this.translocoService.translate('cockpit.user.deleteUserSuccess'),
           6000,
@@ -193,6 +212,13 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
         ),
         this.applyFilters()
       ),
+      (error) => (
+        this.snack.openSnack(
+          this.translocoService.translate('cockpit.user.deleteUserError'),
+          6000,
+          'red'
+        )
+      )
     );
   }
 
@@ -210,18 +236,33 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   resetPassword(element: any): void {
     this.userCockpitService
     .sendPasswordResetLink(element)
-    .subscribe((data: any) => {
-      this.snack.openSnack(
-        this.translocoService.translate('cockpit.user.sendPasswordResetLinkSuccess'),
-        6000,
-        'green'
-      );
-    });
+    .subscribe(
+      ($data: any) => {
+        this.snack.openSnack(
+          this.translocoService.translate('cockpit.user.sendPasswordResetLinkSuccess'),
+          6000,
+          'green'
+        );
+      },
+      (error) => {
+        this.snack.openSnack(
+          this.translocoService.translate('cockpit.user.sendPasswordResetLinkError'),
+          6000,
+          'red'
+        )
+      }
+    );
   }
 
   editUser(element: any): void {
-
+    this.dialog.open(ChangePasswordDialogComponent, {
+      width: '30%',
+      data: element,
+    }).afterClosed().subscribe((data: boolean) => {
+      if (data === true) { // Reload users if dialog was edited
+        this.applyFilters();
+      }
+    });
   }
 
 }
-

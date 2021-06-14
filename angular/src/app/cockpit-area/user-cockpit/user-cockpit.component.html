@@ -189,19 +189,20 @@
                   </span>
                 </button>
 
-                <button
+                <!-- <button
                   class="pwChange"
                   name="pwChange"
                   mat-raised-button
                   type="button"
                   [matTooltip]="'buttons.changePassword' | transloco"
                   (click)="changePassword(element)"
+                  [disabled]="element.id === 3"
                 >
                   <mat-icon class="pwChange">lock</mat-icon>
                   <span *ngIf="hoverChangePw === element.id">
                     {{ 'buttons.changePassword' | transloco }}
                   </span>
-                </button>
+                </button> -->
 
                 <button
                   class="deleteUser"
@@ -211,6 +212,7 @@
                   color="warn"
                   [matTooltip]="'buttons.deleteAccount' | transloco"
                   (click)="deleteUser(element)"
+                  [disabled]="element.username === userName"
                 >
                   <mat-icon class="deleteUser">clear</mat-icon>
                 </button>

@@ -240,11 +240,13 @@
     },
     "user": {
       "title": "Users",
+      "editUserTitle": "Edit User",
       "dialogTitle": "USER DETAILS",
       "nameH": "Name",
       "emailH": "E-Mail",
       "idH": "ID",
       "roleH": "Role",
+      "actionsH": "Actions",
       "guest": "Guest",
       "waiter": "Waiter",
       "manager": "Manager",
@@ -252,8 +254,12 @@
       "deleteUserSuccess": "User successfully deleted",
       "deleteUserError": "An error has occured while trying to delete the user",
       "changePasswordSuccess": "Password successfully changed",
+      "changePasswordError": "An error has occured while trying to change the password",
       "sendPasswordResetLinkSuccess": "Reset link has been send",
-      "actionsH": "Actions"
+      "sendPasswordResetLinkError": "An error has occured while trying to send the reset link",
+      "createUserSuccess": "User successfully created",
+      "createUserError": "An error has occured while trying to create the user",
+      "fetchUsersError": "An error has occured while fetching users"
     }
   }
 }

@@ -4,6 +4,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UserCockpitService } from 'app/cockpit-area/services/user-cockpit.service';
 import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 import { UserListView } from 'app/shared/view-models/interfaces';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-change-password-dialog',
@@ -13,6 +14,9 @@ import { UserListView } from 'app/shared/view-models/interfaces';
 export class ChangePasswordDialogComponent implements OnInit {
 
   data: UserListView;
+
+  roleNames: any[];
+  selectedRole: number;
 
   constructor(
     public dialog: MatDialogRef<ChangePasswordDialogComponent>,
@@ -25,21 +29,47 @@ export class ChangePasswordDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.translocoService.langChanges$.subscribe((event: any) => {
+      this.setRoleNames(event);
+      moment.locale(this.translocoService.getActiveLang());
+    });
+    this.selectedRole = this.data.userRoleId;
   }
 
   changePassword(value: any): void {
     this.data.password = value.password;
     this.userCockpitService
     .changePassword(this.data)
-    .subscribe((data: any) => {
-      this.snack.openSnack(
-        this.translocoService.translate('cockpit.user.changePasswordSuccess'),
-        6000,
-        'green'
-      );
-      this.closeWithRefresh();
-    });
+    .subscribe(
+      ($data: any) => {
+        this.snack.openSnack(
+          this.translocoService.translate('cockpit.user.changePasswordSuccess'),
+          6000,
+          'green'
+        );
+        this.closeWithRefresh();
+      },
+      (error) => {
+        this.snack.openSnack(
+          this.translocoService.translate('cockpit.user.changePasswordError'),
+          6000,
+          'red'
+        );
+      }
+    );
+  }
+
+  setRoleNames(lang: string): void {
+    this.translocoService
+      .selectTranslateObject('cockpit.user', {}, lang)
+      .subscribe((userTable) => {
+        this.roleNames = [
+          { name: 'user.guest', label: userTable.guest },
+          { name: 'user.waiter', label: userTable.waiter },
+          { name: 'user.manager', label: userTable.manager },
+          { name: 'user.admin', label: userTable.admin },
+        ];
+      });
   }
 
   close(): void {
