@@ -96,7 +96,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     ]);
     this.auth.getUser().subscribe((data) => {
       this.userName = data;
-    })
+    });
   }
 
   setTableHeaders(lang: string): void {
@@ -144,7 +144,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
             this.translocoService.translate('cockpit.user.fetchUsersError'),
             6000,
             'red'
-          )
+          );
           this.users = [];
         }
       );
@@ -249,7 +249,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
           this.translocoService.translate('cockpit.user.sendPasswordResetLinkError'),
           6000,
           'red'
-        )
+        );
       }
     );
   }

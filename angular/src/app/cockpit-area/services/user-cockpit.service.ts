@@ -66,14 +66,14 @@ export class UserCockpitService {
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
         this.http.delete<UserListView[]>(`${restServiceRoot}${path}/${id}`).pipe(
-          catchError(err => { return this.errorHandler(err) })
+          catchError(err => this.errorHandler(err))
         ),
       ),
     );
   }
 
-  errorHandler(error: HttpErrorResponse) {
-    return Observable.throw(error.message || "Server Error");
+  errorHandler(error: HttpErrorResponse): Observable<any> {
+    return Observable.throw(error.message || 'Server Error');
   }
 
   createUser(value: any): Observable<any> {
@@ -82,7 +82,7 @@ export class UserCockpitService {
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
         this.http.post<any>(`${restServiceRoot}${path}`, value).pipe(
-          catchError(err => { return this.errorHandler(err) })
+          catchError(err => this.errorHandler(err))
         ),
       ),
     );
@@ -94,7 +94,7 @@ export class UserCockpitService {
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
         this.http.patch<any>(`${restServiceRoot}${path}`, user).pipe(
-          catchError(err => { return this.errorHandler(err) })
+          catchError(err => this.errorHandler(err))
         ),
       ),
     );
@@ -106,7 +106,7 @@ export class UserCockpitService {
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
         this.http.get<any>(`${restServiceRoot}${path}/${user.email}`).pipe(
-          catchError(err => { return this.errorHandler(err) })
+          catchError(err => this.errorHandler(err))
         ),
       ),
     );
@@ -118,7 +118,7 @@ export class UserCockpitService {
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
         this.http.patch<any>(`${restServiceRoot}${path}`, user).pipe(
-          catchError(err => { return this.errorHandler(err) })
+          catchError(err => this.errorHandler(err))
         ),
       ),
     );

@@ -133,35 +133,6 @@ describe('UserCockpitComponent', () => {
     expect(component.roleNames[3].label === 'Admin').toBeTruthy();
   });
 
-  // Columns
-  it('should have an ID column', () => {
-    const header = fixture.debugElement.nativeElement.querySelector('th.idHeader');
-    expect(header).toBeTruthy();
-    const data = fixture.debugElement.nativeElement.querySelector('td.idData');
-    expect(data).toBeTruthy();
-  });
-
-  it('should have a Name column', () => {
-    const header = fixture.debugElement.nativeElement.querySelector('th.nameHeader');
-    expect(header).toBeTruthy();
-    const data = fixture.debugElement.nativeElement.querySelector('td.nameData');
-    expect(data).toBeTruthy();
-  });
-
-  it('should have a E-Mail column', () => {
-    const header = fixture.debugElement.nativeElement.querySelector('th.emailHeader');
-    expect(header).toBeTruthy();
-    const data = fixture.debugElement.nativeElement.querySelector('td.emailData');
-    expect(data).toBeTruthy();
-  });
-
-  it('should have a Role column', () => {
-    const header = fixture.debugElement.nativeElement.querySelector('th.roleHeader');
-    expect(header).toBeTruthy();
-    const data = fixture.debugElement.nativeElement.querySelector('td.roleData');
-    expect(data).toBeTruthy();
-  });
-
   // Row Logic
   it('should open UserDialogComponent dialog on click of row', fakeAsync(() => {
     fixture.detectChanges();
