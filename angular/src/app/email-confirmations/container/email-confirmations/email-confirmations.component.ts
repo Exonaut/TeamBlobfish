@@ -3,7 +3,6 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { SnackBarService } from '../../../core/snack-bar/snack-bar.service';
 import { InvitationResponse } from '../../../shared/view-models/interfaces';
-import * as fromRoot from '../../../store';
 import { EmailConfirmationsService } from '../../services/email-confirmations.service';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -25,19 +24,6 @@ export class EmailConfirmationsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let errorString: string;
-    let errorUrlString: string;
-    let emailConfirmationStrings: any;
-    forkJoin([
-      this.translocoService.translate('alerts.genericError'),
-      this.translocoService.translate('alerts.urlError'),
-      this.translocoService.translate('alerts.email confirmations'),
-    ]).subscribe((translation: any) => {
-      errorString = translation[0];
-      errorUrlString = translation[1];
-      emailConfirmationStrings = translation[2];
-    });
-
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.token = params.get('token');
       this.action = params.get('action');
@@ -46,13 +32,14 @@ export class EmailConfirmationsComponent implements OnInit {
           this.emailService.sendAcceptInvitation(this.token).subscribe(
             (res: InvitationResponse) => {
               this.snackBarService.openSnack(
-                emailConfirmationStrings.invitationAccept,
+                this.translocoService.translate('alerts.email confirmations.invitationAccept'),
                 10000,
                 'green',
               );
+              this.router.navigate(['/restaurant'])
             },
             (error: any) => {
-              this.snackBarService.openSnack(errorString, 10000, 'red');
+              this.snackBarService.openSnack(this.translocoService.translate('alerts.genericError'), 10000, 'red');
             },
           );
           break;
@@ -60,13 +47,14 @@ export class EmailConfirmationsComponent implements OnInit {
           this.emailService.sendRejectInvitation(this.token).subscribe(
             (res: InvitationResponse) => {
               this.snackBarService.openSnack(
-                emailConfirmationStrings.invitationReject,
+                this.translocoService.translate('alerts.email confirmations.invitationReject'),
                 10000,
                 'red',
               );
+              this.router.navigate(['/restaurant'])
             },
             (error: any) => {
-              this.snackBarService.openSnack(errorString, 10000, 'red');
+              this.snackBarService.openSnack(this.translocoService.translate('alerts.genericError'), 10000, 'red');
             },
           );
           break;
@@ -74,13 +62,14 @@ export class EmailConfirmationsComponent implements OnInit {
           this.emailService.sendCancelBooking(this.token).subscribe(
             (res: InvitationResponse) => {
               this.snackBarService.openSnack(
-                emailConfirmationStrings.bookingCancel,
+                this.translocoService.translate('alerts.email confirmations.bookingCancel'),
                 10000,
                 'green',
               );
+              this.router.navigate(['/restaurant'])
             },
             (error: any) => {
-              this.snackBarService.openSnack(errorString, 10000, 'red');
+              this.snackBarService.openSnack(this.translocoService.translate('alerts.genericError'), 10000, 'red');
             },
           );
           break;
@@ -88,22 +77,21 @@ export class EmailConfirmationsComponent implements OnInit {
           this.emailService.sendCancelOrder(this.token).subscribe(
             (res: boolean) => {
               this.snackBarService.openSnack(
-                emailConfirmationStrings.orderCancel,
+                this.translocoService.translate('alerts.email confirmations.orderCancel'),
                 10000,
                 'green',
               );
+              this.router.navigate(['/restaurant'])
             },
             (error: any) => {
-              this.snackBarService.openSnack(errorString, 10000, 'red');
+              this.snackBarService.openSnack(this.translocoService.translate('alerts.genericError'), 10000, 'red');
             },
           );
           break;
         default:
-          this.snackBarService.openSnack(errorUrlString, 10000, 'black');
+          this.snackBarService.openSnack(this.translocoService.translate('alerts.urlError'), 10000, 'black');
           break;
       }
     });
-    // Navigate to home
-    fromRoot.go({ path: ['/restaurant'] });
   }
 }
