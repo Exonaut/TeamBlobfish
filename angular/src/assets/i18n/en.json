@@ -24,7 +24,9 @@
     "sendPasswordResetLink": "Send Password Reset Link",
     "undoAction": "Undo Action",
     "clear": "Clear",
-    "editUser": "Edit User"
+    "editUser": "Edit User",
+    "accept": "Accept",
+    "decline": "Decline"
   },
   "table": {
     "rowsPage": "Rows per page",
@@ -260,7 +262,8 @@
       "createUserSuccess": "User successfully created",
       "createUserError": "An error has occured while trying to create the user",
       "fetchUsersSuccess": "Users successfully fetched",
-      "fetchUsersError": "An error has occured while fetching users"
+      "fetchUsersError": "An error has occured while fetching users",
+      "confirmDeleteText": "Are you sure you want to delete this user?"
     }
   }
 }

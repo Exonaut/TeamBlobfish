@@ -22,6 +22,7 @@ import { ChangePasswordDialogComponent } from './user-dialog/change-password-dia
 import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'app/core/authentication/auth.service';
+import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-user-cockpit',
@@ -208,23 +209,33 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   }
 
   deleteUser(element: any): void {
-    this.userCockpitService.deleteUser(element.id).subscribe(
-      ($data: any) => (
-        this.snack.openSnack(
-          this.translocoService.translate('cockpit.user.deleteUserSuccess'),
-          6000,
-          'green'
-        ),
-        this.applyFilters()
-      ),
-      (error) => (
-        this.snack.openSnack(
-          this.translocoService.translate('cockpit.user.deleteUserError'),
-          6000,
-          'red'
-        )
-      )
-    );
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: element.username,
+        text: this.translocoService.translate('cockpit.user.confirmDeleteText')
+      }
+    })
+    .afterClosed().subscribe((data: boolean) => {
+      if (data) {
+        this.userCockpitService.deleteUser(element.id).subscribe(
+          ($data: any) => (
+            this.snack.openSnack(
+              this.translocoService.translate('cockpit.user.deleteUserSuccess'),
+              6000,
+              'green'
+            ),
+            this.applyFilters()
+          ),
+          (error) => (
+            this.snack.openSnack(
+              this.translocoService.translate('cockpit.user.deleteUserError'),
+              6000,
+              'red'
+            )
+          )
+        );
+      }
+    })
   }
 
   changePassword(element: any): void {
