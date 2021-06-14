@@ -302,15 +302,16 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
 
     Objects.requireNonNull(user, "user");
     this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
     UserEntity userEntity = getUserDao().find(user.getId());
 
-    if (userEntity.getUsername() != null && !userEntity.getUsername().equals(user.getUsername())) {
+    if (!userEntity.getUsername().isBlank() && !userEntity.getUsername().equals(user.getUsername())) {
       userEntity.setUsername(user.getUsername());
     }
-    if (userEntity.getEmail() != null && !userEntity.getEmail().equals(user.getEmail())) {
+    if (!userEntity.getEmail().isBlank() && !userEntity.getEmail().equals(user.getEmail())) {
       userEntity.setEmail(user.getEmail());
     }
-    if (userEntity.getPassword() != null
+    if (!userEntity.getPassword().isBlank()
         && !userEntity.getPassword().equals(this.passwordEncoder.encode(user.getPassword()))) {
       userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
     }
