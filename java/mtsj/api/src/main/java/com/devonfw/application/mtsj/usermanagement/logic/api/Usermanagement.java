@@ -145,4 +145,11 @@ public interface Usermanagement {
    */
   void resetPasswordByUser(UserEto user);
 
+  /**
+   * Edit user and store in database
+   *
+   * @param user the {@link UserEto} to edit
+   * @return the newly updated user that has been saved with new values
+   */
+  UserEto editUser(UserEto user);
 }
