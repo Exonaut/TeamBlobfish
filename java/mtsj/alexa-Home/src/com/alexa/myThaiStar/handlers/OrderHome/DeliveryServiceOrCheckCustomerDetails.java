@@ -49,21 +49,31 @@ public class DeliveryServiceOrCheckCustomerDetails implements IntentRequestHandl
       if (HelpClass.counterBookingIDs == 0)
         return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
-      if (HelpClass.counterBookingIDs == 1)
+      if (HelpClass.counterBookingIDs == 1) {
+        String bookingDateTime = HelpClass.convertMillisecondsToDateTime(HelpClass.bookingDateTimeMilliseconds);
+        String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
+        String bookingDate = HelpClass.getDateFormat(bookingDateTime);
+
         return handlerInput.getResponseBuilder()
             .addElicitSlotDirective("yesNoCustomerDetails", intentRequest.getIntent())
             .withSpeech(
-                "Name: " + HelpClass.req.booking.name + "\n" + " Anzahl der Gäste: " + HelpClass.req.booking.assistants
-                    + "\n" + "Buchungsemail: " + HelpClass.req.booking.email + "\n" + ". Sind Ihre Daten korrekt?")
-            .withReprompt("Sind Ihre Daten korrekt?").build();
+                "Sie haben am " + bookingDate + " um " + bookingTime + " Uhr mit" + HelpClass.req.booking.assistants
+                    + " Gästen, einen Tisch reserviert. Wollen Sie mit diesen Daten fortfahren?")
+            .withReprompt("Wollen Sie mit diese Daten fortfahren?").build();
+      }
 
-      if (HelpClass.counterBookingIDs > 1)
+      if (HelpClass.counterBookingIDs > 1) {
+        String bookingDateTime = HelpClass.convertMillisecondsToDateTime(HelpClass.bookingDateTimeMilliseconds);
+        String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
+        String bookingDate = HelpClass.getDateFormat(bookingDateTime);
+
         return handlerInput.getResponseBuilder()
             .addElicitSlotDirective("yesNoCustomerDetails", intentRequest.getIntent())
-            .withSpeech("Ich habe mehrere Einträge gefunden. Ihre Bestellung wird zu Name: "
-                + HelpClass.req.booking.name + "\n" + " Anzahl der Gäste: " + HelpClass.req.booking.assistants + "\n"
-                + "Buchungsemail: " + HelpClass.req.booking.email + "\n" + ". zugeordnet. Ist dies korrekt?")
-            .withReprompt("Ist dies korrekt?").build();
+            .withSpeech("Ich habe mehrere Einträge gefunden. Sie haben am " + bookingDate + " um " + bookingTime
+                + " Uhr mit" + HelpClass.req.booking.assistants
+                + " Gästen, einen Tisch reserviert. Wollen Sie mit diese Daten fortfahren?")
+            .withReprompt("Wollen Sie mit diese Daten fortfahren?").build();
+      }
 
     }
 
@@ -91,6 +101,11 @@ public class DeliveryServiceOrCheckCustomerDetails implements IntentRequestHandl
       Booking responseBooking = gson.fromJson(response, Booking.class);
 
       HelpClass.req = new RequestOrder();
+      // Def. Adr
+      HelpClass.req.order.city = "Bad Belzig";
+      HelpClass.req.order.street = "Am Kurpark";
+      HelpClass.req.order.streetNr = "1A";
+
       HelpClass.req.booking.bookingToken = responseBooking.bookingToken;
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
