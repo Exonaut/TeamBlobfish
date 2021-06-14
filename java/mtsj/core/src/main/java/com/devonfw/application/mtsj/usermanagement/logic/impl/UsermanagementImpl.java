@@ -305,17 +305,17 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
 
     UserEntity userEntity = getUserDao().find(user.getId());
 
-    if (!userEntity.getUsername().isBlank() && !userEntity.getUsername().equals(user.getUsername())) {
+    if (!user.getUsername().isBlank() && !userEntity.getUsername().equals(user.getUsername())) {
       userEntity.setUsername(user.getUsername());
     }
-    if (!userEntity.getEmail().isBlank() && !userEntity.getEmail().equals(user.getEmail())) {
+    if (!user.getEmail().isBlank() && !userEntity.getEmail().equals(user.getEmail())) {
       userEntity.setEmail(user.getEmail());
     }
-    if (!userEntity.getPassword().isBlank()
+    if (!user.getPassword().isBlank()
         && !userEntity.getPassword().equals(this.passwordEncoder.encode(user.getPassword()))) {
       userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
     }
-    if (userEntity.getUserRoleId() != null && !userEntity.getUserRoleId().equals(user.getUserRoleId())) {
+    if (user.getUserRoleId() != null && !userEntity.getUserRoleId().equals(user.getUserRoleId())) {
       userEntity.setUserRoleId(user.getUserRoleId());
     }
     UserEntity resultEntity = getUserDao().save(userEntity);
