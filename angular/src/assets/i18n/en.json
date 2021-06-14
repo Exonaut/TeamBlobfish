@@ -259,6 +259,7 @@
       "sendPasswordResetLinkError": "An error has occured while trying to send the reset link",
       "createUserSuccess": "User successfully created",
       "createUserError": "An error has occured while trying to create the user",
+      "fetchUsersSuccess": "Users successfully fetched",
       "fetchUsersError": "An error has occured while fetching users"
     }
   }

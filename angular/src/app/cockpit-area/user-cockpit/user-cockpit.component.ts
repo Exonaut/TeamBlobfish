@@ -138,6 +138,11 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
             this.users = $data.content;
           }
           this.totalUsers = $data.totalElements;
+          this.snack.openSnack(
+            this.translocoService.translate('cockpit.user.fetchUsersSuccess'),
+            3000,
+            'green'
+          );
         },
         (error) => {
           this.snack.openSnack(
