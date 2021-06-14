@@ -34,12 +34,13 @@ export class ChangePasswordDialogComponent implements OnInit {
       moment.locale(this.translocoService.getActiveLang());
     });
     this.selectedRole = this.data.userRoleId;
+    this.data.password = null;
   }
 
   changePassword(value: any): void {
     this.data.password = value.password;
     this.userCockpitService
-    .changePassword(this.data)
+    .editUser(this.data)
     .subscribe(
       ($data: any) => {
         this.snack.openSnack(

@@ -139,11 +139,6 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
             this.users = $data.content;
           }
           this.totalUsers = $data.totalElements;
-          this.snack.openSnack(
-            this.translocoService.translate('cockpit.user.fetchUsersSuccess'),
-            3000,
-            'green'
-          );
         },
         (error) => {
           this.snack.openSnack(
@@ -211,7 +206,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   deleteUser(element: any): void {
     this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: element.username,
+        title: element.username + " ( " + this.translocoService.translate('cockpit.user.idH') + ": " + element.id + " )",
         text: this.translocoService.translate('cockpit.user.confirmDeleteText')
       }
     })
