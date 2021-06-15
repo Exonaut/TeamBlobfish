@@ -15,6 +15,7 @@
     "removeComment": "Remove Comment",
     "addComment": "Add comment",
     "advanceStatus": "Advance Order Status",
+    "switchPayment": "Switch Payment Status",
     "setStatus": "Change Status",
     "cancelOrder": "Cancel Order",
     "deleteAccount": "Delete Account",

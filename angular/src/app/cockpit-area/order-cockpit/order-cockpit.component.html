@@ -74,7 +74,7 @@
           </mat-form-field>
 
           <!-- Payment Status Filter -->
-          <mat-form-field color="accent" class="searchBy" *ngIf="!archiveMode">
+          <!-- <mat-form-field color="accent" class="searchBy" *ngIf="!archiveMode">
             <mat-select
               class="paymentStatusFilter"
               [(value)]="filters.paymentstatus"
@@ -90,7 +90,7 @@
                 {{ state }}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
         </div>
       </div>
       <div class="align-right">
@@ -223,7 +223,7 @@
                 (element.order.paymentStatus + 1) % 2
               )
             "
-            [matTooltip]="'buttons.advanceStatus' | transloco"
+            [matTooltip]="'buttons.switchPayment' | transloco"
             [color]="(element.order.paymentStatus === 0) ? '' : 'accent'"
           >
             <mat-icon class="switchPayment">euro_symbol</mat-icon>

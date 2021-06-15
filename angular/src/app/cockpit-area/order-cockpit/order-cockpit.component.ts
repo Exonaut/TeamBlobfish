@@ -65,7 +65,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     // 'booking.email',
     // 'booking.bookingToken',
     'booking.orderStatus',
-    'booking.paymentStatus',
+    // 'booking.paymentStatus',
     // 'booking.actions'
   ];
 
