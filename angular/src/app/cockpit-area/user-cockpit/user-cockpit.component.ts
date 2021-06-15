@@ -206,7 +206,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   deleteUser(element: any): void {
     this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: element.username + " ( " + this.translocoService.translate('cockpit.user.idH') + ": " + element.id + " )",
+        title: element.username + ' ( ' + this.translocoService.translate('cockpit.user.idH') + ': ' + element.id + ' )',
         text: this.translocoService.translate('cockpit.user.confirmDeleteText')
       }
     })
@@ -230,7 +230,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
           )
         );
       }
-    })
+    });
   }
 
   changePassword(element: any): void {

@@ -56,7 +56,7 @@ const authServiceStub = {
   getUser: jasmine.createSpy('getUser').and.returnValue(
     of('admin')
   ),
-}
+};
 
 class TestBedSetUp {
   static loadUserCockpitServiceStud(userCockpitStub: any): any {

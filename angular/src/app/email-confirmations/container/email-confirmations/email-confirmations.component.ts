@@ -36,7 +36,7 @@ export class EmailConfirmationsComponent implements OnInit {
                 10000,
                 'green',
               );
-              this.router.navigate(['/restaurant'])
+              this.router.navigate(['/restaurant']);
             },
             (error: any) => {
               this.snackBarService.openSnack(this.translocoService.translate('alerts.genericError'), 10000, 'red');
@@ -51,7 +51,7 @@ export class EmailConfirmationsComponent implements OnInit {
                 10000,
                 'red',
               );
-              this.router.navigate(['/restaurant'])
+              this.router.navigate(['/restaurant']);
             },
             (error: any) => {
               this.snackBarService.openSnack(this.translocoService.translate('alerts.genericError'), 10000, 'red');
@@ -66,7 +66,7 @@ export class EmailConfirmationsComponent implements OnInit {
                 10000,
                 'green',
               );
-              this.router.navigate(['/restaurant'])
+              this.router.navigate(['/restaurant']);
             },
             (error: any) => {
               this.snackBarService.openSnack(this.translocoService.translate('alerts.genericError'), 10000, 'red');
@@ -81,7 +81,7 @@ export class EmailConfirmationsComponent implements OnInit {
                 10000,
                 'green',
               );
-              this.router.navigate(['/restaurant'])
+              this.router.navigate(['/restaurant']);
             },
             (error: any) => {
               this.snackBarService.openSnack(this.translocoService.translate('alerts.genericError'), 10000, 'red');

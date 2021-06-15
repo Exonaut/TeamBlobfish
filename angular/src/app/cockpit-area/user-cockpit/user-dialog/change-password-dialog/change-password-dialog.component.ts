@@ -20,9 +20,9 @@ export class ChangePasswordDialogComponent implements OnInit {
   selectedRole: number;
 
   title: any = {
-    username: "",
+    username: '',
     id: -1,
-  }
+  };
 
   constructor(
     public dialog: MatDialogRef<ChangePasswordDialogComponent>,
