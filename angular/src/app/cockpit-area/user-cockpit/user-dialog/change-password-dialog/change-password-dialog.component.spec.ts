@@ -16,6 +16,7 @@ import { GetAllUsersData } from '../../../../../in-memory-test-data/db-users';
 import { DebugElement } from '@angular/core';
 import { provideMockStore } from '@ngrx/store/testing';
 import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
+import { AuthService } from 'app/core/authentication/auth.service';
 
 const translocoServiceStub = {
   selectTranslateObject: of({
@@ -27,7 +28,7 @@ const userCockpitServiceStub = {
   getUsers: jasmine.createSpy('getUsers').and.returnValue(
     of({content: GetAllUsersData}),
   ),
-  changePassword: jasmine.createSpy('changePassword').and.returnValue(
+  editUser: jasmine.createSpy('editUser').and.returnValue(
     of({})
   )
 };
@@ -113,12 +114,12 @@ describe('UserDialogComponent', () => {
     expect(component.data).toEqual(GetAllUsersData[0]);
   });
 
-  it('should change the Password', () => {
+  it('should edit', () => {
     spyOn(component, 'closeWithRefresh').and.callThrough();
 
-    component.changePassword(formValueStub);
+    component.editUser(formValueStub);
 
-    expect(userCockpitServiceStub.changePassword).toHaveBeenCalled();
+    expect(userCockpitServiceStub.editUser).toHaveBeenCalled();
     expect(component.closeWithRefresh).toHaveBeenCalled();
     expect(snackBarServiceStub.openSnack).toHaveBeenCalled();
   });
@@ -131,26 +132,6 @@ describe('UserDialogComponent', () => {
   it('should close the dialog with refresh return', () => {
     component.closeWithRefresh();
     expect(matDialogRefStub.close).toHaveBeenCalledWith(true);
-  });
-
-  it('should have a password field', () => {
-    const pw = fixture.debugElement.nativeElement.querySelector('input[name=password][validateEqual=confirmPassword][type=password][required]');
-    expect(pw).toBeTruthy();
-  });
-
-  it('should have a confirm password field', () => {
-    const cpw = fixture.debugElement.nativeElement.querySelector('input[name=confirmPassword][validateEqual=password][type=password][required]');
-    expect(cpw).toBeTruthy();
-  });
-
-  it('should have an apply button', () => {
-    const apply = fixture.debugElement.nativeElement.querySelector('button[name=submit][type=submit]');
-    expect(apply).toBeTruthy();
-  });
-
-  it('should have a cancel button', () => {
-    const cancel = fixture.debugElement.nativeElement.querySelector('button[name=cancel][type=button]');
-    expect(cancel).toBeTruthy();
   });
 
 });

@@ -45,7 +45,7 @@ export class ChangePasswordDialogComponent implements OnInit {
     this.data.password = null;
   }
 
-  changePassword(value: any): void {
+  editUser(value: any): void {
     this.data.password = value.password;
     this.userCockpitService
     .editUser(this.data)
