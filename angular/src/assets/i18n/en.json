@@ -225,7 +225,7 @@
     },
     "status": {
       "recorded": "Recorded",
-      "cooking": "Cooking",
+      "cooking": "Preparing",
       "ready": "Ready",
       "handingover": "Handing Over",
       "delivered": "Delivered",

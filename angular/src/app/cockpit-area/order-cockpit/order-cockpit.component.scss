@@ -36,16 +36,17 @@ mat-card-title {
 
 table {
   width: 100%;
-  min-width: 600px;
-}
-
-table.innerTable {
-  min-width: 200px;
+  min-width: 800px;
 }
 
 th {
-  width: 15%;
   font-weight: bold;
+}
+
+th.serveTime,
+th.tableId
+th.orderStatus {
+  min-width: 100px;
 }
 
 td:not(:nth-child(1)) {
@@ -55,20 +56,16 @@ td:not(:nth-child(1)) {
 button.advanceOrder {
   min-width: 150px;
   text-align: left;
+  margin-right: 8px;
 }
 
-.innerTable {
+.allignRight {
   text-align: right;
 }
 
-.tableId {
-  width: 5%;
-}
-
-.serveTime,
-.orderStatus,
-.paymentStatus {
-  width: 9%;
+button.switchPayment {
+  text-align: center;
+  margin-right: 8px;
 }
 
 .noResults {
