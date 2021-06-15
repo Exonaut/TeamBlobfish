@@ -32,8 +32,8 @@ public class HelpIntentHandler implements RequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput input) {
 
-    String speechText = "Wenn Sie wissen möchten was auf der Karte steht, dann sagen Sie zum Beispiel: Die Karte bitte."
-        + "Wenn Sie eine Bestellung durchführen möchten, dann sagen Sie zum Beispiel: Ich möchte etwas bestellen.";
+    String speechText = "Wenn Sie wissen möchten was auf der Karte steht, dann sagen Sie zum Beispiel: Die Karte bitte"
+        + ". Wenn Sie eine Bestellung durchführen möchten, dann sagen Sie zum Beispiel: Ich möchte etwas bestellen.";
     return input.getResponseBuilder().withSpeech(speechText).withReprompt(speechText).build();
   }
 }

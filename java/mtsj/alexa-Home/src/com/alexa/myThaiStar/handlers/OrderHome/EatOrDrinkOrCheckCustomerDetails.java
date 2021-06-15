@@ -58,11 +58,15 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
         String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
         String bookingDate = HelpClass.getDateFormat(bookingDateTime);
 
+        String assistant = " Gästen";
+        if (Integer.parseInt(HelpClass.req.booking.assistants) == 1)
+          assistant = " Gast";
+
         return handlerInput.getResponseBuilder()
             .addElicitSlotDirective("yesNoCustomerDetails", intentRequest.getIntent())
             .withSpeech(
                 "Sie haben am " + bookingDate + " um " + bookingTime + " Uhr mit " + HelpClass.req.booking.assistants
-                    + " Gästen, einen Tisch reserviert. Wollen Sie mit diesen Daten fortfahren?")
+                    + assistant + ", einen Tisch reserviert. Wollen Sie mit diesen Daten fortfahren?")
             .withReprompt("Wollen Sie mit diese Daten fortfahren?").build();
       }
 
@@ -71,11 +75,15 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
         String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
         String bookingDate = HelpClass.getDateFormat(bookingDateTime);
 
+        String assistant = " Gästen";
+        if (Integer.parseInt(HelpClass.req.booking.assistants) == 1)
+          assistant = " Gast";
+
         return handlerInput.getResponseBuilder()
             .addElicitSlotDirective("yesNoCustomerDetails", intentRequest.getIntent())
             .withSpeech("Ich habe mehrere Einträge gefunden. Sie haben am " + bookingDate + " um " + bookingTime
-                + " Uhr mit " + HelpClass.req.booking.assistants
-                + " Gästen, einen Tisch reserviert. Wollen Sie mit diesen Daten fortfahren?")
+                + " Uhr mit " + HelpClass.req.booking.assistants + assistant
+                + ", einen Tisch reserviert. Wollen Sie mit diesen Daten fortfahren?")
             .withReprompt("Wollen Sie mit diesen Daten fortfahren?").build();
       }
 

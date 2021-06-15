@@ -34,7 +34,8 @@ public class WhichExtrasDishes implements IntentRequestHandler {
 
     if (HelpClass.dishID == null)
       return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
-          .withSpeech("Ich habe Sie leider nicht verstanden. Welches Gericht möchten Sie?")
+          .withSpeech(
+              "Es tut mir leid, dieses Gericht haben wir leider nicht auf der Speisekarte. Bitte wählen Sie ein Gericht aus, welches auf der Speisekarte vorhanden ist.")
           .withReprompt("Welches Gericht möchten Sie?").build();
 
     String speechText = HelpClass.getExtrasName(HelpClass.dishID);
