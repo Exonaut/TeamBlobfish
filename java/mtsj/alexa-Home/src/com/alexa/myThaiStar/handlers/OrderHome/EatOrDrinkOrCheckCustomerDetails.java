@@ -3,6 +3,7 @@ package com.alexa.myThaiStar.handlers.OrderHome;
 import static com.amazon.ask.request.Predicates.intentName;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
@@ -35,7 +36,12 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
 
     Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
 
+    Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
+
     if (whereLikeToEat.getValue().equals("restaurant")) {
+
+      attributes = handlerInput.getAttributesManager().getSessionAttributes();
+      attributes.put("whereLikeToEat", "restaurant");
 
       ResponseBooking response = HelpClass.getAllBookingsAndOrders();
 
@@ -89,24 +95,27 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
 
     }
 
-    if (whereLikeToEat.getValue().equals("liefern")) {
+    if (whereLikeToEat.getValue().equals("liefern"))
+
+    {
+
+      attributes = handlerInput.getAttributesManager().getSessionAttributes();
+      attributes.put("whereLikeToEat", "liefern");
 
       String personCount = "";
       String name = handlerInput.getServiceClientFactory().getUpsService().getProfileName();
       String userEmail = handlerInput.getServiceClientFactory().getUpsService().getProfileEmail();
 
       Date date = new Date();
-      long timeNow = date.getTime() + 7200000;
-      String date_time = HelpClass.convertMillisecondsToDateTime(timeNow);
+      long timeNow = date.getTime();
+      String date_time = HelpClass.convertMillisecondsToDateTime(timeNow + 600000);
       String response = HelpClass.bookATable(userEmail, name, date_time, personCount, "2");
 
       if (response == null) {
-
         return handlerInput.getResponseBuilder()
             .withSpeech(
                 "Es tut mir leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt.")
             .build();
-
       }
 
       Gson gson = new Gson();

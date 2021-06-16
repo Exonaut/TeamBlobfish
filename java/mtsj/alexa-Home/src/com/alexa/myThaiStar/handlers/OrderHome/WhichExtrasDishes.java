@@ -17,11 +17,16 @@ public class WhichExtrasDishes implements IntentRequestHandler {
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    return (handlerInput.matches(intentName("makeAOrderHome"))
-        && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
-        && intentRequest.getIntent().getSlots().get("dishOrder").getValue() != null
-        && intentRequest.getIntent().getSlots().get("extra").getValue() == null
-        && intentRequest.getIntent().getSlots().get("yesNoEat").getValue() == null;
+    return handlerInput.matches(intentName("makeAOrderHome"))
+        && (intentRequest.getDialogState() == DialogState.IN_PROGRESS
+            && intentRequest.getIntent().getSlots().get("dishOrder").getValue() != null
+            && intentRequest.getIntent().getSlots().get("extra").getValue() == null
+            && intentRequest.getIntent().getSlots().get("yesNoEat").getValue() == null)
+        || (intentRequest.getDialogState() == DialogState.STARTED
+            && handlerInput.getAttributesManager().getSessionAttributes().containsKey("state")
+            && intentRequest.getIntent().getSlots().get("dishOrder").getValue() != null
+            && intentRequest.getIntent().getSlots().get("extra").getValue() == null
+            && intentRequest.getIntent().getSlots().get("yesNoEat").getValue() == null);
 
   }
 

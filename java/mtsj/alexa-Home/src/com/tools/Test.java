@@ -1,5 +1,8 @@
 package com.tools;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.entity.booking.ResponseBooking;
 
 public class Test {
@@ -15,6 +18,8 @@ public class Test {
     int av = HelpClass.bookingIDAvailable(resp, "tony2510@gmx.de");
 
     HelpClass.bookingIDAvailable(resp, "tony2510@gmx.de");
+
+    Map<String, Object> attributes = new HashMap<String, Object>();
 
   }
 

@@ -2,6 +2,7 @@ package com.alexa.myThaiStar.handlers.OrderHome;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
+import java.util.Map;
 import java.util.Optional;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
@@ -31,6 +32,7 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
     Slot yesNoEat = intentRequest.getIntent().getSlots().get("yesNoEat");
     Slot drink = intentRequest.getIntent().getSlots().get("drink");
     Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
+    Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
     if (yesNoEat.getValue().equals("ja")) {
 
@@ -43,14 +45,19 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
       Slot updateSlot4 = Slot.builder().withName("yesNoEat").withValue(null).build();
       intentRequest.getIntent().getSlots().put("yesNoEat", updateSlot4);
 
-      if (drink.getValue() != null)
-        return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
-            .withSpeech("Wie lautet Ihr Gericht?").withReprompt("Was möchten Sie essen?").build();
+      if (drink.getValue() != null) {
 
+        attributes.replace("eatOrDrink", "essen");
+
+        return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
+            .withSpeech(
+                "Wie lautet Ihr erstes Gericht? Wenn Sie sich noch nicht sicher sind, was sie zum essen wollen, dann verlangen Sie einfach nach der Speisekarte.")
+            .withReprompt("Was möchten Sie essen?").withShouldEndSession(false).build();
+      }
       return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
           .withSpeech("Wie lautet Ihr weiteres Gericht?").withReprompt("Was möchten Sie essen?").build();
-    } else if (yesNoEat.getValue().equals("nein") && drink.getValue() != null
-        && whereLikeToEat.getValue().equals("restaurant")) {
+    } else if (yesNoEat.getValue().equals("nein") && drink.getValue() != null && (attributes.containsValue("restaurant")
+        || (whereLikeToEat.getValue() != null && whereLikeToEat.getValue().equals("restaurant")))) {
 
       String bookingDateTime = HelpClass.convertMillisecondsToDateTime(HelpClass.bookingDateTimeMilliseconds);
       String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
@@ -61,8 +68,8 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
               + " Uhr, einen Tisch reserviert. Sie können jetzt eine Servierzeit angeben. Welche Servierzeit wünschen Sie?")
           .withReprompt("Welche Servierzeit wünschen Sie?").build();
 
-    } else if (yesNoEat.getValue().equals("nein") && drink.getValue() != null
-        && whereLikeToEat.getValue().equals("liefern")) {
+    } else if (yesNoEat.getValue().equals("nein") && drink.getValue() != null && (attributes.containsValue("liefern")
+        || (whereLikeToEat.getValue() != null && whereLikeToEat.getValue().equals("liefern")))) {
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
     }
 

@@ -2,6 +2,7 @@ package com.alexa.myThaiStar.handlers.OrderHome;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
+import java.util.Map;
 import java.util.Optional;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
@@ -30,12 +31,18 @@ public class WhatDoUWantToDrinkOrServeTimeOrCloseOrder implements IntentRequestH
 
     Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
     Slot yesNoDrink = intentRequest.getIntent().getSlots().get("yesNoDrink");
+    Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
-    if (yesNoDrink.getValue().equals("ja"))
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
-          .withSpeech("Welches Getränk möchten Sie?").withReprompt("Welches Getränk möchten Sie?").build();
+    if (yesNoDrink.getValue().equals("ja")) {
 
-    if (whereLikeToEat.getValue().equals("liefern")) {
+      attributes.replace("eatOrDrink", "trinken");
+
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent()).withSpeech(
+          "Wie lautet Ihr erstes Getränk? Wenn Sie sich noch nicht sicher sind, was sie zum trinken wollen, dann verlangen Sie einfach nach der Getränkekarte.")
+          .withReprompt("Was möchten Sie trinken?").withShouldEndSession(false).build();
+    }
+
+    if (attributes.containsValue("liefern") || whereLikeToEat.getValue().equals("liefern")) {
 
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
     }

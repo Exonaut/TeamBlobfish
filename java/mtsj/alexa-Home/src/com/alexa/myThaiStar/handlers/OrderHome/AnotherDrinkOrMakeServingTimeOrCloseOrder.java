@@ -2,6 +2,7 @@ package com.alexa.myThaiStar.handlers.OrderHome;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
+import java.util.Map;
 import java.util.Optional;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
@@ -30,6 +31,7 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
     Slot yesNoAnotherDrink = intentRequest.getIntent().getSlots().get("yesNoAnotherDrink");
     Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
     Slot dishOrder = intentRequest.getIntent().getSlots().get("dishOrder");
+    Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
     if (yesNoAnotherDrink.getValue().equals("ja")) {
 
@@ -42,7 +44,8 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
           .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie noch zum trinken?").build();
-    } else if (yesNoAnotherDrink.getValue().equals("nein") && dishOrder.getValue() == null) {
+    } else if (yesNoAnotherDrink.getValue().equals("nein") && !attributes.containsValue("trinken")
+        && dishOrder.getValue() == null) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())
           .withSpeech("Möchten Sie etwas zum essen bestellen?").withReprompt("Darf es noch etwas zum essen sein?")
@@ -50,7 +53,8 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
 
     }
 
-    else if (yesNoAnotherDrink.getValue().equals("nein") && whereLikeToEat.getValue().equals("liefern")) {
+    else if (yesNoAnotherDrink.getValue().equals("nein")
+        && (attributes.containsValue("liefern") || whereLikeToEat.getValue().equals("liefern"))) {
 
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
     }
