@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
-import { ResetPasswordService } from '../../services/reset-password.service'
+import { ResetPasswordService } from '../../services/reset-password.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -36,7 +36,7 @@ export class ResetPasswordComponent implements OnInit {
           6000,
           'green'
         );
-        this.router.navigate(['/restaurant'])
+        this.router.navigate(['/restaurant']);
       },
       (error) => {
         this.snack.openSnack(
@@ -44,7 +44,7 @@ export class ResetPasswordComponent implements OnInit {
           6000,
           'red'
         );
-      })
+      });
   }
 
 }
