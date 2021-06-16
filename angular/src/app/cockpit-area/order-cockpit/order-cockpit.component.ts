@@ -92,7 +92,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     'cancelOrder',
     'advanceOrder',
     'switchPayment',
-  ]
+  ];
 
   constructor(
     private dialog: MatDialog,
@@ -257,9 +257,9 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       if (event.target.className.includes(value)) {
         found = true;
       }
-    })
-    
-    if (!found) 
+    });
+
+    if (!found)
     { // Exclude action buttons
       this.dialog.open(OrderDialogComponent, {
         width: '80%',

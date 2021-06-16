@@ -40,6 +40,7 @@ export class EmailConfirmationsComponent implements OnInit {
             },
             (error: any) => {
               this.snackBarService.openSnack(this.translocoService.translate('alerts.genericError'), 10000, 'red');
+              this.router.navigate(['/restaurant']);
             },
           );
           break;
@@ -55,6 +56,7 @@ export class EmailConfirmationsComponent implements OnInit {
             },
             (error: any) => {
               this.snackBarService.openSnack(this.translocoService.translate('alerts.genericError'), 10000, 'red');
+              this.router.navigate(['/restaurant']);
             },
           );
           break;
@@ -70,6 +72,7 @@ export class EmailConfirmationsComponent implements OnInit {
             },
             (error: any) => {
               this.snackBarService.openSnack(this.translocoService.translate('alerts.genericError'), 10000, 'red');
+              this.router.navigate(['/restaurant']);
             },
           );
           break;
@@ -85,11 +88,13 @@ export class EmailConfirmationsComponent implements OnInit {
             },
             (error: any) => {
               this.snackBarService.openSnack(this.translocoService.translate('alerts.genericError'), 10000, 'red');
+              this.router.navigate(['/restaurant']);
             },
           );
           break;
         default:
           this.snackBarService.openSnack(this.translocoService.translate('alerts.urlError'), 10000, 'black');
+          this.router.navigate(['/restaurant']);
           break;
       }
     });

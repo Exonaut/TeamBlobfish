@@ -7,7 +7,7 @@ import {
   Sort,
 } from 'app/shared/backend-models/interfaces';
 import { UserListView } from 'app/shared/view-models/interfaces';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, exhaustMap } from 'rxjs/operators';
 
 @Injectable()
