@@ -110,6 +110,7 @@
     "orders": "Orders",
     "orderArchive": "Order Archive",
     "reservations": "Reservations",
+    "users": "Users",
     "userActions": {
       "user": "User",
       "pairing": "Set two-factor authentication",
