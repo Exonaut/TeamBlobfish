@@ -26,6 +26,7 @@ import { WebviewDirective } from './shared/directives/webview.directive';
 import { SidenavModule } from './sidenav/sidenav.module';
 import { CustomSerializer, effects, reducers } from './store';
 import { UserAreaModule } from './user-area/user-area.module';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { UserAreaModule } from './user-area/user-area.module';
     UserAreaModule,
     CoreModule,
     EmailConfirmationModule,
+    ResetPasswordModule,
     ServiceWorkerModule.register('./ngsw-worker.js', {
       enabled: environment.production,
     }),
