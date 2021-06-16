@@ -73,7 +73,8 @@ export class UserCockpitService {
   }
 
   errorHandler(error: HttpErrorResponse): Observable<any> {
-    return Observable.throw(error.message || 'Server Error');
+    return throwError(error.message || 'Server Error');
+    // return Observable.throw(error.message || 'Server Error');
   }
 
   createUser(value: any): Observable<any> {
