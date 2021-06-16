@@ -45,11 +45,13 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
 
   columns: any[];
 
+  rowColor: '';
+
   displayedColumns: string[] = [
     'booking.bookingDate',
     'booking.serveTime',
-    'booking.name',
     'booking.tableId',
+    'booking.name',
     // 'booking.email',
     // 'booking.bookingToken',
     'booking.orderStatus',

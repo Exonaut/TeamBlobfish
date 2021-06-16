@@ -43,10 +43,29 @@ th {
   font-weight: bold;
 }
 
+th.tableId {
+  min-width: 50px;
+  width: 1px;
+}
+
 th.serveTime,
-th.tableId
 th.orderStatus {
   min-width: 100px;
+  width: 1px;
+}
+
+th.name {
+  min-width: 100px;
+}
+
+th.bookingDate {
+  min-width: 200px;
+  width: 1px;
+}
+
+th.actions {
+  min-width: 330px;
+  width: 1px;
 }
 
 td:not(:nth-child(1)) {
