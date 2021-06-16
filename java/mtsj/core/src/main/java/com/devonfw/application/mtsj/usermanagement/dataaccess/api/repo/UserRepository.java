@@ -27,18 +27,25 @@ public interface UserRepository extends DefaultRepository<UserEntity> {
     UserEntity alias = newDslAlias();
     JPAQuery<UserEntity> query = newDslQuery(alias);
 
+    Long id = criteria.getId();
+    if ((id != null) && (id >= 0)) {
+      query.where(Alias.$(alias.getId()).eq(id));
+    }
+
     String username = criteria.getUsername();
     if ((username != null) && !username.isEmpty()) {
       QueryUtil.get().whereString(query, $(alias.getUsername()), username, criteria.getUsernameOption());
     }
+
     String email = criteria.getEmail();
     if ((email != null) && !email.isEmpty()) {
       QueryUtil.get().whereString(query, $(alias.getEmail()), email, criteria.getEmailOption());
     }
-    Long userRole = criteria.getUserRoleId();
-    if (userRole != null && alias.getUserRole() != null) {
-      query.where(Alias.$(alias.getUserRole().getId()).eq(userRole));
-    }
+
+    /*
+     * Long[] userRole = criteria.getUserRoleId(); if (alias.getUserRole() != null && userRole != null &&
+     * userRole.length > 0) { query.where(Alias.$(alias.getUserRoleId()).in(userRole)); }
+     */
 
     return QueryUtil.get().findPaginated(criteria.getPageable(), query, true);
   }

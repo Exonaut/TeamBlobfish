@@ -1,0 +1,20 @@
+<h3>{{ data.title }}</h3>
+<mat-divider></mat-divider>
+<p>{{ data.text }}</p>
+<mat-divider></mat-divider>
+<table>
+    <tr>
+        <td class="declineButton">
+            <button mat-button (click)="close(false)" color="warn">
+                <mat-icon>block</mat-icon>
+                {{ 'buttons.decline' | transloco | uppercase }}
+            </button>
+        </td>
+        <td class="acceptButton">
+            <button mat-button (click)="close(true)" color="accent">
+                <mat-icon>check_circle_outline</mat-icon>
+                {{ 'buttons.accept' | transloco | uppercase }}
+            </button>
+        </td>
+    </tr>
+</table>

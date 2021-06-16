@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConfigService } from 'app/core/config/config.service';
 import {
@@ -7,8 +7,8 @@ import {
   Sort,
 } from 'app/shared/backend-models/interfaces';
 import { UserListView } from 'app/shared/view-models/interfaces';
-import { Observable } from 'rxjs';
-import { exhaustMap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, exhaustMap } from 'rxjs/operators';
 
 @Injectable()
 export class UserCockpitService {
@@ -25,6 +25,8 @@ export class UserCockpitService {
     'usermanagement/v1/user/reset/password/admin';
   private readonly sendPasswordResetLinkRestPath: string =
     'usermanagement/v1/user';
+  private readonly editUserRestPath: string =
+    'usermanagement/v1/user/edit';
 
     private readonly restServiceRoot$: Observable<
       string
@@ -43,12 +45,12 @@ export class UserCockpitService {
     let path: string;
     filters.pageable = pageable;
     filters.pageable.sort = sorting;
-    if (filters.email || filters.username || filters.role ) {
+    if (filters.email || filters.username || filters.userRoleId ) {
       path = this.filterUsersRestPath;
     } else {
       delete filters.email;
       delete filters.username;
-      delete filters.role;
+      delete filters.userRoleId;
       path = this.getUsersRestPath;
     }
     return this.restServiceRoot$.pipe(
@@ -63,9 +65,16 @@ export class UserCockpitService {
     path = this.deleteUserRestPath;
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
-        this.http.delete<UserListView[]>(`${restServiceRoot}${path}/${id}`),
+        this.http.delete<UserListView[]>(`${restServiceRoot}${path}/${id}`).pipe(
+          catchError(err => this.errorHandler(err))
+        ),
       ),
     );
+  }
+
+  errorHandler(error: HttpErrorResponse): Observable<any> {
+    return throwError(error.message || 'Server Error');
+    // return Observable.throw(error.message || 'Server Error');
   }
 
   createUser(value: any): Observable<any> {
@@ -73,7 +82,9 @@ export class UserCockpitService {
     path = this.createUserRestPath;
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
-        this.http.post<any>(`${restServiceRoot}${path}`, value),
+        this.http.post<any>(`${restServiceRoot}${path}`, value).pipe(
+          catchError(err => this.errorHandler(err))
+        ),
       ),
     );
   }
@@ -83,7 +94,9 @@ export class UserCockpitService {
     path = this.changePasswordRestPath;
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
-        this.http.patch<any>(`${restServiceRoot}${path}`, user),
+        this.http.patch<any>(`${restServiceRoot}${path}`, user).pipe(
+          catchError(err => this.errorHandler(err))
+        ),
       ),
     );
   }
@@ -93,7 +106,21 @@ export class UserCockpitService {
     path = this.sendPasswordResetLinkRestPath;
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
-        this.http.get<any>(`${restServiceRoot}${path}/${user.email}`),
+        this.http.get<any>(`${restServiceRoot}${path}/${user.email}`).pipe(
+          catchError(err => this.errorHandler(err))
+        ),
+      ),
+    );
+  }
+
+  editUser(user: UserListView): Observable<any> {
+    let path: string;
+    path = this.editUserRestPath;
+    return this.restServiceRoot$.pipe(
+      exhaustMap((restServiceRoot) =>
+        this.http.patch<any>(`${restServiceRoot}${path}`, user).pipe(
+          catchError(err => this.errorHandler(err))
+        ),
       ),
     );
   }

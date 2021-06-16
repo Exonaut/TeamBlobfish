@@ -109,4 +109,10 @@ public class UsermanagementRestServiceImpl implements UsermanagementRestService 
 
   }
 
+  @Override
+  public UserEto editUser(UserEto user) {
+
+    return this.usermanagement.editUser(user);
+  }
+
 }

@@ -20,6 +20,7 @@ import { Observable } from 'rxjs';
 import { UserListView } from '../../shared/view-models/interfaces';
 import { By } from '@angular/platform-browser';
 import { click } from 'app/shared/common/test-utils';
+import { AuthService } from 'app/core/authentication/auth.service';
 
 const translocoServiceStub = {
   selectTranslateObject:
@@ -51,6 +52,12 @@ const activatedRouteStub = {
 
 };
 
+const authServiceStub = {
+  getUser: jasmine.createSpy('getUser').and.returnValue(
+    of('admin')
+  ),
+};
+
 class TestBedSetUp {
   static loadUserCockpitServiceStud(userCockpitStub: any): any {
     const initialState = { config };
@@ -60,6 +67,7 @@ class TestBedSetUp {
         { provide: MatDialog, useValue: mockDialog },
         { provide: UserCockpitService, useValue: userCockpitStub },
         { provide: ActivatedRoute, useValue: activatedRouteStub},
+        { provide: AuthService, useValue: authServiceStub},
         TranslocoService,
         ConfigService,
         provideMockStore({ initialState }),
@@ -132,43 +140,5 @@ describe('UserCockpitComponent', () => {
     expect(component.roleNames[2].label === 'Manager').toBeTruthy();
     expect(component.roleNames[3].label === 'Admin').toBeTruthy();
   });
-
-  // Columns
-  it('should have an ID column', () => {
-    const header = fixture.debugElement.nativeElement.querySelector('th.idHeader');
-    expect(header).toBeTruthy();
-    const data = fixture.debugElement.nativeElement.querySelector('td.idData');
-    expect(data).toBeTruthy();
-  });
-
-  it('should have a Name column', () => {
-    const header = fixture.debugElement.nativeElement.querySelector('th.nameHeader');
-    expect(header).toBeTruthy();
-    const data = fixture.debugElement.nativeElement.querySelector('td.nameData');
-    expect(data).toBeTruthy();
-  });
-
-  it('should have a E-Mail column', () => {
-    const header = fixture.debugElement.nativeElement.querySelector('th.emailHeader');
-    expect(header).toBeTruthy();
-    const data = fixture.debugElement.nativeElement.querySelector('td.emailData');
-    expect(data).toBeTruthy();
-  });
-
-  it('should have a Role column', () => {
-    const header = fixture.debugElement.nativeElement.querySelector('th.roleHeader');
-    expect(header).toBeTruthy();
-    const data = fixture.debugElement.nativeElement.querySelector('td.roleData');
-    expect(data).toBeTruthy();
-  });
-
-  // Row Logic
-  it('should open UserDialogComponent dialog on click of row', fakeAsync(() => {
-    fixture.detectChanges();
-    const clearFilter = fixture.debugElement.nativeElement.querySelector('tr[mat-row]');
-    click(clearFilter);
-    tick();
-    expect(dialog.open).toHaveBeenCalled();
-  }));
 
 });

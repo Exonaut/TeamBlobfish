@@ -6,6 +6,6 @@ export const GetAllUsersData: UserListView[] = [
         username: 'waiter',
         email: 'waiter@mail.com',
         userRoleId: 1,
-        password: undefined,
+        password: null,
     }
 ];

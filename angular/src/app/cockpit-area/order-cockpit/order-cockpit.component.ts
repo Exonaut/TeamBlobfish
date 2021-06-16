@@ -53,7 +53,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     // 'booking.email',
     // 'booking.bookingToken',
     'booking.orderStatus',
-    'booking.paymentStatus',
+    // 'booking.paymentStatus',
     'booking.actions'
   ];
 
@@ -65,7 +65,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     // 'booking.email',
     // 'booking.bookingToken',
     'booking.orderStatus',
-    'booking.paymentStatus',
+    // 'booking.paymentStatus',
     // 'booking.actions'
   ];
 
@@ -87,6 +87,12 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   paymentStatusSelected: FormControl;
 
   undoValues: any[] = [];
+
+  exludeOnRowClick: string[] = [
+    'cancelOrder',
+    'advanceOrder',
+    'switchPayment',
+  ];
 
   constructor(
     private dialog: MatDialog,
@@ -186,19 +192,19 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     }
   }
 
-    /**
-     * Slices the Payment Status translation array for regular or archive mode
-     * @returns The sliced translation array
-     */
-     getPaymentStatusTranslationSlice(): string[] {
-      if (!this.archiveMode) {
-        return this.getPaymentStatusTranslation().slice(0, 2);
-      }
-      else
-      {
-        return this.getPaymentStatusTranslation().slice(1);
-      }
+  /**
+   * Slices the Payment Status translation array for regular or archive mode
+   * @returns The sliced translation array
+   */
+    getPaymentStatusTranslationSlice(): string[] {
+    if (!this.archiveMode) {
+      return this.getPaymentStatusTranslation().slice(0, 2);
     }
+    else
+    {
+      return this.getPaymentStatusTranslation().slice(1);
+    }
+  }
 
   /** Get Orders from backend meeting current filter requirements */
   applyFilters(): void {
@@ -246,10 +252,15 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
    * @param selection - The selected Order
    */
   selected(event, selection: OrderListView): void {
-    if (!event.target.className.includes('cancelOrder')
-        && !event.target.className.includes('advanceOrder')
-        && !event.target.className.includes('mat-checkbox')
-      ) { // Exclude action buttons
+    let found = false;
+    this.exludeOnRowClick.forEach((value) => {
+      if (event.target.className.includes(value)) {
+        found = true;
+      }
+    });
+
+    if (!found)
+    { // Exclude action buttons
       this.dialog.open(OrderDialogComponent, {
         width: '80%',
         data: {selection, parrent: this},

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
@@ -18,6 +18,11 @@ import { ActivatedRoute } from '@angular/router';
 import { UserCockpitService } from '../services/user-cockpit.service';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import { CreateUserDialogComponent } from './create-user-dialog/create-user-dialog.component';
+import { ChangePasswordDialogComponent } from './user-dialog/change-password-dialog/change-password-dialog.component';
+import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
+import { Store } from '@ngrx/store';
+import { AuthService } from 'app/core/authentication/auth.service';
+import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-user-cockpit',
@@ -48,15 +53,25 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     'user.name',
     'user.email',
     'user.role',
+    'user.actions',
   ];
 
   pageSizes: number[];
 
   filters: FilterUserCockpit = {
+    id: undefined,
     username: undefined,
     email: undefined,
-    role: undefined,
+    userRoleId: undefined,
   };
+
+  hoverChangePw: -1;
+  hoverResetPw: -1;
+  hoverDeleteUser: -1;
+
+  userRoleSelected: FormControl;
+
+  userName: string;
 
   constructor(
     private dialog: MatDialog,
@@ -64,6 +79,8 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private route: ActivatedRoute,
     private userCockpitService: UserCockpitService,
+    private snack: SnackBarService,
+    public auth: AuthService,
   ) {
     this.pageSizes = this.configService.getValues().pageSizes;
   }
@@ -75,6 +92,12 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
       moment.locale(this.translocoService.getActiveLang());
     });
     this.applyFilters();
+    this.userRoleSelected = new FormControl(this.filters.userRoleId, [
+      Validators.required
+    ]);
+    this.auth.getUser().subscribe((data) => {
+      this.userName = data;
+    });
   }
 
   setTableHeaders(lang: string): void {
@@ -86,6 +109,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
           { name: 'user.name', label: userTable.nameH },
           { name: 'user.email', label: userTable.emailH },
           { name: 'user.role', label: userTable.roleH },
+          { name: 'user.actions', label: userTable.actionsH },
         ];
       });
   }
@@ -107,19 +131,30 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   applyFilters(): void {
     this.userCockpitService
       .getUsers(this.pageable, this.sorting, this.filters)
-      .subscribe((data: any) => {
-        if (!data) {
+      .subscribe(
+        ($data: any) => {
+          if (!$data) {
+            this.users = [];
+          } else {
+            this.users = $data.content;
+          }
+          this.totalUsers = $data.totalElements;
+        },
+        (error) => {
+          this.snack.openSnack(
+            this.translocoService.translate('cockpit.user.fetchUsersError'),
+            6000,
+            'red'
+          );
           this.users = [];
-        } else {
-          this.users = data.content;
         }
-        this.totalUsers = data.totalElements;
-      });
+      );
   }
 
   /** Clear filters */
   clearFilters(filters: NgForm): void {
     filters.reset();
+    this.filters.userRoleId = undefined;
     this.applyFilters();
     this.pagingBar.firstPage();
   }
@@ -167,5 +202,78 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
       }
     });
   }
-}
 
+  deleteUser(element: any): void {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: element.username + ' ( ' + this.translocoService.translate('cockpit.user.idH') + ': ' + element.id + ' )',
+        text: this.translocoService.translate('cockpit.user.confirmDeleteText')
+      }
+    })
+    .afterClosed().subscribe((data: boolean) => {
+      if (data) {
+        this.userCockpitService.deleteUser(element.id).subscribe(
+          ($data: any) => (
+            this.snack.openSnack(
+              this.translocoService.translate('cockpit.user.deleteUserSuccess'),
+              6000,
+              'green'
+            ),
+            this.applyFilters()
+          ),
+          (error) => (
+            this.snack.openSnack(
+              this.translocoService.translate('cockpit.user.deleteUserError'),
+              6000,
+              'red'
+            )
+          )
+        );
+      }
+    });
+  }
+
+  changePassword(element: any): void {
+    this.dialog.open(ChangePasswordDialogComponent, {
+      width: '30%',
+      data: element,
+    }).afterClosed().subscribe((data: boolean) => {
+      if (data === true) { // Reload users if dialog was edited
+        this.applyFilters();
+      }
+    });
+  }
+
+  resetPassword(element: any): void {
+    this.userCockpitService
+    .sendPasswordResetLink(element)
+    .subscribe(
+      ($data: any) => {
+        this.snack.openSnack(
+          this.translocoService.translate('cockpit.user.sendPasswordResetLinkSuccess'),
+          6000,
+          'green'
+        );
+      },
+      (error) => {
+        this.snack.openSnack(
+          this.translocoService.translate('cockpit.user.sendPasswordResetLinkError'),
+          6000,
+          'red'
+        );
+      }
+    );
+  }
+
+  editUser(element: any): void {
+    this.dialog.open(ChangePasswordDialogComponent, {
+      width: '30%',
+      data: element,
+    }).afterClosed().subscribe((data: boolean) => {
+      if (data === true) { // Reload users if dialog was edited
+        this.applyFilters();
+      }
+    });
+  }
+
+}

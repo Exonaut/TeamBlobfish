@@ -270,6 +270,7 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
   @Override
   public void resetPasswordByAdmin(UserEto user) {
 
+    Objects.requireNonNull(user, "user");
     UserEntity userEntity = getUserDao().find(user.getId());
     this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
@@ -288,10 +289,37 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
   @Override
   public void resetPasswordByUser(UserEto user) {
 
+    Objects.requireNonNull(user, "user");
     UserEntity userEntity = getUserDao().find(user.getId());
     this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
     getUserDao().save(userEntity);
     LOG.debug("Your password has been modified.");
+  }
+
+  @Override
+  public UserEto editUser(UserEto user) {
+
+    Objects.requireNonNull(user, "user");
+    this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
+    UserEntity userEntity = getUserDao().find(user.getId());
+
+    if (!user.getUsername().isBlank() && !userEntity.getUsername().equals(user.getUsername())) {
+      userEntity.setUsername(user.getUsername());
+    }
+    if (!user.getEmail().isBlank() && !userEntity.getEmail().equals(user.getEmail())) {
+      userEntity.setEmail(user.getEmail());
+    }
+    if (!user.getPassword().isBlank()
+        && !userEntity.getPassword().equals(this.passwordEncoder.encode(user.getPassword()))) {
+      userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
+    }
+    if (user.getUserRoleId() != null && !userEntity.getUserRoleId().equals(user.getUserRoleId())) {
+      userEntity.setUserRoleId(user.getUserRoleId());
+    }
+    UserEntity resultEntity = getUserDao().save(userEntity);
+    LOG.debug("User with id '{}' has been edited.", resultEntity.getId());
+    return getBeanMapper().map(resultEntity, UserEto.class);
   }
 }
