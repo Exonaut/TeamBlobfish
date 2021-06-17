@@ -1,5 +1,7 @@
 package com.devonfw.application.mtsj.usermanagement.logic.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -44,6 +46,8 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
   private static final Logger LOG = LoggerFactory.getLogger(UsermanagementImpl.class);
 
   private PasswordEncoder passwordEncoder;
+
+  private Map<Integer, UserEntity> userHashMap = new HashMap<>();
 
   @Value("${client.port}")
   private int clientPort;
@@ -282,19 +286,31 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
   public void sendForgotPasswordLink(String email) {
 
     UserEntity user = getUserDao().findByEmail(email);
+    this.userHashMap.put(user.hashCode(), user);
     sendForgotPasswordEmailToHost(user);
     LOG.debug("Please check out your email , we sent you a link to reset your password.");
   }
 
   @Override
-  public void resetPasswordByUser(UserEto user) {
+  public void resetPasswordByUser(int hashcode, String password) {
 
-    Objects.requireNonNull(user, "user");
-    UserEntity userEntity = getUserDao().find(user.getId());
-    this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
-    getUserDao().save(userEntity);
-    LOG.debug("Your password has been modified.");
+    try {
+      if (!password.isBlank()) {
+
+        this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
+        UserEntity userEntity = this.userHashMap.get(hashcode);
+        if (userEntity != null) {
+          userEntity.setPassword(this.passwordEncoder.encode(password));
+          getUserDao().save(userEntity);
+          this.userHashMap.remove(hashcode);
+        }
+
+        LOG.debug("Your password has been modified.");
+      }
+    } catch (Exception e) {
+      LOG.error("Password is empty. Please check your password.", e.getMessage());
+    }
   }
 
   @Override

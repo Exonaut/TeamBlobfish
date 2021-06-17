@@ -28,9 +28,9 @@ export class UserCockpitService {
   private readonly editUserRestPath: string =
     'usermanagement/v1/user/edit';
 
-    private readonly restServiceRoot$: Observable<
-      string
-    > = this.config.getRestServiceRoot();
+  private readonly restServiceRoot$: Observable<
+    string
+  > = this.config.getRestServiceRoot();
 
   constructor(
     private http: HttpClient,
@@ -74,7 +74,6 @@ export class UserCockpitService {
 
   errorHandler(error: HttpErrorResponse): Observable<any> {
     return throwError(error.message || 'Server Error');
-    // return Observable.throw(error.message || 'Server Error');
   }
 
   createUser(value: any): Observable<any> {

@@ -60,6 +60,7 @@
     "password": "Password",
     "token": "One Time Password",
     "confirmPassword": "Confirm Password",
+    "newPassword": "New Password",
     "date": "Date",
     "name": "Name",
     "email": "Email",
