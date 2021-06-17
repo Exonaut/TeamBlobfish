@@ -43,9 +43,9 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
       Slot updateSlot5 = Slot.builder().withName("yesNoAnotherDrink").withValue(null).build();
       intentRequest.getIntent().getSlots().put("yesNoAnotherDrink", updateSlot5);
 
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent()).withSpeech(
-          "Welches Getränk darf es noch sein? Wenn Sie sich noch nicht sicher sind, was sie noch zum trinken wollen, dann verlangen Sie einfach nach der Getränkekarte.")
-          .withReprompt("Was möchten Sie trinken?").withShouldEndSession(false).build();
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
+          .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie trinken?")
+          .withShouldEndSession(false).build();
     } else if (yesNoAnotherDrink.getValue().equals("nein")
         && !attributes.containsValue(Attributes.START_STATE_ORDER_EAT) && dishOrder.getValue() == null) {
 
