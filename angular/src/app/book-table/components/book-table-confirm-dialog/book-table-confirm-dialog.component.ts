@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { TranslocoService } from '@ngneat/transloco';
 import { SidenavService } from 'app/sidenav/services/sidenav.service';
 import { SidenavComponent } from 'app/sidenav/container/sidenav/sidenav.component';
-import { ClipboardModule } from '@angular/cdk/clipboard'
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-book-table-confirm-dialog',

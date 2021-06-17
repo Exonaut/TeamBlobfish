@@ -14,11 +14,11 @@ import { getTranslocoModule } from '../../../transloco-testing.module';
 
 const routerStub = {
 
-}
+};
 
 const activatedRouteStub = {
 
-}
+};
 
 class TestBedSetUp {
   static loadWaiterCockpitServiceStud(waiterCockpitStub: any): any {

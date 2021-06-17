@@ -7,10 +7,6 @@ import * as fromRoot from '../../../store';
 import { SidenavService } from '../../services/sidenav.service';
 import * as fromOrder from '../../store';
 
-export class BookingIdContainer {
-  public static bookingId:string = 'Test';
-}
-
 @Component({
   selector: 'app-public-sidenav',
   templateUrl: './sidenav.component.html',
@@ -18,12 +14,12 @@ export class BookingIdContainer {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidenavComponent implements OnInit {
+  static bookingIdValue: string;
+
   bookingId: string;
   orders$: Observable<Order[]>;
   orders: Order[];
   totalPrice$: Observable<number>;
-
-  static bookingIdValue: string = '';
 
   SidenavComponent = SidenavComponent;
 
@@ -42,6 +38,7 @@ export class SidenavComponent implements OnInit {
     setInterval(() => { // Update Order Token input
       this.changeDetectorRef.markForCheck();
     }, 1000);
+    SidenavComponent.bookingIdValue = '';
   }
 
   closeSidenav(): void {
