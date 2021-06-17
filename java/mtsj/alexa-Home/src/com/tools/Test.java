@@ -1,10 +1,5 @@
 package com.tools;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.entity.booking.ResponseBooking;
-
 public class Test {
 
   public static long flexTime = 1800000;
@@ -13,13 +8,9 @@ public class Test {
 
   public static void main(String[] args) {
 
-    ResponseBooking resp = HelpClass.getAllBookingsAndOrders();
+    int counterBookingIDs = 0;
 
-    int av = HelpClass.bookingIDAvailable(resp, "tony2510@gmx.de");
-
-    HelpClass.bookingIDAvailable(resp, "tony2510@gmx.de");
-
-    Map<String, Object> attributes = new HashMap<String, Object>();
+    System.out.println(counterBookingIDs);
 
   }
 

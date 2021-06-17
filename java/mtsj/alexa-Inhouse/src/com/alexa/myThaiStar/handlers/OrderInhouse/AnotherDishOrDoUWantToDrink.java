@@ -2,8 +2,10 @@ package com.alexa.myThaiStar.handlers.OrderInhouse;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
+import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -29,6 +31,7 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
 
     Slot yesNoEat = intentRequest.getIntent().getSlots().get("yesNoEat");
     Slot drink = intentRequest.getIntent().getSlots().get("drink");
+    Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
     if (yesNoEat.getValue().equals("ja")) {
 
@@ -41,13 +44,18 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
       Slot updateSlot4 = Slot.builder().withName("yesNoEat").withValue(null).build();
       intentRequest.getIntent().getSlots().put("yesNoEat", updateSlot4);
 
+      attributes.replace(Attributes.STATE_KEY_MENU, Attributes.START_STATE_MENU_EAT);
+
       if (drink.getValue() != null)
         return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
-            .withSpeech("Wie lautet Ihr Gericht?").withReprompt("Was möchten Sie essen?").build();
+            .withSpeech(
+                "Wie lautet Ihr erstes Gericht? Wenn Sie sich noch nicht sicher sind, was sie zum essen wollen, dann verlangen Sie einfach nach der Speisekarte.")
+            .withReprompt("Was möchten Sie essen?").withShouldEndSession(false).build();
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
           .withSpeech("Wie lautet Ihr weiteres Gericht?").withReprompt("Was möchten Sie essen?").build();
-    } else if (yesNoEat.getValue().equals("nein") && drink.getValue() != null) {
+    } else if (yesNoEat.getValue().equals("nein")
+        && (drink.getValue() != null || attributes.containsValue(Attributes.START_STATE_ORDER_DRINK))) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("serveTimeYesNo", intentRequest.getIntent())
           .withSpeech(

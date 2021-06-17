@@ -5,6 +5,7 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -35,14 +36,15 @@ public class WhatDoUWantToDrinkOrServeTimeOrCloseOrder implements IntentRequestH
 
     if (yesNoDrink.getValue().equals("ja")) {
 
-      attributes.replace("eatOrDrink", "trinken");
+      attributes.replace(Attributes.STATE_KEY_MENU, Attributes.START_STATE_MENU_DRINK);
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent()).withSpeech(
           "Wie lautet Ihr erstes Getränk? Wenn Sie sich noch nicht sicher sind, was sie zum trinken wollen, dann verlangen Sie einfach nach der Getränkekarte.")
           .withReprompt("Was möchten Sie trinken?").withShouldEndSession(false).build();
     }
 
-    if (attributes.containsValue("liefern") || whereLikeToEat.getValue().equals("liefern")) {
+    if (attributes.containsValue(Attributes.START_STATE_WHERE_LIKE_TO_EAT_DELIVER)
+        || (whereLikeToEat.getValue() != null && whereLikeToEat.getValue().equals("liefern"))) {
 
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
     }

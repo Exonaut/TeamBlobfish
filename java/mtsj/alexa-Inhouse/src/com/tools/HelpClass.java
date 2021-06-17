@@ -9,8 +9,6 @@ import java.util.Date;
 import org.apache.http.message.BasicHeader;
 
 import com.alexa.myThaiStar.MyThaiStarStreamHandler;
-import com.amazon.ask.model.IntentRequest;
-import com.amazon.ask.model.Slot;
 import com.entity.booking.Booking;
 import com.entity.booking.ResponseBooking;
 import com.entity.dish.Content;
@@ -110,11 +108,10 @@ public class HelpClass {
 
   }
 
-  public static Booking tableBooked(ResponseBooking response, IntentRequest intentRequest) {
+  public static Booking tableBooked(ResponseBooking response, String queryTable) {
 
     long flexTime = 1800000;
 
-    Slot queryTable = intentRequest.getIntent().getSlots().get("queryTable");
     Date date = new Date();
     long timeNow = date.getTime();
 
@@ -122,8 +119,7 @@ public class HelpClass {
 
       String BookingTimeLongAsString = c.booking.bookingDate.substring(0, 10) + "";
 
-      if (!c.booking.bookingToken.startsWith("DB_")
-          && Integer.parseInt(c.booking.tableId) == Integer.parseInt(queryTable.getValue())
+      if (Integer.parseInt(c.booking.tableId) == Integer.parseInt(queryTable)
           && Math.abs((Long.parseLong(BookingTimeLongAsString) * 1000) - timeNow) <= flexTime) {
 
         String tmpBookingTimeAsString = c.booking.bookingDate.substring(0, 10) + "";

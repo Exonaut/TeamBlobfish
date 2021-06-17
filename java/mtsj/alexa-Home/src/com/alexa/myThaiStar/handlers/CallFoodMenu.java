@@ -5,6 +5,7 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.Intent;
@@ -22,7 +23,7 @@ public class CallFoodMenu implements IntentRequestHandler {
   public boolean canHandle(HandlerInput input, IntentRequest intentRequest) {
 
     return input.matches(intentName("callMenu")) || (input.matches(intentName("callMenu"))
-        && input.getAttributesManager().getSessionAttributes().containsKey("eatOrDrink"));
+        && input.getAttributesManager().getSessionAttributes().containsKey(Attributes.STATE_KEY_MENU));
   }
 
   @Override
@@ -50,13 +51,13 @@ public class CallFoodMenu implements IntentRequestHandler {
 
       ResponseMenuDrinks response = gson.fromJson(resStr, ResponseMenuDrinks.class);
 
-      if (input.getAttributesManager().getSessionAttributes().containsValue("trinken")) {
+      if (input.getAttributesManager().getSessionAttributes().containsValue(Attributes.START_STATE_MENU_DRINK)) {
 
         speechText = "Wir haben " + response.toString();
 
         Intent intent1 = Intent.builder().withName("drink").build();
 
-        return input.getResponseBuilder().withSpeech(speechText + "\n" + ". Welches Getränk möchten Sie?")
+        return input.getResponseBuilder().withSpeech(speechText + ". Welches Getränk möchten Sie?")
             .withReprompt("Welches Getränk möchten Sie?").addElicitSlotDirective("drink", intent1).build();
 
       }
@@ -81,7 +82,7 @@ public class CallFoodMenu implements IntentRequestHandler {
 
       ResponseMenuDishes response = gson.fromJson(resStr, ResponseMenuDishes.class);
 
-      if (input.getAttributesManager().getSessionAttributes().containsValue("essen")) {
+      if (input.getAttributesManager().getSessionAttributes().containsValue(Attributes.START_STATE_MENU_EAT)) {
 
         speechText = "Wir haben " + response.toString();
 

@@ -18,10 +18,8 @@ public final class Attributes {
 
   public static final String START_STATE_MENU_DRINK = "MENU_DRINK";
 
-  public static final String STATE_KEY_WHERE_LIKE_TO_EAT = "state_where_like_to_eat";
+  public static final String STATE_KEY_RESERVATION = "state_reservation";
 
-  public static final String START_STATE_WHERE_LIKE_TO_EAT_RESTAURANT = "WHERE_LIKE_TO_EAT_RESTAURANT";
-
-  public static final String START_STATE_WHERE_LIKE_TO_EAT_DELIVER = "WHERE_LIKE_TO_EAT_DELIVER";
+  public static final String START_STATE_RESERVATION = "START_RESERVATION";
 
 }

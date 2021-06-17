@@ -20,7 +20,11 @@ public class AmountDrinks implements IntentRequestHandler {
     return (handlerInput.matches(intentName("makeAOrderInhouse"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
         && intentRequest.getIntent().getSlots().get("drink").getValue() != null
-        && intentRequest.getIntent().getSlots().get("amountDrinks").getValue() == null;
+        && intentRequest.getIntent().getSlots().get("amountDrinks").getValue() == null
+        || (intentRequest.getDialogState() == DialogState.STARTED
+            && handlerInput.getAttributesManager().getSessionAttributes().containsKey("state")
+            && intentRequest.getIntent().getSlots().get("drink").getValue() != null
+            && intentRequest.getIntent().getSlots().get("amountDrinks").getValue() == null);
   }
 
   @Override

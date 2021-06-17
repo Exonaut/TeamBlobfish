@@ -2,8 +2,10 @@ package com.alexa.myThaiStar.handlers.OrderInhouse;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
+import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -24,17 +26,14 @@ public class Completed implements IntentRequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    Slot dishOrder = intentRequest.getIntent().getSlots().get("dishOrder");
     Slot queryTable = intentRequest.getIntent().getSlots().get("queryTable");
+    Map<String, Object> sessionAttributes = handlerInput.getAttributesManager().getSessionAttributes();
 
-    if (queryTable.getConfirmationStatusAsString().equals("DENIED")) {
-
+    if (queryTable.getConfirmationStatusAsString().equals("DENIED"))
       return handlerInput.getResponseBuilder().withSpeech("Es tut mir leid, bitte starten Sie Ihre Bestellung erneut")
           .build();
 
-    }
-
-    if (dishOrder.getValue() == null)
+    if (!sessionAttributes.containsValue(Attributes.START_STATE_RESERVATION))
       return handlerInput.getResponseBuilder()
           .withSpeech("Es tut mir leid, zu der jetzigen Uhrzeit wurde der Tisch nicht reserviert").build();
 

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -41,7 +42,7 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
     if (whereLikeToEat.getValue().equals("restaurant")) {
 
       attributes = handlerInput.getAttributesManager().getSessionAttributes();
-      attributes.put("whereLikeToEat", "restaurant");
+      attributes.put(Attributes.STATE_KEY_WHERE_LIKE_TO_EAT, Attributes.START_STATE_WHERE_LIKE_TO_EAT_RESTAURANT);
 
       ResponseBooking response = HelpClass.getAllBookingsAndOrders();
 
@@ -100,7 +101,7 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
     {
 
       attributes = handlerInput.getAttributesManager().getSessionAttributes();
-      attributes.put("whereLikeToEat", "liefern");
+      attributes.put(Attributes.STATE_KEY_WHERE_LIKE_TO_EAT, Attributes.START_STATE_WHERE_LIKE_TO_EAT_DELIVER);
 
       String personCount = "";
       String name = handlerInput.getServiceClientFactory().getUpsService().getProfileName();

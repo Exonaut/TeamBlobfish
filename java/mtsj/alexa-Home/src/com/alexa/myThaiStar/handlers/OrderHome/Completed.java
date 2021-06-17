@@ -5,6 +5,7 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -30,7 +31,8 @@ public class Completed implements IntentRequestHandler {
     Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
     Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
-    if (attributes.containsValue("liefern") || whereLikeToEat.getValue().equals("liefern")) {
+    if (attributes.containsValue(Attributes.START_STATE_WHERE_LIKE_TO_EAT_DELIVER)
+        || (whereLikeToEat.getValue() != null && whereLikeToEat.getValue().equals("liefern"))) {
 
       String speechText = HelpClass.sendOrder();
 
@@ -51,7 +53,7 @@ public class Completed implements IntentRequestHandler {
               "Keine Buchungs ID gefunden. Bitte buchen Sie zuerst einen Tisch, bevor Sie eine Bestellung vornehmen.")
           .withShouldEndSession(true).build();
 
-    if (yesNoCustomerDetails != null)
+    if (yesNoCustomerDetails.getValue() != null)
       if (yesNoCustomerDetails.getValue().equals("nein"))
         return handlerInput.getResponseBuilder()
             .withSpeech("Es tut mir leid. Es gibt keine Auswahlmöglichkeit für eine spätere Reservierung.")
@@ -63,7 +65,7 @@ public class Completed implements IntentRequestHandler {
           .withSpeech("Es tut uns leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt.")
           .withShouldEndSession(true).build();
 
-    return handlerInput.getResponseBuilder().withSpeech(speechText).build();
+    return handlerInput.getResponseBuilder().withSpeech(speechText).withShouldEndSession(true).build();
   }
 
 }

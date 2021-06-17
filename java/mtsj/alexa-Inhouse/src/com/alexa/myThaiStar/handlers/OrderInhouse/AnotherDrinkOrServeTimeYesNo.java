@@ -2,8 +2,10 @@ package com.alexa.myThaiStar.handlers.OrderInhouse;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
+import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -29,6 +31,7 @@ public class AnotherDrinkOrServeTimeYesNo implements IntentRequestHandler {
 
     Slot yesNoAnotherDrink = intentRequest.getIntent().getSlots().get("yesNoAnotherDrink");
     Slot dishOrder = intentRequest.getIntent().getSlots().get("dishOrder");
+    Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
     if (yesNoAnotherDrink.getValue().equals("ja")) {
 
@@ -43,7 +46,8 @@ public class AnotherDrinkOrServeTimeYesNo implements IntentRequestHandler {
           .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie noch zum trinken?").build();
     }
 
-    else if (yesNoAnotherDrink.getValue().equals("nein") && dishOrder.getValue() == null) {
+    else if (yesNoAnotherDrink.getValue().equals("nein") && !attributes.containsValue(Attributes.START_STATE_ORDER_EAT)
+        && dishOrder.getValue() == null) {
 
       Slot updateSlot = Slot.builder().withName("yesNoAnotherDrink").withValue("nichts").build();
       intentRequest.getIntent().getSlots().put("yesNoAnotherDrink", updateSlot);
