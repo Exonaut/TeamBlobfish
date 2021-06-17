@@ -260,7 +260,8 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
       hostMailContent.append("If you did not make this request then please ignore this email.").append("\n");
       hostMailContent.append("Otherwise, please copy and paste this link to change your password").append("\n");
       // URL NACHSCHAUEN
-      String resetPassword = getClientUrl() + "/user/resetpassword/" + user.hashCode();
+      UserEntity userEntity = getUserDao().find(user.getId());
+      String resetPassword = getClientUrl() + "/user/resetpassword/" + userEntity.hashCode();
       hostMailContent.append(resetPassword).append("\n");
       this.mailService.sendMail(user.getEmail(), "Reset Password", hostMailContent.toString());
     } catch (Exception e) {
