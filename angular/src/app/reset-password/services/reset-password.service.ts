@@ -10,7 +10,7 @@ import { catchError, exhaustMap } from 'rxjs/operators';
 export class ResetPasswordService {
 
   private readonly resetPasswordRestPath: string =
-    'usermanagement/v1/user';
+    'usermanagement/v1/user/reset/password';
 
   private readonly restServiceRoot$: Observable<
     string
@@ -26,7 +26,7 @@ export class ResetPasswordService {
     path = this.resetPasswordRestPath;
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
-        this.http.post<any>(`${restServiceRoot}${path}`, {hashCode: token, password: pw}).pipe(
+        this.http.patch<any>(`${restServiceRoot}${path}/${token}/${pw}`, {}).pipe(
           catchError(err => this.errorHandler(err))
         ),
       ),

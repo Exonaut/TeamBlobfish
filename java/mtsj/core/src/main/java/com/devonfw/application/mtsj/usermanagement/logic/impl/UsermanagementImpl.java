@@ -1,6 +1,7 @@
 package com.devonfw.application.mtsj.usermanagement.logic.impl;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -45,6 +46,8 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
   private static final Logger LOG = LoggerFactory.getLogger(UsermanagementImpl.class);
 
   private PasswordEncoder passwordEncoder;
+
+  private Map<Integer, UserEntity> userHashMap = new HashMap<>();
 
   @Value("${client.port}")
   private int clientPort;
@@ -260,8 +263,7 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
       hostMailContent.append("If you did not make this request then please ignore this email.").append("\n");
       hostMailContent.append("Otherwise, please copy and paste this link to change your password").append("\n");
       // URL NACHSCHAUEN
-      UserEntity userEntity = getUserDao().find(user.getId());
-      String resetPassword = getClientUrl() + "/user/resetpassword/" + userEntity.hashCode();
+      String resetPassword = getClientUrl() + "/user/resetpassword/" + user.hashCode();
       hostMailContent.append(resetPassword).append("\n");
       this.mailService.sendMail(user.getEmail(), "Reset Password", hostMailContent.toString());
     } catch (Exception e) {
@@ -284,6 +286,7 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
   public void sendForgotPasswordLink(String email) {
 
     UserEntity user = getUserDao().findByEmail(email);
+    this.userHashMap.put(user.hashCode(), user);
     sendForgotPasswordEmailToHost(user);
     LOG.debug("Please check out your email , we sent you a link to reset your password.");
   }
@@ -295,16 +298,14 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
       if (!password.isBlank()) {
 
         this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        List<UserEntity> users = getUserDao().findAll();
 
-        for (int i = 0; i < users.size(); i++) {
-          if (users.get(i).hashCode() == hashcode) {
-            UserEntity userEntity = users.get(i);
-            users.get(i).setPassword(this.passwordEncoder.encode(password));
-            getUserDao().save(userEntity);
-            return;
-          }
+        UserEntity userEntity = this.userHashMap.get(hashcode);
+        if (userEntity != null) {
+          userEntity.setPassword(this.passwordEncoder.encode(password));
+          getUserDao().save(userEntity);
+          this.userHashMap.remove(hashcode);
         }
+
         LOG.debug("Your password has been modified.");
       }
     } catch (Exception e) {
