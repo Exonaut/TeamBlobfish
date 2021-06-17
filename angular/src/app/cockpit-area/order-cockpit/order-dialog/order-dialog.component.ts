@@ -51,7 +51,7 @@ export class OrderDialogComponent implements OnInit {
     'city',
     'street',
     'streetNr'
-  ]
+  ];
 
   pageSizes: number[];
   filteredData: OrderView[] = this.datao;
