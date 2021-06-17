@@ -27,7 +27,8 @@
     "clear": "Clear",
     "editUser": "Edit User",
     "accept": "Accept",
-    "decline": "Decline"
+    "decline": "Decline",
+    "copyToClipboard": "Copy to Clipboard"
   },
   "table": {
     "rowsPage": "Rows per page",

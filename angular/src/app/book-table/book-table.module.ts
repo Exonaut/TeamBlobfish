@@ -15,6 +15,7 @@ import { BookTableService } from './services/book-table.service';
 import { reducers, effects } from './store';
 import { TranslocoRootModule } from '../transloco-root.module';
 import { BookTableConfirmDialogComponent } from './components/book-table-confirm-dialog/book-table-confirm-dialog.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { BookTableConfirmDialogComponent } from './components/book-table-confirm
     CoreModule,
     StoreModule.forFeature('bookTable', reducers),
     EffectsModule.forFeature(effects),
+    ClipboardModule,
   ],
   providers: [BookTableService, WindowService, SnackBarService],
   declarations: [

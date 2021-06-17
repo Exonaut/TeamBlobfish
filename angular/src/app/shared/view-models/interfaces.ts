@@ -41,7 +41,7 @@ export interface BookingView {
   email: string;
   assistants?: number;
   tableId?: number;
-  bookingToken?: number;
+  bookingToken?: string;
   creationDate?: string;
   status: number;
   canceled: boolean;

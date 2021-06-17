@@ -1,10 +1,15 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Order } from 'app/sidenav/models/order.model';
+import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import * as fromRoot from '../../../store';
 import { SidenavService } from '../../services/sidenav.service';
 import * as fromOrder from '../../store';
+
+export class BookingIdContainer {
+  public static bookingId:string = 'Test';
+}
 
 @Component({
   selector: 'app-public-sidenav',
@@ -18,9 +23,14 @@ export class SidenavComponent implements OnInit {
   orders: Order[];
   totalPrice$: Observable<number>;
 
+  static bookingIdValue: string = '';
+
+  SidenavComponent = SidenavComponent;
+
   constructor(
-    private sidenav: SidenavService,
+    public sidenav: SidenavService,
     private store: Store<fromOrder.SideNavState>,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +39,9 @@ export class SidenavComponent implements OnInit {
       .select(fromOrder.getAllOrders)
       .subscribe((orders) => (this.orders = orders));
     this.totalPrice$ = this.store.select(fromOrder.getTotalPrice);
+    setInterval(() => { // Update Order Token input
+      this.changeDetectorRef.markForCheck();
+    }, 1000);
   }
 
   closeSidenav(): void {
