@@ -199,7 +199,10 @@
         "commentsH": "Comments",
         "extrasH": "Extra",
         "quantityH": "Quantity",
-        "priceH": "Price"
+        "priceH": "Price",
+        "cityH": "City",
+        "streetH": "Street",
+        "streetNrH": "House Number"
       }
     },
     "reservations": {
@@ -212,6 +215,9 @@
       }
     },
     "table": {
+      "reservationT": "Reservation",
+      "addressT": "Address",
+      "orderT": "Order",
       "reservationDateH": "Reservation Date",
       "emailH": "Email",
       "bookingTokenH": "Reference Number",
@@ -223,7 +229,8 @@
       "actionsH": "Actions",
       "nameH": "Name",
       "serveTimeH": "Serving Time",
-      "tableIdH": "Table"
+      "tableIdH": "Table",
+      "bookingTypeH": "Type"
     },
     "status": {
       "recorded": "Recorded",

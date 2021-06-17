@@ -45,6 +45,14 @@ export class OrderDialogComponent implements OnInit {
     'dish.price',
   ];
 
+  dataa: OrderDialogData[] = [];
+  columnsa: any[];
+  displayedColumnsA: string[] = [
+    'city',
+    'street',
+    'streetNr'
+  ]
+
   pageSizes: number[];
   filteredData: OrderView[] = this.datao;
   totalPrice: number;
@@ -76,6 +84,7 @@ export class OrderDialogComponent implements OnInit {
     );
     this.datao = this.waiterCockpitService.orderComposer(this.data.orderLines);
     this.datat.push(this.data);
+    this.dataa.push(this.data);
     this.filter();
     this.selectedOrderStatus = this.data.order.orderStatus;
     this.selectedPaymentStatus = this.data.order.paymentStatus;
@@ -111,6 +120,16 @@ export class OrderDialogComponent implements OnInit {
             numeric: true,
             format: (v: number) => v.toFixed(2),
           },
+        ];
+      });
+
+    this.translocoService
+      .selectTranslateObject('cockpit.orders.dialogTable', {}, lang)
+      .subscribe((cockpitDialogTable) => {
+        this.columnsa = [
+          { name: 'city', label: cockpitDialogTable.cityH },
+          { name: 'street', label: cockpitDialogTable.streetH },
+          { name: 'streetNr', label: cockpitDialogTable.streetNrH },
         ];
       });
   }

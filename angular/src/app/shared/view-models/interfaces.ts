@@ -44,6 +44,9 @@ export interface BookingView {
   bookingToken?: number;
   creationDate?: string;
   status: number;
+  canceled: boolean;
+  id: number;
+  bookingType: string;
 }
 
 export interface FriendsInvite {
@@ -157,6 +160,9 @@ export interface SaveOrderResponse {
   orderStatus: number;
   paymentStatus: number;
   serveTime: string;
+  city: string;
+  street: string;
+  streetNr: string;
 }
 
 // Roles
