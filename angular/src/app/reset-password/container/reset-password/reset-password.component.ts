@@ -14,7 +14,6 @@ export class ResetPasswordComponent implements OnInit {
   private token: number;
 
   constructor(
-    private snackBarService: SnackBarService,
     private resetPasswordService: ResetPasswordService,
     private translocoService: TranslocoService,
     private router: Router,
