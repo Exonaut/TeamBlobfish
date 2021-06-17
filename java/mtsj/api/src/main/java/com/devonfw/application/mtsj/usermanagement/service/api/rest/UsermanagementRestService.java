@@ -129,8 +129,8 @@ public interface UsermanagementRestService {
    * @param user user the {@link UserEto} to reset password
    */
   @PATCH
-  @Path("/user/reset/password/user")
-  public void resetPasswordByUser(UserEto user);
+  @Path("/user/reset/password/{hashcode}/{password}/")
+  public void resetPasswordByUser(@PathParam("hashcode") int hashcode, @PathParam("password") String password);
 
   /**
    * Delegates to {@link Usermanagement#editUser}.

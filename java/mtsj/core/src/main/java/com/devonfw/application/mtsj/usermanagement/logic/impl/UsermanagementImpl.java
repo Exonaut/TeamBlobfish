@@ -1,5 +1,6 @@
 package com.devonfw.application.mtsj.usermanagement.logic.impl;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -287,14 +288,27 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
   }
 
   @Override
-  public void resetPasswordByUser(UserEto user) {
+  public void resetPasswordByUser(int hashcode, String password) {
 
-    Objects.requireNonNull(user, "user");
-    UserEntity userEntity = getUserDao().find(user.getId());
-    this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
-    getUserDao().save(userEntity);
-    LOG.debug("Your password has been modified.");
+    try {
+      if (!password.isBlank()) {
+
+        this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        List<UserEntity> users = getUserDao().findAll();
+
+        for (int i = 0; i < users.size(); i++) {
+          if (users.get(i).hashCode() == hashcode) {
+            UserEntity userEntity = users.get(i);
+            users.get(i).setPassword(this.passwordEncoder.encode(password));
+            getUserDao().save(userEntity);
+            return;
+          }
+        }
+        LOG.debug("Your password has been modified.");
+      }
+    } catch (Exception e) {
+      LOG.error("Password is empty. Please check your password.", e.getMessage());
+    }
   }
 
   @Override
