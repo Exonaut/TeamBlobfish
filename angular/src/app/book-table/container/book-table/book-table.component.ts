@@ -39,7 +39,7 @@ export class BookTableComponent implements OnInit {
       name: '',
       email: '',
       bookingDate: undefined,
-      bookingType: 0,
+      bookingType: 2,
     },
     invitedGuests: undefined,
   };
@@ -79,6 +79,11 @@ export class BookTableComponent implements OnInit {
         Validators.min(1),
         Validators.max(8),
       ]),
+      bookingType: new FormControl(booking.bookingType, [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(2),
+      ])
     });
 
     this.getFirstDayWeek();
@@ -92,6 +97,9 @@ export class BookTableComponent implements OnInit {
   }
   get assistants(): AbstractControl {
     return this.bookForm.get('assistants');
+  }
+  get bookingType(): AbstractControl {
+    return this.bookForm.get('bookingType')
   }
 
   get invName(): AbstractControl {

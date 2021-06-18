@@ -24,17 +24,17 @@ export class BookTableService {
     );
   }
 
-  composeBooking(invitationData: any, type: number): BookingInfo {
+  composeBooking(invitationData: any): BookingInfo {
     const composedBooking: BookingInfo = {
       booking: {
         bookingDate: invitationData.bookingDate,
         name: invitationData.name,
         email: invitationData.email,
-        bookingType: type,
+        bookingType: invitationData.bookingType,
       },
     };
 
-    if (type) {
+    if (invitationData.bookingType === 1) {
       composedBooking.invitedGuests = map(
         invitationData.invitedGuests,
         (email: string) => ({ email }),

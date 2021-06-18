@@ -22,7 +22,8 @@ export class InvitationDialogComponent implements OnInit {
     private dialog: MatDialogRef<InvitationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) dialogData: any,
   ) {
-    this.data = this.invitationService.composeBooking(dialogData, 1);
+    dialogData.bookingType = 1;
+    this.data = this.invitationService.composeBooking(dialogData);
   }
 
   ngOnInit(): void {

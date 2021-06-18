@@ -76,7 +76,8 @@
     "role": "Role",
     "orderStatus": "Order Status",
     "paymentStatus": "Payment Status",
-    "id": "ID"
+    "id": "ID",
+    "delivery": "Delivery"
   },
   "bookTable": {
     "title": "You can invite your friends to lunch or book a table",
