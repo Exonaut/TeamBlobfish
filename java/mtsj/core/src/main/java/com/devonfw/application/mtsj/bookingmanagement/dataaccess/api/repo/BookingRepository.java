@@ -73,7 +73,11 @@ public interface BookingRepository extends DefaultRepository<BookingEntity> {
     }
     BookingType bookingType = criteria.getBookingType();
     if (bookingType != null) {
-      query.where(Alias.$(alias.getBookingType()).eq(bookingType));
+
+      if (bookingType.isOrder())
+        query.where(Alias.$(alias.getBookingType()).ne(bookingType));
+      else
+        query.where(Alias.$(alias.getBookingType()).eq(bookingType));
     }
     Long table = criteria.getTableId();
     if (table != null && alias.getTable() != null) {

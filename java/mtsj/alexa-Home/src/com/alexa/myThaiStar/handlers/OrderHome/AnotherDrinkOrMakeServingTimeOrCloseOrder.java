@@ -2,8 +2,10 @@ package com.alexa.myThaiStar.handlers.OrderHome;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
+import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -30,6 +32,7 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
     Slot yesNoAnotherDrink = intentRequest.getIntent().getSlots().get("yesNoAnotherDrink");
     Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
     Slot dishOrder = intentRequest.getIntent().getSlots().get("dishOrder");
+    Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
     if (yesNoAnotherDrink.getValue().equals("ja")) {
 
@@ -41,16 +44,20 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
       intentRequest.getIntent().getSlots().put("yesNoAnotherDrink", updateSlot5);
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
-          .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie noch zum trinken?").build();
-    } else if (yesNoAnotherDrink.getValue().equals("nein") && dishOrder.getValue() == null) {
+          .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie trinken?")
+          .withShouldEndSession(false).build();
+    } else if (yesNoAnotherDrink.getValue().equals("nein")
+        && !attributes.containsValue(Attributes.START_STATE_ORDER_EAT) && dishOrder.getValue() == null) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())
-          .withSpeech("Möchten Sie noch etwas zum essen bestellen?").withReprompt("Darf es noch etwas zum essen sein?")
+          .withSpeech("Möchten Sie etwas zum essen bestellen?").withReprompt("Darf es noch etwas zum essen sein?")
           .build();
 
     }
 
-    else if (yesNoAnotherDrink.getValue().equals("nein") && whereLikeToEat.getValue().equals("liefern")) {
+    else if (yesNoAnotherDrink.getValue().equals("nein")
+        && (attributes.containsValue(Attributes.START_STATE_WHERE_LIKE_TO_EAT_DELIVER)
+            || (whereLikeToEat.getValue() != null && whereLikeToEat.getValue().equals("liefern")))) {
 
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
     }

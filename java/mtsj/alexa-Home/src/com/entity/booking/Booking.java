@@ -16,4 +16,7 @@ public class Booking {
   public String tableId;
 
   public String deliveryservice;
+
+  public Long id;
+
 }

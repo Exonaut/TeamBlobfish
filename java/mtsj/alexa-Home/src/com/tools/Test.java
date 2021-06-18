@@ -1,7 +1,5 @@
 package com.tools;
 
-import com.entity.booking.ResponseBooking;
-
 public class Test {
 
   public static long flexTime = 1800000;
@@ -10,9 +8,9 @@ public class Test {
 
   public static void main(String[] args) {
 
-    ResponseBooking resp = HelpClass.getAllBookings();
+    int counterBookingIDs = 0;
 
-    HelpClass.bookingIDAvailable(resp, "tony2510@gmx.de");
+    System.out.println(counterBookingIDs);
 
   }
 

@@ -151,6 +151,10 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
   @Override
   public Page<BookingCto> findBookingCtos(BookingSearchCriteriaTo criteria) {
 
+    if (criteria.getBookingType() == null) {
+      criteria.setBookingType(BookingType.ORDER);
+    }
+
     Page<BookingCto> pagListTo = null;
     Page<BookingEntity> bookings = getBookingDao().findBookings(criteria);
     List<BookingCto> ctos = new ArrayList<>();

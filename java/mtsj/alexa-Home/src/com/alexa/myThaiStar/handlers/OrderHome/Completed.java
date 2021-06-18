@@ -2,8 +2,10 @@ package com.alexa.myThaiStar.handlers.OrderHome;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
+import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -26,9 +28,11 @@ public class Completed implements IntentRequestHandler {
 
     Slot yesNoCustomerDetails = intentRequest.getIntent().getSlots().get("yesNoCustomerDetails");
 
-    Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
+    Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
-    if (whereLikeToEat.getValue().equals("liefern")) {
+    Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
+    if (attributes.containsValue(Attributes.START_STATE_WHERE_LIKE_TO_EAT_DELIVER)
+        || (whereLikeToEat.getValue() != null && whereLikeToEat.getValue().equals("liefern"))) {
 
       String speechText = HelpClass.sendOrder();
 
@@ -39,27 +43,29 @@ public class Completed implements IntentRequestHandler {
             .build();
 
       return handlerInput.getResponseBuilder()
-          .withSpeech(speechText + " Wir werden Ihre Bestellung schnellstmöglich liefern lassen.").build();
+          .withSpeech(speechText + " Wir werden Ihre Bestellung schnellstmöglich liefern lassen.")
+          .withShouldEndSession(true).build();
     }
 
     if (HelpClass.counterBookingIDs == 0)
       return handlerInput.getResponseBuilder()
           .withSpeech(
               "Keine Buchungs ID gefunden. Bitte buchen Sie zuerst einen Tisch, bevor Sie eine Bestellung vornehmen.")
-          .build();
+          .withShouldEndSession(true).build();
 
-    if (yesNoCustomerDetails != null)
+    if (yesNoCustomerDetails.getValue() != null)
       if (yesNoCustomerDetails.getValue().equals("nein"))
         return handlerInput.getResponseBuilder()
-            .withSpeech("Es tut mir leid. Es gibt keine Auswahlmöglichkeit für eine spätere Reservierung.").build();
+            .withSpeech("Es tut mir leid. Es gibt keine Auswahlmöglichkeit für eine spätere Reservierung.")
+            .withShouldEndSession(true).build();
 
     String speechText = HelpClass.sendOrder();
     if (speechText == null)
       return handlerInput.getResponseBuilder()
           .withSpeech("Es tut uns leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt.")
-          .build();
+          .withShouldEndSession(true).build();
 
-    return handlerInput.getResponseBuilder().withSpeech(speechText).build();
+    return handlerInput.getResponseBuilder().withSpeech(speechText).withShouldEndSession(true).build();
   }
 
 }

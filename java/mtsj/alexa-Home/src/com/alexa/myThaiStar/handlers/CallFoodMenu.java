@@ -5,8 +5,9 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.dispatcher.request.handler.RequestHandler;
+import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
@@ -16,22 +17,21 @@ import com.entity.dish.ResponseMenuDrinks;
 import com.google.gson.Gson;
 import com.tools.HelpClass;
 
-public class CallFoodMenu implements RequestHandler {
+public class CallFoodMenu implements IntentRequestHandler {
 
   @Override
-  public boolean canHandle(HandlerInput input) {
+  public boolean canHandle(HandlerInput input, IntentRequest intentRequest) {
 
-    return input.matches(intentName("callMenu"));
+    return input.matches(intentName("callMenu")) || (input.matches(intentName("callMenu"))
+        && input.getAttributesManager().getSessionAttributes().containsKey(Attributes.STATE_KEY_MENU));
   }
 
   @Override
-  public Optional<Response> handle(HandlerInput input) {
+  public Optional<Response> handle(HandlerInput input, IntentRequest intentRequest) {
 
     String speechText = "Wählen Sie die Getränkekarte oder Speisekarte";
     String payload = "";
 
-    com.amazon.ask.model.Request request = input.getRequestEnvelope().getRequest();
-    IntentRequest intentRequest = (IntentRequest) request;
     Intent intent = intentRequest.getIntent();
     Map<String, Slot> slots = intent.getSlots();
     Gson gson = new Gson();
@@ -50,6 +50,17 @@ public class CallFoodMenu implements RequestHandler {
             .build();
 
       ResponseMenuDrinks response = gson.fromJson(resStr, ResponseMenuDrinks.class);
+
+      if (input.getAttributesManager().getSessionAttributes().containsValue(Attributes.START_STATE_MENU_DRINK)) {
+
+        speechText = "Wir haben " + response.toString();
+
+        Intent intent1 = Intent.builder().withName("drink").build();
+
+        return input.getResponseBuilder().withSpeech(speechText + ". Welches Getränk möchten Sie?")
+            .withReprompt("Welches Getränk möchten Sie?").addElicitSlotDirective("drink", intent1).build();
+
+      }
 
       speechText = "Wir haben " + response.toString()
           + ". Wenn Sie mehr über unsere Auswahl zu Tee oder Bier haben möchten, dann sagen sie zum Beispiel: Was gibt es für Teesorten oder was gibt es für Biersorten";
@@ -70,6 +81,17 @@ public class CallFoodMenu implements RequestHandler {
             .build();
 
       ResponseMenuDishes response = gson.fromJson(resStr, ResponseMenuDishes.class);
+
+      if (input.getAttributesManager().getSessionAttributes().containsValue(Attributes.START_STATE_MENU_EAT)) {
+
+        speechText = "Wir haben " + response.toString();
+
+        Intent intent1 = Intent.builder().withName("dishOrder").build();
+
+        return input.getResponseBuilder().withSpeech(speechText + "\n" + "Welches Gericht möchten Sie?")
+            .withReprompt("Welches Gericht möchten Sie?").addElicitSlotDirective("dishOrder", intent1).build();
+
+      }
 
       speechText = "Wir haben " + response.toString()
           + ". Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Thai green chicken curry erfahren.";

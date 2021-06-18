@@ -55,7 +55,8 @@ public class AmountDishesOrCorrectExtras implements IntentRequestHandler {
     if (extrasArray.size() == 0) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("extra", intentRequest.getIntent())
-          .withSpeech("Welche Extras möchten Sie? Wenn Sie keine Extras möchten, dann sagen Sie: ohne extras.")
+          .withSpeech("Ich habe sie leider nicht verstanden. Welche Extras möchten Sie ? "
+              + HelpClass.getExtrasName(HelpClass.dishID))
           .withReprompt("Welche Extras möchten Sie?").build();
 
     }

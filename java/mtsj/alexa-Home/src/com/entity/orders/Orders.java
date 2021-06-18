@@ -12,4 +12,6 @@ public class Orders {
 
   public String streetNr;
 
+  public Long bookingId;
+
 }
