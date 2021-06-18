@@ -97,4 +97,10 @@ public class OrdermanagementRestServiceImpl implements OrdermanagementRestServic
 
     return this.ordermanagement.setNewPaymentStatus(id, paymentstatus);
   }
+
+  @Override
+  public OrderCto editOrder(OrderCto order) {
+
+    return this.ordermanagement.editOrder(order);
+  }
 }

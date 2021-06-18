@@ -38,6 +38,7 @@ import com.devonfw.application.mtsj.mailservice.logic.api.Mail;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.CancelNotAllowedException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.NoBookingException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.NoInviteException;
+import com.devonfw.application.mtsj.ordermanagement.common.api.exception.NoOrderException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.OrderAlreadyExistException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.WrongTokenException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderCto;
@@ -457,6 +458,7 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       mailContent.append("Your order has been created.").append("\n");
       mailContent.append(getContentFormatedWithCost(order)).append("\n");
       mailContent.append("\n").append("Link to cancel order: ");
+      mailContent.append("Booking CODE: " + token);
       String link = "http://localhost:" + this.clientPort + "/booking/cancelOrder/" + order.getId();
       mailContent.append(link);
       this.mailService.sendMail(emailTo, "Order confirmation", mailContent.toString());
@@ -586,5 +588,21 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
 
     return getBeanMapper().map(resultOrderPayment, OrderEto.class);
 
+  }
+
+  @Override
+  public OrderCto editOrder(OrderCto editorder) {
+
+    List<OrderCto> order = findOrdersByBookingToken(editorder.getBooking().getBookingToken());
+
+    if (order.isEmpty()) {
+      throw new NoOrderException();
+    }
+
+    List<OrderLineCto> editOrderLine = editorder.getOrderLines();
+
+    order.get(0).setOrderLines(editOrderLine);
+
+    return order.get(0);
   }
 }
