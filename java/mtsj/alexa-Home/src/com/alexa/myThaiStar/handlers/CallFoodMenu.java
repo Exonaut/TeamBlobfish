@@ -88,7 +88,7 @@ public class CallFoodMenu implements IntentRequestHandler {
 
         Intent intent1 = Intent.builder().withName("dishOrder").build();
 
-        return input.getResponseBuilder().withSpeech(speechText + "\n" + "Welches Gericht möchten Sie?")
+        return input.getResponseBuilder().withSpeech(speechText + ". Welches Gericht möchten Sie?")
             .withReprompt("Welches Gericht möchten Sie?").addElicitSlotDirective("dishOrder", intent1).build();
 
       }
