@@ -91,6 +91,7 @@ export class OrderLineInfo {
 export class OrderListInfo {
     booking: { bookingToken: string };
     orderLines: OrderInfo[];
+    order: any;
 }
 
 export class PredictionCriteria {

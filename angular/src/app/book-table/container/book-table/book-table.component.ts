@@ -39,7 +39,7 @@ export class BookTableComponent implements OnInit {
       name: '',
       email: '',
       bookingDate: undefined,
-      bookingType: 2,
+      bookingType: 0,
     },
     invitedGuests: undefined,
   };

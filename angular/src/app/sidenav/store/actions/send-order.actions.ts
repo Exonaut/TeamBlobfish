@@ -2,7 +2,7 @@ import { props, createAction, union } from '@ngrx/store';
 
 export const sendOrders = createAction(
   '[SendOrder] Load SendOrders',
-  props<{ token: string }>(),
+  props<{ token: any }>(),
 );
 
 export const sendOrdersSuccess = createAction(

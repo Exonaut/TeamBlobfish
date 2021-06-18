@@ -77,7 +77,10 @@
     "orderStatus": "Order Status",
     "paymentStatus": "Payment Status",
     "id": "ID",
-    "delivery": "Delivery"
+    "delivery": "Delivery",
+    "city": "City",
+    "street": "Street",
+    "streetNr": "House Number"
   },
   "bookTable": {
     "title": "You can invite your friends to lunch or book a table",
@@ -94,16 +97,19 @@
       "bookingError": "Error booking, please try again later"
     },
     "formErrors": {
-      "nameRequired": "Required. Please insert a name to reserve the table",
-      "emailRequired": "Required. Please insert an email to reserve the table",
+      "nameRequired": "Required. Please insert your name",
+      "emailRequired": "Required. Please insert your email",
       "emailPattern":
         "Insert a valid email address to send reservation data. e.g. email@email.com.",
       "emailFormat": "Email format not valid",
-      "assistantsRequired": "Required. Please insert the number of assistants.",
+      "assistantsRequired": "Required. Please insert the number of guests.",
       "assistantsMax":
-        "You cannot reserve more assistants than the size of the biggest table (8), if you need more tables, make more bookings.",
+        "You cannot reserve for more guests than the size of the biggest table (8), if you need more tables, place more reservations.",
       "assistantsMin":
-        "You cannot reserve an empty or negative number of assistants"
+        "You cannot reserve an empty or negative number of guests",
+      "cityRequired": "Required. Please insert a city to place the order",
+      "streetRequired": "Required. Please insert a street name to place the order",
+      "streetNrRequired": "Required. Please insert a house number to place the order"
     }
   },
   "main": {

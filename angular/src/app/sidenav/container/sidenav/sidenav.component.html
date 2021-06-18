@@ -53,7 +53,7 @@
         <h3>{{ totalPrice$ | async | number: '1.2-2' }} €</h3>
       </div>
       <div class="orderTable">
-        <div>
+        <!-- <div>
           <mat-card *ngIf="!bookingId.value">
             <div class="orderTableNotice">
               <mat-icon>report_problem</mat-icon>
@@ -72,9 +72,9 @@
               </button>
             </div>
           </mat-card>
-        </div>
+        </div> -->
 
-        <div>
+        <!-- <div>
           <mat-form-field class="orderBookingID" color="accent">
             <input
               name="orderBookingID"
@@ -84,7 +84,150 @@
               [value]='SidenavComponent.bookingIdValue'
             />
           </mat-form-field>
+        </div> -->
+
+        <div>
+          <mat-checkbox
+            (change)="delivery = $event.checked"
+            >
+            Delivery</mat-checkbox
+          >             
         </div>
+
+        <div class="bookTableFormContainer" *ngIf="!delivery">
+          <form [formGroup]="bookForm">
+
+            <div>
+              <mat-form-field color="accent" class="full-width-field">
+                <input matInput [placeholder]="'formFields.name' | transloco" formControlName="name">
+                <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
+                  <div *ngIf="name.errors.required">
+                    {{'bookTable.formErrors.nameRequired' | transloco}}
+                  </div>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field color="accent" class="full-width-field">
+                <input matInput [placeholder]="'formFields.email' | transloco" formControlName="email">
+                <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
+                  <div *ngIf="email.errors.required">
+                    {{'bookTable.formErrors.emailRequired' | transloco}}
+                  </div>
+                  <div *ngIf="email.errors.pattern">
+                    {{'bookTable.formErrors.emailPattern' | transloco}}
+                  </div>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field color="accent" class="full-width-field">
+                <input matInput [placeholder]="'formFields.dateTime' | transloco" formControlName="bookingDate" [min]="minDate" [owlDateTimeTrigger]="booking1"
+                  [owlDateTime]="booking1">
+                <owl-date-time [pickerMode]="'dialog'" [firstDayOfWeek]="getFirstDayWeek()" #booking1></owl-date-time>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field class="guestsField full-width-field" color="accent">
+                <input matInput [placeholder]="'formFields.assistants' | transloco" formControlName="assistants" type="number">
+                <mat-error *ngIf="assistants.invalid && (assistants.dirty || assistants.touched)">
+                  <div *ngIf="assistants.errors.required">
+                    {{'bookTable.formErrors.assistantsRequired' | transloco}}
+                  </div>
+                  <div *ngIf="assistants.errors.max">
+                    {{'bookTable.formErrors.assistantsMax' | transloco}}
+                  </div>
+                  <div *ngIf="assistants.errors.min">
+                    {{'bookTable.formErrors.assistantsMin' | transloco}}
+                  </div>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="guests">
+              <mat-form-field class="chipListField full-width-field">
+                <mat-chip-list #chipList aria-label="'formFields.guestsPH' | transloco">
+                  <mat-chip *ngFor="let invite of invitationModel" [selectable]="true"
+                            [removable]="true" (removed)="removeInvite(invite)">
+                    {{invite}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                  <input [placeholder]="'formFields.guestsPH' | transloco"
+                          [matChipInputFor]="chipList"
+                          [matChipInputAddOnBlur]="false"
+                          (matChipInputTokenEnd)="validateEmail($event)">
+                </mat-chip-list>
+              </mat-form-field>
+            </div>
+        </form>
+      </div>
+
+      <div class="bookTableFormContainer" *ngIf="delivery">
+        <form [formGroup]="deliveryForm">
+
+          <div>
+            <mat-form-field color="accent" class="full-width-field">
+              <input matInput [placeholder]="'formFields.name' | transloco" formControlName="name">
+              <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
+                <div *ngIf="name.errors.required">
+                  {{'bookTable.formErrors.nameRequired' | transloco}}
+                </div>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field color="accent" class="full-width-field">
+              <input matInput [placeholder]="'formFields.email' | transloco" formControlName="email">
+              <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
+                <div *ngIf="email.errors.required">
+                  {{'bookTable.formErrors.emailRequired' | transloco}}
+                </div>
+                <div *ngIf="email.errors.pattern">
+                  {{'bookTable.formErrors.emailPattern' | transloco}}
+                </div>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field color="accent" class="full-width-field">
+              <input matInput [placeholder]="'formFields.city' | transloco" formControlName="city">
+              <mat-error *ngIf="city.invalid && (city.dirty || city.touched)">
+                <div *ngIf="city.errors.required">
+                  {{'bookTable.formErrors.cityRequired' | transloco}}
+                </div>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field color="accent" class="full-width-field">
+              <input matInput [placeholder]="'formFields.street' | transloco" formControlName="street">
+              <mat-error *ngIf="street.invalid && (street.dirty || street.touched)">
+                <div *ngIf="street.errors.required">
+                  {{'bookTable.formErrors.streetRequired' | transloco}}
+                </div>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field color="accent" class="full-width-field">
+              <input type="number" matInput [placeholder]="'formFields.streetNr' | transloco" formControlName="streetNr">
+              <mat-error *ngIf="streetNr.invalid && (streetNr.dirty || streetNr.touched)">
+                <div *ngIf="streetNr.errors.required">
+                  {{'bookTable.formErrors.streetNrRequired' | transloco}}
+                </div>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </form>
+      </div>
 
         <div>
           <mat-checkbox
@@ -94,6 +237,7 @@
             >{{ 'formFields.terms' | transloco }}</mat-checkbox
           >
         </div>
+
       </div>
     </div>
   </div>
@@ -111,8 +255,8 @@
       name="orderSubmit"
       mat-button
       color="accent"
-      (click)="sendOrders(bookingId.value)"
-      [disabled]="!(bookingId?.value?.length > 0 && terms.checked)"
+      (click)="sendBooking()"
+      [disabled]="!(terms.checked && ((bookForm.valid && !delivery) || (deliveryForm.valid  && delivery && ((orders$ | async)?.length > 0))))"
     >
       {{ 'buttons.send' | transloco | uppercase }}
     </button>

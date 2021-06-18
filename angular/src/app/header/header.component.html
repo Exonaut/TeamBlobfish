@@ -28,7 +28,7 @@
         <mat-icon>restaurant_menu</mat-icon>
         {{ 'main.menu' | transloco | uppercase }}
       </a>
-      <a
+      <!-- <a
         mat-tab-link
         routerLink="/bookTable"
         routerLinkActive="navBottomBorder"
@@ -36,7 +36,7 @@
       >
         <mat-icon>book</mat-icon>
         {{ 'main.book' | transloco | uppercase }}
-      </a>
+      </a> -->
     </nav>
   </div>
   <div *ngIf="(auth.getRole() | async) === 'WAITER'" class="forDesktop">
