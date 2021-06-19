@@ -128,6 +128,19 @@
   width: 100%;
 }
 
+::ng-deep.mat-tab-label, ::ng-deep.mat-tab-label-active{
+  width: 50%!important;
+}
+
+.orderDetails,
+.bookingDetails {
+  width: 50%;
+}
+
+mat-icon {
+  margin-right: 8px;
+}
+
 @media (max-width: 599px) {
   .forDesktop {
     display: none;

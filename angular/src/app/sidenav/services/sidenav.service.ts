@@ -112,7 +112,7 @@ export class SidenavService {
         invitationData.invitedGuests,
         (email: string) => ({ email }),
       );
-    } else {
+    } else if (invitationData.bookingType === 0){
       composedBooking.booking.assistants = invitationData.assistants;
     }
 

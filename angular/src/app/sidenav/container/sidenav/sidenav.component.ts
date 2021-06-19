@@ -139,6 +139,11 @@ export class SidenavComponent implements OnInit {
     return this.deliveryForm.get('streetNr');
   }
 
+  clearInputs(): void {
+    this.deliveryForm.reset();
+    this.bookForm.reset();
+  }
+
   closeSidenav(): void {
     this.sidenav.closeSideNav();
   }
@@ -169,6 +174,7 @@ export class SidenavComponent implements OnInit {
           bookingToken: bookingResponse.bookingToken 
         }
         }));
+        this.clearInputs();
     })
   }
 

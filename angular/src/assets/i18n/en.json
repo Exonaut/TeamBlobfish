@@ -169,7 +169,9 @@
       "title": "Add a comment",
       "content":
         "Here you can add a short comment to our cookers about how to prepare your dish"
-    }
+    },
+    "order": "Order",
+    "personalinfo": "Personal Info"
   },
   "userArea": {
     "loginTitle": "LOGIN",
