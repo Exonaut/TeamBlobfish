@@ -171,7 +171,9 @@
         "Here you can add a short comment to our cookers about how to prepare your dish"
     },
     "order": "Order",
-    "personalinfo": "Personal Info"
+    "personalinfo": "Personal Info",
+    "bookingSuccess": "Your table has been successfully booked",
+    "deliverySuccess": "Your order is on its way"
   },
   "userArea": {
     "loginTitle": "LOGIN",

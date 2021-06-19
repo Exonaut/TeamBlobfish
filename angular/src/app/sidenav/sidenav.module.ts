@@ -14,6 +14,7 @@ import { SendOrderEffects } from './store/effects/send-order.effects';
 import { reducers, effects } from './store';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmOrderDialogComponent } from './components/confirm-order-dialog/confirm-order-dialog.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     SidenavOrderComponent,
     CommentDialogComponent,
     CommentAlertComponent,
+    ConfirmOrderDialogComponent,
   ],
   exports: [SidenavComponent],
   entryComponents: [CommentDialogComponent, CommentAlertComponent],

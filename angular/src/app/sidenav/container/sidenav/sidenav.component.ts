@@ -1,12 +1,25 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { BookingResponse } from 'app/book-table/models/booking-response.model';
 import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 import { BookingInfo } from 'app/shared/backend-models/interfaces';
+import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
 import { emailValidator } from 'app/shared/directives/email-validator.directive';
+import { ConfirmOrderDialogComponent } from 'app/sidenav/components/confirm-order-dialog/confirm-order-dialog.component';
 import { Order } from 'app/sidenav/models/order.model';
 import { last } from 'lodash';
 import * as moment from 'moment';
@@ -39,14 +52,15 @@ export class SidenavComponent implements OnInit {
   deliveryForm: FormGroup;
   invitationForm: FormGroup;
 
-  REGEXP_EMAIL = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  REGEXP_EMAIL =
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
   reservationInfo: BookingInfo = {
     booking: {
       name: '',
       email: '',
       bookingDate: undefined,
-      bookingType: 0
+      bookingType: 0,
     },
     invitedGuests: undefined,
   };
@@ -58,6 +72,7 @@ export class SidenavComponent implements OnInit {
     private translocoService: TranslocoService,
     private snackBarService: SnackBarService,
     private sidenavService: SidenavService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -66,11 +81,12 @@ export class SidenavComponent implements OnInit {
       .select(fromOrder.getAllOrders)
       .subscribe((orders) => (this.orders = orders));
     this.totalPrice$ = this.store.select(fromOrder.getTotalPrice);
-    setInterval(() => { // Update Order Token input
+    setInterval(() => {
+      // Update Order Token input
       this.changeDetectorRef.markForCheck();
     }, 1000);
     SidenavComponent.bookingIdValue = '';
-    
+
     const booking = this.reservationInfo.booking;
     this.bookForm = new FormGroup({
       bookingDate: new FormControl(booking.bookingDate, Validators.required),
@@ -92,9 +108,9 @@ export class SidenavComponent implements OnInit {
         Validators.required,
         Validators.pattern(this.REGEXP_EMAIL),
       ]),
-      city: new FormControl( null, Validators.required),
-      street: new FormControl( null, Validators.required),
-      streetNr: new FormControl( null, Validators.required),
+      city: new FormControl(null, Validators.required),
+      street: new FormControl(null, Validators.required),
+      streetNr: new FormControl(null, Validators.required),
     });
   }
 
@@ -116,10 +132,10 @@ export class SidenavComponent implements OnInit {
     return this.bookForm.get('assistants');
   }
   get bookingType(): AbstractControl {
-    return this.bookForm.get('bookingType')
+    return this.bookForm.get('bookingType');
   }
   get invitedGuests(): AbstractControl {
-    return this.bookForm.get('invitedGuests')
+    return this.bookForm.get('invitedGuests');
   }
 
   get invName(): AbstractControl {
@@ -154,28 +170,61 @@ export class SidenavComponent implements OnInit {
   }
 
   sendBooking(): void {
-    let booking = this.delivery ? this.deliveryForm.value : this.bookForm.value; 
-    if (this.delivery){
+    let booking = this.delivery ? this.deliveryForm.value : this.bookForm.value;
+    if (this.delivery) {
       booking.bookingType = 2;
-      booking.bookingDate = this.minDate.setTime(this.minDate.getTime() + 1000 * 60);
+      booking.bookingDate = this.minDate.setTime(
+        this.minDate.getTime() + 1000 * 60,
+      );
     } else if (booking.invitedGuests != null) {
       booking.bookingType = 1;
     } else {
       booking.bookingType = 0;
     }
-    this.sidenavService.postBooking(this.sidenavService.composeBooking(booking))
-      .subscribe((bookingResponse: BookingResponse) => {
-        this.store.dispatch(fromOrder.sendOrders({ token: {
-          address: {
-            city: booking.city,
-            street: booking.street,
-            streetNr: booking.streetNr,
-          },
-          bookingToken: bookingResponse.bookingToken 
+    let composedBooking = this.sidenavService.composeBooking(booking);
+
+    this.dialog
+      .open(ConfirmOrderDialogComponent, {
+        data: composedBooking,
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val) {
+          this.sidenavService
+            .postBooking(composedBooking)
+            .subscribe((bookingResponse: BookingResponse) => {
+              if (this.orders.length > 0) {
+                this.store.dispatch(
+                  fromOrder.sendOrders({
+                    token: {
+                      address: {
+                        city: booking.city,
+                        street: booking.street,
+                        streetNr: booking.streetNr,
+                      },
+                      bookingToken: bookingResponse.bookingToken,
+                    },
+                  }),
+                );
+              } else if (!this.delivery) {
+                this.closeSidenav();
+                this.snackBarService.openSnack(
+                  this.translocoService.translate('sidenav.bookingSuccess'),
+                  6000,
+                  'green'
+                )
+              } else if (this.delivery) {
+                this.closeSidenav();
+                this.snackBarService.openSnack(
+                  this.translocoService.translate('sidenav.deliverySuccess'),
+                  6000,
+                  'green'
+                )
+              }
+              this.clearInputs();
+            });
         }
-        }));
-        this.clearInputs();
-    })
+      });
   }
 
   findOrder(id: string): Order {
@@ -302,5 +351,4 @@ export class SidenavComponent implements OnInit {
       );
     }
   }
-
 }
