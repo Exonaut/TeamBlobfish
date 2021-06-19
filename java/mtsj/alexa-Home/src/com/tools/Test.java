@@ -8,6 +8,9 @@ public class Test {
 
   public static void main(String[] args) {
 
+    HelpClass.getAllBookingsAndOrders();
+    HelpClass.orderAvailable("tony2510@gmx.de");
+
     int counterBookingIDs = 0;
 
     System.out.println(counterBookingIDs);

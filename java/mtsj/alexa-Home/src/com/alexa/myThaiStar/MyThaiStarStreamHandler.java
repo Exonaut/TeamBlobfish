@@ -22,29 +22,29 @@ import com.alexa.myThaiStar.handlers.FallbackIntentHandler;
 import com.alexa.myThaiStar.handlers.HelpIntentHandler;
 import com.alexa.myThaiStar.handlers.LaunchRequestHandler;
 import com.alexa.myThaiStar.handlers.SessionEndedRequestHandler;
-import com.alexa.myThaiStar.handlers.OrderHome.AmountDishesOrCorrectExtras;
-import com.alexa.myThaiStar.handlers.OrderHome.AmountDrinks;
-import com.alexa.myThaiStar.handlers.OrderHome.AnotherDishOrDoUWantToDrink;
-import com.alexa.myThaiStar.handlers.OrderHome.AnotherDishYesNoOrCorrectTheDish;
-import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkOrMakeServingTimeOrCloseOrder;
-import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkYesNoOrCorrectTheDrink;
-import com.alexa.myThaiStar.handlers.OrderHome.CloseOrderOrCorrectTheServeTime;
-import com.alexa.myThaiStar.handlers.OrderHome.Completed;
-import com.alexa.myThaiStar.handlers.OrderHome.EatOrDrinkOrCheckCustomerDetails;
-import com.alexa.myThaiStar.handlers.OrderHome.DishesConfirmSlot;
-import com.alexa.myThaiStar.handlers.OrderHome.DrinksConfirmSlot;
-import com.alexa.myThaiStar.handlers.OrderHome.WhichExtrasDishes;
-import com.alexa.myThaiStar.handlers.OrderHome.StartEatOrDrink;
-import com.alexa.myThaiStar.handlers.OrderHome.EatOrDrinkOrClose;
-import com.alexa.myThaiStar.handlers.OrderHome.WhatDoUWantToDrinkOrServeTimeOrCloseOrder;
-import com.alexa.myThaiStar.handlers.OrderHome.WhereLikeToEat;
+import com.alexa.myThaiStar.handlers.orderHome.AmountDishesOrCorrectExtras;
+import com.alexa.myThaiStar.handlers.orderHome.AmountDrinks;
+import com.alexa.myThaiStar.handlers.orderHome.AnotherDishOrDoUWantToDrink;
+import com.alexa.myThaiStar.handlers.orderHome.AnotherDishYesNoOrCorrectTheDish;
+import com.alexa.myThaiStar.handlers.orderHome.AnotherDrinkOrMakeServingTimeOrCloseOrder;
+import com.alexa.myThaiStar.handlers.orderHome.AnotherDrinkYesNoOrCorrectTheDrink;
+import com.alexa.myThaiStar.handlers.orderHome.CloseOrderOrCorrectTheServeTime;
+import com.alexa.myThaiStar.handlers.orderHome.Completed;
+import com.alexa.myThaiStar.handlers.orderHome.DishesConfirmSlot;
+import com.alexa.myThaiStar.handlers.orderHome.DrinksConfirmSlot;
+import com.alexa.myThaiStar.handlers.orderHome.EatOrDrinkOrCheckCustomerDetails;
+import com.alexa.myThaiStar.handlers.orderHome.EatOrDrinkOrClose;
+import com.alexa.myThaiStar.handlers.orderHome.StartEatOrDrink;
+import com.alexa.myThaiStar.handlers.orderHome.WhatDoUWantToDrinkOrServeTimeOrCloseOrder;
+import com.alexa.myThaiStar.handlers.orderHome.WhereLikeToEat;
+import com.alexa.myThaiStar.handlers.orderHome.WhichExtrasDishes;
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
 import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://251b4de5f2c2.ngrok.io";
+  public static final String BASE_URL = "https://ce7a1c53693b.ngrok.io";
 
   private static Skill getSkill() {
 

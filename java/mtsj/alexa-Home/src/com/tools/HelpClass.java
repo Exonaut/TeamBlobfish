@@ -113,6 +113,7 @@ public class HelpClass {
 
   }
 
+  // TODO return type vllt nicht notwendig?
   public static ResponseBooking getAllBookingsAndOrders() {
 
     RequestLogin req = new RequestLogin();
@@ -161,13 +162,45 @@ public class HelpClass {
 
   }
 
-  public static boolean orderAlreadyExists(String bookingToken) {
+  public static boolean orderExists(String bookingToken) {
 
     for (com.entity.booking.Content c : contentOrder)
       if (c.booking.bookingToken.equals(bookingToken))
         return true;
 
     return false;
+
+  }
+
+  public static int orderAvailable(String userEmail) {
+
+    int counterOrderIDs = 0;
+    long diffTmp = 0;
+    for (com.entity.booking.Content c : contentOrder) {
+
+      String tmpBookingTimeAsString = c.booking.bookingDate.substring(0, 10) + "";
+
+      long tmpBookingTimeAsLong = (Long.parseLong(tmpBookingTimeAsString) * 1000);
+      long timeNowAsLong = System.currentTimeMillis();
+
+      if (c.booking.email.equals(userEmail) && tmpBookingTimeAsLong >= timeNowAsLong) {
+
+        counterOrderIDs++;
+
+        if (diffTmp == 0 || diffTmp > (tmpBookingTimeAsLong - timeNowAsLong)) {
+
+          diffTmp = tmpBookingTimeAsLong - timeNowAsLong;
+
+          HelpClass.req = new RequestOrder();
+          HelpClass.req.booking.bookingToken = c.booking.bookingToken;
+          HelpClass.req.orderLines = c.orderLines;
+
+        }
+
+      }
+    }
+
+    return counterOrderIDs;
 
   }
 
@@ -183,7 +216,7 @@ public class HelpClass {
       long timeNowAsLong = System.currentTimeMillis();
 
       if (c.booking.email.equals(userEmail) && tmpBookingTimeAsLong >= timeNowAsLong
-          && !orderAlreadyExists(c.booking.bookingToken)) {
+          && !orderExists(c.booking.bookingToken)) {
 
         counterBookingIDs++;
 
@@ -202,8 +235,8 @@ public class HelpClass {
 
       }
     }
-
     return counterBookingIDs;
+
   }
 
   public static String getFormatDateTimeAndSubtractTwoHours(String date_time) {
