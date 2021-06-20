@@ -2,11 +2,19 @@
 <mat-dialog-content>
   <div class="dataRows">
 
+    <div *ngIf="date.length > 0">
+      <mat-divider></mat-divider>
+      <div class="dataRow">
+        <span>{{ 'formFields.name' | transloco }}</span>
+        <span class="nameValue">{{ date }}</span>
+      </div>
+    </div>
+
     <div>
       <mat-divider></mat-divider>
       <div class="dataRow">
         <span>{{ 'formFields.name' | transloco }}</span>
-        <span class="nameValue">{{ data.booking.name }}</span>
+        <span class="nameValue">{{ data.name }}</span>
       </div>
     </div>
 
@@ -14,24 +22,54 @@
       <mat-divider></mat-divider>
       <div class="dataRow">
         <span>{{ 'formFields.email' | transloco }}</span>
-        <span class="emailValue">{{ data.booking.email }}</span>
+        <span class="emailValue">{{ data.email }}</span>
       </div>
     </div>
 
-    <div>
+    <div *ngIf="data.bookingType != 2">
       <mat-divider></mat-divider>
-    </div>
-
-    <div>
       <div class="dataRow">
         <span>{{ 'formFields.assistants' | transloco }}</span>
-        <span>{{ data.booking.assistants }}</span>
+        <span>{{ data.assistants }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="data.bookingType === 2">
+      <mat-divider></mat-divider>
+      <div class="dataRow">
+        <span>{{ 'formFields.city' | transloco }}</span>
+        <span>{{ data.city }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="data.bookingType === 2">
+      <mat-divider></mat-divider>
+      <div class="dataRow">
+        <span>{{ 'formFields.street' | transloco }}</span>
+        <span>{{ data.street }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="data.bookingType === 2">
+      <mat-divider></mat-divider>
+      <div class="dataRow">
+        <span>{{ 'formFields.streetNr' | transloco }}</span>
+        <span>{{ data.streetNr }}</span>
       </div>
     </div>
 
     <div>
       <mat-divider></mat-divider>
     </div>
+
+    <div class="dataRow" *ngIf="data.bookingType === 1">
+      <span>{{'formFields.guests' | transloco}}</span>
+      <div class="invitedGuests">
+        <span *ngFor="let inv of data.invitedGuests">{{ inv }}</span>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>

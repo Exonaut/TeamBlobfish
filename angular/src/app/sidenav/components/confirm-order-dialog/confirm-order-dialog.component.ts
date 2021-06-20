@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BookingInfo } from 'app/shared/backend-models/interfaces';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-confirm-order-dialog',
@@ -9,7 +10,8 @@ import { BookingInfo } from 'app/shared/backend-models/interfaces';
 })
 export class ConfirmOrderDialogComponent implements OnInit {
 
-  data: BookingInfo;
+  data: any;
+  date: string;
 
   constructor(
     private dialog: MatDialogRef<ConfirmOrderDialogComponent>,
@@ -19,6 +21,7 @@ export class ConfirmOrderDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.date = moment(this.data.bookingDate).format('LLL');
   }
 
   close(val: boolean): void {

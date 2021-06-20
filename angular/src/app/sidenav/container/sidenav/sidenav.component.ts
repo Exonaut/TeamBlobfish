@@ -113,6 +113,7 @@ export class SidenavComponent implements OnInit {
     this.tokenForm = new FormGroup({
       bookingId: new FormControl(null, Validators.required),
     });
+
   }
 
   get name(): AbstractControl {
@@ -181,7 +182,7 @@ export class SidenavComponent implements OnInit {
       booking.bookingDate = this.minDate.setTime(
         this.minDate.getTime() + 1000 * 60,
       );
-    } else if (booking.invitedGuests != null) {
+    } else if (booking.invitedGuests.length > 0) {
       booking.bookingType = 1;
     } else {
       booking.bookingType = 0;
@@ -190,7 +191,8 @@ export class SidenavComponent implements OnInit {
 
     this.dialog
       .open(ConfirmOrderDialogComponent, {
-        data: composedBooking,
+        data: booking,
+        width: "30%",
       })
       .afterClosed()
       .subscribe((val) => {
