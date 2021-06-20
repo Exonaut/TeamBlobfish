@@ -15,7 +15,7 @@ import { ResetPasswordComponent } from './reset-password/container/reset-passwor
 const appRoutes: Routes = [
   { path: 'restaurant', component: HomeComponent, pathMatch: 'full' },
   { path: 'menu', component: MenuComponent },
-  { path: 'bookTable', component: BookTableComponent },
+  { path: 'bookTable', redirectTo: '/menu' },
   { path: 'booking/:action/:token', component: EmailConfirmationsComponent },
   { path: 'user/resetpassword/:token', component: ResetPasswordComponent },
   {

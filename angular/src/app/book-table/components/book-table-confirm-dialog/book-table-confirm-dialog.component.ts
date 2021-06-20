@@ -26,7 +26,7 @@ export class BookTableConfirmDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    SidenavComponent.bookingIdValue = this.data.bookingToken;
+    // SidenavComponent.bookingIdValue = this.data.bookingToken;
   }
 
   close(): void {

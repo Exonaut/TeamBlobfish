@@ -22,7 +22,7 @@ export class BookTableDialogComponent implements OnInit {
     private dialog: MatDialogRef<BookTableDialogComponent>,
     @Inject(MAT_DIALOG_DATA) dialogData: any,
   ) {
-    this.data = this.bookingService.composeBooking(dialogData, 0);
+    this.data = this.bookingService.composeBooking(dialogData);
   }
 
   ngOnInit(): void {

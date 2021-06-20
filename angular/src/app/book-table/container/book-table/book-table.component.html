@@ -77,6 +77,12 @@
               </div>
 
               <div>
+                <mat-form-field color="accent" class="full-width-field">
+                  <input matInput type="number" [placeholder]="'formFields.delivery' | transloco" formControlName="bookingType">
+                </mat-form-field>
+              </div>
+
+              <div>
                 <mat-checkbox data-name="bookTableTerms" class="bookTableTnc" #termsd>{{'formFields.terms' | transloco}}</mat-checkbox>
               </div>
 
