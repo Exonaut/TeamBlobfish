@@ -52,17 +52,13 @@ describe('SidenavComponent', () => {
     },
   };
 
-  const translocoServiceStub = {
-
-  }
-
   const snackBarServiceStub = {
 
-  }
+  };
 
   const changeDetectorRefStub = {
-    
-  }
+
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

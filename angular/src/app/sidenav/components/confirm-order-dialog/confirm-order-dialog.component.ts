@@ -16,7 +16,7 @@ export class ConfirmOrderDialogComponent implements OnInit {
   constructor(
     private dialog: MatDialogRef<ConfirmOrderDialogComponent>,
     @Inject(MAT_DIALOG_DATA) dialogData: any,
-  ) { 
+  ) {
     this.data = dialogData;
   }
 

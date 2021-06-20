@@ -11,14 +11,14 @@ describe('ConfirmOrderDialogComponent', () => {
   let fixture: ComponentFixture<ConfirmOrderDialogComponent>;
 
   const matDialogRefStub = {
-    
-  }
+
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ConfirmOrderDialogComponent ],
       providers: [
-        { provide: MAT_DIALOG_DATA, useValue: { 
+        { provide: MAT_DIALOG_DATA, useValue: {
 
          } },
         { provide: MatDialogRef, useValue: matDialogRefStub}

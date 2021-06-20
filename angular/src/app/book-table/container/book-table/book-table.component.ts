@@ -99,7 +99,7 @@ export class BookTableComponent implements OnInit {
     return this.bookForm.get('assistants');
   }
   get bookingType(): AbstractControl {
-    return this.bookForm.get('bookingType')
+    return this.bookForm.get('bookingType');
   }
 
   get invName(): AbstractControl {

@@ -40,7 +40,7 @@ export class SidenavComponent implements OnInit {
   orders: Order[];
   totalPrice$: Observable<number>;
 
-  delivery: boolean = false;
+  delivery: boolean;
 
   invitationModel: string[] = [];
   minDate: Date = new Date();
@@ -75,6 +75,8 @@ export class SidenavComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.delivery = false;
+
     this.orders$ = this.store.select(fromOrder.getAllOrders);
     this.store
       .select(fromOrder.getAllOrders)
@@ -176,7 +178,7 @@ export class SidenavComponent implements OnInit {
   }
 
   sendBooking(): void {
-    let booking = this.delivery ? this.deliveryForm.value : this.bookForm.value;
+    const booking = this.delivery ? this.deliveryForm.value : this.bookForm.value;
     if (this.delivery) {
       booking.bookingType = 2;
       booking.bookingDate = this.minDate.setTime(
@@ -187,12 +189,12 @@ export class SidenavComponent implements OnInit {
     } else {
       booking.bookingType = 0;
     }
-    let composedBooking = this.sidenavService.composeBooking(booking);
+    const composedBooking = this.sidenavService.composeBooking(booking);
 
     this.dialog
       .open(ConfirmOrderDialogComponent, {
         data: booking,
-        width: "30%",
+        width: '30%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -219,14 +221,14 @@ export class SidenavComponent implements OnInit {
                   this.translocoService.translate('sidenav.bookingSuccess'),
                   6000,
                   'green'
-                )
+                );
               } else if (this.delivery) {
                 this.closeSidenav();
                 this.snackBarService.openSnack(
                   this.translocoService.translate('sidenav.deliverySuccess'),
                   6000,
                   'green'
-                )
+                );
               }
               this.clearInputs();
             });
@@ -239,9 +241,9 @@ export class SidenavComponent implements OnInit {
       fromOrder.sendOrders({
         token: {
           address: {
-            city: "",
-            street: "",
-            streetNr: "",
+            city: '',
+            street: '',
+            streetNr: '',
           },
           bookingToken: this.tokenForm.value.bookingId,
         },
