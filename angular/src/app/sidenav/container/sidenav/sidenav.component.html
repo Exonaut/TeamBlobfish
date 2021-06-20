@@ -12,96 +12,128 @@
       </div>
     </mat-toolbar>
 
-    <mat-tab-group dynamicHeight>
+    <mat-tab-group
+      dynamicHeight
+      [selectedIndex]="selectedTab"
+      (selectedIndexChange)="selectedTab = $event"
+    >
       <div class="orderDetails">
         <mat-tab class="orderDetails">
-          <ng-template mat-tab-label>
-            <mat-icon>shopping_basket</mat-icon>
-            {{ ('sidenav.order' | transloco) }}
-          </ng-template>
-          
-          <h4 class="sidenavHeader">
-            {{ 'sidenav.header' | transloco }}
-          </h4>
+          <form [formGroup]="tokenForm">
+            <ng-template mat-tab-label>
+              <mat-icon>shopping_basket</mat-icon>
+              {{ 'sidenav.order' | transloco }}
+            </ng-template>
 
-          <div
-            *ngIf="(orders$ | async)?.length < 1; else sidenavOrder"
-            class="noOrders"
-          >
-            <span>{{ 'sidenav.noSelection' | transloco }}</span>
+            <h4 class="sidenavHeader">
+              {{ 'sidenav.header' | transloco }}
+            </h4>
+
+            <div class="orderTable">
+              <mat-card *ngIf="!bookingId.value">
+                <div class="orderTableNotice">
+                  <mat-icon>report_problem</mat-icon>
+
+                  <span class="invitationAlert"
+                    >{{ 'alerts.orderID' | transloco }}
+                  </span>
+
+                  <button
+                    name="bookTable"
+                    mat-button
+                    color="accent"
+                    (click)="selectedTab = 1"
+                  >
+                    {{ 'buttons.bookTable' | transloco }}
+                  </button>
+                </div>
+              </mat-card>
+            </div>
+
+            <div
+              *ngIf="(orders$ | async)?.length < 1; else sidenavOrder"
+              class="noOrders"
+            >
+              <span>{{ 'sidenav.noSelection' | transloco }}</span>
+
+              <button
+                name="viewMenu"
+                mat-button
+                color="accent"
+                (click)="navigateTo('menu')"
+              >
+                {{ 'buttons.viewMenu' | transloco }}
+              </button>
+            </div>
+            <ng-template #sidenavOrder>
+              <div
+                class="sidenavOrderContainer"
+                [class.scrollOrders]="(orders$ | async)?.length > 3"
+              >
+                <app-public-sidenav-order
+                  *ngFor="let order of orders$ | async"
+                  [order]="order"
+                  (orderIncreased)="onOrderIncreased($event)"
+                  (orderDecreased)="onOrderDecreased($event)"
+                  (orderRemoved)="onOrderRemoved($event)"
+                  (commentAdded)="onCommentAdded($event)"
+                  (commentRemoved)="onCommentRemoved($event)"
+                ></app-public-sidenav-order>
+              </div>
+            </ng-template>
+
+            <div>
+              <mat-form-field class="orderBookingID" color="accent">
+                <input
+                  name="orderBookingID"
+                  matInput
+                  [placeholder]="'sidenav.bookingId' | transloco"
+                  formControlName="bookingId"
+                />
+              </mat-form-field>
+            </div>
+
+            <div *ngIf="(orders$ | async)?.length > 0" class="orderTotal">
+              <h3>{{ 'formFields.total' | transloco }}</h3>
+              <h3>{{ totalPrice$ | async | number: '1.2-2' }} €</h3>
+            </div>
+
+            <div>
+              <mat-checkbox
+                class="orderTermsCheckbox"
+                data-name="orderTerms"
+                #terms
+                >{{ 'formFields.terms' | transloco }}</mat-checkbox
+              >
+            </div>
 
             <button
-              name="viewMenu"
               mat-button
+              type="button"
               color="accent"
-              (click)="navigateTo('menu')"
+              (click)="sendOrder()"
+              [disabled]="!(
+                tokenForm.valid &&
+                terms.checked
+              )"
             >
-              {{ 'buttons.viewMenu' | transloco }}
+              {{ 'buttons.send' | transloco | uppercase }}
             </button>
-          </div>
-          <ng-template #sidenavOrder>
-            <div
-              class="sidenavOrderContainer"
-              [class.scrollOrders]="(orders$ | async)?.length > 3"
-            >
-              <app-public-sidenav-order
-                *ngFor="let order of orders$ | async"
-                [order]="order"
-                (orderIncreased)="onOrderIncreased($event)"
-                (orderDecreased)="onOrderDecreased($event)"
-                (orderRemoved)="onOrderRemoved($event)"
-                (commentAdded)="onCommentAdded($event)"
-                (commentRemoved)="onCommentRemoved($event)"
-              ></app-public-sidenav-order>
-            </div>
-          </ng-template>
-          <div *ngIf="(orders$ | async)?.length > 0" class="orderTotal">
-            <h3>{{ 'formFields.total' | transloco }}</h3>
-            <h3>{{ totalPrice$ | async | number: '1.2-2' }} €</h3>
-          </div>
+          </form>
         </mat-tab>
+
         <mat-tab class="bookingDetails">
           <ng-template mat-tab-label>
             <mat-icon>person</mat-icon>
-            {{ ('sidenav.personalinfo' | transloco) }}
+            {{ 'sidenav.personalinfo' | transloco }}
           </ng-template>
 
           <div class="orderTable">
-            <!-- <div>
-          <mat-card *ngIf="!bookingId.value">
-            <div class="orderTableNotice">
-              <mat-icon>report_problem</mat-icon>
-
-              <span class="invitationAlert"
-                >{{ 'alerts.orderID' | transloco }}
-              </span>
-
-              <button
-                name="bookTable"
-                mat-button
-                color="accent"
-                (click)="navigateTo('bookTable')"
-              >
-                {{ 'buttons.bookTable' | transloco }}
-              </button>
-            </div>
-          </mat-card>
-        </div> -->
-
-            <!-- <div>
-          <mat-form-field class="orderBookingID" color="accent">
-            <input
-              name="orderBookingID"
-              matInput
-              #bookingId
-              [placeholder]="'sidenav.bookingId' | transloco"
-              [value]='SidenavComponent.bookingIdValue'
-            />
-          </mat-form-field>
-        </div> -->
-
             <div>
-              <mat-button-toggle-group [(value)]="delivery" class="full-width-field">
+              <mat-button-toggle-group
+                [(value)]="delivery"
+                class="full-width-field"
+              >
                 <mat-button-toggle [value]="false" class="full-width-field">
                   <mat-icon>restaurant</mat-icon>
                   In-House
@@ -115,6 +147,25 @@
 
             <div class="bookTableFormContainer" *ngIf="!delivery">
               <form [formGroup]="bookForm">
+                <mat-card *ngIf="(orders$ | async)?.length < 1">
+                  <div class="orderTableNotice">
+                    <mat-icon>report_problem</mat-icon>
+
+                    <span class="orderAlert"
+                      >{{ 'alerts.orderInhouse' | transloco }}
+                    </span>
+
+                    <button
+                      name="bookTable"
+                      mat-button
+                      color="accent"
+                      (click)="navigateTo('menu')"
+                    >
+                      {{ 'buttons.menu' | transloco }}
+                    </button>
+                  </div>
+                </mat-card>
+
                 <div>
                   <mat-form-field color="accent" class="full-width-field">
                     <input
@@ -231,6 +282,25 @@
 
             <div class="bookTableFormContainer" *ngIf="delivery">
               <form [formGroup]="deliveryForm">
+                <mat-card *ngIf="(orders$ | async)?.length < 1">
+                  <div class="orderTableNotice">
+                    <mat-icon>report_problem</mat-icon>
+
+                    <span class="orderAlert"
+                      >{{ 'alerts.order' | transloco }}
+                    </span>
+
+                    <button
+                      name="bookTable"
+                      mat-button
+                      color="accent"
+                      (click)="navigateTo('menu')"
+                    >
+                      {{ 'buttons.menu' | transloco }}
+                    </button>
+                  </div>
+                </mat-card>
+
                 <div>
                   <mat-form-field color="accent" class="full-width-field">
                     <input
@@ -354,7 +424,9 @@
                 !(
                   terms.checked &&
                   ((bookForm.valid && !delivery) ||
-                    (deliveryForm.valid && delivery && (orders$ | async)?.length > 0))
+                    (deliveryForm.valid &&
+                      delivery &&
+                      (orders$ | async)?.length > 0))
                 )
               "
             >

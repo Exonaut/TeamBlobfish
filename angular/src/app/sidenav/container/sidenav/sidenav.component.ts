@@ -35,14 +35,10 @@ import * as fromOrder from '../../store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidenavComponent implements OnInit {
-  static bookingIdValue: string;
 
-  bookingId: string;
   orders$: Observable<Order[]>;
   orders: Order[];
   totalPrice$: Observable<number>;
-
-  SidenavComponent = SidenavComponent;
 
   delivery: boolean = false;
 
@@ -51,6 +47,9 @@ export class SidenavComponent implements OnInit {
   bookForm: FormGroup;
   deliveryForm: FormGroup;
   invitationForm: FormGroup;
+  tokenForm: FormGroup;
+
+  selectedTab: 0;
 
   REGEXP_EMAIL =
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -85,7 +84,6 @@ export class SidenavComponent implements OnInit {
       // Update Order Token input
       this.changeDetectorRef.markForCheck();
     }, 1000);
-    SidenavComponent.bookingIdValue = '';
 
     const booking = this.reservationInfo.booking;
     this.bookForm = new FormGroup({
@@ -112,6 +110,9 @@ export class SidenavComponent implements OnInit {
       street: new FormControl(null, Validators.required),
       streetNr: new FormControl(null, Validators.required),
     });
+    this.tokenForm = new FormGroup({
+      bookingId: new FormControl(null, Validators.required),
+    });
   }
 
   get name(): AbstractControl {
@@ -136,6 +137,10 @@ export class SidenavComponent implements OnInit {
   }
   get invitedGuests(): AbstractControl {
     return this.bookForm.get('invitedGuests');
+  }
+
+  get bookingId(): AbstractControl {
+    return this.tokenForm.get('bookingId');
   }
 
   get invName(): AbstractControl {
@@ -225,6 +230,21 @@ export class SidenavComponent implements OnInit {
             });
         }
       });
+  }
+
+  sendOrder(): void {
+    this.store.dispatch(
+      fromOrder.sendOrders({
+        token: {
+          address: {
+            city: "",
+            street: "",
+            streetNr: "",
+          },
+          bookingToken: this.tokenForm.value.bookingId,
+        },
+      }),
+    );
   }
 
   findOrder(id: string): Order {

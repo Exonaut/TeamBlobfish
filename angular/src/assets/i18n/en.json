@@ -6,7 +6,7 @@
     "send": "Send",
     "login": "Login",
     "register": "Register",
-    "bookTable": "Book Table",
+    "bookTable": "Booking",
     "inviteFriends": "Invite friends",
     "viewMenu": "View Menu",
     "addToOrder": "Add to order",
@@ -28,7 +28,8 @@
     "editUser": "Edit User",
     "accept": "Accept",
     "decline": "Decline",
-    "copyToClipboard": "Copy to Clipboard"
+    "copyToClipboard": "Copy to Clipboard",
+    "menu": "Menu"
   },
   "table": {
     "rowsPage": "Rows per page",
@@ -46,14 +47,18 @@
       "orderCancel": "Order succesfully canceled"
     },
     "orderID":
-      "To order a menu it is necessary to obtain a booking id. Either you enter your already known booking id or you book a table",
+      "To order a menu, provide your booking ID or create a new booking",
     "passwordError": "Password Mismatch",
     "authAlerts": {
       "loginSuccess": "Login successful",
       "registerSuccess": "Register successful",
       "registerFail": "Register failed, username already in use",
       "logoutSuccess": "Log out successful, come back soon!"
-    }
+    },
+    "order": 
+      "To order the delivery service, you must select at least one dish from the menu",
+    "orderInhouse": 
+      "You are booking a table without ordering a dish. You can select your order now or select it at a later point using your booking ID"
   },
   "formFields": {
     "username": "Username",
@@ -171,7 +176,7 @@
         "Here you can add a short comment to our cookers about how to prepare your dish"
     },
     "order": "Order",
-    "personalinfo": "Personal Info",
+    "personalinfo": "Booking",
     "bookingSuccess": "Your table has been successfully booked",
     "deliverySuccess": "Your order is on its way"
   },
