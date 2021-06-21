@@ -35,6 +35,14 @@ public class CustomerDetailsConfirmSlot implements IntentRequestHandler {
 
     ResponseBooking response = HelpClass.getAllBookings();
 
+    boolean isNumeric = queryTable.getValue().chars().allMatch(Character::isDigit);
+
+    if (!isNumeric)
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("queryTable", intentRequest.getIntent())
+          .withSpeech("Ich habe Sie leider nicht verstanden. Wie lautet Ihre Tischnummer?")
+          .withReprompt("Wie lautet Ihre Tischnummer? Ihre Tischnummer finden Sie in Ihrer Buchungsbestätigung.")
+          .build();
+
     if (response == null)
       return handlerInput.getResponseBuilder()
           .withSpeech("Es ist ein Problem aufgetreten. Bitte versuchen Sie es zu einem späteren Zeitpunkt.").build();

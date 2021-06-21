@@ -33,7 +33,7 @@ public class LaunchRequestHandler implements RequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput input) {
 
-    String speechText = "Willkommen bei My Thai Star. Was kann ich für Sie tun? Wenn Sie Startschwierigkeiten haben, dann sagen Sie: hilfe.";
+    String speechText = "Willkommen bei My Thai Star. Was kann ich für Sie tun? Wenn Sie Startschwierigkeiten haben, dann sagen Sie: Hilfe.";
 
     return input.getResponseBuilder().withSpeech(speechText)
         .withReprompt("Wenn Sie Startschwierigkeiten haben, dann sagen Sie: hilfe.").build();
