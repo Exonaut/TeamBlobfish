@@ -90,109 +90,116 @@
 </form>
 <mat-progress-bar *ngIf="!users" color="accent" mode="indeterminate">
 </mat-progress-bar>
-<mat-card>
-  <mat-card-title>
-    {{ 'cockpit.user.title' | transloco }}
-  </mat-card-title>
+<div class="centering">
+  <mat-card>
+    <mat-card-title>
+      {{ 'cockpit.user.title' | transloco }}
+    </mat-card-title>
 
-  <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
 
-  <div class="tableContainer">
-    <table
-      mat-table
-      [dataSource]="users"
-      matSort
-      (matSortChange)="sort($event)"
-    >
-      <!-- Id Column -->
-      <ng-container matColumnDef="user.id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="idHeader">
-          {{ columns[0].label }}
-        </th>
-        <td mat-cell *matCellDef="let element" class="idData">
-          {{ element.id }}
-        </td>
-      </ng-container>
+    <div class="tableContainer">
+      <table
+        mat-table
+        [dataSource]="users"
+        matSort
+        (matSortChange)="sort($event)"
+        class="outerTable"
+      >
+        <!-- Id Column -->
+        <ng-container matColumnDef="user.id">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="idHeader"
+          >
+            {{ columns[0].label }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="idData">
+            {{ element.id }}
+          </td>
+        </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="user.name">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          class="nameHeader"
-        >
-          {{ columns[1].label }}
-        </th>
-        <td mat-cell *matCellDef="let element" class="nameData">
-          {{ element.username }}
-        </td>
-      </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="user.name">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="nameHeader"
+          >
+            {{ columns[1].label }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="nameData">
+            {{ element.username }}
+          </td>
+        </ng-container>
 
-      <!-- Email Column -->
-      <ng-container matColumnDef="user.email">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          class="emailHeader"
-        >
-          {{ columns[2].label }}
-        </th>
-        <td mat-cell *matCellDef="let element" class="emailData">
-          {{ element.email }}
-        </td>
-      </ng-container>
+        <!-- Email Column -->
+        <ng-container matColumnDef="user.email">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="emailHeader"
+          >
+            {{ columns[2].label }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="emailData">
+            {{ element.email }}
+          </td>
+        </ng-container>
 
-      <!-- Role Column -->
-      <ng-container matColumnDef="user.role">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          class="roleHeader"
-        >
-          {{ columns[3].label }}
-        </th>
-        <td mat-cell *matCellDef="let element" class="roleData">
-          {{ roleNames[element.userRoleId].label }}
-        </td>
-      </ng-container>
+        <!-- Role Column -->
+        <ng-container matColumnDef="user.role">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="roleHeader"
+          >
+            {{ columns[3].label }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="roleData">
+            {{ roleNames[element.userRoleId].label }}
+          </td>
+        </ng-container>
 
-      <!-- Actions column -->
-      <ng-container matColumnDef="user.actions">
-        <th mat-header-cell *matHeaderCellDef class="actionsHeader"></th>
-        <td mat-cell *matCellDef="let element">
-          <table class="innerTable">
-            <tr>
-              <td>
-                <button
-                  class="editUser"
-                  name="editUser"
-                  mat-raised-button
-                  type="button"
-                  [matTooltip]="'buttons.editUser' | transloco"
-                  (click)="editUser(element)"
-                  [disabled]="element.username === userName"
-                >
-                  <mat-icon class="editUser">settings</mat-icon>
-                </button>
+        <!-- Actions column -->
+        <ng-container matColumnDef="user.actions">
+          <th mat-header-cell *matHeaderCellDef class="actionsHeader"></th>
+          <td mat-cell *matCellDef="let element" class="actionButtons">
+            <table class="innerTable">
+              <tr>
+                <td>
+                  <button
+                    class="editUser"
+                    name="editUser"
+                    mat-raised-button
+                    type="button"
+                    [matTooltip]="'buttons.editUser' | transloco"
+                    (click)="editUser(element)"
+                    [disabled]="element.username === userName"
+                  >
+                    <mat-icon class="editUser">settings</mat-icon>
+                  </button>
 
-                <button
-                  class="pwResetMail"
-                  name="pwResetMail"
-                  mat-raised-button
-                  type="button"
-                  [matTooltip]="'buttons.sendPasswordResetLink' | transloco"
-                  (click)="resetPassword(element)"
-                >
-                  <mat-icon class="pwResetMail">email</mat-icon>
-                  <span *ngIf="hoverResetPw === element.id">
-                    {{ 'buttons.sendPasswordResetLink' | transloco }}
-                  </span>
-                </button>
+                  <button
+                    class="pwResetMail"
+                    name="pwResetMail"
+                    mat-raised-button
+                    type="button"
+                    [matTooltip]="'buttons.sendPasswordResetLink' | transloco"
+                    (click)="resetPassword(element)"
+                  >
+                    <mat-icon class="pwResetMail">email</mat-icon>
+                    <span *ngIf="hoverResetPw === element.id">
+                      {{ 'buttons.sendPasswordResetLink' | transloco }}
+                    </span>
+                  </button>
 
-                <!-- <button
+                  <!-- <button
                   class="pwChange"
                   name="pwChange"
                   mat-raised-button
@@ -207,57 +214,55 @@
                   </span>
                 </button> -->
 
-                <button
-                  class="deleteUser"
-                  name="deleteUser"
-                  mat-raised-button
-                  type="button"
-                  color="warn"
-                  [matTooltip]="'buttons.deleteAccount' | transloco"
-                  (click)="deleteUser(element)"
-                  [disabled]="element.username === userName"
-                >
-                  <mat-icon class="deleteUser">clear</mat-icon>
-                </button>
-              </td>
-            </tr>
-          </table>
+                  <button
+                    class="deleteUser"
+                    name="deleteUser"
+                    mat-raised-button
+                    type="button"
+                    color="warn"
+                    [matTooltip]="'buttons.deleteAccount' | transloco"
+                    (click)="deleteUser(element)"
+                    [disabled]="element.username === userName"
+                  >
+                    <mat-icon class="deleteUser">clear</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <div class="property-text-center noResults" *ngIf="users.length === 0">
+      <h3>{{ 'table.noResults' | transloco }}.</h3>
+    </div>
+    <table>
+      <tr>
+        <td>
+          <button mat-button (click)="applyFilters()">
+            <mat-icon>autorenew</mat-icon>
+          </button>
+          <button mat-button (click)="openCreateUserDialog()" color="accent">
+            <mat-icon>account_circle</mat-icon>
+            {{ 'buttons.createUser' | transloco | uppercase }}
+          </button>
         </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: displayedColumns"
-      ></tr>
+        <td>
+          <mat-paginator
+            #pagingBar
+            [length]="totalUsers"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizes"
+            [showFirstLastButtons]="true"
+            (page)="page($event)"
+          >
+          </mat-paginator>
+        </td>
+      </tr>
     </table>
-  </div>
-
-  <div class="property-text-center noResults" *ngIf="users.length === 0">
-    <h3>{{ 'table.noResults' | transloco }}.</h3>
-  </div>
-  <table>
-    <tr>
-      <td>
-        <button mat-button (click)="applyFilters()">
-          <mat-icon>autorenew</mat-icon>
-        </button>
-        <button mat-button (click)="openCreateUserDialog()" color="accent">
-          <mat-icon>account_circle</mat-icon>
-          {{ 'buttons.createUser' | transloco | uppercase }}
-        </button>
-      </td>
-      <td>
-        <mat-paginator
-          #pagingBar
-          [length]="totalUsers"
-          [pageSize]="pageSize"
-          [pageSizeOptions]="pageSizes"
-          [showFirstLastButtons]="true"
-          (page)="page($event)"
-        >
-        </mat-paginator>
-      </td>
-    </tr>
-  </table>
-</mat-card>
+  </mat-card>
+</div>

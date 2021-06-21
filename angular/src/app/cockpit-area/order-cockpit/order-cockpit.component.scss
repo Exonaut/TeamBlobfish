@@ -30,8 +30,14 @@ mat-card-title {
 }
 
 .tableContainer {
-  width: 100%;
+  width: fit-content;
   overflow: auto;
+}
+
+.centering {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 table {

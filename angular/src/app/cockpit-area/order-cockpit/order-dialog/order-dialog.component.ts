@@ -26,7 +26,7 @@ export class OrderDialogComponent implements OnInit {
   columnst: any[];
   displayedColumnsT: string[] = [
     'bookingDate',
-    'creationDate',
+    // 'creationDate',
     'serveTime',
     'name',
     'email',
