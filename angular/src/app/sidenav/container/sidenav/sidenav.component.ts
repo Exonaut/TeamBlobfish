@@ -167,7 +167,7 @@ export class SidenavComponent implements OnInit {
     this.deliveryForm.reset();
     this.bookForm.reset();
     this.invitedGuests.setValue([]);
-    this.store.dispatch(fromOrder.clearOrders())
+    this.store.dispatch(fromOrder.clearOrders());
   }
 
   closeSidenav(): void {
@@ -180,7 +180,7 @@ export class SidenavComponent implements OnInit {
   }
 
   sendBooking(): void {
-    let booking = this.delivery ? this.deliveryForm.value : this.bookForm.value;
+    const booking = this.delivery ? this.deliveryForm.value : this.bookForm.value;
     if (this.delivery) {
       booking.bookingType = 2;
       booking.bookingDate = this.minDate.setTime(
