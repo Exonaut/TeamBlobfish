@@ -64,6 +64,22 @@ export class HeaderComponent {
     sidenavOpened ? this.sidenav.closeSideNav() : this.sidenav.openSideNav();
   }
 
+  openCloseSideNavOrder(sidenavOpened: boolean): void {
+    if (!sidenavOpened || this.sidenav.openTab != 0) {
+      this.sidenav.openSideNavOrder();
+    } else {
+      this.sidenav.closeSideNav();
+    };
+  }
+
+  openCloseSideNavBooking(sidenavOpened: boolean): void {
+    if (!sidenavOpened || this.sidenav.openTab != 1) {
+      this.sidenav.openSideNavBooking();
+    } else {
+      this.sidenav.closeSideNav();
+    };
+  }
+
   openCloseNavigationSideNav(): void {
     this.openCloseSidenavMobile.emit();
   }

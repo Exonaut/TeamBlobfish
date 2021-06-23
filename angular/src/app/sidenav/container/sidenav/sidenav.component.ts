@@ -49,7 +49,7 @@ export class SidenavComponent implements OnInit {
   invitationForm: FormGroup;
   tokenForm: FormGroup;
 
-  selectedTab: 0;
+  selectedTab: number;
 
   REGEXP_EMAIL =
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -70,12 +70,13 @@ export class SidenavComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private translocoService: TranslocoService,
     private snackBarService: SnackBarService,
-    private sidenavService: SidenavService,
+    public sidenavService: SidenavService,
     private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
     this.delivery = false;
+    this.selectedTab = 0;
 
     this.orders$ = this.store.select(fromOrder.getAllOrders);
     this.store
@@ -85,7 +86,8 @@ export class SidenavComponent implements OnInit {
     setInterval(() => {
       // Update Order Token input
       this.changeDetectorRef.markForCheck();
-    }, 1000);
+      this.selectedTab = this.sidenavService.openTab;
+    }, 100);
 
     const booking = this.reservationInfo.booking;
     this.bookForm = new FormGroup({
@@ -178,20 +180,19 @@ export class SidenavComponent implements OnInit {
   }
 
   sendBooking(): void {
-    const booking = this.delivery ? this.deliveryForm.value : this.bookForm.value;
+    let booking = this.delivery ? this.deliveryForm.value : this.bookForm.value;
     if (this.delivery) {
       booking.bookingType = 2;
       booking.bookingDate = this.minDate.setTime(
         this.minDate.getTime() + 1000 * 60,
       );
-    } else if (booking.invitedGuests.length > 0) {
+    } else if (booking.invitedGuests && booking.invitedGuests.length > 0) {
       booking.bookingType = 1;
     } else {
       booking.bookingType = 0;
     }
-    const composedBooking = this.sidenavService.composeBooking(booking);
 
-    this.dialog
+    const subscription = this.dialog
       .open(ConfirmOrderDialogComponent, {
         data: booking,
         width: '30%',
@@ -200,7 +201,7 @@ export class SidenavComponent implements OnInit {
       .subscribe((val) => {
         if (val) {
           this.sidenavService
-            .postBooking(composedBooking)
+            .postBooking(this.sidenavService.composeBooking(booking))
             .subscribe((bookingResponse: BookingResponse) => {
               if (this.orders.length > 0) {
                 this.store.dispatch(
@@ -231,6 +232,7 @@ export class SidenavComponent implements OnInit {
                 );
               }
               this.clearInputs();
+              subscription.unsubscribe();
             });
         }
       });

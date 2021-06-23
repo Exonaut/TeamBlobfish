@@ -25,6 +25,7 @@ export class SidenavService {
   orders$: Observable<Order[]>;
 
   opened = false;
+  openTab = 0;
 
   constructor(
     private http: HttpClient,
@@ -38,6 +39,16 @@ export class SidenavService {
 
   public closeSideNav(): void {
     this.opened = false;
+  }
+
+  public openSideNavOrder(): void {
+    this.openSideNav();
+    this.openTab = 0;
+  }
+
+  public openSideNavBooking(): void {
+    this.openSideNav();
+    this.openTab = 1;
   }
 
   public getNumberOrders(): Observable<number> {

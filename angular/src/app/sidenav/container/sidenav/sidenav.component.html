@@ -15,7 +15,7 @@
     <mat-tab-group
       dynamicHeight
       [selectedIndex]="selectedTab"
-      (selectedIndexChange)="selectedTab = $event"
+      (selectedIndexChange)="sidenavService.openTab = $event"
     >
       <div class="orderDetails">
         <mat-tab class="orderDetails">
