@@ -111,6 +111,7 @@
               mat-button
               type="button"
               color="accent"
+              class="orderSubmitId"
               (click)="sendOrder()"
               [disabled]="!(
                 tokenForm.valid &&
@@ -407,16 +408,7 @@
           </div>
           <div class="align-right">
             <button
-              class="orderCancel"
-              name="orderCancel"
-              mat-button
-              (click)="closeSidenav()"
-            >
-              {{ 'buttons.cancel' | transloco | uppercase }}
-            </button>
-            <button
               class="orderSubmit"
-              name="orderSubmit"
               mat-button
               color="accent"
               (click)="sendBooking()"

@@ -36,6 +36,26 @@ const mockDialog = {
   }),
 };
 
+const sideNavServiceStub = {
+  closeSideNav: jasmine.createSpy('closeSideNav'),
+  postBooking: jasmine.createSpy('postBooking').and.returnValue(
+    of({
+      bookingToken: 'BT'
+    })
+  ),
+  sendOrders: jasmine.createSpy('sendOrders').and.returnValue(
+    of({})
+  ),
+};
+
+const snackBarServiceStub = {
+  openSnack: jasmine.createSpy('openSnack'),
+};
+
+const changeDetectorRefStub = {
+
+};
+
 describe('SidenavComponent', () => {
   let component: SidenavComponent;
   let fixture: ComponentFixture<SidenavComponent>;
@@ -44,6 +64,7 @@ describe('SidenavComponent', () => {
   let mockOrdersSelector: MemoizedSelector<fromOrder.SideNavState, Order[]>;
   let dialog: MatDialog;
   let sidenavService: SidenavService;
+  let snackBarService: SnackBarService;
 
   const STATE = {
     sidenav: {
@@ -52,21 +73,13 @@ describe('SidenavComponent', () => {
     },
   };
 
-  const snackBarServiceStub = {
-
-  };
-
-  const changeDetectorRefStub = {
-
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [SidenavComponent, SidenavOrderComponent],
       providers: [
         PriceCalculatorService,
-        { provide: SidenavService, useValue: { closeSideNav: jasmine.createSpy('closeSideNav') } },
+        { provide: SidenavService, useValue: sideNavServiceStub },
         { provide: SnackBarService, useValue: snackBarServiceStub },
         { provide: ChangeDetectorRef, useValue: changeDetectorRefStub },
         TranslocoService,
@@ -91,6 +104,7 @@ describe('SidenavComponent', () => {
       fromOrder.getAllOrders,
       getAllOrderData,
     );
+    snackBarService = TestBed.inject(SnackBarService);
     sidenavService = TestBed.inject(SidenavService);
     el = fixture.debugElement;
     dialog = TestBed.inject(MatDialog);
@@ -143,17 +157,27 @@ describe('SidenavComponent', () => {
     expect(mockStore.dispatch).toHaveBeenCalled();
   }));
 
-  // it('should send the order details to the end user on click of send button', () => {
-  //   spyOn(mockStore, 'dispatch').and.callThrough();
-  //   const btn = el.query(By.css('.orderSubmit'));
-  //   click(btn);
-  //   expect(mockStore.dispatch).toHaveBeenCalled();
-  // });
+  it('should send the order details to the end user on click of ID send button', () => {
+    spyOn(component, 'sendOrder').and.callThrough();
+    const btn = el.query(By.css('.orderSubmitId'));
+    click(btn);
+    expect(sidenavService.sendOrders).toHaveBeenCalled();
+    expect(component.sendOrder).toHaveBeenCalled();
+  });
 
-  // it('should close sidenav pop up on click of order cancel button', () => {
-  //   spyOn(mockStore, 'dispatch').and.callThrough();
-  //   const btn = el.queryAll(By.css('.orderCancel'));
-  //   click(btn[0]);
-  //   expect(sidenavService.closeSideNav).toHaveBeenCalled();
-  // });
+  it('should send the booking and order on click of booking send button', async(() => {
+    spyOn(component, 'sendBooking').and.callThrough();
+    component.selectedTab = 1;
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      const btn = el.nativeElement.querySelector('.orderSubmit');
+      console.log(btn);
+      click(btn);
+      expect(component.sendBooking).toHaveBeenCalled();
+      expect(sidenavService.postBooking).toHaveBeenCalled();
+      expect(sidenavService.sendOrders).toHaveBeenCalled();
+      expect(snackBarService.openSnack).toHaveBeenCalled();
+    });
+    expect(true).toBeTruthy();
+  }));
 });
