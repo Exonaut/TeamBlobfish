@@ -178,7 +178,11 @@
     "order": "Order",
     "personalinfo": "Booking",
     "bookingSuccess": "Your table has been successfully booked",
-    "deliverySuccess": "Your order is on its way"
+    "deliverySuccess": "Your order is on its way",
+    "bookingError": "There was an error while trying to book your Table, please try again.",
+    "deliveryError": "There was an error while trying to order the delivery service, please try again.",
+    "orderSuccess": "Order successfully placed",
+    "orderError": "There was an error while trying to place your order, please try again."
   },
   "userArea": {
     "loginTitle": "LOGIN",

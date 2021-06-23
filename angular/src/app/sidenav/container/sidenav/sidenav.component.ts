@@ -35,7 +35,6 @@ import * as fromOrder from '../../store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidenavComponent implements OnInit {
-
   orders$: Observable<Order[]>;
   orders: Order[];
   totalPrice$: Observable<number>;
@@ -102,7 +101,7 @@ export class SidenavComponent implements OnInit {
         Validators.min(1),
         Validators.max(8),
       ]),
-      invitedGuests: new FormControl(this.invitationModel),
+      invitedGuests: new FormControl(this.invitationModel, [Validators.email]),
     });
     this.deliveryForm = new FormGroup({
       name: new FormControl(booking.name, Validators.required),
@@ -117,7 +116,6 @@ export class SidenavComponent implements OnInit {
     this.tokenForm = new FormGroup({
       bookingId: new FormControl(null, Validators.required),
     });
-
   }
 
   get name(): AbstractControl {
@@ -168,6 +166,8 @@ export class SidenavComponent implements OnInit {
   clearInputs(): void {
     this.deliveryForm.reset();
     this.bookForm.reset();
+    this.invitedGuests.setValue([]);
+    this.store.dispatch(fromOrder.clearOrders())
   }
 
   closeSidenav(): void {
@@ -192,7 +192,13 @@ export class SidenavComponent implements OnInit {
       booking.bookingType = 0;
     }
 
-    const subscription = this.dialog
+    if (!this.delivery) {
+      booking.city = '';
+      booking.street = '';
+      booking.streetNr = '';
+    }
+
+    this.dialog
       .open(ConfirmOrderDialogComponent, {
         data: booking,
         width: '30%',
@@ -202,55 +208,101 @@ export class SidenavComponent implements OnInit {
         if (val) {
           this.sidenavService
             .postBooking(this.sidenavService.composeBooking(booking))
-            .subscribe((bookingResponse: BookingResponse) => {
-              if (this.orders.length > 0) {
-                this.store.dispatch(
-                  fromOrder.sendOrders({
-                    token: {
+            .subscribe(
+              ($bookingResponse: BookingResponse) => {
+                if (this.orders.length > 0) {
+                  this.sidenavService
+                    .sendOrders({
                       address: {
                         city: booking.city,
                         street: booking.street,
                         streetNr: booking.streetNr,
                       },
-                      bookingToken: bookingResponse.bookingToken,
-                    },
-                  }),
-                );
-              } else if (!this.delivery) {
-                this.closeSidenav();
-                this.snackBarService.openSnack(
-                  this.translocoService.translate('sidenav.bookingSuccess'),
-                  6000,
-                  'green'
-                );
-              } else if (this.delivery) {
-                this.closeSidenav();
-                this.snackBarService.openSnack(
-                  this.translocoService.translate('sidenav.deliverySuccess'),
-                  6000,
-                  'green'
-                );
-              }
-              this.clearInputs();
-              subscription.unsubscribe();
-            });
+                      bookingToken: $bookingResponse.bookingToken,
+                    })
+                    .subscribe(
+                      ($orderResponse) => {
+                        this.closeSidenav();
+                        this.snackBarService.openSnack(
+                          this.translocoService.translate(
+                            'sidenav.orderSuccess',
+                          ),
+                          6000,
+                          'green',
+                        );
+                      },
+                      (error) => {
+                        this.snackBarService.openSnack(
+                          this.translocoService.translate('sidenav.orderError'),
+                          6000,
+                          'red',
+                        );
+                      },
+                    );
+                } else if (!this.delivery) {
+                  this.closeSidenav();
+                  this.snackBarService.openSnack(
+                    this.translocoService.translate('sidenav.bookingSuccess'),
+                    6000,
+                    'green',
+                  );
+                } else if (this.delivery) {
+                  this.closeSidenav();
+                  this.snackBarService.openSnack(
+                    this.translocoService.translate('sidenav.deliverySuccess'),
+                    6000,
+                    'green',
+                  );
+                }
+                this.clearInputs();
+              },
+              (error) => {
+                if (this.delivery) {
+                  this.snackBarService.openSnack(
+                    this.translocoService.translate('sidenav.deliveryError'),
+                    6000,
+                    'red',
+                  );
+                } else {
+                  this.snackBarService.openSnack(
+                    this.translocoService.translate('sidenav.bookingError'),
+                    6000,
+                    'red',
+                  );
+                }
+              },
+            );
         }
       });
   }
 
   sendOrder(): void {
-    this.store.dispatch(
-      fromOrder.sendOrders({
-        token: {
-          address: {
-            city: '',
-            street: '',
-            streetNr: '',
-          },
-          bookingToken: this.tokenForm.value.bookingId,
+    this.sidenavService
+      .sendOrders({
+        address: {
+          city: '',
+          street: '',
+          streetNr: '',
         },
-      }),
-    );
+        bookingToken: this.tokenForm.value.bookingId,
+      })
+      .subscribe(
+        ($orderResponse) => {
+          this.closeSidenav();
+          this.snackBarService.openSnack(
+            this.translocoService.translate('sidenav.orderSuccess'),
+            6000,
+            'green',
+          );
+        },
+        (error) => {
+          this.snackBarService.openSnack(
+            this.translocoService.translate('sidenav.orderError'),
+            6000,
+            'red',
+          );
+        },
+      );
   }
 
   findOrder(id: string): Order {
