@@ -31,11 +31,11 @@ const resetPasswordServiceStub = {
   resetPassword: jasmine.createSpy('resetPassword').and.returnValue(
     of({})
   )
-}
+};
 
 const snackBarServiceStub = {
   openSnack: jasmine.createSpy('resetPassword')
-}
+};
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
@@ -89,12 +89,12 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should send reset password request and navigate to home on submit', () => {
-    const fakeEvent = { preventDefault: () => {} }
+    const fakeEvent = { preventDefault: () => {} };
     const form = el.query(By.css('form'));
-    form.triggerEventHandler('submit', fakeEvent)
+    form.triggerEventHandler('submit', fakeEvent);
     expect(resetPasswordService.resetPassword).toHaveBeenCalled();
     expect(snackBarService.openSnack).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalled();
-  })
+  });
 
-})
+});

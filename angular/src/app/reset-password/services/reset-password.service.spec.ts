@@ -41,7 +41,7 @@ describe('SidenavSharedService', () => {
 
   afterEach(() => {
       httpTestingController.verify();
-  })
+  });
 
   it('should create', inject(
     [ResetPasswordService],
