@@ -85,7 +85,8 @@
     "delivery": "Delivery",
     "city": "City",
     "street": "Street",
-    "streetNr": "House Number"
+    "streetNr": "House Number",
+    "table": "Table Number"
   },
   "bookTable": {
     "title": "You can invite your friends to lunch or book a table",

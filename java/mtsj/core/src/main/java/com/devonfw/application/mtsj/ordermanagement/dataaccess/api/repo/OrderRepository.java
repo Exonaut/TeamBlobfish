@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.devonfw.application.mtsj.bookingmanagement.common.api.datatype.BookingType;
 import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderSearchCriteriaTo;
 import com.devonfw.application.mtsj.ordermanagement.dataaccess.api.OrderEntity;
 import com.devonfw.module.jpa.dataaccess.api.QueryUtil;
@@ -95,13 +94,11 @@ public interface OrderRepository extends DefaultRepository<OrderEntity> {
       query.where(Alias.$(t).eq(table));
     }
 
-    Integer bookingType = criteria.getBookingType();
-    if (bookingType != null) {
-      BookingType type = BookingType.values()[bookingType];
-      if ((type != null) && alias.getBooking().getBookingType() != null) {
-        query.where(Alias.$(alias.getBooking().getBookingType()).eq(type));
-      }
-    }
+    /*
+     * Integer bookingType = criteria.getBookingType(); if (bookingType != null) { BookingType type =
+     * BookingType.values()[bookingType]; if ((type != null) && alias.getBooking().getBookingType() != null) {
+     * query.where(Alias.$(alias.getBooking().getBookingType()).eq(type)); } }
+     */
 
     return QueryUtil.get().findPaginated(criteria.getPageable(), query, true);
   }

@@ -52,13 +52,16 @@ export class WaiterCockpitService {
     let path: string;
     filters.pageable = pageable;
     filters.pageable.sort = sorting;
-    if (filters.email || filters.bookingToken || filters.orderstatus !== [] || filters.paymentstatus !== []) {
-      path = this.filterOrdersRestPath;
-    } else {
-      delete filters.email;
-      delete filters.bookingToken;
-      path = this.getOrdersRestPath;
-    }
+
+    if (filters.bookingToken === null) filters.bookingToken = undefined;
+    if (filters.bookingDate === null) filters.bookingDate = undefined;
+    if (filters.bookingType === null) filters.bookingType = undefined;
+    if (filters.email === null) filters.email = undefined;
+    if (filters.name === null) filters.name = undefined;
+    if (filters.table === null) filters.table = undefined;
+
+    path = this.filterOrdersRestPath;
+    
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
         this.http.post<OrderResponse[]>(`${restServiceRoot}${path}`, filters),

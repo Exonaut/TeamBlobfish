@@ -80,7 +80,9 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     bookingToken: undefined,
     orderstatus: undefined,
     paymentstatus: undefined,
-    name: undefined
+    name: undefined,
+    table: undefined,
+    bookingType: undefined,
   };
 
   archiveMode = false;
@@ -88,6 +90,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
 
   orderStatusSelected: FormControl;
   paymentStatusSelected: FormControl;
+  bookingTypeSelected: FormControl;
 
   undoValues: any[] = [];
 
@@ -138,6 +141,9 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     ]);
     this.paymentStatusSelected = new FormControl(this.filters.paymentstatus, [
       Validators.required
+    ]);
+    this.bookingTypeSelected = new FormControl(this.filters.bookingType, [
+      // Validators.required
     ]);
   }
 

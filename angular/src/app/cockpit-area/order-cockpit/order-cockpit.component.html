@@ -34,15 +34,53 @@
             />
           </mat-form-field>
 
-          <!-- Email Filter -->
           <mat-form-field color="accent" class="searchBy">
+            <input
+              matInput
+              type="number"
+              [placeholder]="'formFields.table' | transloco"
+              [(ngModel)]="filters.table"
+              name="table"
+            />
+          </mat-form-field>
+
+          <!-- <mat-button-toggle
+          [checked]="filters.bookingType === 2"
+          (change)="filters.bookingType = ($event.source.checked ? 2 : undefined)"
+          >
+          
+          Delivery
+          </mat-button-toggle> -->
+
+          <!-- <mat-form-field color="accent" class="searchBy">
+            <mat-select
+              class="bookingTypeFilter"
+              [(value)]="filters.bookingType"
+              [placeholder]="'formFields.bookingType' | transloco"
+              required
+              [formControl]="orderStatusSelected"
+            >
+              <mat-option [value]="undefined">
+                <mat-icon>local_restaurant</mat-icon>
+              </mat-option>
+              <mat-option [value]="0">
+                <mat-icon>local_restaurant</mat-icon>
+              </mat-option>
+              <mat-option [value]="2">
+                <mat-icon>local_restaurant</mat-icon>
+              </mat-option>
+            </mat-select>
+          </mat-form-field> -->
+
+          <!-- Email Filter -->
+          <!-- <mat-form-field color="accent" class="searchBy">
             <input
               matInput
               [placeholder]="'formFields.email' | transloco"
               [(ngModel)]="filters.email"
               name="email"
             />
-          </mat-form-field>
+          </mat-form-field> -->
 
           <!-- Ref Number Filter -->
           <!-- <mat-form-field color="accent" class="searchBy">

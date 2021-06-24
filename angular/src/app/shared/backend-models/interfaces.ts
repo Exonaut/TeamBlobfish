@@ -19,6 +19,8 @@ export class FilterCockpit {
     orderstatus: number[];
     paymentstatus: number[];
     name: string;
+    table: number;
+    bookingType: number;
 }
 
 export class FilterOrdersCockpit {
