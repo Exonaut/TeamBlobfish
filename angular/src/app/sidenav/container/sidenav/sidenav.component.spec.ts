@@ -32,7 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 const mockDialog = {
   open: jasmine.createSpy('open').and.returnValue({
-    afterClosed: () => of('content'),
+    afterClosed: () => of(true),
   }),
 };
 
@@ -45,6 +45,11 @@ const sideNavServiceStub = {
   ),
   sendOrders: jasmine.createSpy('sendOrders').and.returnValue(
     of({})
+  ),
+  composeBooking: jasmine.createSpy('composeBooking').and.returnValue(
+    of({
+      bookingToken: 'BT'
+    })
   ),
 };
 
@@ -165,19 +170,10 @@ describe('SidenavComponent', () => {
     expect(component.sendOrder).toHaveBeenCalled();
   });
 
-  it('should send the booking and order on click of booking send button', async(() => {
-    spyOn(component, 'sendBooking').and.callThrough();
-    component.selectedTab = 1;
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      const btn = el.nativeElement.querySelector('.orderSubmit');
-      console.log(btn);
-      click(btn);
-      expect(component.sendBooking).toHaveBeenCalled();
-      expect(sidenavService.postBooking).toHaveBeenCalled();
-      expect(sidenavService.sendOrders).toHaveBeenCalled();
-      expect(snackBarService.openSnack).toHaveBeenCalled();
-    });
-    expect(true).toBeTruthy();
-  }));
+  it('should send the booking and order', () => {
+    component.sendBooking();
+    expect(dialog.open).toHaveBeenCalled();
+    expect(sidenavService.postBooking).toHaveBeenCalled();
+    expect(sidenavService.sendOrders).toHaveBeenCalled();
+  });
 });
