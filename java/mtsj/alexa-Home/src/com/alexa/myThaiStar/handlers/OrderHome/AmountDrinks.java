@@ -10,7 +10,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class AmountDrinks implements IntentRequestHandler {
 
@@ -32,9 +32,9 @@ public class AmountDrinks implements IntentRequestHandler {
 
     Slot drink = intentRequest.getIntent().getSlots().get("drink");
 
-    HelpClass.dishID = HelpClass.getDishId(drink.getValue());
+    BasicOperations.dishID = BasicOperations.getDishId(drink.getValue());
 
-    if (HelpClass.dishID == null) {
+    if (BasicOperations.dishID == null) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent()).withSpeech(
           "Es tut mir leid, dieses Getränk haben wir leider nicht auf der Getränkekarte. Bitte wählen Sie ein Getränk aus, welches auf der Getränkekarte vorhanden ist.")

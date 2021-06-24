@@ -10,7 +10,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class CloseOrder implements IntentRequestHandler {
 
@@ -28,13 +28,13 @@ public class CloseOrder implements IntentRequestHandler {
 
     Slot serveTime = intentRequest.getIntent().getSlots().get("servingTime");
 
-    String currentTime = HelpClass
-        .getTimeFormat(HelpClass.convertMillisecondsToDateTime(System.currentTimeMillis() + 7200000));
+    String currentTime = BasicOperations
+        .getTimeFormat(BasicOperations.convertMillisecondsToDateTime(System.currentTimeMillis() + 7200000));
 
-    String currentDate = HelpClass
-        .getDateFormat(HelpClass.convertMillisecondsToDateTime(System.currentTimeMillis() + 7200000));
+    String currentDate = BasicOperations
+        .getDateFormat(BasicOperations.convertMillisecondsToDateTime(System.currentTimeMillis() + 7200000));
 
-    if (!HelpClass.compareCurrentTimeServeTime(serveTime.getValue(), currentTime)) {
+    if (!BasicOperations.compareCurrentTimeServeTime(serveTime.getValue(), currentTime)) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
           .withSpeech(
@@ -44,7 +44,7 @@ public class CloseOrder implements IntentRequestHandler {
 
     }
 
-    HelpClass.req.order.serveTime = HelpClass
+    BasicOperations.req.order.serveTime = BasicOperations
         .getFormatDateTimeAndCalculate(currentDate + " " + serveTime.getValue());
 
     return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();

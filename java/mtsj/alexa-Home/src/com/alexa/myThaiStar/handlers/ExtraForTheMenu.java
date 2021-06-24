@@ -12,7 +12,7 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class ExtraForTheMenu implements IntentRequestHandler {
 
@@ -30,7 +30,7 @@ public class ExtraForTheMenu implements IntentRequestHandler {
     Map<String, Slot> slots = intent.getSlots();
     Slot dishName = slots.get("dishName");
 
-    String dishId = HelpClass.getDishId(dishName.getValue());
+    String dishId = BasicOperations.getDishId(dishName.getValue());
 
     if (dishId == null) {
       return input.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent()).withSpeech(
@@ -38,7 +38,7 @@ public class ExtraForTheMenu implements IntentRequestHandler {
           .withReprompt("Zu welchem Gericht möchten Sie die extras erfahren?").build();
     }
 
-    String extras = HelpClass.getExtrasName(dishId);
+    String extras = BasicOperations.getExtrasName(dishId);
 
     if (extras == null) {
       return input.getResponseBuilder()

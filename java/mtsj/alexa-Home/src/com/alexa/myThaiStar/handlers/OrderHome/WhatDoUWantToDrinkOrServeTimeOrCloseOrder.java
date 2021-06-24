@@ -12,7 +12,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class WhatDoUWantToDrinkOrServeTimeOrCloseOrder implements IntentRequestHandler {
 
@@ -54,9 +54,10 @@ public class WhatDoUWantToDrinkOrServeTimeOrCloseOrder implements IntentRequestH
     if (yesNoDrink.getValue().equals("nein")) {
 
       // TODO bookingDateTime vllt nicht in eine statische Konstante??
-      String bookingDateTime = HelpClass.convertMillisecondsToDateTime(HelpClass.bookingDateTimeMilliseconds);
-      String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
-      String bookingDate = HelpClass.getDateFormat(bookingDateTime);
+      String bookingDateTime = BasicOperations
+          .convertMillisecondsToDateTime(BasicOperations.bookingDateTimeMilliseconds);
+      String bookingTime = BasicOperations.getTimeFormat(bookingDateTime);
+      String bookingDate = BasicOperations.getDateFormat(bookingDateTime);
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
           .withSpeech("Sie haben am " + bookingDate + " um " + bookingTime

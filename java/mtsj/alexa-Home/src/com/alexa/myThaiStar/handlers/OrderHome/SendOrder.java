@@ -10,7 +10,7 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class SendOrder implements IntentRequestHandler {
 
@@ -27,7 +27,7 @@ public class SendOrder implements IntentRequestHandler {
 
     if (attributes.containsValue(Attributes.START_STATE_WHERE_LIKE_TO_EAT_DELIVER)) {
 
-      String speechText = HelpClass.sendOrder();
+      String speechText = BasicOperations.sendOrder();
 
       if (speechText == null)
         return handlerInput.getResponseBuilder()
@@ -40,7 +40,7 @@ public class SendOrder implements IntentRequestHandler {
           .withShouldEndSession(true).build();
     }
 
-    String speechText = HelpClass.sendOrder();
+    String speechText = BasicOperations.sendOrder();
     if (speechText == null)
       return handlerInput.getResponseBuilder()
           .withSpeech("Es tut uns leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt.")

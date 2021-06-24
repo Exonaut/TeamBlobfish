@@ -14,7 +14,7 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.entity.booking.Booking;
 import com.entity.booking.ResponseBooking;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class CustomerDetailsConfirmSlot implements IntentRequestHandler {
 
@@ -33,7 +33,7 @@ public class CustomerDetailsConfirmSlot implements IntentRequestHandler {
 
     Slot queryTable = intentRequest.getIntent().getSlots().get("queryTable");
 
-    ResponseBooking response = HelpClass.getAllBookings();
+    ResponseBooking response = BasicOperations.getAllBookings();
 
     boolean isNumeric = queryTable.getValue().chars().allMatch(Character::isDigit);
 
@@ -47,7 +47,7 @@ public class CustomerDetailsConfirmSlot implements IntentRequestHandler {
       return handlerInput.getResponseBuilder()
           .withSpeech("Es ist ein Problem aufgetreten. Bitte versuchen Sie es zu einem späteren Zeitpunkt.").build();
 
-    Booking booking = HelpClass.tableBooked(response, queryTable.getValue());
+    Booking booking = BasicOperations.tableBooked(response, queryTable.getValue());
 
     if (booking == null) {
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
@@ -57,12 +57,12 @@ public class CustomerDetailsConfirmSlot implements IntentRequestHandler {
     sessionAttributes.put(Attributes.STATE_KEY_RESERVATION, Attributes.START_STATE_RESERVATION);
 
     String assistant = " Gästen";
-    if (Integer.parseInt(HelpClass.req.booking.assistants) == 1)
+    if (Integer.parseInt(BasicOperations.req.booking.assistants) == 1)
       assistant = " Gast";
 
     return handlerInput.getResponseBuilder().addConfirmSlotDirective("queryTable", intentRequest.getIntent())
-        .withSpeech("Dieser Tisch ist reserviert für " + HelpClass.req.booking.name + "\n" + "mit "
-            + HelpClass.req.booking.assistants + assistant + ". Sind Ihre Daten korrekt?")
+        .withSpeech("Dieser Tisch ist reserviert für " + BasicOperations.req.booking.name + "\n" + "mit "
+            + BasicOperations.req.booking.assistants + assistant + ". Sind Ihre Daten korrekt?")
         .withReprompt("Sind Ihre Daten korrekt?").build();
   }
 }

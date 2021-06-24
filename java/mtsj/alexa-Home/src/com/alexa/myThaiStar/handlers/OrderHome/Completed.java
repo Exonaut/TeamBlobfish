@@ -12,7 +12,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class Completed implements IntentRequestHandler {
 
@@ -45,13 +45,13 @@ public class Completed implements IntentRequestHandler {
       attributes.put(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL, Attributes.START_STATE_ONLY_ADD_ONE);
 
       return handlerInput.getResponseBuilder().withSpeech(
-          "Vielen Dank für Ihre Bestellung. Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen")
+          "Vielen Dank für Ihre Bestellung. Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen. Ansonsten können Sie auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie zum Beispiel: ich möchte noch Thai green chicken curry")
           .withReprompt(
               "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: ich möchte noch Garlic Paradise Salad")
           .build();
     }
 
-    if (HelpClass.counterBookingIDs == 0)
+    if (BasicOperations.counterBookingIDs == 0)
       return handlerInput.getResponseBuilder()
           .withSpeech(
               "Keine Buchungs ID gefunden. Bitte buchen Sie zuerst einen Tisch, bevor Sie eine Bestellung vornehmen.")
@@ -65,7 +65,7 @@ public class Completed implements IntentRequestHandler {
 
     attributes.put(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL, Attributes.START_STATE_ONLY_ADD_ONE);
     return handlerInput.getResponseBuilder().withSpeech(
-        "Vielen Dank für Ihre Bestellung. Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen.")
+        "Vielen Dank für Ihre Bestellung. Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen. Ansonsten können Sie auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie zum Beispiel: ich möchte noch Thai green chicken curry")
         .withReprompt(
             "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: ich möchte noch Garlic Paradise Salad")
         .build();

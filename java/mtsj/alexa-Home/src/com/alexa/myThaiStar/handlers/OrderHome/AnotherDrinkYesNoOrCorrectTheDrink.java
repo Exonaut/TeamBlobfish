@@ -13,7 +13,7 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.entity.orderline.OrderLines;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class AnotherDrinkYesNoOrCorrectTheDrink implements IntentRequestHandler {
 
@@ -40,9 +40,9 @@ public class AnotherDrinkYesNoOrCorrectTheDrink implements IntentRequestHandler 
       OrderLines tmpOrderline = new OrderLines();
 
       tmpOrderline.orderLine.amount = amountDrinks.getValue();
-      tmpOrderline.orderLine.dishId = HelpClass.dishID;
+      tmpOrderline.orderLine.dishId = BasicOperations.dishID;
 
-      HelpClass.req.orderLines.add(tmpOrderline);
+      BasicOperations.req.orderLines.add(tmpOrderline);
 
       if (attributes.containsKey(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL))
         return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();

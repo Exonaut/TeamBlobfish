@@ -12,7 +12,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class Completed implements IntentRequestHandler {
 
@@ -37,7 +37,7 @@ public class Completed implements IntentRequestHandler {
       return handlerInput.getResponseBuilder()
           .withSpeech("Es tut mir leid, zu der jetzigen Uhrzeit wurde der Tisch nicht reserviert").build();
 
-    String speechText = HelpClass.sendOrder();
+    String speechText = BasicOperations.sendOrder();
 
     return handlerInput.getResponseBuilder().withSpeech(speechText).build();
   }

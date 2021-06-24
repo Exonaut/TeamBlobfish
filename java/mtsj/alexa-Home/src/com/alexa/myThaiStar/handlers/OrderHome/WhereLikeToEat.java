@@ -24,14 +24,13 @@ public class WhereLikeToEat implements IntentRequestHandler {
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     if (handlerInput.getAttributesManager().getSessionAttributes().containsKey("state"))
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("whereLikeToEat", intentRequest.getIntent())
-          .withSpeech("Die Bestellung wurde abgebrochen. Bitte starten Sie Ihre Bestellung erneut.")
-          .withShouldEndSession(true).build();
+      return handlerInput.getResponseBuilder().withSpeech("Ich habe Sie leider nicht verstanden. Was möchten Sie?")
+          .withReprompt("Was möchten Sie ?").build();
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("whereLikeToEat", intentRequest.getIntent())
         .withSpeech(
             "Wollen Sie sich die Bestellung liefern lassen oder ist die Bestellung für einen Tisch im Restaurant?")
-        .withReprompt("Wo möchten Sie essen?").withShouldEndSession(false).build();
+        .withReprompt("Wo möchten Sie essen?").build();
   }
 
 }

@@ -12,7 +12,7 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.entity.orderline.Extras;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class AmountDishesOrCorrectExtras implements IntentRequestHandler {
 
@@ -42,7 +42,7 @@ public class AmountDishesOrCorrectExtras implements IntentRequestHandler {
 
     ArrayList<Extras> extrasArray = new ArrayList<>();
 
-    for (Extras s : HelpClass.extras) {
+    for (Extras s : BasicOperations.extras) {
 
       if (extra.getValue().contains(s.name.toLowerCase())) {
         Extras extras = new Extras();
@@ -56,7 +56,7 @@ public class AmountDishesOrCorrectExtras implements IntentRequestHandler {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("extra", intentRequest.getIntent())
           .withSpeech("Ich habe sie leider nicht verstanden. Welche Extras möchten Sie ? "
-              + HelpClass.getExtrasName(HelpClass.dishID))
+              + BasicOperations.getExtrasName(BasicOperations.dishID))
           .withReprompt("Welche Extras möchten Sie?").build();
 
     }

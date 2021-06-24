@@ -12,7 +12,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
 
@@ -61,9 +61,10 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
         && (attributes.containsValue(Attributes.START_STATE_WHERE_LIKE_TO_EAT_RESTAURANT)
             || (whereLikeToEat.getValue() != null && whereLikeToEat.getValue().equals("restaurant")))) {
 
-      String bookingDateTime = HelpClass.convertMillisecondsToDateTime(HelpClass.bookingDateTimeMilliseconds);
-      String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
-      String bookingDate = HelpClass.getDateFormat(bookingDateTime);
+      String bookingDateTime = BasicOperations
+          .convertMillisecondsToDateTime(BasicOperations.bookingDateTimeMilliseconds);
+      String bookingTime = BasicOperations.getTimeFormat(bookingDateTime);
+      String bookingDate = BasicOperations.getDateFormat(bookingDateTime);
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
           .withSpeech("Sie haben am " + bookingDate + " um " + bookingTime

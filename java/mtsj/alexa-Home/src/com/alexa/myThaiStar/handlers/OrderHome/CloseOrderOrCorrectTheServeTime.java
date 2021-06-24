@@ -10,7 +10,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class CloseOrderOrCorrectTheServeTime implements IntentRequestHandler {
 
@@ -27,11 +27,11 @@ public class CloseOrderOrCorrectTheServeTime implements IntentRequestHandler {
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     Slot serveTime = intentRequest.getIntent().getSlots().get("servingTime");
-    String bookingDateTime = HelpClass.convertMillisecondsToDateTime(HelpClass.bookingDateTimeMilliseconds);
-    String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
-    String bookingDate = HelpClass.getDateFormat(bookingDateTime);
+    String bookingDateTime = BasicOperations.convertMillisecondsToDateTime(BasicOperations.bookingDateTimeMilliseconds);
+    String bookingTime = BasicOperations.getTimeFormat(bookingDateTime);
+    String bookingDate = BasicOperations.getDateFormat(bookingDateTime);
 
-    if (!HelpClass.compareBookingTimeServeTime(bookingTime, serveTime.getValue())) {
+    if (!BasicOperations.compareBookingTimeServeTime(bookingTime, serveTime.getValue())) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
           .withSpeech("Die Servierzeit " + serveTime.getValue() + " Uhr liegt nicht hinter Ihrer Buchungszeit"
@@ -40,7 +40,7 @@ public class CloseOrderOrCorrectTheServeTime implements IntentRequestHandler {
 
     }
 
-    HelpClass.req.order.serveTime = HelpClass
+    BasicOperations.req.order.serveTime = BasicOperations
         .getFormatDateTimeAndSubtractTwoHours(bookingDate + " " + serveTime.getValue());
 
     return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();

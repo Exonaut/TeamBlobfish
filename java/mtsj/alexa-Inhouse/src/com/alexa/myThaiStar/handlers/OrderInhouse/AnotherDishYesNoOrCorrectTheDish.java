@@ -13,7 +13,7 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.entity.orderline.Extras;
 import com.entity.orderline.OrderLines;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
 
@@ -39,7 +39,7 @@ public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
 
       ArrayList<Extras> extrasArray = new ArrayList<>();
 
-      for (Extras s : HelpClass.extras) {
+      for (Extras s : BasicOperations.extras) {
         if (extra.getValue().contains(s.name.toLowerCase())) {
           Extras extras = new Extras();
           extras.id = s.id;
@@ -49,9 +49,9 @@ public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
 
       tmpOrderline.extras.addAll(extrasArray);
       tmpOrderline.orderLine.amount = intentRequest.getIntent().getSlots().get("amount").getValue();
-      tmpOrderline.orderLine.dishId = HelpClass.dishID;
+      tmpOrderline.orderLine.dishId = BasicOperations.dishID;
 
-      HelpClass.req.orderLines.add(tmpOrderline);
+      BasicOperations.req.orderLines.add(tmpOrderline);
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())
           .withSpeech("Möchten Sie noch etwas zum essen bestellen?").withReprompt("Darf es noch etwas sein?").build();

@@ -10,7 +10,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class EatOrDrinkOrClose implements IntentRequestHandler {
 
@@ -37,13 +37,13 @@ public class EatOrDrinkOrClose implements IntentRequestHandler {
     if (yesNoCustomerDetails.getValue().equals("nein"))
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
-    String bookingDateTime = HelpClass.convertMillisecondsToDateTime(HelpClass.bookingDateTimeMilliseconds);
-    String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
-    String bookingDate = HelpClass.getDateFormat(bookingDateTime);
+    String bookingDateTime = BasicOperations.convertMillisecondsToDateTime(BasicOperations.bookingDateTimeMilliseconds);
+    String bookingTime = BasicOperations.getTimeFormat(bookingDateTime);
+    String bookingDate = BasicOperations.getDateFormat(bookingDateTime);
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoCustomerDetails", intentRequest.getIntent())
         .withSpeech("Ich habe Sie leider nicht verstanden. Sie haben am " + bookingDate + " um " + bookingTime
-            + " Uhr mit" + HelpClass.req.booking.assistants
+            + " Uhr mit" + BasicOperations.req.booking.assistants
             + " Gästen, einen Tisch reserviert. Wollen Sie mit diesen Daten fortfahren?")
         .withReprompt("Wollen Sie mit diesen Daten fortfahren?").build();
   }
