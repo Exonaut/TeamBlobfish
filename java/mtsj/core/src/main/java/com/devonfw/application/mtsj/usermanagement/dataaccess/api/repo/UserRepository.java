@@ -60,14 +60,4 @@ public interface UserRepository extends DefaultRepository<UserEntity> {
       + " WHERE user.email = :email")
   UserEntity findByEmail(@Param("email") String email);
 
-  /**
-   *
-   * @param id
-   * @return A
-   */
-  // @Query("UPDATE user FROM UserEntity user" //
-  // + " SET user.password = :password" //
-  // + " WHERE user.id = :id")
-  // UserEntity resetPassword(@Param("password","id") String password, Long id);
-
 }

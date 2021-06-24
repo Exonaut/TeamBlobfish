@@ -35,6 +35,7 @@ public class OrderLineEntity extends ApplicationPersistenceEntity implements Ord
 
   private String comment;
 
+  // custome can determine the serving time
   private Instant servingtime;
 
   private static final long serialVersionUID = 1L;
