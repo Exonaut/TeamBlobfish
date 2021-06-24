@@ -103,10 +103,16 @@ public class UsermanagementRestServiceImpl implements UsermanagementRestService 
   }
 
   @Override
-  public void resetPasswordByUser(UserEto user) {
+  public void resetPasswordByUser(int hashcode, String password) {
 
-    this.usermanagement.resetPasswordByUser(user);
+    this.usermanagement.resetPasswordByUser(hashcode, password);
 
+  }
+
+  @Override
+  public UserEto editUser(UserEto user) {
+
+    return this.usermanagement.editUser(user);
   }
 
 }

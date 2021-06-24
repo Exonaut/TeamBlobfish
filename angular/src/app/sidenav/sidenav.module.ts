@@ -13,11 +13,14 @@ import { SidenavService } from './services/sidenav.service';
 import { SendOrderEffects } from './store/effects/send-order.effects';
 import { reducers, effects } from './store';
 import { TranslocoModule } from '@ngneat/transloco';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmOrderDialogComponent } from './components/confirm-order-dialog/confirm-order-dialog.component';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
+    ReactiveFormsModule,
     TranslocoModule,
     CoreModule,
     StoreModule.forFeature('sidenav', reducers),
@@ -29,6 +32,7 @@ import { TranslocoModule } from '@ngneat/transloco';
     SidenavOrderComponent,
     CommentDialogComponent,
     CommentAlertComponent,
+    ConfirmOrderDialogComponent,
   ],
   exports: [SidenavComponent],
   entryComponents: [CommentDialogComponent, CommentAlertComponent],

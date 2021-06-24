@@ -18,55 +18,65 @@ import com.alexa.myThaiStar.handlers.CallFoodMenu;
 import com.alexa.myThaiStar.handlers.CancelandStopIntentHandler;
 import com.alexa.myThaiStar.handlers.DescriptionDishes;
 import com.alexa.myThaiStar.handlers.DescriptionDrinks;
+import com.alexa.myThaiStar.handlers.ExtraForTheMenu;
 import com.alexa.myThaiStar.handlers.FallbackIntentHandler;
 import com.alexa.myThaiStar.handlers.HelpIntentHandler;
 import com.alexa.myThaiStar.handlers.LaunchRequestHandler;
 import com.alexa.myThaiStar.handlers.SessionEndedRequestHandler;
-import com.alexa.myThaiStar.handlers.OrderHome.AmountDishes;
+import com.alexa.myThaiStar.handlers.OrderHome.AmountDishesOrCorrectExtras;
 import com.alexa.myThaiStar.handlers.OrderHome.AmountDrinks;
 import com.alexa.myThaiStar.handlers.OrderHome.AnotherDishOrDoUWantToDrink;
-import com.alexa.myThaiStar.handlers.OrderHome.AnotherDishYesNo;
-import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkOrDoUWantCloseOrder;
-import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkYesNo;
+import com.alexa.myThaiStar.handlers.OrderHome.AnotherDishYesNoOrCorrectTheDish;
+import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkOrMakeServingTimeOrCloseOrder;
+import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkYesNoOrCorrectTheDrink;
+import com.alexa.myThaiStar.handlers.OrderHome.CloseOrderOrCorrectTheServeTime;
 import com.alexa.myThaiStar.handlers.OrderHome.Completed;
+import com.alexa.myThaiStar.handlers.OrderHome.EatOrDrinkOrCheckCustomerDetails;
 import com.alexa.myThaiStar.handlers.OrderHome.DishesConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderHome.DrinksConfirmSlot;
-import com.alexa.myThaiStar.handlers.OrderHome.ShowExtrasDishes;
-import com.alexa.myThaiStar.handlers.OrderHome.StartedOrder;
-import com.alexa.myThaiStar.handlers.OrderHome.WhatDoUWantDoDrink;
-
+import com.alexa.myThaiStar.handlers.OrderHome.WhichExtrasDishes;
+import com.alexa.myThaiStar.handlers.OrderHome.StartEatOrDrink;
+import com.alexa.myThaiStar.handlers.OrderHome.EatOrDrinkOrClose;
+import com.alexa.myThaiStar.handlers.OrderHome.WhatDoUWantToDrinkOrServeTimeOrCloseOrder;
+import com.alexa.myThaiStar.handlers.OrderHome.WhereLikeToEat;
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
 import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://25f2211fd86b.ngrok.io";
+  public static final String BASE_URL = "https://8c578d6bfa65.ngrok.io";
 
   private static Skill getSkill() {
 
     return Skills.standard()
         .addRequestHandlers(new CancelandStopIntentHandler(),
-            new BookATable(BASE_URL),
-            new CallFoodMenu(BASE_URL),
+            new BookATable(),
+            new CallFoodMenu(),
             new DescriptionDrinks(BASE_URL),
             new DescriptionDishes(BASE_URL),
-            new StartedOrder(BASE_URL),
-            new ShowExtrasDishes(),
-            new AnotherDishYesNo(),
-            new AnotherDrinkYesNo(),
+            new EatOrDrinkOrClose(),
+            new WhichExtrasDishes(),
+            new AnotherDishYesNoOrCorrectTheDish(),
+            new AnotherDrinkYesNoOrCorrectTheDrink(),
             new HelpIntentHandler(),
             new LaunchRequestHandler(),
             new SessionEndedRequestHandler(),
             new FallbackIntentHandler(),
             new Completed(),
-            new AmountDishes(),
+            new AmountDishesOrCorrectExtras(),
             new AmountDrinks(),
             new DishesConfirmSlot(),
             new DrinksConfirmSlot(),
             new AnotherDishOrDoUWantToDrink(),
-            new AnotherDrinkOrDoUWantCloseOrder(),
-            new WhatDoUWantDoDrink ())
+            new AnotherDrinkOrMakeServingTimeOrCloseOrder(),
+            new WhatDoUWantToDrinkOrServeTimeOrCloseOrder (),
+            new CloseOrderOrCorrectTheServeTime(),
+            new WhereLikeToEat(),
+            new EatOrDrinkOrCheckCustomerDetails(),
+            new StartEatOrDrink(),
+            new ExtraForTheMenu()
+            )
         // Add your skill id below
         .withSkillId("amzn1.ask.skill.2cb6b023-f36d-43f9-8c18-3b509cf3f2d6").build();
   }

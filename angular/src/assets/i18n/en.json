@@ -6,7 +6,7 @@
     "send": "Send",
     "login": "Login",
     "register": "Register",
-    "bookTable": "Book Table",
+    "bookTable": "Booking",
     "inviteFriends": "Invite friends",
     "viewMenu": "View Menu",
     "addToOrder": "Add to order",
@@ -14,14 +14,22 @@
     "applyFilters": "Apply Filters",
     "removeComment": "Remove Comment",
     "addComment": "Add comment",
-    "advanceStatus": "Advance Status",
+    "advanceStatus": "Advance Order Status",
+    "switchPayment": "Switch Payment Status",
     "setStatus": "Change Status",
     "cancelOrder": "Cancel Order",
     "deleteAccount": "Delete Account",
     "createUser": "Create User",
     "create": "Create",
     "changePassword": "Change Password",
-    "sendPasswordResetLink": "Send Password Reset Link"
+    "sendPasswordResetLink": "Send Password Reset Link",
+    "undoAction": "Undo Action",
+    "clear": "Clear",
+    "editUser": "Edit User",
+    "accept": "Accept",
+    "decline": "Decline",
+    "copyToClipboard": "Copy to Clipboard",
+    "menu": "Menu"
   },
   "table": {
     "rowsPage": "Rows per page",
@@ -39,20 +47,25 @@
       "orderCancel": "Order succesfully canceled"
     },
     "orderID":
-      "To order a menu it is necessary to obtain a booking id. Either you enter your already known booking id or you book a table",
+      "To order a menu, provide your booking ID or create a new booking",
     "passwordError": "Password Mismatch",
     "authAlerts": {
       "loginSuccess": "Login successful",
       "registerSuccess": "Register successful",
       "registerFail": "Register failed, username already in use",
       "logoutSuccess": "Log out successful, come back soon!"
-    }
+    },
+    "order": 
+      "To order the delivery service, you must select at least one dish from the menu",
+    "orderInhouse": 
+      "You are booking a table without ordering a dish. You can select your order now or select it at a later point using your booking ID"
   },
   "formFields": {
     "username": "Username",
     "password": "Password",
     "token": "One Time Password",
     "confirmPassword": "Confirm Password",
+    "newPassword": "New Password",
     "date": "Date",
     "name": "Name",
     "email": "Email",
@@ -65,7 +78,14 @@
     "comment": "Comment",
     "total": "Total",
     "referenceNumber": "Reference number",
-    "role": "Role"
+    "role": "Role",
+    "orderStatus": "Order Status",
+    "paymentStatus": "Payment Status",
+    "id": "ID",
+    "delivery": "Delivery",
+    "city": "City",
+    "street": "Street",
+    "streetNr": "House Number"
   },
   "bookTable": {
     "title": "You can invite your friends to lunch or book a table",
@@ -82,16 +102,19 @@
       "bookingError": "Error booking, please try again later"
     },
     "formErrors": {
-      "nameRequired": "Required. Please insert a name to reserve the table",
-      "emailRequired": "Required. Please insert an email to reserve the table",
+      "nameRequired": "Required. Please insert your name",
+      "emailRequired": "Required. Please insert your email",
       "emailPattern":
         "Insert a valid email address to send reservation data. e.g. email@email.com.",
       "emailFormat": "Email format not valid",
-      "assistantsRequired": "Required. Please insert the number of assistants.",
+      "assistantsRequired": "Required. Please insert the number of guests.",
       "assistantsMax":
-        "You cannot reserve more assistants than the size of the biggest table (8), if you need more tables, make more bookings.",
+        "You cannot reserve for more guests than the size of the biggest table (8), if you need more tables, place more reservations.",
       "assistantsMin":
-        "You cannot reserve an empty or negative number of assistants"
+        "You cannot reserve an empty or negative number of guests",
+      "cityRequired": "Required. Please insert a city to place the order",
+      "streetRequired": "Required. Please insert a street name to place the order",
+      "streetNrRequired": "Required. Please insert a house number to place the order"
     }
   },
   "main": {
@@ -101,6 +124,7 @@
     "orders": "Orders",
     "orderArchive": "Order Archive",
     "reservations": "Reservations",
+    "users": "Users",
     "userActions": {
       "user": "User",
       "pairing": "Set two-factor authentication",
@@ -150,7 +174,11 @@
       "title": "Add a comment",
       "content":
         "Here you can add a short comment to our cookers about how to prepare your dish"
-    }
+    },
+    "order": "Order",
+    "personalinfo": "Booking",
+    "bookingSuccess": "Your table has been successfully booked",
+    "deliverySuccess": "Your order is on its way"
   },
   "userArea": {
     "loginTitle": "LOGIN",
@@ -189,7 +217,10 @@
         "commentsH": "Comments",
         "extrasH": "Extra",
         "quantityH": "Quantity",
-        "priceH": "Price"
+        "priceH": "Price",
+        "cityH": "City",
+        "streetH": "Street",
+        "streetNrH": "House Number"
       }
     },
     "reservations": {
@@ -202,24 +233,34 @@
       }
     },
     "table": {
+      "reservationT": "Reservation",
+      "addressT": "Address",
+      "orderT": "Order",
       "reservationDateH": "Reservation Date",
       "emailH": "Email",
       "bookingTokenH": "Reference Number",
       "ownerH": "Owner",
       "tableH": "Table",
       "creationDateH": "Creation date",
-      "bookingStateH": "Status",
+      "bookingStateH": "Order Status",
       "paymentStateH": "Payment",
-      "actionsH": "Actions"
+      "actionsH": "Actions",
+      "nameH": "Name",
+      "serveTimeH": "Serving Time",
+      "tableIdH": "Table",
+      "bookingTypeH": "Type"
     },
     "status": {
       "recorded": "Recorded",
-      "cooking": "Cooking",
+      "cooking": "Preparing",
       "ready": "Ready",
       "handingover": "Handing Over",
       "delivered": "Delivered",
       "completed": "Completed",
-      "canceled": "Canceled"
+      "canceled": "Canceled",
+      "changeStatusSuccess": "Status successfully updated",
+      "changeStatusFailure": "Status change error",
+      "undoChangeSuccess": "Change successfully reverted"
     },
     "payment": {
       "pending": "Pending",
@@ -228,11 +269,13 @@
     },
     "user": {
       "title": "Users",
+      "editUserTitle": "Edit User",
       "dialogTitle": "USER DETAILS",
       "nameH": "Name",
       "emailH": "E-Mail",
       "idH": "ID",
       "roleH": "Role",
+      "actionsH": "Actions",
       "guest": "Guest",
       "waiter": "Waiter",
       "manager": "Manager",
@@ -240,7 +283,14 @@
       "deleteUserSuccess": "User successfully deleted",
       "deleteUserError": "An error has occured while trying to delete the user",
       "changePasswordSuccess": "Password successfully changed",
-      "sendPasswordResetLinkSuccess": "Reset link has been send"
+      "changePasswordError": "An error has occured while trying to change the password",
+      "sendPasswordResetLinkSuccess": "Reset link has been send",
+      "sendPasswordResetLinkError": "An error has occured while trying to send the reset link",
+      "createUserSuccess": "User successfully created",
+      "createUserError": "An error has occured while trying to create the user",
+      "fetchUsersSuccess": "Users successfully fetched",
+      "fetchUsersError": "An error has occured while fetching users",
+      "confirmDeleteText": "Are you sure you want to delete this user?"
     }
   }
 }

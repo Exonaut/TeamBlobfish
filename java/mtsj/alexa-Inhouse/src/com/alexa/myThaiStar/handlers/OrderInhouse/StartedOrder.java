@@ -2,8 +2,10 @@ package com.alexa.myThaiStar.handlers.OrderInhouse;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
+import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -13,44 +15,44 @@ import com.amazon.ask.model.Slot;
 
 public class StartedOrder implements IntentRequestHandler {
 
-  private static String BASE_URL;
-
-  private static long flexTime = 1800000;
-
-  /**
-   * The constructor.
-   *
-   * @param baseUrl
-   */
-  public StartedOrder(String baseUrl) {
-
-    BASE_URL = baseUrl;
-  }
-
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return (handlerInput.matches(intentName("makeAOrderInhouse"))
         && intentRequest.getDialogState() == DialogState.IN_PROGRESS)
-        && !intentRequest.getIntent().getSlots().get("queryTable").getConfirmationStatusAsString().equals("NONE")
-        && intentRequest.getIntent().getSlots().get("dishOrder").getValue() == null;
+        && intentRequest.getIntent().getSlots().get("eatOrDrink").getValue() != null
+        && intentRequest.getIntent().getSlots().get("dishOrder").getValue() == null
+        && intentRequest.getIntent().getSlots().get("drink").getValue() == null;
 
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    Slot queryTable = intentRequest.getIntent().getSlots().get("queryTable");
+    Slot eatOrDrink = intentRequest.getIntent().getSlots().get("eatOrDrink");
+    Map<String, Object> sessionAttributes = handlerInput.getAttributesManager().getSessionAttributes();
 
-    if (queryTable.getConfirmationStatusAsString().equals("DENIED")) {
+    if (eatOrDrink.getValue().equals("essen")) {
 
-      return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
+      sessionAttributes.put(Attributes.STATE_KEY_MENU, Attributes.START_STATE_MENU_EAT);
+      sessionAttributes.put(Attributes.STATE_KEY_ORDER, Attributes.START_STATE_ORDER_EAT);
 
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
+          .withSpeech("Wie lautet Ihr erstes Gericht?").withReprompt("Was möchten Sie essen?")
+          .withShouldEndSession(false).build();
     }
+    if (eatOrDrink.getValue().equals("trinken")) {
 
-    return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
-        .withSpeech("Hallo schön dass Sie uns besuchen. Wie lautet Ihr erstes Gericht?")
-        .withReprompt("Was möchten Sie essen?").build();
+      sessionAttributes.put(Attributes.STATE_KEY_MENU, Attributes.START_STATE_MENU_DRINK);
+      sessionAttributes.put(Attributes.STATE_KEY_ORDER, Attributes.START_STATE_ORDER_DRINK);
+
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
+          .withSpeech("Wie lautet Ihr erstes Getränk?").withReprompt("Was möchten Sie trinken?")
+          .withShouldEndSession(false).build();
+    }
+    return handlerInput.getResponseBuilder().addElicitSlotDirective("eatOrDrink", intentRequest.getIntent())
+        .withSpeech("Möchten Sie mit Essen oder Trinken beginnen?")
+        .withReprompt("Möchten Sie mit Essen oder Trinken beginnen?").build();
   }
 
 }

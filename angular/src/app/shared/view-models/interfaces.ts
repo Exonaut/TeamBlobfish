@@ -41,9 +41,12 @@ export interface BookingView {
   email: string;
   assistants?: number;
   tableId?: number;
-  bookingToken?: number;
+  bookingToken?: string;
   creationDate?: string;
   status: number;
+  canceled: boolean;
+  id: number;
+  bookingType: string;
 }
 
 export interface FriendsInvite {
@@ -156,6 +159,10 @@ export interface SaveOrderResponse {
   revision: any;
   orderStatus: number;
   paymentStatus: number;
+  serveTime: string;
+  city: string;
+  street: string;
+  streetNr: string;
 }
 
 // Roles

@@ -30,18 +30,38 @@
   }
   
   .tableContainer {
-    width: 100%;
+    width: fit-content;
     overflow: auto;
   }
+
+  .centering {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
   
-  table {
+  .outerTable {
     width: 100%;
     min-width: 600px;
   }
+
+  .innerTable {
+    width: 100%;
+    min-width: 250px;
+    text-align: right;
+  }
   
   th {
-    width: 20%;
+    width: 100%;
     font-weight: bold;
+  }
+
+  td {
+    min-width: 150px;
+  }
+
+  .mat-raised-button {
+    margin-right: 8px;
   }
   
   td:not(:nth-child(1)) {

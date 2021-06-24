@@ -5,6 +5,7 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Intent;
@@ -61,7 +62,10 @@ public class DescriptionDishes implements RequestHandler {
 
     speechText = response.getDishesDescription(dishName.getValue());
 
-    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("descriptionFood", speechText).build();
+    if (input.getAttributesManager().getSessionAttributes().containsKey(Attributes.STATE_KEY_MENU))
+      return input.getResponseBuilder().withSpeech(speechText).withShouldEndSession(false).build();
+
+    return input.getResponseBuilder().withSpeech(speechText).withShouldEndSession(false).build();
   }
 
 }

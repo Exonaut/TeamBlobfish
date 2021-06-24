@@ -141,8 +141,16 @@ public interface Usermanagement {
   /**
    * Reset password and store in database by user
    *
-   * @param user the {@link UserEto} to reset passwords
+   * @param hashcode the hashcode of {@link UserEto}
+   * @param password the new password of {@link UserEto} to set
    */
-  void resetPasswordByUser(UserEto user);
+  void resetPasswordByUser(int hashcode, String password);
 
+  /**
+   * Edit user and store in database
+   *
+   * @param user the {@link UserEto} to edit
+   * @return the newly updated user that has been saved with new values
+   */
+  UserEto editUser(UserEto user);
 }

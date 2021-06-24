@@ -27,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.devonfw.application.mtsj.bookingmanagement.common.api.datatype.BookingType;
 import com.devonfw.application.mtsj.bookingmanagement.common.api.exception.CancelInviteNotAllowedException;
 import com.devonfw.application.mtsj.bookingmanagement.common.api.to.BookingCto;
 import com.devonfw.application.mtsj.bookingmanagement.common.api.to.BookingEto;
@@ -150,6 +151,10 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
   @Override
   public Page<BookingCto> findBookingCtos(BookingSearchCriteriaTo criteria) {
 
+    if (criteria.getBookingType() == null) {
+      criteria.setBookingType(BookingType.ORDER);
+    }
+
     Page<BookingCto> pagListTo = null;
     Page<BookingEntity> bookings = getBookingDao().findBookings(criteria);
     List<BookingCto> ctos = new ArrayList<>();
@@ -194,6 +199,26 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
     BookingEntity bookingEntity = getBeanMapper().map(booking.getBooking(), BookingEntity.class);
     bookingEntity.setCanceled(false);
     List<InvitedGuestEntity> invited = getBeanMapper().mapList(booking.getInvitedGuests(), InvitedGuestEntity.class);
+
+    if (booking.getBooking().getBookingType() == BookingType.ORDER) {
+
+      try {
+        bookingEntity.setBookingToken(buildToken(bookingEntity.getEmail(), "DB_"));
+      } catch (NoSuchAlgorithmException e) {
+        LOG.debug("MD5 Algorithm not available at the enviroment");
+      }
+
+      bookingEntity.setCreationDate(Instant.now());
+      bookingEntity.setExpirationDate(bookingEntity.getBookingDate().minus(Duration.ofHours(1)));
+      bookingEntity.setInvitedGuests(invited);
+
+      BookingEntity resultEntity = getBookingDao().save(bookingEntity);
+
+      sendConfirmationEmails(resultEntity);
+
+      return getBeanMapper().map(resultEntity, BookingEto.class);
+
+    }
 
     for (InvitedGuestEntity invite : invited) {
       try {

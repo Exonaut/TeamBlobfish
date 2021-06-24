@@ -9,9 +9,13 @@
   overflow: auto;
 }
 
+mat-expansion-panel {
+  width: 100%;
+  min-width: 800px;
+}
+
 table {
   width: 100%;
-  min-width: 600px;
 }
 
 .totalRow {
@@ -24,25 +28,18 @@ table {
 }
 
 th {
-  width: 14.29%;
   font-weight: bold;
+  margin-right: 8px;
+}
+
+td {
+  min-width: 100px;
+  margin-right: 8px;
 }
 
 .bookingDateData,
 .dishNameData {
   word-break: break-word;
-}
-
-.creationDateHeader,
-.nameHeader,
-.emailHeader,
-.commentHeader,
-.extrasHeader,
-.amountHeader,
-.amountData,
-.statusHeader,
-.paymentHeader {
-  padding: 0 3%;
 }
 
 .creationDateData,
@@ -52,7 +49,6 @@ th {
 .extrasData,
 .statusData,
 .paymentData {
-  padding: 0 3%;
   word-break: break-word;
 }
 
@@ -65,10 +61,15 @@ th {
 .paymentHeader,
 .paymentData {
   text-align: right;
+  margin-right: 4px;
 }
 
-.actionButtons {
-  padding-top: 16px;
+.submitButton {
+  margin-right: 16px;
+}
+
+mat-expansion-panel {
+  margin-bottom: 8px;
 }
 
 @media (max-width: 599px) {

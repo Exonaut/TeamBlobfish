@@ -16,6 +16,7 @@
         routerLinkActive="navBottomBorder"
         [routerLinkActiveOptions]="{ exact: true }"
       >
+        <mat-icon>home</mat-icon>
         {{ 'main.home' | transloco | uppercase }}
       </a>
       <a
@@ -24,16 +25,18 @@
         routerLinkActive="navBottomBorder"
         [routerLinkActiveOptions]="{ exact: true }"
       >
+        <mat-icon>restaurant_menu</mat-icon>
         {{ 'main.menu' | transloco | uppercase }}
       </a>
-      <a
+      <!-- <a
         mat-tab-link
         routerLink="/bookTable"
         routerLinkActive="navBottomBorder"
         [routerLinkActiveOptions]="{ exact: true }"
       >
+        <mat-icon>book</mat-icon>
         {{ 'main.book' | transloco | uppercase }}
-      </a>
+      </a> -->
     </nav>
   </div>
   <div *ngIf="(auth.getRole() | async) === 'WAITER'" class="forDesktop">
@@ -45,6 +48,7 @@
         routerLinkActive="navBottomBorder"
         [routerLinkActiveOptions]="{ exact: true }"
       >
+        <mat-icon>restaurant_menu</mat-icon>
         {{ 'main.orders' | transloco | uppercase }}
       </a>
       <!-- Order Archive -->
@@ -54,6 +58,7 @@
         routerLinkActive="navBottomBorder"
         [routerLinkActiveOptions]="{ exact: true }"
       >
+        <mat-icon>archive</mat-icon>
         {{ 'main.orderArchive' | transloco | uppercase }}
       </a>
       <!-- Reservation Cockpit -->
@@ -63,6 +68,7 @@
         routerLinkActive="navBottomBorder"
         [routerLinkActiveOptions]="{ exact: true }"
       >
+        <mat-icon>book</mat-icon>
         {{ 'main.reservations' | transloco | uppercase }}
       </a>
     </nav>
@@ -99,7 +105,8 @@
         routerLinkActive="navBottomBorder"
         [routerLinkActiveOptions]="{ exact: true }"
       >
-        USERS
+        <mat-icon>supervisor_account</mat-icon>
+        {{ 'main.users' | transloco | uppercase }}
       </a>
     </nav>
   </div>

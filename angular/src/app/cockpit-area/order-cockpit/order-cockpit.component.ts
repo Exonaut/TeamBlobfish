@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
@@ -17,6 +17,7 @@ import { WaiterCockpitService } from '../services/waiter-cockpit.service';
 import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
+import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 
 @Component({
   selector: 'app-cockpit-order-cockpit',
@@ -25,6 +26,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class OrderCockpitComponent implements OnInit, OnDestroy {
   private translocoSubscription = Subscription.EMPTY;
+  private orderStatusTranslocoSubscription = Subscription.EMPTY;
+  private paymentStatusTranslocoSubscription = Subscription.EMPTY;
+
   private pageable: Pageable = {
     pageSize: 8,
     pageNumber: 0,
@@ -41,13 +45,31 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
 
   columns: any[];
 
+  rowColor: '';
+
   displayedColumns: string[] = [
     'booking.bookingDate',
-    'booking.email',
-    'booking.bookingToken',
+    'booking.serveTime',
+    'booking.tableId',
+    'booking.name',
+    // 'booking.email',
+    // 'booking.bookingToken',
+    'booking.bookingType',
     'booking.orderStatus',
-    'booking.paymentStatus',
+    // 'booking.paymentStatus',
     'booking.actions'
+  ];
+
+  displayedColumnsArchive: string[] = [
+    'booking.bookingDate',
+    // 'booking.serveTime',
+    'booking.name',
+    // 'booking.tableId',
+    // 'booking.email',
+    // 'booking.bookingToken',
+    'booking.orderStatus',
+    // 'booking.paymentStatus',
+    // 'booking.actions'
   ];
 
   pageSizes: number[];
@@ -56,22 +78,32 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     bookingDate: undefined,
     email: undefined,
     bookingToken: undefined,
-    orderstatus: [],
-    paymentstatus: [],
+    orderstatus: undefined,
+    paymentstatus: undefined,
+    name: undefined
   };
-
-  statusNamesMap: string[];
-  paymentNamesMap: string[];
 
   archiveMode = false;
   title = 'cockpit.orders.title';
+
+  orderStatusSelected: FormControl;
+  paymentStatusSelected: FormControl;
+
+  undoValues: any[] = [];
+
+  exludeOnRowClick: string[] = [
+    'cancelOrder',
+    'advanceOrder',
+    'switchPayment',
+  ];
 
   constructor(
     private dialog: MatDialog,
     private translocoService: TranslocoService,
     private waiterCockpitService: WaiterCockpitService,
     private configService: ConfigService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snack: SnackBarService
   ) {
     this.pageSizes = this.configService.getValues().pageSizes;
   }
@@ -83,24 +115,30 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
         {
           this.archiveMode = true;
           this.title = 'cockpit.orders.archive';
-          this.filters.paymentstatus = [1, 2];
-          this.filters.orderstatus = [5, 6];
+          this.filters.paymentstatus = [0, 1]; // Payed, Refunded
+          this.filters.orderstatus = [5, 6]; // Completed, Canceled
+          this.displayedColumns = this.displayedColumnsArchive; // Remove actions from archive view
         }
         else
         {
           this.archiveMode = false;
           this.title = 'cockpit.orders.title';
-          this.filters.paymentstatus = [0, 1];
+          this.filters.paymentstatus = [0, 1]; // Pending, Payed
           this.filters.orderstatus = [0, 1, 2, 3, 4];
         }
         this.applyFilters();
     });
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
-      this.setStatusNamesMap(event);
-      this.setPaymentNamesMap(event);
+      this.getTranslationSubscriptions(event);
       moment.locale(this.translocoService.getActiveLang());
     });
+    this.orderStatusSelected = new FormControl(this.filters.orderstatus, [
+      Validators.required
+    ]);
+    this.paymentStatusSelected = new FormControl(this.filters.paymentstatus, [
+      Validators.required
+    ]);
   }
 
   setTableHeaders(lang: string): void {
@@ -109,43 +147,67 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
       .subscribe((cockpitTable) => {
         this.columns = [
           { name: 'booking.bookingDate', label: cockpitTable.reservationDateH },
+          { name: 'booking.name', label: cockpitTable.nameH },
           { name: 'booking.email', label: cockpitTable.emailH },
           { name: 'booking.bookingToken', label: cockpitTable.bookingTokenH },
-          { name: 'booking.bookingStatus', label: cockpitTable.bookingStateH},
-          { name: 'booking.paymentStatus', label: cockpitTable.paymentStateH},
-          { name: 'booking.actions', label: cockpitTable.actionsH},
+          { name: 'booking.serveTime', label: cockpitTable.serveTimeH },
+          { name: 'booking.bookingStatus', label: cockpitTable.bookingStateH },
+          { name: 'booking.paymentStatus', label: cockpitTable.paymentStateH },
+          { name: 'booking.actions', label: cockpitTable.actionsH },
+          { name: 'booking.tableId', label: cockpitTable.tableIdH },
+          { name: 'booking.bookingType', label: cockpitTable.bookingTypeH },
         ];
       });
   }
 
-  /** Set the translation lookup array for status names */
-  setStatusNamesMap(lang: string): void {
-    this.translocoSubscription = this.translocoService
-      .selectTranslateObject('cockpit.status', {}, lang)
-      .subscribe((cockpitStatus) => {
-        this.statusNamesMap = [
-          cockpitStatus.recorded,
-          cockpitStatus.cooking,
-          cockpitStatus.ready,
-          cockpitStatus.handingover,
-          cockpitStatus.delivered,
-          cockpitStatus.completed,
-          cockpitStatus.canceled
-        ]; }
-      );
+  /** Establish Observer Subscription for Order- and Paymentstatus translations on WaiterCockpitService
+   * @param lang - The language to use
+   */
+  getTranslationSubscriptions(lang: string): void {
+    this.orderStatusTranslocoSubscription = this.waiterCockpitService.updateOrderStatusTranslation(this.translocoService, lang);
+    this.paymentStatusTranslocoSubscription = this.waiterCockpitService.updatePaymentStatusTranslation(this.translocoService, lang);
   }
 
-  /** Set the translation lookup array for payment status names */
-  setPaymentNamesMap(lang: string): void {
-    this.translocoSubscription = this.translocoService
-      .selectTranslateObject('cockpit.payment', {}, lang)
-      .subscribe((cockpitStatus) => {
-        this.paymentNamesMap = [
-          cockpitStatus.pending,
-          cockpitStatus.payed,
-          cockpitStatus.refunded
-        ]; }
-      );
+  /** Get Order Status translation from WaiterCockpitService
+   * @returns the translation array
+   */
+  getOrderStatusTranslation(): string[] {
+    return this.waiterCockpitService.orderStatusTranslation;
+  }
+
+  /** Get Payment Status translation from WaiterCockpitService
+   * @returns the translation array
+   */
+  getPaymentStatusTranslation(): string[] {
+    return this.waiterCockpitService.paymentStatusTranslation;
+  }
+
+  /**
+   * Slices the Order Status translation array for regular or archive mode
+   * @returns The sliced translation array
+   */
+  getOrderStatusTranslationSlice(): string[] {
+    if (!this.archiveMode) {
+      return this.getOrderStatusTranslation().slice(0, -2);
+    }
+    else
+    {
+      return this.getOrderStatusTranslation().slice(-2);
+    }
+  }
+
+  /**
+   * Slices the Payment Status translation array for regular or archive mode
+   * @returns The sliced translation array
+   */
+    getPaymentStatusTranslationSlice(): string[] {
+    if (!this.archiveMode) {
+      return this.getPaymentStatusTranslation().slice(0, 2);
+    }
+    else
+    {
+      return this.getPaymentStatusTranslation().slice(1);
+    }
   }
 
   /** Get Orders from backend meeting current filter requirements */
@@ -165,7 +227,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   /** Clear filters */
   clearFilters(filters: NgForm): void {
     filters.reset();
-    this.applyFilters();
+    this.ngOnInit();
     this.pagingBar.firstPage();
   }
 
@@ -189,11 +251,23 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     this.applyFilters();
   }
 
+  /** Open the OrderDialogComponent for when clicking on a row
+   * @param event - The HTML Event
+   * @param selection - The selected Order
+   */
   selected(event, selection: OrderListView): void {
-    if (!event.target.className.includes('button')) {
+    let found = false;
+    this.exludeOnRowClick.forEach((value) => {
+      if (event.target.className.includes(value)) {
+        found = true;
+      }
+    });
+
+    if (!found)
+    { // Exclude action buttons
       this.dialog.open(OrderDialogComponent, {
         width: '80%',
-        data: selection,
+        data: {selection, parrent: this},
       }).afterClosed().subscribe((data: boolean) => {
         if (data === true) { // Reload orders if dialog was edited
           this.applyFilters();
@@ -202,8 +276,17 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Apply Order Status, Payment Status and then reload orders
+   */
   applyChanges(element: any, orderStatus: number, paymentStatus: number): void {
-    if (orderStatus === 5) { paymentStatus = 1; }
+    this.undoValues.push({
+      id: element.order.id,
+      orderStatus: element.order.orderStatus,
+      paymentStatus: element.order.paymentStatus
+    });
+    // if (orderStatus === 5) { paymentStatus = 1; }
+    // if (orderStatus === 6) { paymentStatus = 0; }
     this.waiterCockpitService.setOrderStatus(element.order.id, orderStatus) // Send order status
       .subscribe(
         (dataA: any) => {
@@ -211,6 +294,40 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
             .subscribe(
               (dataB: any) => {
                 this.applyFilters();
+                this.snack.openSnack(
+                  this.translocoService.translate('cockpit.status.changeStatusSuccess'),
+                  6000,
+                  'green'
+                );
+              }
+            );
+        }
+      );
+  }
+
+  /**
+   * Undo the last performed action (includes changes through dialog)
+   */
+  undoLastChange(): void {
+    // Send order status
+    this.waiterCockpitService.setOrderStatus(
+        this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].orderStatus
+      )
+      .subscribe(
+        (dataA: any) => {
+          // Send payment status
+          this.waiterCockpitService.setPaymentStatus(
+              this.undoValues[this.undoValues.length - 1].id, this.undoValues[this.undoValues.length - 1].paymentStatus
+            )
+            .subscribe(
+              (dataB: any) => {
+                this.applyFilters();
+                this.snack.openSnack(
+                  this.translocoService.translate('cockpit.status.undoChangeSuccess'),
+                  6000,
+                  'green'
+                );
+                this.undoValues.pop();
               }
             );
         }
@@ -219,5 +336,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.translocoSubscription.unsubscribe();
+    this.orderStatusTranslocoSubscription.unsubscribe();
+    this.paymentStatusTranslocoSubscription.unsubscribe();
   }
 }

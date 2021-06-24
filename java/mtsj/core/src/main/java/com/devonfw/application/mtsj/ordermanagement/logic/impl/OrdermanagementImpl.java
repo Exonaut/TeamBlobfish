@@ -38,6 +38,7 @@ import com.devonfw.application.mtsj.mailservice.logic.api.Mail;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.CancelNotAllowedException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.NoBookingException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.NoInviteException;
+import com.devonfw.application.mtsj.ordermanagement.common.api.exception.NoOrderException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.OrderAlreadyExistException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.WrongTokenException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderCto;
@@ -255,11 +256,18 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       orderLineEntity.setDishId(lineCto.getOrderLine().getDishId());
       orderLineEntity.setAmount(lineCto.getOrderLine().getAmount());
       orderLineEntity.setComment(lineCto.getOrderLine().getComment());
-      orderLineEntity.setServingTime(lineCto.getOrderLine().getServingTime());
       orderLineEntities.add(orderLineEntity);
     }
 
     OrderEntity orderEntity = getBeanMapper().map(order, OrderEntity.class);
+
+    if (order.getOrder() != null) {
+      orderEntity.setServeTime(order.getOrder().getServeTime());
+      orderEntity.setCity(order.getOrder().getCity());
+      orderEntity.setStreet(order.getOrder().getStreet());
+      orderEntity.setStreetNr(order.getOrder().getStreetNr());
+    }
+
     String token = orderEntity.getBooking().getBookingToken();
     // initialize, validate orderEntity here if necessary
     orderEntity = getValidatedOrder(orderEntity.getBooking().getBookingToken(), orderEntity);
@@ -381,6 +389,21 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       }
       orderEntity.setBookingId(guest.getBookingId());
       orderEntity.setInvitedGuestId(guest.getId());
+
+      // Order VALIDATION
+    } else if (getOrderType(token) == BookingType.ORDER) {
+
+      BookingCto booking = getBookingbyToken(token);
+      if (booking == null) {
+        throw new NoBookingException();
+      }
+      List<OrderCto> currentOrders = getBookingOrders(booking.getBooking().getId());
+      if (!currentOrders.isEmpty()) {
+        throw new OrderAlreadyExistException();
+      }
+
+      orderEntity.setBookingId(booking.getBooking().getId());
+
     }
 
     return orderEntity;
@@ -393,7 +416,11 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       return BookingType.COMMON;
     } else if (token.startsWith("GB_")) {
       return BookingType.INVITED;
-    } else {
+    } else if (token.startsWith("DB_")) {
+      return BookingType.ORDER;
+    }
+
+    else {
       throw new WrongTokenException();
     }
   }
@@ -431,6 +458,7 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       mailContent.append("Your order has been created.").append("\n");
       mailContent.append(getContentFormatedWithCost(order)).append("\n");
       mailContent.append("\n").append("Link to cancel order: ");
+      mailContent.append("Booking CODE: " + token);
       String link = "http://localhost:" + this.clientPort + "/booking/cancelOrder/" + order.getId();
       mailContent.append(link);
       this.mailService.sendMail(emailTo, "Order confirmation", mailContent.toString());
@@ -499,9 +527,14 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
         throw new NoInviteException();
       }
       return guest.getEmail();
-    } else
+    } else if (getOrderType(token) == BookingType.ORDER) {
 
-    {
+      BookingCto booking = getBookingbyToken(token);
+      if (booking == null) {
+        throw new NoBookingException();
+      }
+      return booking.getBooking().getEmail();
+    } else {
       return null;
     }
   }
@@ -555,5 +588,21 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
 
     return getBeanMapper().map(resultOrderPayment, OrderEto.class);
 
+  }
+
+  @Override
+  public OrderCto editOrder(OrderCto editorder) {
+
+    List<OrderCto> order = findOrdersByBookingToken(editorder.getBooking().getBookingToken());
+
+    if (order.isEmpty()) {
+      throw new NoOrderException();
+    }
+
+    List<OrderLineCto> editOrderLine = editorder.getOrderLines();
+
+    order.get(0).setOrderLines(editOrderLine);
+
+    return order.get(0);
   }
 }

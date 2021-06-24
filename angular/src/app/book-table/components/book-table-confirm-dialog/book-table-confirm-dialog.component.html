@@ -2,24 +2,36 @@
   <h3>{{'bookTable.dialog.bookingSuccess' | transloco}}</h3>
 </div>
 <mat-dialog-content>
-    <div class="dataRows">
-      <div>
-        <div class="dataRow">
-          <span>{{'sidenav.bookingId' | transloco}}</span>
-          <span>{{ data.bookingToken }}</span>
+  <table>
+    <th>
+      {{'sidenav.bookingId' | transloco}}
+    </th>
+    <tr>     
+      <td>
+        {{ data.bookingToken }}
+      </td>
+    </tr>
+  </table>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <table>
+    <tr>
+      <td>
+        <div class="align-left">
+          <button name="closeConfirmation" mat-button [cdkCopyToClipboard]="data.bookingToken" color="dark">
+            {{ 'buttons.copyToClipboard' | transloco }}
+          </button>
         </div>
-      </div>
-  
-      <div>
-        <mat-divider></mat-divider>
-      </div>
-    </div>
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <div class="align-right">
-      <button name="closeConfirmation" mat-button mat-dialog-close>
-        {{ 'buttons.close' | transloco }}
-      </button>
-    </div>
-  </mat-dialog-actions>
+      </td>
+      <td>
+        <div class="align-right">
+          <button name="closeConfirmation" mat-button (click)="close()">
+            {{ 'buttons.close' | transloco }}
+          </button>
+        </div>
+      </td>
+    </tr>
+  </table>
+</mat-dialog-actions>
   

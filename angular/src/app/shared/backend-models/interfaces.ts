@@ -18,6 +18,7 @@ export class FilterCockpit {
     bookingToken: number;
     orderstatus: number[];
     paymentstatus: number[];
+    name: string;
 }
 
 export class FilterOrdersCockpit {
@@ -30,9 +31,10 @@ export class FilterOrdersCockpit {
 
 export class FilterUserCockpit {
     pageable?: Pageable;
+    id: number;
     username: string;
     email: string;
-    role: number;
+    userRoleId: number;
 }
 
 export class Pageable {
@@ -89,6 +91,7 @@ export class OrderLineInfo {
 export class OrderListInfo {
     booking: { bookingToken: string };
     orderLines: OrderInfo[];
+    order: any;
 }
 
 export class PredictionCriteria {

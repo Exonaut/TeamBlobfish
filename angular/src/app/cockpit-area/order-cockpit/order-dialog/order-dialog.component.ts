@@ -7,6 +7,7 @@ import { WaiterCockpitService } from '../../services/waiter-cockpit.service';
 import { TranslocoService } from '@ngneat/transloco';
 import * as _ from 'lodash';
 import { MatSelectChange } from '@angular/material/select';
+import { OrderCockpitComponent } from '../order-cockpit.component';
 
 @Component({
   selector: 'app-cockpit-order-dialog',
@@ -19,12 +20,14 @@ export class OrderDialogComponent implements OnInit {
 
   pageSize = 4;
 
+  parrent: OrderCockpitComponent;
   data: OrderDialogData = new OrderDialogData();
   datat: OrderDialogData[] = [];
   columnst: any[];
   displayedColumnsT: string[] = [
     'bookingDate',
-    'creationDate',
+    // 'creationDate',
+    'serveTime',
     'name',
     'email',
     'tableId',
@@ -42,14 +45,20 @@ export class OrderDialogComponent implements OnInit {
     'dish.price',
   ];
 
+  dataa: OrderDialogData[] = [];
+  columnsa: any[];
+  displayedColumnsA: string[] = [
+    'city',
+    'street',
+    'streetNr'
+  ];
+
   pageSizes: number[];
   filteredData: OrderView[] = this.datao;
   totalPrice: number;
 
-  statusNamesMap: string[];
-  paymentNamesMap: string[];
-  selectedStatus: number;
-  selectedPayment: number;
+  selectedOrderStatus: number;
+  selectedPaymentStatus: number;
 
   constructor(
     private waiterCockpitService: WaiterCockpitService,
@@ -58,17 +67,16 @@ export class OrderDialogComponent implements OnInit {
     private configService: ConfigService,
     public dialog: MatDialogRef<OrderDialogComponent>,
   ) {
-    this.data.orderLines = dialogData.orderLines;
-    this.data.booking = dialogData.booking;
-    this.data.order = dialogData.order;
+    this.data.orderLines = dialogData.selection.orderLines;
+    this.data.booking = dialogData.selection.booking;
+    this.data.order = dialogData.selection.order;
     this.pageSizes = this.configService.getValues().pageSizesDialog;
+    this.parrent = dialogData.parrent;
   }
 
   ngOnInit(): void {
     this.translocoService.langChanges$.subscribe((event: any) => {
       this.setTableHeaders(event);
-      this.setStatusNamesMap(event);
-      this.setPaymentNamesMap(event);
     });
 
     this.totalPrice = this.waiterCockpitService.getTotalPrice(
@@ -76,9 +84,10 @@ export class OrderDialogComponent implements OnInit {
     );
     this.datao = this.waiterCockpitService.orderComposer(this.data.orderLines);
     this.datat.push(this.data);
+    this.dataa.push(this.data);
     this.filter();
-    this.selectedStatus = this.data.order.orderStatus;
-    this.selectedPayment = this.data.order.paymentStatus;
+    this.selectedOrderStatus = this.data.order.orderStatus;
+    this.selectedPaymentStatus = this.data.order.paymentStatus;
   }
 
   setTableHeaders(lang: string): void {
@@ -92,7 +101,8 @@ export class OrderDialogComponent implements OnInit {
           { name: 'email', label: cockpitTable.emailH },
           { name: 'tableId', label: cockpitTable.tableH },
           { name: 'bookingStatus', label: cockpitTable.bookingStateH },
-          { name: 'paymentStatus', label: cockpitTable.paymentStateH }
+          { name: 'paymentStatus', label: cockpitTable.paymentStateH },
+          { name: 'serveTime', label: cockpitTable.serveTimeH },
         ];
       });
 
@@ -112,36 +122,30 @@ export class OrderDialogComponent implements OnInit {
           },
         ];
       });
+
+    this.translocoService
+      .selectTranslateObject('cockpit.orders.dialogTable', {}, lang)
+      .subscribe((cockpitDialogTable) => {
+        this.columnsa = [
+          { name: 'city', label: cockpitDialogTable.cityH },
+          { name: 'street', label: cockpitDialogTable.streetH },
+          { name: 'streetNr', label: cockpitDialogTable.streetNrH },
+        ];
+      });
   }
 
-  /** Set the translation lookup array for status names */
-  setStatusNamesMap(lang: string): void {
-    this.translocoService
-      .selectTranslateObject('cockpit.status', {}, lang)
-      .subscribe((cockpitStatus) => {
-        this.statusNamesMap = [
-          cockpitStatus.recorded,
-          cockpitStatus.cooking,
-          cockpitStatus.ready,
-          cockpitStatus.handingover,
-          cockpitStatus.delivered,
-          cockpitStatus.completed,
-          cockpitStatus.canceled
-        ]; }
-      );
+  /** Establish Observer Subscription for Order- and Paymentstatus translations on WaiterCockpitService
+   * @param lang - The language to use
+   */
+  getOrderStatusTranslation(): string[] {
+    return this.waiterCockpitService.orderStatusTranslation;
   }
 
-  /** Set the translation lookup array for payment status names */
-  setPaymentNamesMap(lang: string): void {
-    this.translocoService
-      .selectTranslateObject('cockpit.payment', {}, lang)
-      .subscribe((cockpitStatus) => {
-        this.paymentNamesMap = [
-          cockpitStatus.pending,
-          cockpitStatus.payed,
-          cockpitStatus.refunded
-        ]; }
-      );
+  /** Get Order Status translation from WaiterCockpitService
+   * @returns the translation array
+   */
+  getPaymentStatusTranslation(): string[] {
+    return this.waiterCockpitService.paymentStatusTranslation;
   }
 
   page(pagingEvent: PageEvent): void {
@@ -157,50 +161,26 @@ export class OrderDialogComponent implements OnInit {
     setTimeout(() => (this.filteredData = newData));
   }
 
-  increaseStatus(): void {
-    this.selectedStatus = _.clamp(this.data.order.orderStatus + 1, 0, this.statusNamesMap.length - 2);
-
-    if (this.selectedStatus === this.statusNamesMap.length - 2) {
-      this.selectedPayment = 1;
-    }
-
-    this.applyChanges();
-  }
-
+  /**
+   * Apply selected Order- and Paymentstatus and then close the dialog
+   */
   applyChanges(): void {
-    this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedStatus) // Send order status
+    this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedOrderStatus) // Send order status
       .subscribe(
         (dataA: any) => {
-          this.waiterCockpitService.setPaymentStatus(this.data.order.id, this.selectedPayment) // Send payment status
+          this.waiterCockpitService.setPaymentStatus(this.data.order.id, +!!this.selectedPaymentStatus) // Send payment status
             .subscribe(
               (dataB: any) => {
-                this.data.order = dataB;
+                this.parrent.undoValues.push({ // Add change to undo stack of parrent OrderCockpitComponent
+                  id: this.data.order.id,
+                  orderStatus: this.data.order.orderStatus,
+                  paymentStatus: this.data.order.paymentStatus
+                });
                 this.dialog.close(true); // Close dialog with refresh flag
               }
             );
         }
       );
-  }
-
-  autoChangePaymentStatus(event: MatSelectChange): void {
-    if (event.value < this.statusNamesMap.length - 2 && this.selectedPayment >= 2) { // Change to pending
-      this.selectedPayment = 0;
-    }
-    if (event.value === this.statusNamesMap.length - 1) { // Change to refunded
-      this.selectedPayment = 2;
-    }
-    if (event.value === this.statusNamesMap.length - 2) { // Change to payed
-      this.selectedPayment = 1;
-    }
-  }
-
-  autoChangeOrderStatus(event: MatSelectChange): void {
-    if (event.value === 2) { // Change to canceled
-      this.selectedStatus = this.statusNamesMap.length - 1;
-    }
-    if (event.value < 2 && this.selectedStatus >= this.statusNamesMap.length - 2) { // Change to canceled
-      this.selectedStatus = 0;
-    }
   }
 
 }

@@ -71,6 +71,10 @@ public interface OrdermanagementRestService {
   @Path("/order/")
   public OrderEto saveOrder(OrderCto order);
 
+  @POST
+  @Path("/order/editorder")
+  public OrderCto editOrder(OrderCto order);
+
   /**
    * Delegates to {@link Ordermanagement#deleteOrder}.
    *

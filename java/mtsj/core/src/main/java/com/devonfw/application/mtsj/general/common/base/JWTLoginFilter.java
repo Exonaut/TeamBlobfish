@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.devonfw.application.mtsj.general.common.api.datatype.SecondFactor;
+import com.devonfw.application.mtsj.general.common.api.exception.NoActiveUserException;
 import com.devonfw.application.mtsj.general.common.api.security.BasicAccountCredentials;
 import com.devonfw.application.mtsj.general.common.api.security.LoginDataUsernameAndPassword;
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserEto;
@@ -67,6 +68,12 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     BasicAccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), BasicAccountCredentials.class);
 
     if (!this.usermanagement.existsUsernameOrEmail(creds.getEmail(), creds.getUsername())) { // registrationAndLogin
+
+      if (creds.getEmail() == null) { // user with no e-mail cannot be registered
+
+        LOG.warn("User {} does not exist", creds.getUsername());
+        throw new NoActiveUserException();
+      }
 
       UserEto user = new UserEto();
       user.setEmail(creds.getEmail());

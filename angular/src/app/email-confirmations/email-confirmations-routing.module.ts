@@ -17,6 +17,10 @@ const emailConfirmationsRoutes: Routes = [
     path: 'booking/cancelOrder/:token',
     component: EmailConfirmationsComponent,
   },
+  {
+    path: '**',
+    redirectTo: '/restaurant',
+  }
 ];
 
 @NgModule({

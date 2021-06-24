@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { UserCockpitService } from 'app/cockpit-area/services/user-cockpit.service';
+import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 import * as moment from 'moment';
 
 @Component({
@@ -18,6 +19,7 @@ export class CreateUserDialogComponent implements OnInit {
     public dialog: MatDialogRef<CreateUserDialogComponent>,
     private userCockpitService: UserCockpitService,
     private translocoService: TranslocoService,
+    private snack: SnackBarService,
   ) { }
 
   ngOnInit(): void {
@@ -31,9 +33,23 @@ export class CreateUserDialogComponent implements OnInit {
     delete value.confirmPassword;
     value.userRoleId = this.selectedRole;
     this.userCockpitService.createUser(value)
-      .subscribe((val) => {
-        this.closeWithRefresh();
-      });
+      .subscribe(
+        ($data) => {
+          this.snack.openSnack(
+            this.translocoService.translate('cockpit.user.createUserSuccess'),
+            6000,
+            'green'
+          );
+          this.closeWithRefresh();
+        },
+        (error) => {
+          this.snack.openSnack(
+            this.translocoService.translate('cockpit.user.createUserError'),
+            6000,
+            'red'
+          );
+        }
+      );
   }
 
   close(): void {

@@ -27,6 +27,7 @@ import { of, observable, throwError } from 'rxjs';
 import { Component } from '@angular/core';
 import { emailConfirmationsStub } from '../../../../in-memory-test-data/db-email-confirmation-data';
 import { TranslocoService } from '@ngneat/transloco';
+import { HomeComponent } from 'app/home/container/home/home.component';
 
 const ERRORMESSAGE = 'An error has ocurred, please try again later';
 
@@ -134,7 +135,7 @@ describe('EmailConfirmationsComponent', () => {
         },
       ],
       imports: [
-        RouterTestingModule.withRoutes([]),
+        RouterTestingModule.withRoutes([{path: 'restaurant', component: HomeComponent}]),
         getTranslocoModule(),
         BrowserAnimationsModule,
         ReactiveFormsModule,

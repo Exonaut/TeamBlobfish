@@ -27,6 +27,7 @@ import { click } from '../../shared/common/test-utils';
 import { ascSortOrder } from '../../../in-memory-test-data/db-order-asc-sort';
 import { orderData } from '../../../in-memory-test-data/db-order';
 import { ActivatedRoute } from '@angular/router';
+import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 
 const mockDialog = {
   open: jasmine.createSpy('open').and.returnValue({
@@ -44,15 +45,51 @@ const translocoServiceStub = {
     creationDateH: 'Creation date',
     bookingStateH: 'Status',
     paymentStateH: 'Payment',
+    nameH: 'Name',
+    actionsH: 'Actions',
+    serveTimeH: 'Serving Time',
+    tableIdH: 'Table ID',
   } as any),
 };
 
 const waiterCockpitServiceStub = {
   getOrders: jasmine.createSpy('getOrders').and.returnValue(of(orderData)),
+  updateOrderStatusTranslation: jasmine.createSpy('updateOrderStatusTranslation').and.returnValue(of({}).subscribe()),
+  updatePaymentStatusTranslation: jasmine.createSpy('updatePaymentStatusTranslation').and.returnValue(of({}).subscribe()),
+  orderStatusTranslation: [
+    'Recorded',
+    'Cooking',
+    'Ready',
+    'Handing Over',
+    'Delivered',
+    'Completed',
+    'Canceled'
+  ],
+  paymentStatusTranslation: [
+    'Pending',
+    'Payed',
+    'Refunded'
+  ]
 };
 
 const waiterCockpitServiceSortStub = {
   getOrders: jasmine.createSpy('getOrders').and.returnValue(of(ascSortOrder)),
+  updateOrderStatusTranslation: jasmine.createSpy('updateOrderStatusTranslation').and.returnValue(of({}).subscribe()),
+  updatePaymentStatusTranslation: jasmine.createSpy('updatePaymentStatusTranslation').and.returnValue(of({}).subscribe()),
+  orderStatusTranslation: [
+    'Recorded',
+    'Cooking',
+    'Ready',
+    'Handing Over',
+    'Delivered',
+    'Completed',
+    'Canceled'
+  ],
+  paymentStatusTranslation: [
+    'Pending',
+    'Payed',
+    'Refunded'
+  ]
 };
 
 const activatedRouteStub = {
@@ -68,6 +105,7 @@ class TestBedSetUp {
         { provide: MatDialog, useValue: mockDialog },
         { provide: WaiterCockpitService, useValue: waiterCockpitStub },
         { provie: ActivatedRoute, useValue: activatedRouteStub},
+        SnackBarService,
         TranslocoService,
         ConfigService,
         provideMockStore({ initialState }),
@@ -125,10 +163,14 @@ describe('OrderCockpitComponent', () => {
 
   it('should verify table header names', () => {
     expect(component.columns[0].label === 'Reservation Date').toBeTruthy();
-    expect(component.columns[1].label === 'Email').toBeTruthy();
-    expect(component.columns[2].label === 'Reference Number').toBeTruthy();
-    expect(component.columns[3].label === 'Status').toBeTruthy();
-    expect(component.columns[4].label === 'Payment').toBeTruthy();
+    expect(component.columns[1].label === 'Name').toBeTruthy();
+    expect(component.columns[2].label === 'Email').toBeTruthy();
+    expect(component.columns[3].label === 'Reference Number').toBeTruthy();
+    expect(component.columns[4].label === 'Serving Time').toBeTruthy();
+    expect(component.columns[5].label === 'Status').toBeTruthy();
+    expect(component.columns[6].label === 'Payment').toBeTruthy();
+    expect(component.columns[7].label === 'Actions').toBeTruthy();
+    expect(component.columns[8].label === 'Table ID').toBeTruthy();
   });
 
   it('should verify content and total records of orders', fakeAsync(() => {
@@ -156,15 +198,6 @@ describe('OrderCockpitComponent', () => {
     expect(component.orders).toEqual(orderData.content);
     expect(component.totalOrders).toBe(8);
   }));
-
-  // it('should open OrderDialogComponent dialog on click of row', fakeAsync(() => {
-  //   const rows = el.queryAll(By.css('.mat-row'));
-  //   console.warn(rows);
-  //   click(rows[0]);
-  //   fixture.detectChanges();
-  //   tick();
-  //   expect(dialog.open).toHaveBeenCalled();
-  // }));
 
   it('should filter the order table on click of submit', fakeAsync(() => {
     fixture.detectChanges();

@@ -10,12 +10,14 @@ import { NotSupportedComponent } from './core/not-supported/not-supported.compon
 import { EmailConfirmationsComponent } from './email-confirmations/container/email-confirmations/email-confirmations.component';
 import { HomeComponent } from './home/container/home/home.component';
 import { MenuComponent } from './menu/container/menu.component';
+import { ResetPasswordComponent } from './reset-password/container/reset-password/reset-password.component';
 
 const appRoutes: Routes = [
   { path: 'restaurant', component: HomeComponent, pathMatch: 'full' },
   { path: 'menu', component: MenuComponent },
-  { path: 'bookTable', component: BookTableComponent },
+  { path: 'bookTable', redirectTo: '/menu' },
   { path: 'booking/:action/:token', component: EmailConfirmationsComponent },
+  { path: 'user/resetpassword/:token', component: ResetPasswordComponent },
   {
     path: 'orders',
     data: { ['archive']: false }, // Disable archive mode
