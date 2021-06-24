@@ -14,7 +14,6 @@ import { NgxElectronModule } from 'ngx-electron';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BookTableModule } from './book-table/book-table.module';
 import { WaiterCockpitModule } from './cockpit-area/cockpit.module';
 import { ConfigModule } from './core/config/config.module';
 import { CoreModule } from './core/core.module';
@@ -38,7 +37,6 @@ import { ResetPasswordModule } from './reset-password/reset-password.module';
     HomeModule,
     MenuModule,
     HeaderModule,
-    BookTableModule,
     SidenavModule,
     WaiterCockpitModule,
     UserAreaModule,

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BookTableComponent } from './book-table/container/book-table/book-table.component';
 import { OrderCockpitComponent } from './cockpit-area/order-cockpit/order-cockpit.component';
 import { ReservationCockpitComponent } from './cockpit-area/reservation-cockpit/reservation-cockpit.component';
 import { UserCockpitComponent } from './cockpit-area/user-cockpit/user-cockpit.component';
