@@ -24,4 +24,8 @@ public final class Attributes {
 
   public static final String START_STATE_WHERE_LIKE_TO_EAT_DELIVER = "WHERE_LIKE_TO_EAT_DELIVER";
 
+  public static final String STATE_KEY_ONLY_ADD_INDIVIDUAL = "individual_dishes";
+
+  public static final Integer START_STATE_ONLY_ADD_ONE = 1;
+
 }

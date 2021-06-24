@@ -16,13 +16,17 @@ public class WhereLikeToEat implements IntentRequestHandler {
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return (handlerInput.matches(intentName("makeAOrderHome")) && intentRequest.getDialogState() == DialogState.STARTED)
-        && intentRequest.getIntent().getSlots().get("dishOrder").getValue() == null
-        && !handlerInput.getAttributesManager().getSessionAttributes().containsKey("state");
+        && intentRequest.getIntent().getSlots().get("dishOrder").getValue() == null;
 
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
+
+    if (handlerInput.getAttributesManager().getSessionAttributes().containsKey("state"))
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("whereLikeToEat", intentRequest.getIntent())
+          .withSpeech("Die Bestellung wurde abgebrochen. Bitte starten Sie Ihre Bestellung erneut.")
+          .withShouldEndSession(true).build();
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("whereLikeToEat", intentRequest.getIntent())
         .withSpeech(

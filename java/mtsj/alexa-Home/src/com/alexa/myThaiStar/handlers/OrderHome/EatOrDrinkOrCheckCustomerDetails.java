@@ -53,10 +53,6 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
       String userEmail = handlerInput.getServiceClientFactory().getUpsService().getProfileEmail();
       HelpClass.counterBookingIDs = HelpClass.bookingIDAvailable(response, userEmail);
 
-      if (HelpClass.counterBookingIDs == -1)
-        return handlerInput.getResponseBuilder()
-            .withSpeech("Es ist ein Problem aufgetreten. Bitte versuchen Sie es zu einem späteren Zeitpunkt.").build();
-
       if (HelpClass.counterBookingIDs == 0)
         return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 

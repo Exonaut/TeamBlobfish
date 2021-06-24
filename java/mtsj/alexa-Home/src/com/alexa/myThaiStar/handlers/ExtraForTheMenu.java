@@ -26,8 +26,6 @@ public class ExtraForTheMenu implements IntentRequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput input, IntentRequest intentRequest) {
 
-    String speechText = "Wir haben ";
-
     Intent intent = intentRequest.getIntent();
     Map<String, Slot> slots = intent.getSlots();
     Slot dishName = slots.get("dishName");
@@ -48,12 +46,7 @@ public class ExtraForTheMenu implements IntentRequestHandler {
           .build();
     }
 
-    if (input.getAttributesManager().getSessionAttributes().containsKey(Attributes.STATE_KEY_MENU))
-      return input.getResponseBuilder().withSpeech(speechText + extras).withSimpleCard("extraForTheMenu", speechText)
-          .withShouldEndSession(false).build();
-
-    return input.getResponseBuilder().withSpeech(speechText + extras).withSimpleCard("extraForTheMenu", speechText)
-        .build();
+    return input.getResponseBuilder().withSpeech(extras).build();
 
   }
 

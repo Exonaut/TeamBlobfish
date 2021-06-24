@@ -2,8 +2,10 @@ package com.alexa.myThaiStar.handlers.OrderHome;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
+import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -29,6 +31,7 @@ public class AnotherDrinkYesNoOrCorrectTheDrink implements IntentRequestHandler 
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     Slot confirmDrinks = intentRequest.getIntent().getSlots().get("amountDrinks");
+    Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
     if (confirmDrinks.getConfirmationStatusAsString().equals("CONFIRMED")) {
 
@@ -40,6 +43,9 @@ public class AnotherDrinkYesNoOrCorrectTheDrink implements IntentRequestHandler 
       tmpOrderline.orderLine.dishId = HelpClass.dishID;
 
       HelpClass.req.orderLines.add(tmpOrderline);
+
+      if (attributes.containsKey(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL))
+        return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoAnotherDrink", intentRequest.getIntent())
           .withSpeech("Möchten Sie noch etwas zum trinken bestellen?")

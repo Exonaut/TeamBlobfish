@@ -38,9 +38,11 @@ public class WhatDoUWantToDrinkOrServeTimeOrCloseOrder implements IntentRequestH
 
       attributes.replace(Attributes.STATE_KEY_MENU, Attributes.START_STATE_MENU_DRINK);
 
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent()).withSpeech(
-          "Wie lautet Ihr erstes Getränk? Wenn Sie sich noch nicht sicher sind, was sie zum trinken wollen, dann verlangen Sie einfach nach der Getränkekarte.")
-          .withReprompt("Was möchten Sie trinken?").withShouldEndSession(false).build();
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
+          .withSpeech("Wie lautet Ihr erstes Getränk?")
+          .withReprompt(
+              "Wenn Sie sich noch nicht sicher sind, was sie zum trinken wollen, dann verlangen Sie einfach nach der Getränkekarte.")
+          .withShouldEndSession(false).build();
     }
 
     if (attributes.containsValue(Attributes.START_STATE_WHERE_LIKE_TO_EAT_DELIVER)

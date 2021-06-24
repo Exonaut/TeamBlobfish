@@ -30,28 +30,32 @@ public class Completed implements IntentRequestHandler {
 
     Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
-    Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
-    if (attributes.containsValue(Attributes.START_STATE_WHERE_LIKE_TO_EAT_DELIVER)
-        || (whereLikeToEat.getValue() != null && whereLikeToEat.getValue().equals("liefern"))) {
-
-      String speechText = HelpClass.sendOrder();
-
-      if (speechText == null)
-        return handlerInput.getResponseBuilder()
-            .withSpeech(
-                "Es tut uns leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt.")
-            .build();
+    if (attributes.containsKey(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL)) {
 
       return handlerInput.getResponseBuilder()
-          .withSpeech(speechText + " Wir werden Ihre Bestellung schnellstmöglich liefern lassen.")
-          .withShouldEndSession(true).build();
+          .withSpeech("Vielen Dank. Sie können noch etwas hinzufügen oder die Bestellung einfach abschließen.")
+          .withReprompt(
+              "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: ich möchte noch Garlic Paradise Salad")
+          .build();
+
+    }
+
+    if (attributes.containsValue(Attributes.START_STATE_WHERE_LIKE_TO_EAT_DELIVER)) {
+
+      attributes.put(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL, Attributes.START_STATE_ONLY_ADD_ONE);
+
+      return handlerInput.getResponseBuilder().withSpeech(
+          "Vielen Dank für Ihre Bestellung. Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen")
+          .withReprompt(
+              "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: ich möchte noch Garlic Paradise Salad")
+          .build();
     }
 
     if (HelpClass.counterBookingIDs == 0)
       return handlerInput.getResponseBuilder()
           .withSpeech(
               "Keine Buchungs ID gefunden. Bitte buchen Sie zuerst einen Tisch, bevor Sie eine Bestellung vornehmen.")
-          .withShouldEndSession(false).build();
+          .build();
 
     if (yesNoCustomerDetails.getValue() != null)
       if (yesNoCustomerDetails.getValue().equals("nein"))
@@ -59,13 +63,12 @@ public class Completed implements IntentRequestHandler {
             .withSpeech("Es tut mir leid. Es gibt keine Auswahlmöglichkeit für eine spätere Reservierung.")
             .withShouldEndSession(true).build();
 
-    String speechText = HelpClass.sendOrder();
-    if (speechText == null)
-      return handlerInput.getResponseBuilder()
-          .withSpeech("Es tut uns leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt.")
-          .withShouldEndSession(true).build();
-
-    return handlerInput.getResponseBuilder().withSpeech(speechText).withShouldEndSession(true).build();
+    attributes.put(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL, Attributes.START_STATE_ONLY_ADD_ONE);
+    return handlerInput.getResponseBuilder().withSpeech(
+        "Vielen Dank für Ihre Bestellung. Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen.")
+        .withReprompt(
+            "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: ich möchte noch Garlic Paradise Salad")
+        .build();
   }
 
 }

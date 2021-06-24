@@ -27,22 +27,9 @@ public class CloseOrderOrCorrectTheServeTime implements IntentRequestHandler {
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     Slot serveTime = intentRequest.getIntent().getSlots().get("servingTime");
-    String bookingDateTime = HelpClass
-        .convertMillisecondsToDateTime(HelpClass.bookingDateTimeMilliseconds);
+    String bookingDateTime = HelpClass.convertMillisecondsToDateTime(HelpClass.bookingDateTimeMilliseconds);
     String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
     String bookingDate = HelpClass.getDateFormat(bookingDateTime);
-    String currentTime = HelpClass
-        .getTimeFormat(HelpClass.convertMillisecondsToDateTime(System.currentTimeMillis() + 7200000));
-
-    if (!HelpClass.addThirtyMinToCurrenTimeAndCompareWithServeTime(serveTime.getValue(), currentTime)) {
-
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
-          .withSpeech(
-              "Die Servierzeit, " + serveTime.getValue() + " Uhr liegt nicht 30 minuten hinter der aktuellen Zeit "
-                  + currentTime + " Uhr. Geben Sie die Servierzeit erneut an. Welche Servierzeit wünschen Sie?")
-          .withReprompt("Welche Servierzeit wünschen Sie?").build();
-
-    }
 
     if (!HelpClass.compareBookingTimeServeTime(bookingTime, serveTime.getValue())) {
 

@@ -55,11 +55,11 @@ public class CallFoodMenu implements IntentRequestHandler {
 
         speechText = "Wir haben " + response.toString();
 
-        Intent intent1 = Intent.builder().withName("drink").build();
-
-        return input.getResponseBuilder().withSpeech(speechText + ". Welches Getränk möchten Sie?").withReprompt(
-            ". Wenn Sie mehr über unsere Auswahl zu Tee oder Bier haben möchten, dann sagen sie zum Beispiel: Was gibt es für Teesorten oder was gibt es für Biersorten")
-            .addElicitSlotDirective("drink", intent1).withShouldEndSession(false).build();
+        return input.getResponseBuilder().withSpeech(speechText
+            + ". Wenn Sie mehr über unsere Auswahl zu Tee oder Bier haben möchten, dann sagen sie zum Beispiel: Was gibt es für Teesorten oder was gibt es für Biersorten. Oder wählen Sie einfach ein Getränk aus.")
+            .withReprompt(
+                ". Wenn Sie mehr über unsere Auswahl zu Tee oder Bier haben möchten, dann sagen sie zum Beispiel: Was gibt es für Teesorten oder was gibt es für Biersorten")
+            .build();
 
       }
 
@@ -87,11 +87,11 @@ public class CallFoodMenu implements IntentRequestHandler {
 
         speechText = "Wir haben " + response.toString();
 
-        Intent intent1 = Intent.builder().withName("dishOrder").build();
-
-        return input.getResponseBuilder().withSpeech(speechText).withReprompt(
-            ". Welches Gericht möchten Sie? Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Thai green chicken curry erfahren.")
-            .addElicitSlotDirective("dishOrder", intent1).withShouldEndSession(false).build();
+        return input.getResponseBuilder().withSpeech(speechText
+            + ". Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Thai green chicken curry erfahren. Oder wählen Sie einfach ein Gericht aus.")
+            .withReprompt(
+                ". Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Thai green chicken curry erfahren.")
+            .build();
 
       }
 

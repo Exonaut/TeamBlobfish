@@ -3,8 +3,10 @@ package com.alexa.myThaiStar.handlers.OrderHome;
 import static com.amazon.ask.request.Predicates.intentName;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -32,6 +34,7 @@ public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
 
     Slot confirmedDish = intentRequest.getIntent().getSlots().get("amount");
     Slot extra = intentRequest.getIntent().getSlots().get("extra");
+    Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
     if (confirmedDish.getConfirmationStatusAsString().equals("CONFIRMED")) {
 
@@ -52,6 +55,9 @@ public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
       tmpOrderline.orderLine.dishId = HelpClass.dishID;
 
       HelpClass.req.orderLines.add(tmpOrderline);
+
+      if (attributes.containsKey(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL))
+        return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())
           .withSpeech("Möchten Sie noch etwas zum essen bestellen?").withReprompt("Darf es noch etwas sein?").build();

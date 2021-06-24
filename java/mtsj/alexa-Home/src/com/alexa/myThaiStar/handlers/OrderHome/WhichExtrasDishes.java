@@ -43,15 +43,15 @@ public class WhichExtrasDishes implements IntentRequestHandler {
               "Es tut mir leid, dieses Gericht haben wir leider nicht auf der Speisekarte. Bitte wählen Sie ein Gericht aus, welches auf der Speisekarte vorhanden ist.")
           .withReprompt("Welches Gericht möchten Sie?").build();
 
-    String speechText = HelpClass.getExtrasName(HelpClass.dishID);
+    String speechTextExtras = HelpClass.getExtrasName(HelpClass.dishID);
 
-    if (speechText == null)
+    if (speechTextExtras == null)
       return handlerInput.getResponseBuilder()
           .withSpeech("Es tut uns leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt.")
           .build();
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("extra", intentRequest.getIntent())
-        .withSpeech(speechText + " Wenn Sie keine Extras möchten, dann sagen Sie: ohne extras.")
+        .withSpeech(speechTextExtras + " Wenn Sie keine Extras möchten, dann sagen Sie: ohne extras.")
         .withReprompt("Welche Extras möchten Sie?").build();
 
   }
