@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mail.MailSender;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -34,9 +35,19 @@ public class UsermanagementTest extends ApplicationComponentTest {
   @Mock
   private UserRepository userRepository;
 
+  @Mock
+  private MailSender mailSender;
+
   private UserCto userCto;
 
   private PasswordEncoder passwordEncoder;
+
+  @Override
+  public void doSetUp() {
+
+    super.doSetUp();
+    this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }
 
   /**
    * Tests that the password of user is reset by admin
@@ -62,6 +73,16 @@ public class UsermanagementTest extends ApplicationComponentTest {
     verify(this.userRepository).find((long) 0);
     verify(this.userRepository).save(userSavedInDatabase);
 
+  }
+
+  @Test
+  public void sendUserFogotPasswordLink() {
+
+    String userEmail = "user0@mail.com";
+
+    this.userManagement.sendForgotPasswordLink(userEmail);
+
+    boolean emailIsSent;
   }
 
   /**
