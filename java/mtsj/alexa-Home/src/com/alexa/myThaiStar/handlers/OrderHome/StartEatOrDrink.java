@@ -32,6 +32,8 @@ public class StartEatOrDrink implements IntentRequestHandler {
     Slot eatOrDrink = intentRequest.getIntent().getSlots().get("eatOrDrink");
     Map<String, Object> sessionAttributes = handlerInput.getAttributesManager().getSessionAttributes();
 
+    sessionAttributes.put(Attributes.STATE_KEY, Attributes.START_STATE);
+
     if (eatOrDrink.getValue().equals("essen")) {
 
       sessionAttributes.put(Attributes.STATE_KEY_MENU, Attributes.START_STATE_MENU_EAT);

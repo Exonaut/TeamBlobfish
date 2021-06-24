@@ -38,18 +38,17 @@ public class StartedOrder implements IntentRequestHandler {
       sessionAttributes.put(Attributes.STATE_KEY_ORDER, Attributes.START_STATE_ORDER_EAT);
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
-          .withSpeech(
-              "Wie lautet Ihr erstes Gericht? Wenn Sie sich noch nicht sicher sind, was sie zum essen wollen, dann verlangen Sie einfach nach der Speisekarte.")
-          .withReprompt("Was möchten Sie essen?").withShouldEndSession(false).build();
+          .withSpeech("Wie lautet Ihr erstes Gericht?").withReprompt("Was möchten Sie essen?")
+          .withShouldEndSession(false).build();
     }
     if (eatOrDrink.getValue().equals("trinken")) {
 
       sessionAttributes.put(Attributes.STATE_KEY_MENU, Attributes.START_STATE_MENU_DRINK);
       sessionAttributes.put(Attributes.STATE_KEY_ORDER, Attributes.START_STATE_ORDER_DRINK);
 
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent()).withSpeech(
-          "Wie lautet Ihr erstes Getränk? Wenn Sie sich noch nicht sicher sind, was sie zum trinken wollen, dann verlangen Sie einfach nach der Getränkekarte.")
-          .withReprompt("Was möchten Sie trinken?").withShouldEndSession(false).build();
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
+          .withSpeech("Wie lautet Ihr erstes Getränk?").withReprompt("Was möchten Sie trinken?")
+          .withShouldEndSession(false).build();
     }
     return handlerInput.getResponseBuilder().addElicitSlotDirective("eatOrDrink", intentRequest.getIntent())
         .withSpeech("Möchten Sie mit Essen oder Trinken beginnen?")

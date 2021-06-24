@@ -2,10 +2,8 @@ package com.alexa.myThaiStar.handlers.OrderHome;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
-import java.util.Map;
 import java.util.Optional;
 
-import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -18,15 +16,13 @@ public class WhereLikeToEat implements IntentRequestHandler {
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     return (handlerInput.matches(intentName("makeAOrderHome")) && intentRequest.getDialogState() == DialogState.STARTED)
-        && intentRequest.getIntent().getSlots().get("dishOrder").getValue() == null;
+        && intentRequest.getIntent().getSlots().get("dishOrder").getValue() == null
+        && !handlerInput.getAttributesManager().getSessionAttributes().containsKey("state");
 
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
-
-    Map<String, Object> sessionAttributes = handlerInput.getAttributesManager().getSessionAttributes();
-    sessionAttributes.put(Attributes.STATE_KEY, Attributes.START_STATE);
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("whereLikeToEat", intentRequest.getIntent())
         .withSpeech(

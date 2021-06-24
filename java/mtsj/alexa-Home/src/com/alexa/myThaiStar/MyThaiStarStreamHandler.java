@@ -18,6 +18,7 @@ import com.alexa.myThaiStar.handlers.CallFoodMenu;
 import com.alexa.myThaiStar.handlers.CancelandStopIntentHandler;
 import com.alexa.myThaiStar.handlers.DescriptionDishes;
 import com.alexa.myThaiStar.handlers.DescriptionDrinks;
+import com.alexa.myThaiStar.handlers.ExtraForTheMenu;
 import com.alexa.myThaiStar.handlers.FallbackIntentHandler;
 import com.alexa.myThaiStar.handlers.HelpIntentHandler;
 import com.alexa.myThaiStar.handlers.LaunchRequestHandler;
@@ -44,7 +45,7 @@ import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://d54b4acfd60c.ngrok.io";
+  public static final String BASE_URL = "https://8c578d6bfa65.ngrok.io";
 
   private static Skill getSkill() {
 
@@ -73,7 +74,8 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new CloseOrderOrCorrectTheServeTime(),
             new WhereLikeToEat(),
             new EatOrDrinkOrCheckCustomerDetails(),
-            new StartEatOrDrink()
+            new StartEatOrDrink(),
+            new ExtraForTheMenu()
             )
         // Add your skill id below
         .withSkillId("amzn1.ask.skill.2cb6b023-f36d-43f9-8c18-3b509cf3f2d6").build();

@@ -51,7 +51,7 @@ public class Completed implements IntentRequestHandler {
       return handlerInput.getResponseBuilder()
           .withSpeech(
               "Keine Buchungs ID gefunden. Bitte buchen Sie zuerst einen Tisch, bevor Sie eine Bestellung vornehmen.")
-          .withShouldEndSession(true).build();
+          .withShouldEndSession(false).build();
 
     if (yesNoCustomerDetails.getValue() != null)
       if (yesNoCustomerDetails.getValue().equals("nein"))

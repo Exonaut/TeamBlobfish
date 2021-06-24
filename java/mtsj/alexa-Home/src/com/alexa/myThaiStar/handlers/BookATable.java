@@ -48,7 +48,8 @@ public class BookATable implements RequestHandler {
 
     }
 
-    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText).build();
+    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText)
+        .withShouldEndSession(false).build();
   }
 
 }
