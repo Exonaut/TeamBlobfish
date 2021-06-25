@@ -232,12 +232,12 @@ describe('OrderCockpitComponent', () => {
     spyOn(component, 'clearFilters').and.callThrough();
     fixture.detectChanges();
     component.filters = {
-      bookingDate: "Date",
-      email: "Email",
-      bookingToken: "Token",
+      bookingDate: 'Date',
+      email: 'Email',
+      bookingToken: 'Token',
       orderstatus: [0],
       paymentstatus: [0],
-      name: "Name",
+      name: 'Name',
       table: 3,
       bookingType: 0,
     } as FilterCockpit;
