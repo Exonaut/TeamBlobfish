@@ -264,7 +264,7 @@
       "completed": "Completed",
       "canceled": "Canceled",
       "changeStatusSuccess": "Status successfully updated",
-      "changeStatusFailure": "Status change error",
+      "changeStatusError": "An error occured while trying to change the status, please try again",
       "undoChangeSuccess": "Change successfully reverted"
     },
     "payment": {

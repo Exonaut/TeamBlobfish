@@ -151,7 +151,7 @@ export interface BookingTableResponse extends BookingView {
 // Interface to recieve responeses from the server using httpclient for SaveOrders
 export interface SaveOrderResponse {
   bookingId: number;
-  bokingToken: string;
+  bookingToken: string;
   hostId: number;
   id: number;
   invitedGuestId: number;

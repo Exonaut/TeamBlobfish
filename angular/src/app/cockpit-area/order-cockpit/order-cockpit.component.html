@@ -34,6 +34,7 @@
             />
           </mat-form-field>
 
+          <!-- Table Filter -->
           <mat-form-field color="accent" class="searchBy">
             <input
               matInput
@@ -41,16 +42,9 @@
               [placeholder]="'formFields.table' | transloco"
               [(ngModel)]="filters.table"
               name="table"
+              [min]="1"
             />
           </mat-form-field>
-
-          <!-- <mat-button-toggle
-          [checked]="filters.bookingType === 2"
-          (change)="filters.bookingType = ($event.source.checked ? 2 : undefined)"
-          >
-          
-          Delivery
-          </mat-button-toggle> -->
 
           <!-- <mat-form-field color="accent" class="searchBy">
             <mat-select
@@ -130,6 +124,17 @@
             </mat-select>
           </mat-form-field> -->
         </div>
+
+        <button
+          mat-raised-button
+          type="button"
+          (click)="
+            filters.bookingType = filters.bookingType != 2 ? 2 : undefined
+          "
+          [color]="filters.bookingType === 2 ? 'accent' : 'grey'"
+        >
+          <mat-icon>local_shipping</mat-icon>
+        </button>
       </div>
       <div class="align-right">
         <button
@@ -294,11 +299,7 @@
               mat-raised-button
               type="button"
               (click)="
-                applyChanges(
-                  element,
-                  element.order.orderStatus + 1,
-                  element.order.paymentStatus
-                )
+                applyChanges(element, element.order.orderStatus + 1, null)
               "
               [matTooltip]="'buttons.advanceStatus' | transloco"
             >
@@ -316,7 +317,7 @@
               (click)="
                 applyChanges(
                   element,
-                  element.order.orderStatus,
+                  null,
                   (element.order.paymentStatus + 1) % 2
                 )
               "
@@ -350,7 +351,7 @@
           </td>
         </ng-container>
 
-        <!-- Table Id Column -->
+        <!-- Booking Type Column -->
         <ng-container matColumnDef="booking.bookingType">
           <th
             mat-header-cell
@@ -375,6 +376,7 @@
           mat-row
           *matRowDef="let row; columns: displayedColumns"
           (click)="selected($event, row)"
+          class="table-row"
         ></tr>
       </table>
     </div>
