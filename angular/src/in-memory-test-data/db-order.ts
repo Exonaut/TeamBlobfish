@@ -191,7 +191,7 @@ export const orderDataArchive: OrderListView[] = [
       },
     ],
   }
-]
+];
 
 export const orderDataArchiveResponse: any = {
   content: orderDataArchive,
