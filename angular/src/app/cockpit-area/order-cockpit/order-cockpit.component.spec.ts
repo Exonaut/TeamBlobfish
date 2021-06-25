@@ -27,9 +27,11 @@ import { click } from '../../shared/common/test-utils';
 import { ascSortOrder } from '../../../in-memory-test-data/db-order-asc-sort';
 import {
   orderData,
+  orderDataArchive,
+  orderDataArchiveResponse,
   orderDataResponse,
 } from '../../../in-memory-test-data/db-order';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
 import { FilterCockpit } from 'app/shared/backend-models/interfaces';
@@ -107,8 +109,30 @@ const waiterCockpitServiceSortStub = {
     .and.returnValue(of({})),
 };
 
-const activatedRouteStub = {
-  data: of({ archive: false }),
+const waiterCockpitServiceArchiveStub = {
+  getOrders: jasmine
+    .createSpy('getOrders')
+    .and.returnValue(of(orderDataArchiveResponse)),
+  updateOrderStatusTranslation: jasmine
+    .createSpy('updateOrderStatusTranslation')
+    .and.returnValue(of({}).subscribe()),
+  updatePaymentStatusTranslation: jasmine
+    .createSpy('updatePaymentStatusTranslation')
+    .and.returnValue(of({}).subscribe()),
+  orderStatusTranslation: [
+    'Recorded',
+    'Cooking',
+    'Ready',
+    'Handing Over',
+    'Delivered',
+    'Completed',
+    'Canceled',
+  ],
+  paymentStatusTranslation: ['Pending', 'Payed', 'Refunded'],
+  setOrderStatus: jasmine.createSpy('setOrderStatus').and.returnValue(of({})),
+  setPaymentStatus: jasmine
+    .createSpy('setPaymentStatus')
+    .and.returnValue(of({})),
 };
 
 class TestBedSetUp {
@@ -119,7 +143,7 @@ class TestBedSetUp {
       providers: [
         { provide: MatDialog, useValue: mockDialog },
         { provide: WaiterCockpitService, useValue: waiterCockpitStub },
-        { provie: ActivatedRoute, useValue: activatedRouteStub },
+        // { provie: ActivatedRoute, useValue: routeStub },
         SnackBarService,
         TranslocoService,
         ConfigService,
@@ -130,7 +154,7 @@ class TestBedSetUp {
         ReactiveFormsModule,
         getTranslocoModule(),
         CoreModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([]),
       ],
     });
   }
@@ -146,6 +170,8 @@ describe('OrderCockpitComponent', () => {
   let translocoService: TranslocoService;
   let configService: ConfigService;
   let el: DebugElement;
+  let activatedRoute: ActivatedRoute;
+  let router: Router;
 
   beforeEach(async(() => {
     initialState = { config };
@@ -160,21 +186,25 @@ describe('OrderCockpitComponent', () => {
         waiterCockpitService = TestBed.inject(WaiterCockpitService);
         dialog = TestBed.inject(MatDialog);
         translocoService = TestBed.inject(TranslocoService);
+        router = TestBed.inject(Router);
+        activatedRoute = TestBed.inject(ActivatedRoute);
+        activatedRoute.data = of({ archive: false });
         spyOn(translocoService, 'selectTranslateObject').and.returnValue(
           translocoServiceStub.selectTranslateObject,
         );
       });
   }));
 
-  // beforeEach(() => {
-  //   fixture = TestBed.createComponent(OrderCockpitComponent);
-  //   component = fixture.componentInstance;
-  // });
-
   it('should create component', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
+
+  it('should not be in archive mode', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+    expect(component.archiveMode).toBeFalsy();
+  }));
 
   it('should verify table header names', () => {
     fixture.detectChanges();
@@ -243,7 +273,6 @@ describe('OrderCockpitComponent', () => {
     } as FilterCockpit;
     const btn = el.query(By.css('.orderClearFilters'));
     click(btn);
-    console.log(component.filters);
     expect(component.clearFilters).toHaveBeenCalled();
     expect(
       JSON.stringify(component.filters) ===
@@ -292,7 +321,11 @@ describe('OrderCockpitComponent', () => {
     const btn = el.query(By.css('.advanceOrder'));
     expect(btn).toBeTruthy();
     click(btn);
-    expect(component.applyChanges).toHaveBeenCalledWith(orderData[0], 1, null);
+    expect(component.applyChanges).toHaveBeenCalledWith(
+      orderData[0],
+      orderData[0].order.orderStatus + 1,
+      null,
+    );
     expect(waiterCockpitService.setOrderStatus).toHaveBeenCalled();
     expect(component.undoValues.length === 1);
   });
@@ -390,4 +423,79 @@ describe('TestingOrderCockpitComponentWithSortOrderData', () => {
     expect(component.orders).toEqual(ascSortOrder.content);
     expect(component.totalOrders).toBe(8);
   });
+});
+
+describe('OrderCockpitComponentArchive', () => {
+  let component: OrderCockpitComponent;
+  let fixture: ComponentFixture<OrderCockpitComponent>;
+  let store: Store<State>;
+  let initialState;
+  let waiterCockpitService: WaiterCockpitService;
+  let dialog: MatDialog;
+  let translocoService: TranslocoService;
+  let configService: ConfigService;
+  let el: DebugElement;
+  let activatedRoute: ActivatedRoute;
+  let router: Router;
+
+  beforeEach(async(() => {
+    initialState = { config };
+    TestBedSetUp.loadWaiterCockpitServiceStud(waiterCockpitServiceArchiveStub)
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(OrderCockpitComponent);
+        component = fixture.componentInstance;
+        el = fixture.debugElement;
+        store = TestBed.inject(Store);
+        configService = new ConfigService(store);
+        waiterCockpitService = TestBed.inject(WaiterCockpitService);
+        dialog = TestBed.inject(MatDialog);
+        translocoService = TestBed.inject(TranslocoService);
+        router = TestBed.inject(Router);
+        activatedRoute = TestBed.inject(ActivatedRoute);
+        activatedRoute.data = of({ archive: true });
+        spyOn(translocoService, 'selectTranslateObject').and.returnValue(
+          translocoServiceStub.selectTranslateObject,
+        );
+      });
+  }));
+
+  it('should be in archive mode', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+    expect(component.archiveMode).toBeTruthy();
+  }));
+
+  it('should verify content and total records of orders', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+    expect(component.orders).toEqual(orderDataArchive);
+    expect(component.totalOrders).toBe(orderDataArchiveResponse.totalElements);
+  }));
+
+  it('should open order dialog on click of row', fakeAsync(() => {
+    spyOn(component, 'selected').and.callThrough();
+    component.applyFilters();
+    fixture.detectChanges();
+    tick();
+    const row = el.query(By.css('.mat-row'));
+    click(row, {
+      target: {
+        className: {
+          includes(): boolean {
+            return false;
+          },
+        },
+      },
+    });
+    expect(component.selected).toHaveBeenCalled();
+    expect(dialog.open).toHaveBeenCalled();
+  }));
+
+  it('should have correct filters', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+    expect(component.filters.orderstatus).toEqual([5, 6]);
+    expect(component.filters.paymentstatus).toEqual([0, 1]);
+  }));
 });

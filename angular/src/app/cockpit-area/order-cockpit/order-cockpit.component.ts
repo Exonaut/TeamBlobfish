@@ -228,7 +228,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   }
 
   /** Clear filters */
-  clearFilters(filters: NgForm): void {
+  clearFilters(): void {
     this.filters = {
       bookingDate: undefined,
       email: undefined,
