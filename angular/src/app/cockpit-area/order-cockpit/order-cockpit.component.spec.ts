@@ -297,7 +297,7 @@ describe('OrderCockpitComponent', () => {
     expect(component.undoValues.length === 1);
   });
 
-  it('should change payment status on', () => {
+  it('should change payment status on click', () => {
     spyOn(component, 'applyChanges').and.callThrough();
     fixture.detectChanges();
     const btn = el.query(By.css('.switchPayment'));
