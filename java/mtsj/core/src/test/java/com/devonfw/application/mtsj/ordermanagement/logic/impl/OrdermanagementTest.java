@@ -220,7 +220,25 @@ public class OrdermanagementTest extends ApplicationComponentTest {
    * Tests to edit new payment status of order
    */
   @Test
-  public void setNewPaymentStatusTest() {
+  public void setNewPaymentStatusTest1() {
+
+    Long orderId = (long) 0;
+    Long paymentStatus = (long) 0;
+
+    try {
+      OrderEto orderEntity = this.orderManagement.setNewPaymentStatus(orderId, paymentStatus);
+      assertThat(orderEntity.getPaymentStatus()).isEqualTo(paymentStatus);
+    } catch (Exception e) {
+      WrongPaymentStatusException we = new WrongPaymentStatusException();
+      assertThat(e.getClass()).isEqualTo(we.getClass());
+    }
+  }
+
+  /**
+   * Tests to edit new payment status of order
+   */
+  @Test
+  public void setNewPaymentStatusTest2() {
 
     Long orderId = (long) 0;
     Long paymentStatus = (long) 1;

@@ -231,4 +231,73 @@ public class UsermanagementTest2 extends ApplicationComponentTest {
 
     assertThat(user.getUserRoleId()).isEqualTo(identicalUserRole);
   }
+
+  /**
+   * Tests to edit user name and email of user
+   */
+  @Test
+  public void editUserUserNameAndUserEmailTest() {
+
+    String newEmail = "user8@mail.com";
+    String newUsername = "user8";
+    UserEto userToEdit = new UserEto();
+    userToEdit.setId((long) 0);
+    userToEdit.setUsername(newUsername);
+    userToEdit.setPassword("password");
+    userToEdit.setEmail(newEmail);
+    userToEdit.setUserRoleId((long) 0);
+
+    UserEto user = this.userManagement.editUser(userToEdit);
+
+    assertThat(user).isNotNull();
+    assertThat(user.getEmail()).isEqualTo(newEmail);
+    assertThat(user.getUsername()).isEqualTo(newUsername);
+  }
+
+  /**
+   * Tests to edit user name and password of user
+   */
+  @Test
+  public void editUserUserNameAndPasswordTest() {
+
+    String newPassword = "";
+    String oldPassword = this.passwordEncoder.encode("password");
+    String newUsername = "user8";
+
+    UserEto userToEdit = new UserEto();
+    userToEdit.setId((long) 0);
+    userToEdit.setUsername(newUsername);
+    userToEdit.setPassword(newPassword);
+    userToEdit.setEmail("user0@mail.com");
+    userToEdit.setUserRoleId((long) 0);
+
+    UserEto user = this.userManagement.editUser(userToEdit);
+
+    assertThat(user).isNotNull();
+    assertThat(user.getUsername()).isEqualTo(newUsername);
+    assertThat(user.getPassword()).isNotEqualTo(oldPassword);
+  }
+
+  @Test
+  public void editUserUserEmailPasswordUserRoleIdTest() {
+
+    String newPassword = "test";
+    Long newUserRoleId = (long) 1;
+    String oldPassword = this.passwordEncoder.encode("password");
+    String newUserEmail = "user8@mail.com";
+
+    UserEto userToEdit = new UserEto();
+    userToEdit.setId((long) 0);
+    userToEdit.setUsername("user0");
+    userToEdit.setPassword(newPassword);
+    userToEdit.setEmail(newUserEmail);
+    userToEdit.setUserRoleId(newUserRoleId);
+
+    UserEto user = this.userManagement.editUser(userToEdit);
+
+    assertThat(user).isNotNull();
+    assertThat(user.getEmail()).isEqualTo(newUserEmail);
+    assertThat(user.getPassword()).isNotEqualTo(oldPassword);
+    assertThat(user.getUserRoleId()).isEqualTo(newUserRoleId);
+  }
 }

@@ -9,8 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.devonfw.application.mtsj.SpringBootApp;
 import com.devonfw.application.mtsj.general.common.ApplicationComponentTest;
@@ -33,14 +31,11 @@ public class UsermanagementTest1 extends ApplicationComponentTest {
   @Mock
   private UserRepository userRepository;
 
-  private PasswordEncoder passwordEncoder;
-
   @Override
   public void doSetUp() {
 
     super.doSetUp();
 
-    this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
   }
 
   /**
