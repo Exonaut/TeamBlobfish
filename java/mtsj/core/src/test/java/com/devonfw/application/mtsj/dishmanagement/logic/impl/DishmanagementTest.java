@@ -14,7 +14,6 @@ import org.springframework.data.domain.Sort.Direction;
 
 import com.devonfw.application.mtsj.SpringBootApp;
 import com.devonfw.application.mtsj.dishmanagement.common.api.to.CategoryEto;
-import com.devonfw.application.mtsj.dishmanagement.common.api.to.CategorySearchCriteriaTo;
 import com.devonfw.application.mtsj.dishmanagement.common.api.to.DishCto;
 import com.devonfw.application.mtsj.dishmanagement.common.api.to.DishSearchCriteriaTo;
 import com.devonfw.application.mtsj.dishmanagement.logic.api.Dishmanagement;
@@ -189,15 +188,201 @@ public class DishmanagementTest extends ApplicationComponentTest {
     assertThat(category).isNotNull();
   }
 
+  /**
+   * Tests to find dishes by category name
+   */
   @Test
-  public void findCategories() {
+  public void findDishesByCategoryName1() {
 
-    CategorySearchCriteriaTo criteria = new CategorySearchCriteriaTo();
-    criteria.setName("Main Dishes");
-    PageRequest pageable = PageRequest.of(0, 100, Sort.by(Direction.DESC, criteria.getName()));
+    String categoryName = "Main Dishes";
+    DishSearchCriteriaTo criteria = new DishSearchCriteriaTo();
+    List<CategoryEto> categories = new ArrayList<>();
+
+    criteria.setCategories(categories);
+    criteria.setSearchBy("");
+    PageRequest pageable = PageRequest.of(0, 8, Sort.by(Direction.DESC, "price"));
     criteria.setPageable(pageable);
-    Page<CategoryEto> result = this.dishmanagement.findCategoryEtos(criteria);
+
+    Page<DishCto> result = this.dishmanagement.findDishesByCategory(criteria, categoryName);
     assertThat(result).isNotNull();
     assertThat(result.getContent().size()).isGreaterThan(0);
+
   }
+
+  /**
+   * Tests to find dishes by category name
+   */
+  @Test
+  public void findDishesByCategoryName2() {
+
+    String categoryName = "Starter";
+    DishSearchCriteriaTo criteria = new DishSearchCriteriaTo();
+    List<CategoryEto> categories = new ArrayList<>();
+
+    criteria.setCategories(categories);
+    criteria.setSearchBy("");
+    PageRequest pageable = PageRequest.of(0, 8, Sort.by(Direction.DESC, "price"));
+    criteria.setPageable(pageable);
+
+    Page<DishCto> result = this.dishmanagement.findDishesByCategory(criteria, categoryName);
+    assertThat(result).isNotNull();
+    assertThat(result.getContent().size()).isGreaterThan(0);
+
+  }
+
+  /**
+   * Tests to find dishes by category name
+   */
+  @Test
+  public void findDishesByCategoryName3() {
+
+    String categoryName = "Vegan";
+    DishSearchCriteriaTo criteria = new DishSearchCriteriaTo();
+    List<CategoryEto> categories = new ArrayList<>();
+
+    criteria.setCategories(categories);
+    criteria.setSearchBy("");
+    PageRequest pageable = PageRequest.of(0, 8, Sort.by(Direction.DESC, "price"));
+    criteria.setPageable(pageable);
+
+    Page<DishCto> result = this.dishmanagement.findDishesByCategory(criteria, categoryName);
+    assertThat(result).isNotNull();
+    assertThat(result.getContent().size()).isGreaterThan(0);
+
+  }
+
+  /**
+   * Tests to find dishes by category name
+   */
+  @Test
+  public void findDishesByCategoryName4() {
+
+    String categoryName = "Rice";
+    DishSearchCriteriaTo criteria = new DishSearchCriteriaTo();
+    List<CategoryEto> categories = new ArrayList<>();
+
+    criteria.setCategories(categories);
+    criteria.setSearchBy("");
+    PageRequest pageable = PageRequest.of(0, 8, Sort.by(Direction.DESC, "price"));
+    criteria.setPageable(pageable);
+
+    Page<DishCto> result = this.dishmanagement.findDishesByCategory(criteria, categoryName);
+    assertThat(result).isNotNull();
+    assertThat(result.getContent().size()).isGreaterThan(0);
+
+  }
+
+  /**
+   * Tests to find dishes by category name
+   */
+  @Test
+  public void findDishesByCategoryName5() {
+
+    String categoryName = "Curry";
+    DishSearchCriteriaTo criteria = new DishSearchCriteriaTo();
+    List<CategoryEto> categories = new ArrayList<>();
+
+    criteria.setCategories(categories);
+    criteria.setSearchBy("");
+    PageRequest pageable = PageRequest.of(0, 8, Sort.by(Direction.DESC, "price"));
+    criteria.setPageable(pageable);
+
+    Page<DishCto> result = this.dishmanagement.findDishesByCategory(criteria, categoryName);
+    assertThat(result).isNotNull();
+    assertThat(result.getContent().size()).isGreaterThan(0);
+
+  }
+
+  /**
+   * Tests to find dishes by category name
+   */
+  @Test
+  public void findDishesByCategoryName6() {
+
+    String categoryName = "Drinks";
+    DishSearchCriteriaTo criteria = new DishSearchCriteriaTo();
+    List<CategoryEto> categories = new ArrayList<>();
+
+    criteria.setCategories(categories);
+    criteria.setSearchBy("");
+    PageRequest pageable = PageRequest.of(0, 8, Sort.by(Direction.DESC, "price"));
+    criteria.setPageable(pageable);
+
+    Page<DishCto> result = this.dishmanagement.findDishesByCategory(criteria, categoryName);
+    assertThat(result).isNotNull();
+    assertThat(result.getContent().size()).isGreaterThan(0);
+
+  }
+
+  /**
+   * Tests to find dishes by category name
+   */
+  @Test
+  public void findDishesByCategoryName7() {
+
+    String categoryName = "Vegetarian";
+    DishSearchCriteriaTo criteria = new DishSearchCriteriaTo();
+    List<CategoryEto> categories = new ArrayList<>();
+
+    criteria.setCategories(categories);
+    criteria.setSearchBy("");
+    PageRequest pageable = PageRequest.of(0, 8, Sort.by(Direction.DESC, "price"));
+    criteria.setPageable(pageable);
+
+    Page<DishCto> result = this.dishmanagement.findDishesByCategory(criteria, categoryName);
+    assertThat(result).isNotNull();
+    assertThat(result.getContent().size()).isGreaterThan(0);
+
+  }
+
+  /**
+   * Tests to find dishes by category name with empty token
+   */
+  @Test
+  public void findDishesByCategoryNameWithEmptyToken() {
+
+    try {
+      String categoryName = "";
+      DishSearchCriteriaTo criteria = new DishSearchCriteriaTo();
+      List<CategoryEto> categories = new ArrayList<>();
+
+      criteria.setCategories(categories);
+      criteria.setSearchBy("");
+      PageRequest pageable = PageRequest.of(0, 8, Sort.by(Direction.DESC, "price"));
+      criteria.setPageable(pageable);
+
+      Page<DishCto> result = this.dishmanagement.findDishesByCategory(criteria, categoryName);
+      assertThat(result).isNull();
+
+    } catch (Exception e) {
+      IllegalArgumentException iae = new IllegalArgumentException();
+      assertThat(e.getClass()).isEqualTo(iae.getClass());
+    }
+  }
+
+  /**
+   * Tests to find dishes by category name that does not exist
+   */
+  @Test
+  public void findDishesByCategoryNameNotExist() {
+
+    try {
+      String categoryName = "Dessert";
+      DishSearchCriteriaTo criteria = new DishSearchCriteriaTo();
+      List<CategoryEto> categories = new ArrayList<>();
+
+      criteria.setCategories(categories);
+      criteria.setSearchBy("");
+      PageRequest pageable = PageRequest.of(0, 8, Sort.by(Direction.DESC, "price"));
+      criteria.setPageable(pageable);
+
+      Page<DishCto> result = this.dishmanagement.findDishesByCategory(criteria, categoryName);
+      assertThat(result).isNull();
+
+    } catch (Exception e) {
+      IllegalArgumentException iae = new IllegalArgumentException();
+      assertThat(e.getClass()).isEqualTo(iae.getClass());
+    }
+  }
+
 }

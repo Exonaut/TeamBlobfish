@@ -100,8 +100,6 @@ public interface Ordermanagement {
    */
   OrderEto saveOrder(OrderCto order);
 
-  OrderCto editOrder(OrderCto order);
-
   /**
    * Returns a OrderLine by its id 'id'.
    *
