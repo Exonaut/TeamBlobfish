@@ -1,4 +1,4 @@
-package com.alexa.myThaiStar.model;
+package com.alexa.myThaiStar.attributes;
 
 public final class Attributes {
 
