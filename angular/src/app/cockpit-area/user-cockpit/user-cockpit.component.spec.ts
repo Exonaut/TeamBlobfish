@@ -46,6 +46,24 @@ const userCockpitServiceStub = {
   getUsers: jasmine.createSpy('getUsers').and.returnValue(
     of({content: GetAllUsersData, totalElements: 1}),
   ),
+  deleteUser: jasmine.createSpy('deleteUser').and.returnValue(
+    of({}),
+  ),
+  createUser: jasmine.createSpy('createUser').and.returnValue(
+    of({}),
+  ),
+  changePassword: jasmine.createSpy('changePassword').and.returnValue(
+    of({}),
+  ),
+  resetPassword: jasmine.createSpy('resetPassword').and.returnValue(
+    of({}),
+  ),
+  sendPasswordResetLink: jasmine.createSpy('sendPasswordResetLink').and.returnValue(
+    of({}),
+  ),
+  editUser: jasmine.createSpy('editUser').and.returnValue(
+    of({}),
+  ),
 };
 
 const activatedRouteStub = {
@@ -112,12 +130,6 @@ describe('UserCockpitComponent', () => {
       });
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UserCockpitComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
   it('should create component and verify content of UserCockpit', fakeAsync(() => {
     fixture.detectChanges();
     tick();
@@ -127,18 +139,65 @@ describe('UserCockpitComponent', () => {
   }));
 
   // Translation labels
-  it('should verify table header names', () => {
+  it('should verify table header names', fakeAsync(() => {
+    fixture.detectChanges();
     expect(component.columns[0].label === 'ID').toBeTruthy();
     expect(component.columns[1].label === 'Name').toBeTruthy();
     expect(component.columns[2].label === 'E-Mail').toBeTruthy();
     expect(component.columns[3].label === 'Role').toBeTruthy();
-  });
+  }));
 
-  it('should verify role names', () => {
+  it('should verify role names', fakeAsync(() => {
+    fixture.detectChanges();
     expect(component.roleNames[0].label === 'Guest').toBeTruthy();
     expect(component.roleNames[1].label === 'Waiter').toBeTruthy();
     expect(component.roleNames[2].label === 'Manager').toBeTruthy();
     expect(component.roleNames[3].label === 'Admin').toBeTruthy();
-  });
+  }));
+
+  it('should open create user dialog on click', fakeAsync(() => {
+    spyOn(component, 'openCreateUserDialog').and.callThrough();
+    fixture.detectChanges();
+    tick();
+    const btn = el.query(By.css('.createUser'));
+    expect(btn).toBeTruthy();
+    click(btn);
+    expect(component.openCreateUserDialog).toHaveBeenCalled();
+    expect(dialog.open).toHaveBeenCalled();
+  }));
+
+  it('should delete user with confirm dialog on click', fakeAsync(() => {
+    spyOn(component, 'deleteUser').and.callThrough();
+    fixture.detectChanges();
+    tick();
+    const btn = el.query(By.css('.deleteUser'));
+    expect(btn).toBeTruthy();
+    click(btn);
+    expect(component.deleteUser).toHaveBeenCalled();
+    expect(dialog.open).toHaveBeenCalled();
+    expect(userCockpitService.deleteUser).toHaveBeenCalled();
+  }));
+
+  it('should open edit user dialog on click', fakeAsync(() => {
+    spyOn(component, 'editUser').and.callThrough();
+    fixture.detectChanges();
+    tick();
+    const btn = el.query(By.css('.editUser'));
+    expect(btn).toBeTruthy();
+    click(btn);
+    expect(component.editUser).toHaveBeenCalled();
+    expect(dialog.open).toHaveBeenCalled();
+  }));
+
+  it('should send reset password link on click', fakeAsync(() => {
+    spyOn(component, 'resetPassword').and.callThrough();
+    fixture.detectChanges();
+    tick();
+    const btn = el.query(By.css('.pwResetMail'));
+    expect(btn).toBeTruthy();
+    click(btn);
+    expect(component.resetPassword).toHaveBeenCalled();
+    expect(userCockpitService.sendPasswordResetLink).toHaveBeenCalled();
+  }));
 
 });
