@@ -26,7 +26,7 @@ import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog
 @Component({
   selector: 'app-user-cockpit',
   templateUrl: './user-cockpit.component.html',
-  styleUrls: ['./user-cockpit.component.scss']
+  styleUrls: ['./user-cockpit.component.scss'],
 })
 export class UserCockpitComponent implements OnInit, OnDestroy {
   private translocoSubscription = Subscription.EMPTY;
@@ -91,13 +91,17 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     });
     this.applyFilters();
     this.userRoleSelected = new FormControl(this.filters.userRoleId, [
-      Validators.required
+      Validators.required,
     ]);
     this.auth.getUser().subscribe((data) => {
       this.userName = data;
     });
   }
 
+  /**
+   * Sets the translations for the table headers
+   * @param lang The language to use
+   */
   setTableHeaders(lang: string): void {
     this.translocoSubscription = this.translocoService
       .selectTranslateObject('cockpit.user', {}, lang)
@@ -112,6 +116,10 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * Sets the translations for the user roles
+   * @param lang The language to use
+   */
   setRoleNames(lang: string): void {
     this.translocoSubscription = this.translocoService
       .selectTranslateObject('cockpit.user', {}, lang)
@@ -142,10 +150,10 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
           this.snack.openSnack(
             this.translocoService.translate('cockpit.user.fetchUsersError'),
             6000,
-            'red'
+            'red',
           );
           this.users = [];
-        }
+        },
       );
   }
 
@@ -181,75 +189,129 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     this.translocoSubscription.unsubscribe();
   }
 
+  /**
+   * Opens the CreateUserDialogComponent
+   */
   openCreateUserDialog(): void {
-    this.dialog.open(CreateUserDialogComponent)
-    .afterClosed().subscribe((data: boolean) => {
-      if (data === true) { // Reload users if dialog was edited
-        this.applyFilters();
-      }
-    });
+    this.dialog
+      .open(CreateUserDialogComponent)
+      .afterClosed()
+      .subscribe((data: boolean) => {
+        if (data === true) {
+          // Reload users if dialog was edited
+          this.applyFilters();
+        }
+      });
   }
 
+  /**
+   * Deletes the supplied user with confirmation dialog
+   * @param element The Object of the user to delete
+   */
   deleteUser(element: any): void {
-    this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        title: element.username + ' ( ' + this.translocoService.translate('cockpit.user.idH') + ': ' + element.id + ' )',
-        text: this.translocoService.translate('cockpit.user.confirmDeleteText')
-      }
-    })
-    .afterClosed().subscribe((data: boolean) => {
-      if (data) {
-        this.userCockpitService.deleteUser(element.id).subscribe(
-          ($data: any) => (
-            this.snack.openSnack(
-              this.translocoService.translate('cockpit.user.deleteUserSuccess'),
-              6000,
-              'green'
-            ),
-            this.applyFilters()
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          title:
+            element.username +
+            ' ( ' +
+            this.translocoService.translate('cockpit.user.idH') +
+            ': ' +
+            element.id +
+            ' )',
+          text: this.translocoService.translate(
+            'cockpit.user.confirmDeleteText',
           ),
-          (error) => (
-            this.snack.openSnack(
-              this.translocoService.translate('cockpit.user.deleteUserError'),
-              6000,
-              'red'
-            )
-          )
-        );
-      }
-    });
+        },
+      })
+      .afterClosed()
+      .subscribe((data: boolean) => {
+        if (data) {
+          this.userCockpitService.deleteUser(element.id).subscribe(
+            ($data: any) => (
+              this.snack.openSnack(
+                this.translocoService.translate(
+                  'cockpit.user.deleteUserSuccess',
+                ),
+                6000,
+                'green',
+              ),
+              this.applyFilters()
+            ),
+            (error) =>
+              this.snack.openSnack(
+                this.translocoService.translate('cockpit.user.deleteUserError'),
+                6000,
+                'red',
+              ),
+          );
+        }
+      });
   }
 
+  /**
+   * Sends the password reset link to the supplied user with confirm dialog
+   * @param element The object of the user to send the link to
+   */
   resetPassword(element: any): void {
-    this.userCockpitService
-    .sendPasswordResetLink(element)
-    .subscribe(
-      ($data: any) => {
-        this.snack.openSnack(
-          this.translocoService.translate('cockpit.user.sendPasswordResetLinkSuccess'),
-          6000,
-          'green'
-        );
-      },
-      (error) => {
-        this.snack.openSnack(
-          this.translocoService.translate('cockpit.user.sendPasswordResetLinkError'),
-          6000,
-          'red'
-        );
-      }
-    );
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          title:
+            element.username +
+            ' ( ' +
+            this.translocoService.translate('cockpit.user.idH') +
+            ': ' +
+            element.id +
+            ' )',
+          text: this.translocoService.translate(
+            'cockpit.user.confirmPasswordLinkText',
+          ),
+        },
+      })
+      .afterClosed()
+      .subscribe((data: boolean) => {
+        if (data) {
+          this.userCockpitService.sendPasswordResetLink(element).subscribe(
+            ($data: any) => {
+              this.snack.openSnack(
+                this.translocoService.translate(
+                  'cockpit.user.sendPasswordResetLinkSuccess',
+                ),
+                6000,
+                'green',
+              );
+            },
+            (error) => {
+              this.snack.openSnack(
+                this.translocoService.translate(
+                  'cockpit.user.sendPasswordResetLinkError',
+                ),
+                6000,
+                'red',
+              );
+            },
+          );
+        }
+      });
   }
 
+  /**
+   * OPens the EditUserDialogComponent
+   * @param element The object of the user to edit
+   */
   editUser(element: any): void {
-    this.dialog.open(EditUserDialogComponent, {
-      width: '30%',
-      data: element,
-    }).afterClosed().subscribe((data: boolean) => {
-      if (data === true) { // Reload users if dialog was edited
-        this.applyFilters();
-      }
-    });
+    this.dialog
+      .open(EditUserDialogComponent, {
+        width: '30%',
+        data: element,
+      })
+      .afterClosed()
+      .subscribe((data: boolean) => {
+        if (data === true) {
+          // Reload users if dialog was edited
+          this.applyFilters();
+        }
+      });
   }
-
 }

@@ -295,7 +295,8 @@
       "createUserError": "An error has occured while trying to create the user",
       "fetchUsersSuccess": "Users successfully fetched",
       "fetchUsersError": "An error has occured while fetching users",
-      "confirmDeleteText": "Are you sure you want to delete this user?"
+      "confirmDeleteText": "Are you sure you want to delete this user?",
+      "confirmPasswordLinkText": "Are you sure you want to send the password reset link to this user?"
     }
   }
 }
