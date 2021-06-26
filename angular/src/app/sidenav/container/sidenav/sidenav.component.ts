@@ -179,19 +179,27 @@ export class SidenavComponent implements OnInit {
     this.closeSidenav();
   }
 
+  /**
+   * Sends booking information
+   */
   sendBooking(): void {
+    // Set correct booking type
     const booking = this.delivery ? this.deliveryForm.value : this.bookForm.value;
     if (this.delivery) {
+      // Delivery
       booking.bookingType = 2;
       booking.bookingDate = this.minDate.setTime(
         this.minDate.getTime() + 1000 * 60,
       );
     } else if (booking.invitedGuests && booking.invitedGuests.length > 0) {
+      // With Guest Emails
       booking.bookingType = 1;
     } else {
+      // Regular
       booking.bookingType = 0;
     }
 
+    // Placeholder data for non-delivery bookings
     if (!this.delivery) {
       booking.city = '';
       booking.street = '';
@@ -206,11 +214,13 @@ export class SidenavComponent implements OnInit {
       .afterClosed()
       .subscribe((val) => {
         if (val) {
+          // Send booking data
           this.sidenavService
             .postBooking(this.sidenavService.composeBooking(booking))
             .subscribe(
               ($bookingResponse: BookingResponse) => {
                 if (this.orders.length > 0) {
+                  // Send order data
                   this.sidenavService
                     .sendOrders({
                       address: {
@@ -276,6 +286,9 @@ export class SidenavComponent implements OnInit {
       });
   }
 
+  /**
+   * Send order data without create a new booking
+   */
   sendOrder(): void {
     this.sidenavService
       .sendOrders({
