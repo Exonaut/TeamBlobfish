@@ -45,6 +45,10 @@ export class EditUserDialogComponent implements OnInit {
     this.data.password = null;
   }
 
+  /**
+   * Edit user
+   * @param value The Form value to use
+   */
   editUser(value: any): void {
     this.data.password = value.password;
     this.userCockpitService
@@ -68,6 +72,10 @@ export class EditUserDialogComponent implements OnInit {
     );
   }
 
+  /**
+   * Set role translations
+   * @param lang The language to use
+   */
   setRoleNames(lang: string): void {
     this.translocoService
       .selectTranslateObject('cockpit.user', {}, lang)
@@ -81,10 +89,16 @@ export class EditUserDialogComponent implements OnInit {
       });
   }
 
+  /**
+   * Close dialog
+   */
   close(): void {
     this.dialog.close();
   }
 
+  /**
+   * Close dialog with confirm return
+   */
   closeWithRefresh(): void {
     this.dialog.close(true);
   }

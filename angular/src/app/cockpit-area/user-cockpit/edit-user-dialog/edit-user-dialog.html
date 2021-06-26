@@ -1,14 +1,11 @@
 <h3 mat-dialog-title>
-  {{ 'cockpit.user.editUserTitle' | transloco }} :
-  {{ title.username }}
-  (
-  {{ 'cockpit.user.idH' | transloco }}:
-  {{ title.id }}
-  )
+  {{ 'cockpit.user.editUserTitle' | transloco }} : {{ title.username }} ( {{
+  'cockpit.user.idH' | transloco }}: {{ title.id }} )
 </h3>
 <mat-divider></mat-divider>
 <form (ngSubmit)="editUser(signForm.form.value)" #signForm="ngForm">
   <div class="formFields">
+    <!-- Name -->
     <div>
       <mat-form-field color="accent">
         <input
@@ -18,10 +15,11 @@
           type="text"
           [(ngModel)]="data.username"
           required
-        >
+        />
       </mat-form-field>
     </div>
 
+    <!-- Email -->
     <div>
       <mat-form-field color="accent">
         <input
@@ -37,6 +35,7 @@
       </mat-form-field>
     </div>
 
+    <!-- Role -->
     <mat-select
       class="role-selection"
       name="userRoleId"
@@ -53,6 +52,7 @@
     </mat-select>
     <mat-divider></mat-divider>
 
+    <!-- Password -->
     <div>
       <mat-form-field color="accent">
         <input
@@ -68,6 +68,7 @@
       </mat-form-field>
     </div>
 
+    <!-- Confirm Password -->
     <div>
       <mat-form-field color="accent">
         <input
@@ -85,9 +86,11 @@
     </div>
 
     <div class="align-right">
+      <!-- Cancel -->
       <button name="cancel" mat-button type="button" (click)="close()">
         {{ 'buttons.cancel' | transloco | uppercase }}
       </button>
+      <!-- Apply -->
       <button
         name="submit"
         mat-button

@@ -115,7 +115,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
         this.title = 'cockpit.orders.archive';
         this.filters.paymentstatus = [0, 1]; // Payed, Refunded
         this.filters.orderstatus = [5, 6]; // Completed, Canceled
-        this.displayedColumns = this.displayedColumnsArchive; // Remove actions from archive view
+        this.displayedColumns = this.displayedColumnsArchive; // Replace active colums with archive settings
       } else {
         this.archiveMode = false;
         this.title = 'cockpit.orders.title';
@@ -135,9 +135,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     this.paymentStatusSelected = new FormControl(this.filters.paymentstatus, [
       Validators.required,
     ]);
-    this.bookingTypeSelected = new FormControl(this.filters.bookingType, [
-      // Validators.required
-    ]);
+    this.bookingTypeSelected = new FormControl(this.filters.bookingType, []);
   }
 
   setTableHeaders(lang: string): void {
@@ -298,16 +296,16 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
    */
   applyChanges(element: any, orderStatus: number, paymentStatus: number): void {
     this.undoValues.push({
+      // Place old values onto undo stack
       id: element.order.id,
       orderStatus: element.order.orderStatus,
       paymentStatus: element.order.paymentStatus,
     });
-    // if (orderStatus === 5) { paymentStatus = 1; }
-    // if (orderStatus === 6) { paymentStatus = 0; }
 
     if (orderStatus !== null) {
+      // Send order status
       this.waiterCockpitService
-        .setOrderStatus(element.order.id, orderStatus) // Send order status
+        .setOrderStatus(element.order.id, orderStatus)
         .subscribe(
           ($data) => {
             this.applyFilters();
@@ -332,8 +330,9 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     }
 
     if (paymentStatus !== null) {
+      // Send payment status
       this.waiterCockpitService
-        .setPaymentStatus(element.order.id, paymentStatus) // Send payment status
+        .setPaymentStatus(element.order.id, paymentStatus)
         .subscribe(
           ($data) => {
             this.applyFilters();

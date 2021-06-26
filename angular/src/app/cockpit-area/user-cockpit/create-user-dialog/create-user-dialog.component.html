@@ -1,5 +1,6 @@
 <form (ngSubmit)="createUser(signForm.form.value)" #signForm="ngForm">
   <div class="formFields">
+    <!-- Name -->
     <div>
       <mat-form-field color="accent">
         <input
@@ -12,6 +13,7 @@
       </mat-form-field>
     </div>
 
+    <!-- Email -->
     <div>
       <mat-form-field color="accent">
         <input
@@ -26,7 +28,14 @@
       </mat-form-field>
     </div>
 
-    <mat-select class="role-selection" name="userRoleId" [(value)]="selectedRole" [placeholder]="'formFields.role' | transloco" required>
+    <!-- Role -->
+    <mat-select
+      class="role-selection"
+      name="userRoleId"
+      [(value)]="selectedRole"
+      [placeholder]="'formFields.role' | transloco"
+      required
+    >
       <mat-option
         *ngFor="let role of roleNames"
         [value]="roleNames.indexOf(role)"
@@ -36,6 +45,7 @@
     </mat-select>
     <mat-divider></mat-divider>
 
+    <!-- Password -->
     <div>
       <mat-form-field color="accent">
         <input
@@ -52,6 +62,7 @@
       </mat-form-field>
     </div>
 
+    <!-- Confir Password -->
     <div>
       <mat-form-field color="accent">
         <input
@@ -71,9 +82,11 @@
   </div>
 
   <div class="align-right">
+    <!-- Cancel -->
     <button name="cancel" mat-button type="button" (click)="close()">
       {{ 'buttons.cancel' | transloco | uppercase }}
     </button>
+    <!-- Apply -->
     <button
       name="submit"
       mat-button
