@@ -18,6 +18,7 @@
       (selectedIndexChange)="sidenavService.openTab = $event"
     >
       <div class="orderDetails">
+        <!-- Order Tab -->
         <mat-tab class="orderDetails">
           <form [formGroup]="tokenForm">
             <ng-template mat-tab-label>
@@ -29,6 +30,7 @@
               {{ 'sidenav.header' | transloco }}
             </h4>
 
+            <!-- Booking Alert -->
             <div class="orderTable">
               <mat-card *ngIf="!bookingId.value">
                 <div class="orderTableNotice">
@@ -38,6 +40,7 @@
                     >{{ 'alerts.orderID' | transloco }}
                   </span>
 
+                  <!-- Switch to booking tab button -->
                   <button
                     name="bookTable"
                     mat-button
@@ -82,6 +85,7 @@
               </div>
             </ng-template>
 
+            <!-- Bokking ID input -->
             <div>
               <mat-form-field class="orderBookingID" color="accent">
                 <input
@@ -93,11 +97,13 @@
               </mat-form-field>
             </div>
 
+            <!-- Total price -->
             <div *ngIf="(orders$ | async)?.length > 0" class="orderTotal">
               <h3>{{ 'formFields.total' | transloco }}</h3>
               <h3>{{ totalPrice$ | async | number: '1.2-2' }} €</h3>
             </div>
 
+            <!-- Terms checkbox -->
             <div>
               <mat-checkbox
                 class="orderTermsCheckbox"
@@ -107,22 +113,21 @@
               >
             </div>
 
+            <!-- Submit order -->
             <button
               mat-button
               type="button"
               color="accent"
               class="orderSubmitId"
               (click)="sendOrder()"
-              [disabled]="!(
-                tokenForm.valid &&
-                terms.checked
-              )"
+              [disabled]="!(tokenForm.valid && terms.checked)"
             >
               {{ 'buttons.send' | transloco | uppercase }}
             </button>
           </form>
         </mat-tab>
 
+        <!-- Booking tab -->
         <mat-tab class="bookingDetails">
           <ng-template mat-tab-label>
             <mat-icon>person</mat-icon>
@@ -130,6 +135,7 @@
           </ng-template>
 
           <div class="orderTable">
+            <!-- In-House or Shipping switch -->
             <div>
               <mat-button-toggle-group
                 [(value)]="delivery"
@@ -146,8 +152,10 @@
               </mat-button-toggle-group>
             </div>
 
+            <!-- In-House Form -->
             <div class="bookTableFormContainer" *ngIf="!delivery">
               <form [formGroup]="bookForm">
+                <!-- No order alert -->
                 <mat-card *ngIf="(orders$ | async)?.length < 1">
                   <div class="orderTableNotice">
                     <mat-icon>report_problem</mat-icon>
@@ -167,6 +175,7 @@
                   </div>
                 </mat-card>
 
+                <!-- Name -->
                 <div>
                   <mat-form-field color="accent" class="full-width-field">
                     <input
@@ -184,6 +193,7 @@
                   </mat-form-field>
                 </div>
 
+                <!-- Email -->
                 <div>
                   <mat-form-field color="accent" class="full-width-field">
                     <input
@@ -204,6 +214,7 @@
                   </mat-form-field>
                 </div>
 
+                <!-- Date -->
                 <div>
                   <mat-form-field color="accent" class="full-width-field">
                     <input
@@ -222,6 +233,7 @@
                   </mat-form-field>
                 </div>
 
+                <!-- Guest count -->
                 <div>
                   <mat-form-field
                     class="guestsField full-width-field"
@@ -254,6 +266,7 @@
                   </mat-form-field>
                 </div>
 
+                <!-- Guest mails -->
                 <div class="guests">
                   <mat-form-field class="chipListField full-width-field">
                     <mat-chip-list
@@ -281,8 +294,10 @@
               </form>
             </div>
 
+            <!-- Delivery form -->
             <div class="bookTableFormContainer" *ngIf="delivery">
               <form [formGroup]="deliveryForm">
+                <!-- Order required alert -->
                 <mat-card *ngIf="(orders$ | async)?.length < 1">
                   <div class="orderTableNotice">
                     <mat-icon>report_problem</mat-icon>
@@ -302,6 +317,7 @@
                   </div>
                 </mat-card>
 
+                <!-- Name -->
                 <div>
                   <mat-form-field color="accent" class="full-width-field">
                     <input
@@ -319,6 +335,7 @@
                   </mat-form-field>
                 </div>
 
+                <!-- Email -->
                 <div>
                   <mat-form-field color="accent" class="full-width-field">
                     <input
@@ -339,6 +356,7 @@
                   </mat-form-field>
                 </div>
 
+                <!-- City -->
                 <div>
                   <mat-form-field color="accent" class="full-width-field">
                     <input
@@ -356,6 +374,7 @@
                   </mat-form-field>
                 </div>
 
+                <!-- Street -->
                 <div>
                   <mat-form-field color="accent" class="full-width-field">
                     <input
@@ -373,6 +392,7 @@
                   </mat-form-field>
                 </div>
 
+                <!-- House number -->
                 <div>
                   <mat-form-field color="accent" class="full-width-field">
                     <input
@@ -397,6 +417,7 @@
               </form>
             </div>
 
+            <!-- Terms checkbox -->
             <div>
               <mat-checkbox
                 class="orderTermsCheckbox"
@@ -406,6 +427,7 @@
               >
             </div>
           </div>
+          <!-- Submit -->
           <div class="align-right">
             <button
               class="orderSubmit"
