@@ -16,9 +16,8 @@ import { UserListView } from '../../shared/view-models/interfaces';
 import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { UserCockpitService } from '../services/user-cockpit.service';
-import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import { CreateUserDialogComponent } from './create-user-dialog/create-user-dialog.component';
-import { ChangePasswordDialogComponent } from './user-dialog/change-password-dialog/change-password-dialog.component';
+import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
 import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'app/core/authentication/auth.service';
@@ -34,7 +33,6 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   private pageable: Pageable = {
     pageSize: 8,
     pageNumber: 0,
-    // total: 1,
   };
   private sorting: ISort[] = [];
 
@@ -179,17 +177,6 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     this.applyFilters();
   }
 
-  selected(selection: UserListView): void {
-    this.dialog.open(UserDialogComponent, {
-      width: '80%',
-      data: selection,
-    }).afterClosed().subscribe((data: boolean) => {
-      if (data === true) { // Reload users if dialog was edited
-        this.applyFilters();
-      }
-    });
-  }
-
   ngOnDestroy(): void {
     this.translocoSubscription.unsubscribe();
   }
@@ -233,17 +220,6 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
     });
   }
 
-  changePassword(element: any): void {
-    this.dialog.open(ChangePasswordDialogComponent, {
-      width: '30%',
-      data: element,
-    }).afterClosed().subscribe((data: boolean) => {
-      if (data === true) { // Reload users if dialog was edited
-        this.applyFilters();
-      }
-    });
-  }
-
   resetPassword(element: any): void {
     this.userCockpitService
     .sendPasswordResetLink(element)
@@ -266,7 +242,7 @@ export class UserCockpitComponent implements OnInit, OnDestroy {
   }
 
   editUser(element: any): void {
-    this.dialog.open(ChangePasswordDialogComponent, {
+    this.dialog.open(EditUserDialogComponent, {
       width: '30%',
       data: element,
     }).afterClosed().subscribe((data: boolean) => {
