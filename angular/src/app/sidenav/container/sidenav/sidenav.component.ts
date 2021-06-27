@@ -212,7 +212,7 @@ export class SidenavComponent implements OnInit {
 
     this.dialog
       .open(ConfirmOrderDialogComponent, {
-        data: {booking: booking, orders: this.orders, totalPrice: this.totalPrice},
+        data: {booking, orders: this.orders, totalPrice: this.totalPrice},
         width: '30%',
       })
       .afterClosed()
