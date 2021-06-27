@@ -38,6 +38,7 @@ export class SidenavComponent implements OnInit {
   orders$: Observable<Order[]>;
   orders: Order[];
   totalPrice$: Observable<number>;
+  totalPrice: number;
 
   delivery: boolean;
 
@@ -82,6 +83,9 @@ export class SidenavComponent implements OnInit {
       .select(fromOrder.getAllOrders)
       .subscribe((orders) => (this.orders = orders));
     this.totalPrice$ = this.store.select(fromOrder.getTotalPrice);
+    this.totalPrice$.subscribe((price) => {
+      this.totalPrice = price;
+    });
     setInterval(() => {
       // Update Order Token input
       this.changeDetectorRef.markForCheck();
@@ -208,7 +212,7 @@ export class SidenavComponent implements OnInit {
 
     this.dialog
       .open(ConfirmOrderDialogComponent, {
-        data: booking,
+        data: {booking: booking, orders: this.orders, totalPrice: this.totalPrice},
         width: '30%',
       })
       .afterClosed()

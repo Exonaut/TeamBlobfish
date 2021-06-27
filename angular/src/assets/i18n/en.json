@@ -58,7 +58,8 @@
     "order": 
       "To order the delivery service, you must select at least one dish from the menu",
     "orderInhouse": 
-      "You are booking a table without ordering a dish. You can select your order now or select it at a later point using your booking ID"
+      "You are booking a table without ordering a dish. You can select your order now or select it at a later point using your booking ID you will receive by e-mail",
+    "orderNotice": "You are booking a table without placing an order. If you continue, you can always place your order at a later time with the booking id you receive by email"
   },
   "formFields": {
     "username": "Username",
@@ -121,7 +122,7 @@
   "main": {
     "home": "Home",
     "menu": "Menu",
-    "book": "Book table",
+    "book": "Booking",
     "orders": "Orders",
     "orderArchive": "Order Archive",
     "reservations": "Reservations",
@@ -177,6 +178,9 @@
         "Here you can add a short comment to our cookers about how to prepare your dish"
     },
     "order": "Order",
+    "amount": "Amount",
+    "price": "Price",
+    "totalPrice": "Total",
     "personalinfo": "Booking",
     "bookingSuccess": "Your table has been successfully booked",
     "deliverySuccess": "Your order is on its way",
