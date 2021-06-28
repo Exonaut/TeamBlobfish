@@ -15,7 +15,7 @@ export class ConfirmOrderDialogComponent implements OnInit {
   totalPrice: number;
   date: string;
 
-  displayedColumns = ['order', 'amount', 'price'];
+  displayedColumns = ['order', 'extras', 'amount', 'price'];
 
   constructor(
     private dialog: MatDialogRef<ConfirmOrderDialogComponent>,
@@ -24,6 +24,13 @@ export class ConfirmOrderDialogComponent implements OnInit {
     this.booking = dialogData.booking;
     this.orders = dialogData.orders;
     this.totalPrice = dialogData.totalPrice;
+  }
+
+  toCurrency(n: number): string {
+    if (n) {
+      return Number(n).toFixed(2);
+    }
+    return '';
   }
 
   ngOnInit(): void {
