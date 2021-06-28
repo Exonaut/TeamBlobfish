@@ -278,6 +278,9 @@ public class UsermanagementTest2 extends ApplicationComponentTest {
     assertThat(user.getPassword()).isNotEqualTo(oldPassword);
   }
 
+  /**
+   * Tests to edit user email, password and user role of user
+   */
   @Test
   public void editUserUserEmailPasswordUserRoleIdTest() {
 
@@ -296,6 +299,35 @@ public class UsermanagementTest2 extends ApplicationComponentTest {
     UserEto user = this.userManagement.editUser(userToEdit);
 
     assertThat(user).isNotNull();
+    assertThat(user.getEmail()).isEqualTo(newUserEmail);
+    assertThat(user.getPassword()).isNotEqualTo(oldPassword);
+    assertThat(user.getUserRoleId()).isEqualTo(newUserRoleId);
+  }
+
+  /**
+   * Tests to edit user name, email, password and user role of user
+   *
+   */
+  @Test
+  public void editUserUserNameEmailPasswordUserRoleTest() {
+
+    String newUsername = "user8";
+    String newPassword = "user8";
+    String oldPassword = this.passwordEncoder.encode("password");
+    String newUserEmail = "user8@mail.com";
+    Long newUserRoleId = (long) 2;
+
+    UserEto userToEdit = new UserEto();
+    userToEdit.setUsername(newUsername);
+    userToEdit.setEmail(newUserEmail);
+    userToEdit.setId((long) 0);
+    userToEdit.setPassword(newPassword);
+    userToEdit.setUserRoleId(newUserRoleId);
+
+    UserEto user = this.userManagement.editUser(userToEdit);
+
+    assertThat(user).isNotNull();
+    assertThat(user.getUsername()).isEqualTo(newUsername);
     assertThat(user.getEmail()).isEqualTo(newUserEmail);
     assertThat(user.getPassword()).isNotEqualTo(oldPassword);
     assertThat(user.getUserRoleId()).isEqualTo(newUserRoleId);

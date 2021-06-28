@@ -487,13 +487,16 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
 
     try {
       StringBuilder hostMailContent = new StringBuilder();
+      // two hours are deducted from the database; now add two hours to correct the booking date
+      Duration addTwoHours = Duration.ofHours(2);
+
       hostMailContent.append("MY THAI STAR").append("\n");
       hostMailContent.append("Hi ").append(booking.getEmail()).append("\n");
       hostMailContent.append("Your booking has been confirmed.").append("\n");
       hostMailContent.append("Host: ").append(booking.getName()).append("<").append(booking.getEmail()).append(">")
           .append("\n");
       hostMailContent.append("Booking CODE: ").append(booking.getBookingToken()).append("\n");
-      hostMailContent.append("Booking Date: ").append(booking.getBookingDate()).append("\n");
+      hostMailContent.append("Booking Date: ").append(booking.getBookingDate().plus(addTwoHours)).append("\n");
       hostMailContent.append("Booking Table: ").append(booking.getTable().getId()).append("\n");
       if (!booking.getInvitedGuests().isEmpty()) {
         hostMailContent.append("Guest list:").append("\n");
@@ -514,6 +517,7 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
     try {
       StringBuilder guestMailContent = new StringBuilder();
       guestMailContent.append("MY THAI STAR").append("\n");
+
       guestMailContent.append("Hi ").append(guest.getEmail()).append("\n");
       guestMailContent.append("You have accepted the invite to an event in our restaurant.").append("\n");
       guestMailContent.append("Host: ").append(booking.getBooking().getName()).append("<")
