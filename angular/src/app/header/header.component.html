@@ -28,15 +28,13 @@
         <mat-icon>restaurant_menu</mat-icon>
         {{ 'main.menu' | transloco | uppercase }}
       </a>
-      <!-- <a
-        mat-tab-link
-        routerLink="/bookTable"
-        routerLinkActive="navBottomBorder"
-        [routerLinkActiveOptions]="{ exact: true }"
+      <button
+        mat-button
+        (click)="openCloseSideNavBooking(sidenav.opened)"
       >
         <mat-icon>book</mat-icon>
         {{ 'main.book' | transloco | uppercase }}
-      </a> -->
+      </button>
     </nav>
   </div>
   <div *ngIf="(auth.getRole() | async) === 'WAITER'" class="forDesktop">
@@ -177,7 +175,7 @@
     *ngIf="(auth.getRole() | async) === 'CUSTOMER'"
     name="order"
     mat-icon-button
-    (click)="openCloseSideNav(sidenav.opened)"
+    (click)="openCloseSideNavOrder(sidenav.opened)"
     [matTooltip]="'main.userActions.orders' | transloco"
   >
     <mat-icon

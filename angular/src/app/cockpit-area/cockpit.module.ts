@@ -20,9 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoRootModule } from '../transloco-root.module';
 import { UserCockpitComponent } from './user-cockpit/user-cockpit.component';
 import { UserCockpitService } from './services/user-cockpit.service';
-import { UserDialogComponent } from './user-cockpit/user-dialog/user-dialog.component';
 import { CreateUserDialogComponent } from './user-cockpit/create-user-dialog/create-user-dialog.component';
-import { ChangePasswordDialogComponent } from './user-cockpit/user-dialog/change-password-dialog/change-password-dialog.component';
+import { EditUserDialogComponent } from './user-cockpit/edit-user-dialog/edit-user-dialog.component';
 
 @NgModule({
   imports: [
@@ -49,9 +48,8 @@ import { ChangePasswordDialogComponent } from './user-cockpit/user-dialog/change
     PredictionCockpitComponent,
     ClusteringCockpitComponent,
     UserCockpitComponent,
-    UserDialogComponent,
     CreateUserDialogComponent,
-    ChangePasswordDialogComponent,
+    EditUserDialogComponent,
   ],
   exports: [
     ReservationCockpitComponent,

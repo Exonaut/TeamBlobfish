@@ -31,9 +31,8 @@ export class WaiterCockpitService {
   private readonly setOrderPaymentPath: string =
     'ordermanagement/v1/order/setpayment';
 
-  private readonly restServiceRoot$: Observable<
-    string
-  > = this.config.getRestServiceRoot();
+  private readonly restServiceRoot$: Observable<string> =
+    this.config.getRestServiceRoot();
 
   orderStatusTranslation: string[];
   paymentStatusTranslation: string[];
@@ -52,13 +51,28 @@ export class WaiterCockpitService {
     let path: string;
     filters.pageable = pageable;
     filters.pageable.sort = sorting;
-    if (filters.email || filters.bookingToken || filters.orderstatus !== [] || filters.paymentstatus !== []) {
-      path = this.filterOrdersRestPath;
-    } else {
-      delete filters.email;
-      delete filters.bookingToken;
-      path = this.getOrdersRestPath;
+
+    if (filters.bookingToken === null) {
+      filters.bookingToken = undefined;
     }
+    if (filters.bookingDate === null) {
+      filters.bookingDate = undefined;
+    }
+    if (filters.bookingType === null) {
+      filters.bookingType = undefined;
+    }
+    if (filters.email === null) {
+      filters.email = undefined;
+    }
+    if (filters.name === null) {
+      filters.name = undefined;
+    }
+    if (filters.table === null) {
+      filters.table = undefined;
+    }
+
+    path = this.filterOrdersRestPath;
+
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
         this.http.post<OrderResponse[]>(`${restServiceRoot}${path}`, filters),
@@ -72,10 +86,7 @@ export class WaiterCockpitService {
    * @param newStatus - The new Order Status to set
    * @returns An Observable of the http-Request
    */
-  setOrderStatus(
-    id: number,
-    newStatus: number
-  ): Observable<any> {
+  setOrderStatus(id: number, newStatus: number): Observable<any> {
     let path: string;
     path = this.setOrderStatePath;
     return this.restServiceRoot$.pipe(
@@ -91,10 +102,7 @@ export class WaiterCockpitService {
    * @param newStatus - The new Payment Status to set
    * @returns An Observable of the http-Request
    */
-  setPaymentStatus(
-    id: number,
-    newPayment: number
-  ): Observable<any> {
+  setPaymentStatus(id: number, newPayment: number): Observable<any> {
     let path: string;
     path = this.setOrderPaymentPath;
     return this.restServiceRoot$.pipe(
@@ -135,20 +143,23 @@ export class WaiterCockpitService {
    * @param lang - The language to use
    * @returns The Subscription to the Observable
    */
-  updateOrderStatusTranslation(translocoService: TranslocoService, lang: string): Subscription {
+  updateOrderStatusTranslation(
+    translocoService: TranslocoService,
+    lang: string,
+  ): Subscription {
     return translocoService
-    .selectTranslateObject('cockpit.status', {}, lang)
-    .subscribe((cockpitStatus) => {
-      this.orderStatusTranslation = [
-        cockpitStatus.recorded,
-        cockpitStatus.cooking,
-        cockpitStatus.ready,
-        cockpitStatus.handingover,
-        cockpitStatus.delivered,
-        cockpitStatus.completed,
-        cockpitStatus.canceled
-      ]; }
-    );
+      .selectTranslateObject('cockpit.status', {}, lang)
+      .subscribe((cockpitStatus) => {
+        this.orderStatusTranslation = [
+          cockpitStatus.recorded,
+          cockpitStatus.cooking,
+          cockpitStatus.ready,
+          cockpitStatus.handingover,
+          cockpitStatus.delivered,
+          cockpitStatus.completed,
+          cockpitStatus.canceled,
+        ];
+      });
   }
 
   /** Establishes a subscription to the Payment Status Translation and sets the services translation array
@@ -156,16 +167,19 @@ export class WaiterCockpitService {
    * @param lang - The language to use
    * @returns The Subscription to the Observable
    */
-  updatePaymentStatusTranslation(translocoService: TranslocoService, lang: string): Subscription {
+  updatePaymentStatusTranslation(
+    translocoService: TranslocoService,
+    lang: string,
+  ): Subscription {
     return translocoService
       .selectTranslateObject('cockpit.payment', {}, lang)
       .subscribe((cockpitStatus) => {
         this.paymentStatusTranslation = [
           cockpitStatus.pending,
           cockpitStatus.payed,
-          cockpitStatus.refunded
-        ]; }
-      );
+          cockpitStatus.refunded,
+        ];
+      });
   }
 
   getTotalPrice(orderLines: OrderView[]): number {

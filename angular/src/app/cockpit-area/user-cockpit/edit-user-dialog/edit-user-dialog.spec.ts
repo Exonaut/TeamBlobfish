@@ -1,18 +1,18 @@
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
-import { ChangePasswordDialogComponent } from './change-password-dialog.component';
-import { config } from '../../../../core/config/config';
+import { EditUserDialogComponent } from './edit-user-dialog.component';
+import { config } from '../../../core/config/config';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { State } from '../../../../store';
-import { ConfigService } from '../../../../core/config/config.service';
-import { UserCockpitService } from '../../../services/user-cockpit.service';
+import { State } from '../../../store';
+import { ConfigService } from '../../../core/config/config.service';
+import { UserCockpitService } from '../../services/user-cockpit.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { getTranslocoModule } from '../../../../transloco-testing.module';
-import { CoreModule } from '../../../../core/core.module';
-import { GetAllUsersData } from '../../../../../in-memory-test-data/db-users';
+import { getTranslocoModule } from '../../../transloco-testing.module';
+import { CoreModule } from '../../../core/core.module';
+import { GetAllUsersData } from '../../../../in-memory-test-data/db-users';
 import { DebugElement } from '@angular/core';
 import { provideMockStore } from '@ngrx/store/testing';
 import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
@@ -49,7 +49,7 @@ class TestBedSetUp {
   static loadUserCockpitServiceStud(userCockpitStub: any): any {
     const initialState = { config };
     return TestBed.configureTestingModule({
-      declarations: [ChangePasswordDialogComponent],
+      declarations: [EditUserDialogComponent],
       providers: [
         { provide: UserCockpitService, useValue: userCockpitStub },
         { provide: MAT_DIALOG_DATA, useValue: GetAllUsersData[0]},
@@ -69,8 +69,8 @@ class TestBedSetUp {
 }
 
 describe('UserDialogComponent', () => {
-  let component: ChangePasswordDialogComponent;
-  let fixture: ComponentFixture<ChangePasswordDialogComponent>;
+  let component: EditUserDialogComponent;
+  let fixture: ComponentFixture<EditUserDialogComponent>;
   let store: Store<State>;
   let initialState;
   let userCockpitService: UserCockpitService;
@@ -84,7 +84,7 @@ describe('UserDialogComponent', () => {
     TestBedSetUp.loadUserCockpitServiceStud(userCockpitServiceStub)
       .compileComponents()
       .then(() => {
-        fixture = TestBed.createComponent(ChangePasswordDialogComponent);
+        fixture = TestBed.createComponent(EditUserDialogComponent);
         component = fixture.componentInstance;
         el = fixture.debugElement;
         store = TestBed.inject(Store);
@@ -96,7 +96,7 @@ describe('UserDialogComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChangePasswordDialogComponent);
+    fixture = TestBed.createComponent(EditUserDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

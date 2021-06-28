@@ -34,15 +34,47 @@
             />
           </mat-form-field>
 
-          <!-- Email Filter -->
+          <!-- Table Filter -->
           <mat-form-field color="accent" class="searchBy">
+            <input
+              matInput
+              type="number"
+              [placeholder]="'formFields.table' | transloco"
+              [(ngModel)]="filters.table"
+              name="table"
+              [min]="1"
+            />
+          </mat-form-field>
+
+          <!-- <mat-form-field color="accent" class="searchBy">
+            <mat-select
+              class="bookingTypeFilter"
+              [(value)]="filters.bookingType"
+              [placeholder]="'formFields.bookingType' | transloco"
+              required
+              [formControl]="orderStatusSelected"
+            >
+              <mat-option [value]="undefined">
+                <mat-icon>local_restaurant</mat-icon>
+              </mat-option>
+              <mat-option [value]="0">
+                <mat-icon>local_restaurant</mat-icon>
+              </mat-option>
+              <mat-option [value]="2">
+                <mat-icon>local_restaurant</mat-icon>
+              </mat-option>
+            </mat-select>
+          </mat-form-field> -->
+
+          <!-- Email Filter -->
+          <!-- <mat-form-field color="accent" class="searchBy">
             <input
               matInput
               [placeholder]="'formFields.email' | transloco"
               [(ngModel)]="filters.email"
               name="email"
             />
-          </mat-form-field>
+          </mat-form-field> -->
 
           <!-- Ref Number Filter -->
           <!-- <mat-form-field color="accent" class="searchBy">
@@ -92,17 +124,32 @@
             </mat-select>
           </mat-form-field> -->
         </div>
+
+        <!-- Deliver Service Filter -->
+        <button
+          mat-raised-button
+          type="button"
+          (click)="
+            filters.bookingType = filters.bookingType != 2 ? 2 : undefined
+          "
+          [color]="filters.bookingType === 2 ? 'accent' : 'grey'"
+        >
+          <mat-icon>local_shipping</mat-icon>
+        </button>
       </div>
+
       <div class="align-right">
+        <!-- Clear Filters Button -->
         <button
           class="orderClearFilters"
           name="orderClearFilters"
           mat-button
           type="button"
-          (click)="clearFilters(filterForm)"
+          (click)="clearFilters()"
         >
           {{ 'buttons.clearFilters' | transloco }}
         </button>
+        <!-- Apply Filters Button -->
         <button
           class="orderApplyFilters"
           name="orderApplyFilters"
@@ -121,6 +168,7 @@
     </mat-expansion-panel>
   </div>
 </form>
+
 <mat-progress-bar *ngIf="!orders" color="accent" mode="indeterminate">
 </mat-progress-bar>
 <div class="centering">
@@ -249,6 +297,7 @@
         <ng-container matColumnDef="booking.actions">
           <th mat-header-cell *matHeaderCellDef class="actions"></th>
           <td mat-cell *matCellDef="let element" class="allignRight">
+            <!-- Advance Order -->
             <button
               *ngIf="!archiveMode"
               class="advanceOrder"
@@ -256,11 +305,7 @@
               mat-raised-button
               type="button"
               (click)="
-                applyChanges(
-                  element,
-                  element.order.orderStatus + 1,
-                  element.order.paymentStatus
-                )
+                applyChanges(element, element.order.orderStatus + 1, null)
               "
               [matTooltip]="'buttons.advanceStatus' | transloco"
             >
@@ -269,6 +314,7 @@
                 {{ getOrderStatusTranslation()[element.order.orderStatus + 1] }}
               </span>
             </button>
+            <!-- Switch Payment Status -->
             <button
               *ngIf="!archiveMode"
               class="switchPayment"
@@ -278,7 +324,7 @@
               (click)="
                 applyChanges(
                   element,
-                  element.order.orderStatus,
+                  null,
                   (element.order.paymentStatus + 1) % 2
                 )
               "
@@ -287,6 +333,7 @@
             >
               <mat-icon class="switchPayment">euro_symbol</mat-icon>
             </button>
+            <!-- Cancel Order -->
             <button
               *ngIf="!archiveMode"
               class="cancelOrder"
@@ -312,7 +359,7 @@
           </td>
         </ng-container>
 
-        <!-- Table Id Column -->
+        <!-- Booking Type Column -->
         <ng-container matColumnDef="booking.bookingType">
           <th
             mat-header-cell
@@ -337,6 +384,7 @@
           mat-row
           *matRowDef="let row; columns: displayedColumns"
           (click)="selected($event, row)"
+          class="table-row"
         ></tr>
       </table>
     </div>
@@ -347,6 +395,7 @@
     <table>
       <tr>
         <td>
+          <!-- Undo Button -->
           <button
             type="button"
             mat-button
@@ -361,6 +410,7 @@
           </button>
         </td>
         <td>
+          <!-- Paginator -->
           <mat-paginator
             #pagingBar
             [length]="totalOrders"

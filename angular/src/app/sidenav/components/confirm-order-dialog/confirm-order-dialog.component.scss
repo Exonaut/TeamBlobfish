@@ -20,12 +20,31 @@
     text-align: right;
   }
   
-  .invitedGuests {
+  .invitedGuests, .totalPrice {
     display: flex;
     flex-direction: column;
     text-align: right;
-    width: 70%;
+    width: 100%;
     word-break: break-word;
+  }
+
+  .orderTable {
+    width: 100%;
+  }
+
+  .orderNotice {
+    box-sizing: border-box;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    mat-icon {
+      font-size: 18px;
+      height: 1em;
+      width: 1em;
+      padding-right: 8px;
+    }
   }
   
   mat-divider {

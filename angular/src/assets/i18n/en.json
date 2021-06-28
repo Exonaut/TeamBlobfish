@@ -58,7 +58,8 @@
     "order": 
       "To order the delivery service, you must select at least one dish from the menu",
     "orderInhouse": 
-      "You are booking a table without ordering a dish. You can select your order now or select it at a later point using your booking ID"
+      "You are booking a table without ordering a dish. You can select your order now or select it at a later point using your booking ID you will receive by e-mail",
+    "orderNotice": "You are booking a table without placing an order. If you continue, you can always place your order at a later time with the booking id you receive by email"
   },
   "formFields": {
     "username": "Username",
@@ -85,7 +86,8 @@
     "delivery": "Delivery",
     "city": "City",
     "street": "Street",
-    "streetNr": "House Number"
+    "streetNr": "House Number",
+    "table": "Table Number"
   },
   "bookTable": {
     "title": "You can invite your friends to lunch or book a table",
@@ -120,7 +122,7 @@
   "main": {
     "home": "Home",
     "menu": "Menu",
-    "book": "Book table",
+    "book": "Booking",
     "orders": "Orders",
     "orderArchive": "Order Archive",
     "reservations": "Reservations",
@@ -176,9 +178,17 @@
         "Here you can add a short comment to our cookers about how to prepare your dish"
     },
     "order": "Order",
+    "amount": "Amount",
+    "price": "Price",
+    "totalPrice": "Total",
+    "extras": "Extras",
     "personalinfo": "Booking",
     "bookingSuccess": "Your table has been successfully booked",
-    "deliverySuccess": "Your order is on its way"
+    "deliverySuccess": "Your order is on its way",
+    "bookingError": "There was an error while trying to book your Table, please try again.",
+    "deliveryError": "There was an error while trying to order the delivery service, please try again.",
+    "orderSuccess": "Order successfully placed",
+    "orderError": "There was an error while trying to place your order, please try again."
   },
   "userArea": {
     "loginTitle": "LOGIN",
@@ -259,7 +269,7 @@
       "completed": "Completed",
       "canceled": "Canceled",
       "changeStatusSuccess": "Status successfully updated",
-      "changeStatusFailure": "Status change error",
+      "changeStatusError": "An error occured while trying to change the status, please try again",
       "undoChangeSuccess": "Change successfully reverted"
     },
     "payment": {
@@ -290,7 +300,8 @@
       "createUserError": "An error has occured while trying to create the user",
       "fetchUsersSuccess": "Users successfully fetched",
       "fetchUsersError": "An error has occured while fetching users",
-      "confirmDeleteText": "Are you sure you want to delete this user?"
+      "confirmDeleteText": "Are you sure you want to delete this user?",
+      "confirmPasswordLinkText": "Are you sure you want to send the password reset link to this user?"
     }
   }
 }

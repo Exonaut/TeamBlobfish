@@ -9,7 +9,7 @@ import * as sendOrderActions from '../actions/send-order.actions';
 
 @Injectable()
 export class SendOrderEffects {
-  sendOrders$ = createEffect(() =>
+  sendOrders = createEffect(() =>
     this.actions$.pipe(
       ofType(sendOrderActions.sendOrders),
       map((tokenData) => tokenData.token),

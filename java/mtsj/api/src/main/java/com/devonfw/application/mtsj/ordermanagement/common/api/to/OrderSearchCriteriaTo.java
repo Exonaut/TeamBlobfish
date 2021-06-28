@@ -34,12 +34,36 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
 
   private String name;
 
+  private Long table;
+
+  private Integer bookingType;
+
   /**
    * The constructor.
    */
   public OrderSearchCriteriaTo() {
 
     super();
+  }
+
+  public Integer getBookingType() {
+
+    return this.bookingType;
+  }
+
+  public void setBookingType(Integer type) {
+
+    this.bookingType = type;
+  }
+
+  public Long getTable() {
+
+    return this.table;
+  }
+
+  public void setTable(Long table) {
+
+    this.table = table;
   }
 
   public Long getBookingId() {

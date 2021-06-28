@@ -8,11 +8,11 @@ import { clone } from 'lodash';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-change-password-dialog',
-  templateUrl: './change-password-dialog.component.html',
-  styleUrls: ['./change-password-dialog.component.scss']
+  selector: 'app-edit-user-dialog',
+  templateUrl: './edit-user-dialog.html',
+  styleUrls: ['./edit-user-dialog.scss']
 })
-export class ChangePasswordDialogComponent implements OnInit {
+export class EditUserDialogComponent implements OnInit {
 
   data: UserListView;
 
@@ -25,7 +25,7 @@ export class ChangePasswordDialogComponent implements OnInit {
   };
 
   constructor(
-    public dialog: MatDialogRef<ChangePasswordDialogComponent>,
+    public dialog: MatDialogRef<EditUserDialogComponent>,
     private userCockpitService: UserCockpitService,
     private translocoService: TranslocoService,
     private snack: SnackBarService,
@@ -45,6 +45,10 @@ export class ChangePasswordDialogComponent implements OnInit {
     this.data.password = null;
   }
 
+  /**
+   * Edit user
+   * @param value The Form value to use
+   */
   editUser(value: any): void {
     this.data.password = value.password;
     this.userCockpitService
@@ -68,6 +72,10 @@ export class ChangePasswordDialogComponent implements OnInit {
     );
   }
 
+  /**
+   * Set role translations
+   * @param lang The language to use
+   */
   setRoleNames(lang: string): void {
     this.translocoService
       .selectTranslateObject('cockpit.user', {}, lang)
@@ -81,10 +89,16 @@ export class ChangePasswordDialogComponent implements OnInit {
       });
   }
 
+  /**
+   * Close dialog
+   */
   close(): void {
     this.dialog.close();
   }
 
+  /**
+   * Close dialog with confirm return
+   */
   closeWithRefresh(): void {
     this.dialog.close(true);
   }

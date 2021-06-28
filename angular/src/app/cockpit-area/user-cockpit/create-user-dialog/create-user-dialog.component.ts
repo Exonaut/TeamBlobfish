@@ -29,6 +29,10 @@ export class CreateUserDialogComponent implements OnInit {
     });
   }
 
+  /**
+   * Create user
+   * @param value The Form value to create the user from
+   */
   createUser(value: any): void {
     delete value.confirmPassword;
     value.userRoleId = this.selectedRole;

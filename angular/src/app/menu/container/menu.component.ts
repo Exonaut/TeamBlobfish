@@ -132,6 +132,6 @@ export class MenuComponent implements OnInit {
       );
       this.extras = [];
     }
-    this.sidenav.openSideNav();
+    this.sidenav.openSideNavOrder();
   }
 }

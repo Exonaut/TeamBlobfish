@@ -15,10 +15,12 @@ export class FilterCockpit {
     // sort?: Sorting[];
     bookingDate: string;
     email: string;
-    bookingToken: number;
+    bookingToken: string;
     orderstatus: number[];
     paymentstatus: number[];
     name: string;
+    table: number;
+    bookingType: number;
 }
 
 export class FilterOrdersCockpit {
