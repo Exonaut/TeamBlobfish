@@ -181,6 +181,7 @@
     "amount": "Amount",
     "price": "Price",
     "totalPrice": "Total",
+    "extras": "Extras",
     "personalinfo": "Booking",
     "bookingSuccess": "Your table has been successfully booked",
     "deliverySuccess": "Your order is on its way",

@@ -75,6 +75,7 @@
 
     <div class="dataRow" *ngIf="orders.length > 0">
       <table mat-table [dataSource]="orders" class="orderTable">
+        <!-- Order Name -->
         <ng-container matColumnDef="order">
           <th mat-header-cell *matHeaderCellDef class="order">
             {{ 'sidenav.order' | transloco }}
@@ -87,18 +88,20 @@
           </td>
         </ng-container>
 
+        <!-- Extras name -->
         <ng-container matColumnDef="extras">
           <th mat-header-cell *matHeaderCellDef class="extras">
             {{ 'sidenav.extras' | transloco }}
           </th>
           <td mat-cell *matCellDef="let element; index as i">
             <span *ngFor="let extra of element.details.extras">
-              {{ extra.name + " (" + toCurrency(extra.price) + " €)" }}
+              {{ extra.name + " (" + toCurrency(extra.price * element.details.orderLine.amount) + " €) " }}
             </span>
           </td>
           <td mat-cdk-footer-cell *matFooterCellDef></td>
         </ng-container>
 
+        <!-- Order amount -->
         <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef class="amount">
             {{ 'sidenav.amount' | transloco }}
@@ -109,12 +112,13 @@
           <td mat-cdk-footer-cell *matFooterCellDef></td>
         </ng-container>
 
+        <!-- Price -->
         <ng-container matColumnDef="price">
           <th mat-header-cell *matHeaderCellDef class="price">
             {{ 'sidenav.price' | transloco }}
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ element.details.dish.price * element.details.orderLine.amount }}
+            {{ toCurrency(element.details.dish.price * element.details.orderLine.amount) }}
           </td>
           <td mat-footer-cell *matFooterCellDef>{{ toCurrency(totalPrice) }} €</td>
         </ng-container>
