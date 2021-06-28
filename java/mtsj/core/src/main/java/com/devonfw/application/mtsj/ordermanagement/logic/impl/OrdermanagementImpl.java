@@ -38,8 +38,9 @@ import com.devonfw.application.mtsj.mailservice.logic.api.Mail;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.CancelNotAllowedException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.NoBookingException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.NoInviteException;
-import com.devonfw.application.mtsj.ordermanagement.common.api.exception.NoOrderException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.OrderAlreadyExistException;
+import com.devonfw.application.mtsj.ordermanagement.common.api.exception.WrongOrderStatusException;
+import com.devonfw.application.mtsj.ordermanagement.common.api.exception.WrongPaymentStatusException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.WrongTokenException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderCto;
 import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderEto;
@@ -114,17 +115,6 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
   public OrdermanagementImpl() {
 
     super();
-  }
-
-  @Override
-  public OrderEto setNewOrderStatus(Long id, Long orderstatus) {
-
-    OrderEntity entity = getOrderDao().find(id);
-    entity.setOrderStatus(orderstatus);
-    OrderEntity resultOrderStatus = getOrderDao().save(entity);
-    LOG.debug("The order status with id '{}' has been updated.", resultOrderStatus.getOrderStatus());
-
-    return getBeanMapper().map(resultOrderStatus, OrderEto.class);
   }
 
   @Override
@@ -579,8 +569,27 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
   }
 
   @Override
+  public OrderEto setNewOrderStatus(Long id, Long orderstatus) {
+
+    Long invalidOrderStatus = (long) 7;
+    if (orderstatus >= invalidOrderStatus) {
+      throw new WrongOrderStatusException();
+    }
+    OrderEntity entity = getOrderDao().find(id);
+    entity.setOrderStatus(orderstatus);
+    OrderEntity resultOrderStatus = getOrderDao().save(entity);
+    LOG.debug("The order status with id '{}' has been updated.", resultOrderStatus.getOrderStatus());
+
+    return getBeanMapper().map(resultOrderStatus, OrderEto.class);
+  }
+
+  @Override
   public OrderEto setNewPaymentStatus(Long id, Long paymentstatus) {
 
+    Long invalidPaymentStatus = (long) 3;
+    if (paymentstatus >= invalidPaymentStatus) {
+      throw new WrongPaymentStatusException();
+    }
     OrderEntity entity = getOrderDao().find(id);
     entity.setPaymentStatus(paymentstatus);
     OrderEntity resultOrderPayment = getOrderDao().save(entity);
@@ -590,19 +599,4 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
 
   }
 
-  @Override
-  public OrderCto editOrder(OrderCto editorder) {
-
-    List<OrderCto> order = findOrdersByBookingToken(editorder.getBooking().getBookingToken());
-
-    if (order.isEmpty()) {
-      throw new NoOrderException();
-    }
-
-    List<OrderLineCto> editOrderLine = editorder.getOrderLines();
-
-    order.get(0).setOrderLines(editOrderLine);
-
-    return order.get(0);
-  }
 }
