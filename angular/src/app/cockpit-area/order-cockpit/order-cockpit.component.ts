@@ -11,6 +11,7 @@ import {
   FilterCockpit,
   Pageable,
   Sort as ISort,
+  TranslationToken,
 } from '../../shared/backend-models/interfaces';
 import { OrderListView } from '../../shared/view-models/interfaces';
 import { WaiterCockpitService } from '../services/waiter-cockpit.service';
@@ -18,6 +19,7 @@ import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { SnackBarService } from 'app/core/snack-bar/snack-bar.service';
+import { xor } from 'lodash';
 
 @Component({
   selector: 'app-cockpit-order-cockpit',
@@ -43,7 +45,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   orders: OrderListView[] = [];
   totalOrders: number;
 
-  columns: any[];
+  columns: TranslationToken[];
 
   rowColor: '';
 
@@ -92,7 +94,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   paymentStatusSelected: FormControl;
   bookingTypeSelected: FormControl;
 
-  undoValues: any[] = [];
+  undoValues: UndoToken[] = [];
 
   exludeOnRowClick: string[] = ['cancelOrder', 'advanceOrder', 'switchPayment'];
 
@@ -176,14 +178,14 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   /** Get Order Status translation from WaiterCockpitService
    * @returns the translation array
    */
-  getOrderStatusTranslation(): string[] {
+  getOrderStatusTranslation(): TranslationToken[] {
     return this.waiterCockpitService.orderStatusTranslation;
   }
 
   /** Get Payment Status translation from WaiterCockpitService
    * @returns the translation array
    */
-  getPaymentStatusTranslation(): string[] {
+  getPaymentStatusTranslation(): TranslationToken[] {
     return this.waiterCockpitService.paymentStatusTranslation;
   }
 
@@ -191,7 +193,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
    * Slices the Order Status translation array for regular or archive mode
    * @returns The sliced translation array
    */
-  getOrderStatusTranslationSlice(): string[] {
+  getOrderStatusTranslationSlice(): TranslationToken[] {
     if (!this.archiveMode) {
       return this.getOrderStatusTranslation().slice(0, -2);
     } else {
@@ -203,7 +205,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
    * Slices the Payment Status translation array for regular or archive mode
    * @returns The sliced translation array
    */
-  getPaymentStatusTranslationSlice(): string[] {
+  getPaymentStatusTranslationSlice(): TranslationToken[] {
     if (!this.archiveMode) {
       return this.getPaymentStatusTranslation().slice(0, 2);
     } else {
@@ -292,19 +294,30 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Apply Order Status, Payment Status and then reload orders
+   * Applies order and payment status to order
+   * @param element The element of the order
+   * @param orderStatus The new order status (null => skip)
+   * @param paymentStatus The new payment status (null => skip)
+   * @param pushUndo Whether the old value should be pushed onto the undo stack (Default=true)
    */
-  applyChanges(element: any, orderStatus: number, paymentStatus: number): void {
-    this.undoValues.push({
-      // Place old values onto undo stack
-      id: element.order.id,
-      orderStatus: element.order.orderStatus,
-      paymentStatus: element.order.paymentStatus,
-    });
+  applyChanges(
+    element: any,
+    orderStatus: number,
+    paymentStatus: number,
+    pushUndo: boolean = true,
+  ): void {
+    if (pushUndo) {
+      this.undoValues.push({
+        // Place old values onto undo stack
+        id: element.order.id,
+        orderStatus: element.order.orderStatus,
+        paymentStatus: element.order.paymentStatus,
+      });
+    }
 
     if (orderStatus !== null) {
       // Send order status
-      this.waiterCockpitService
+      const orderSubscription = this.waiterCockpitService
         .setOrderStatus(element.order.id, orderStatus)
         .subscribe(
           ($data) => {
@@ -316,22 +329,18 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
               6000,
               'green',
             );
+            orderSubscription.unsubscribe();
           },
           (error) => {
-            this.snack.openSnack(
-              this.translocoService.translate(
-                'cockpit.status.changeStatusError',
-              ),
-              6000,
-              'red',
-            );
+            orderSubscription.unsubscribe();
+            this.applyChanges(element, orderStatus, null, false); // Retry on error
           },
         );
     }
 
     if (paymentStatus !== null) {
       // Send payment status
-      this.waiterCockpitService
+      const paymentSubscription = this.waiterCockpitService
         .setPaymentStatus(element.order.id, paymentStatus)
         .subscribe(
           ($data) => {
@@ -343,15 +352,11 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
               6000,
               'green',
             );
+            paymentSubscription.unsubscribe();
           },
           (error) => {
-            this.snack.openSnack(
-              this.translocoService.translate(
-                'cockpit.status.changeStatusError',
-              ),
-              6000,
-              'red',
-            );
+            paymentSubscription.unsubscribe();
+            this.applyChanges(element, null, paymentStatus, false); // Retry on error
           },
         );
     }
@@ -393,4 +398,10 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     this.orderStatusTranslocoSubscription.unsubscribe();
     this.paymentStatusTranslocoSubscription.unsubscribe();
   }
+}
+
+class UndoToken {
+  id: number;
+  orderStatus: number;
+  paymentStatus: number;
 }

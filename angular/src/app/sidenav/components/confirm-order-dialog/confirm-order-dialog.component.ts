@@ -26,13 +26,6 @@ export class ConfirmOrderDialogComponent implements OnInit {
     this.totalPrice = dialogData.totalPrice;
   }
 
-  toCurrency(n: number): string {
-    if (n) {
-      return Number(n).toFixed(2);
-    }
-    return '';
-  }
-
   ngOnInit(): void {
     this.date = moment(this.booking.bookingDate).format('LLL');
   }

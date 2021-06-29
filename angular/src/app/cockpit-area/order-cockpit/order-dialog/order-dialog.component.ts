@@ -1,13 +1,22 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ConfigService } from '../../../core/config/config.service';
-import { BookingView, OrderListView, OrderView, SaveOrderResponse } from '../../../shared/view-models/interfaces';
+import {
+  BookingView,
+  OrderListView,
+  OrderView,
+  SaveOrderResponse,
+} from '../../../shared/view-models/interfaces';
 import { WaiterCockpitService } from '../../services/waiter-cockpit.service';
 import { TranslocoService } from '@ngneat/transloco';
 import * as _ from 'lodash';
-import { MatSelectChange } from '@angular/material/select';
 import { OrderCockpitComponent } from '../order-cockpit.component';
+import { TranslationToken } from 'app/shared/backend-models/interfaces';
 
 @Component({
   selector: 'app-cockpit-order-dialog',
@@ -23,7 +32,7 @@ export class OrderDialogComponent implements OnInit {
   parrent: OrderCockpitComponent;
   data: OrderDialogData = new OrderDialogData();
   datat: OrderDialogData[] = [];
-  columnst: any[];
+  columnst: TranslationToken[];
   displayedColumnsT: string[] = [
     'bookingDate',
     // 'creationDate',
@@ -32,11 +41,11 @@ export class OrderDialogComponent implements OnInit {
     'email',
     'tableId',
     'orderStatus',
-    'paymentStatus'
+    'paymentStatus',
   ];
 
   datao: OrderView[] = [];
-  columnso: any[];
+  columnso: TranslationToken[];
   displayedColumnsO: string[] = [
     'dish.name',
     'orderLine.comment',
@@ -46,12 +55,8 @@ export class OrderDialogComponent implements OnInit {
   ];
 
   dataa: OrderDialogData[] = [];
-  columnsa: any[];
-  displayedColumnsA: string[] = [
-    'city',
-    'street',
-    'streetNr'
-  ];
+  columnsa: TranslationToken[];
+  displayedColumnsA: string[] = ['city', 'street', 'streetNr'];
 
   pageSizes: number[];
   filteredData: OrderView[] = this.datao;
@@ -114,12 +119,7 @@ export class OrderDialogComponent implements OnInit {
           { name: 'orderLine.comment', label: cockpitDialogTable.commentsH },
           { name: 'extras', label: cockpitDialogTable.extrasH },
           { name: 'orderLine.amount', label: cockpitDialogTable.quantityH },
-          {
-            name: 'dish.price',
-            label: cockpitDialogTable.priceH,
-            numeric: true,
-            format: (v: number) => v.toFixed(2),
-          },
+          { name: 'dish.price', label: cockpitDialogTable.priceH },
         ];
       });
 
@@ -137,14 +137,14 @@ export class OrderDialogComponent implements OnInit {
   /** Establish Observer Subscription for Order- and Paymentstatus translations on WaiterCockpitService
    * @param lang - The language to use
    */
-  getOrderStatusTranslation(): string[] {
+  getOrderStatusTranslation(): TranslationToken[] {
     return this.waiterCockpitService.orderStatusTranslation;
   }
 
   /** Get Order Status translation from WaiterCockpitService
    * @returns the translation array
    */
-  getPaymentStatusTranslation(): string[] {
+  getPaymentStatusTranslation(): TranslationToken[] {
     return this.waiterCockpitService.paymentStatusTranslation;
   }
 
@@ -165,24 +165,22 @@ export class OrderDialogComponent implements OnInit {
    * Apply selected Order- and Paymentstatus and then close the dialog
    */
   applyChanges(): void {
-    this.waiterCockpitService.setOrderStatus(this.data.order.id, this.selectedOrderStatus) // Send order status
-      .subscribe(
-        (dataA: any) => {
-          this.waiterCockpitService.setPaymentStatus(this.data.order.id, +!!this.selectedPaymentStatus) // Send payment status
-            .subscribe(
-              (dataB: any) => {
-                this.parrent.undoValues.push({ // Add change to undo stack of parrent OrderCockpitComponent
-                  id: this.data.order.id,
-                  orderStatus: this.data.order.orderStatus,
-                  paymentStatus: this.data.order.paymentStatus
-                });
-                this.dialog.close(true); // Close dialog with refresh flag
-              }
-            );
-        }
-      );
+    this.waiterCockpitService
+      .setOrderStatus(this.data.order.id, this.selectedOrderStatus) // Send order status
+      .subscribe((dataA: any) => {
+        this.waiterCockpitService
+          .setPaymentStatus(this.data.order.id, +!!this.selectedPaymentStatus) // Send payment status
+          .subscribe((dataB: any) => {
+            this.parrent.undoValues.push({
+              // Add change to undo stack of parrent OrderCockpitComponent
+              id: this.data.order.id,
+              orderStatus: this.data.order.orderStatus,
+              paymentStatus: this.data.order.paymentStatus,
+            });
+            this.dialog.close(true); // Close dialog with refresh flag
+          });
+      });
   }
-
 }
 
 // Order Data storage class

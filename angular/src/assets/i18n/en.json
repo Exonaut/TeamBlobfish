@@ -269,7 +269,8 @@
       "completed": "Completed",
       "canceled": "Canceled",
       "changeStatusSuccess": "Status successfully updated",
-      "changeStatusError": "An error occured while trying to change the status, please try again",
+      "changeOrderStatusError": "An error occured while trying to change the order status, please try again",
+      "changePaymentStatusError": "An error occured while trying to change the payment status, please try again",
       "undoChangeSuccess": "Change successfully reverted"
     },
     "payment": {

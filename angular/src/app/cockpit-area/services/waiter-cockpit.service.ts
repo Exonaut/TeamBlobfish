@@ -5,6 +5,7 @@ import {
   FilterCockpit,
   Pageable,
   Sort,
+  TranslationToken,
 } from 'app/shared/backend-models/interfaces';
 import { cloneDeep, map } from 'lodash';
 import { Observable, Subscription } from 'rxjs';
@@ -34,8 +35,8 @@ export class WaiterCockpitService {
   private readonly restServiceRoot$: Observable<string> =
     this.config.getRestServiceRoot();
 
-  orderStatusTranslation: string[];
-  paymentStatusTranslation: string[];
+  orderStatusTranslation: TranslationToken[];
+  paymentStatusTranslation: TranslationToken[];
 
   constructor(
     private http: HttpClient,
@@ -151,13 +152,13 @@ export class WaiterCockpitService {
       .selectTranslateObject('cockpit.status', {}, lang)
       .subscribe((cockpitStatus) => {
         this.orderStatusTranslation = [
-          cockpitStatus.recorded,
-          cockpitStatus.cooking,
-          cockpitStatus.ready,
-          cockpitStatus.handingover,
-          cockpitStatus.delivered,
-          cockpitStatus.completed,
-          cockpitStatus.canceled,
+          {name: 'orderStatus.recorded', label: cockpitStatus.recorded},
+          {name: 'orderStatus.cooking', label: cockpitStatus.cooking},
+          {name: 'orderStatus.ready', label: cockpitStatus.ready},
+          {name: 'orderStatus.handingover', label: cockpitStatus.handingover},
+          {name: 'orderStatus.delivered', label: cockpitStatus.delivered},
+          {name: 'orderStatus.completed', label: cockpitStatus.completed},
+          {name: 'orderStatus.canceled', label: cockpitStatus.canceled},
         ];
       });
   }

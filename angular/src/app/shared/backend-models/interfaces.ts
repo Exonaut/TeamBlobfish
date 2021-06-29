@@ -124,3 +124,10 @@ export class Role {
     name: string;
     permission: number;
 }
+
+// TRANSLATION
+
+export class TranslationToken {
+    name: string;
+    label: string;
+}
