@@ -10,20 +10,25 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 
-public class WhereLikeToEat implements IntentRequestHandler {
+/**
+ *
+ * Every order must start here. Here you are asked where the user would like to eat
+ *
+ */
+public class StartetOrderInformationWhereLikeToEat implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    return (handlerInput.matches(intentName("makeAOrderHome")) && intentRequest.getDialogState() == DialogState.STARTED)
-        && intentRequest.getIntent().getSlots().get("dishOrder").getValue() == null;
+    return (handlerInput.matches(intentName("makeAOrderHome"))
+        && intentRequest.getDialogState() == DialogState.STARTED);
 
   }
 
   @Override
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
-    if (handlerInput.getAttributesManager().getSessionAttributes().containsKey("state"))
+    if (handlerInput.getAttributesManager().getSessionAttributes().containsKey("state")) // order was already startet
       return handlerInput.getResponseBuilder().withSpeech("Ich habe Sie leider nicht verstanden. Was möchten Sie?")
           .withReprompt("Was möchten Sie ?").build();
 

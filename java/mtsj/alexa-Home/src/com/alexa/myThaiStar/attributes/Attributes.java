@@ -28,4 +28,8 @@ public final class Attributes {
 
   public static final Integer START_STATE_ONLY_ADD_ONE = 1;
 
+  public static final String STATE_KEY_COUNTER_BOOKING_IDS = "booking_Ids";
+
+  public static Integer START_STATE_COUNTER_BOOKING_IDS = 0; // how many bookings are there
+
 }

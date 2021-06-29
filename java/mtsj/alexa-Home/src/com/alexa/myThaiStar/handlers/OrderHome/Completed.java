@@ -14,6 +14,11 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.tools.BasicOperations;
 
+/**
+ *
+ * Regular order is finished. Single dishes can still be added
+ *
+ */
 public class Completed implements IntentRequestHandler {
 
   @Override
@@ -30,12 +35,21 @@ public class Completed implements IntentRequestHandler {
 
     Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
+    String speechText = "";
+    if (BasicOperations.previousOrder != null) {
+      speechText = " Was Sie bisher bestellt haben: ";
+      for (String s : BasicOperations.previousOrder) {
+        speechText += s + " ,";
+      }
+    }
+
     if (attributes.containsKey(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL)) {
 
       return handlerInput.getResponseBuilder()
-          .withSpeech("Vielen Dank. Sie können noch etwas hinzufügen oder die Bestellung einfach abschließen.")
+          .withSpeech("Vielen Dank. " + speechText
+              + ". Sie können noch etwas hinzufügen oder die Bestellung einfach abschließen.")
           .withReprompt(
-              "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: ich möchte noch Garlic Paradise Salad")
+              "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: Ich möchte noch Garlic Paradise Salad")
           .build();
 
     }
@@ -44,14 +58,14 @@ public class Completed implements IntentRequestHandler {
 
       attributes.put(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL, Attributes.START_STATE_ONLY_ADD_ONE);
 
-      return handlerInput.getResponseBuilder().withSpeech(
-          "Vielen Dank für Ihre Bestellung. Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen. Ansonsten können Sie auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie zum Beispiel: ich möchte noch Thai green chicken curry")
+      return handlerInput.getResponseBuilder().withSpeech("Vielen Dank. " + speechText
+          + ". Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen. Ansonsten können Sie auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie zum Beispiel: ich möchte noch Thai green chicken curry")
           .withReprompt(
               "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: ich möchte noch Garlic Paradise Salad")
           .build();
     }
 
-    if (BasicOperations.counterBookingIDs == 0)
+    if (Attributes.START_STATE_COUNTER_BOOKING_IDS == 0)
       return handlerInput.getResponseBuilder()
           .withSpeech(
               "Keine Buchungs ID gefunden. Bitte buchen Sie zuerst einen Tisch, bevor Sie eine Bestellung vornehmen.")
@@ -64,10 +78,10 @@ public class Completed implements IntentRequestHandler {
             .withShouldEndSession(true).build();
 
     attributes.put(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL, Attributes.START_STATE_ONLY_ADD_ONE);
-    return handlerInput.getResponseBuilder().withSpeech(
-        "Vielen Dank für Ihre Bestellung. Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen. Ansonsten können Sie auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie zum Beispiel: ich möchte noch Thai green chicken curry")
+    return handlerInput.getResponseBuilder().withSpeech("Vielen Dank, Ihre Bestellung wurde aufgenommen. " + speechText
+        + ". Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen. Ansonsten können Sie auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie zum Beispiel: ich möchte noch Thai green chicken curry.")
         .withReprompt(
-            "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: ich möchte noch Garlic Paradise Salad")
+            "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: Ich möchte noch Garlic Paradise Salad")
         .build();
   }
 

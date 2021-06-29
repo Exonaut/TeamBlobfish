@@ -61,7 +61,6 @@ public class BasicOperations {
 
   public BasicOperations() {
 
-    // refreshHeader();
     buildHttpClient();
 
   }
@@ -367,7 +366,7 @@ public class BasicOperations {
     System.out.println(url);
     HttpResponse httpResponse = this.http.execute(httpGet);
 
-    String return_string = InputToString(httpResponse.getEntity().getContent());
+    String return_string = inputToString(httpResponse.getEntity().getContent());
 
     // cookieMonster.displayCookies();
     httpResponse.getEntity().getContent().close();
@@ -439,7 +438,7 @@ public class BasicOperations {
 
     this.resheaders = httpResponse.getAllHeaders();
 
-    String return_string = InputToString(httpResponse.getEntity().getContent());
+    String return_string = inputToString(httpResponse.getEntity().getContent());
 
     httpResponse.getEntity().getContent().close();
 
@@ -474,7 +473,7 @@ public class BasicOperations {
     return "";
   }
 
-  public String InputToString(InputStream in) throws IOException {
+  public String inputToString(InputStream in) throws IOException {
 
     try {
       StringBuilder stringBuilder = new StringBuilder();

@@ -14,6 +14,11 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.tools.BasicOperations;
 
+/**
+ *
+ * Choose another drink or choose a dish or specify serving time
+ *
+ */
 public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestHandler {
 
   @Override
@@ -46,7 +51,7 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
           .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie trinken?")
           .withShouldEndSession(false).build();
-    } else if (yesNoAnotherDrink.getValue().equals("nein")
+    } else if (yesNoAnotherDrink.getValue().equals("nein") // if no food has been selected yet
         && !attributes.containsValue(Attributes.START_STATE_ORDER_EAT) && dishOrder.getValue() == null) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())
@@ -62,7 +67,7 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
     }
 
-    else if (yesNoAnotherDrink.getValue().equals("nein")) {
+    else if (yesNoAnotherDrink.getValue().equals("nein")) { // specify serving time
 
       String bookingDateTime = BasicOperations
           .convertMillisecondsToDateTime(BasicOperations.bookingDateTimeMilliseconds);

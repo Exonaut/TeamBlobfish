@@ -58,13 +58,13 @@ public class BasicOperations {
 
   public static ArrayList<Extras> extras;
 
-  public static int counterBookingIDs;
-
   public static String dishID;
 
   public static com.entity.booking.Content[] contentBooking;
 
   public static com.entity.booking.Content[] contentOrder;
+
+  public static ArrayList<String> previousOrder;
 
   public static String getExtrasName(String dishID) {
 
@@ -200,7 +200,7 @@ public class BasicOperations {
 
   public static int bookingIDAvailable(ResponseBooking response, String userEmail) {
 
-    counterBookingIDs = 0;
+    int counterBookingIDs = 0;
     long diffTmp = 0;
     for (com.entity.booking.Content c : response.content) {
 
@@ -443,7 +443,7 @@ public class BasicOperations {
     System.out.println(url);
     HttpResponse httpResponse = this.http.execute(httpGet);
 
-    String return_string = InputToString(httpResponse.getEntity().getContent());
+    String return_string = inputToString(httpResponse.getEntity().getContent());
 
     // cookieMonster.displayCookies();
     httpResponse.getEntity().getContent().close();
@@ -515,7 +515,7 @@ public class BasicOperations {
 
     this.resheaders = httpResponse.getAllHeaders();
 
-    String return_string = InputToString(httpResponse.getEntity().getContent());
+    String return_string = inputToString(httpResponse.getEntity().getContent());
 
     httpResponse.getEntity().getContent().close();
 
@@ -550,7 +550,7 @@ public class BasicOperations {
     return "";
   }
 
-  public String InputToString(InputStream in) throws IOException {
+  public String inputToString(InputStream in) throws IOException {
 
     try {
       StringBuilder stringBuilder = new StringBuilder();

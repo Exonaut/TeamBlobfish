@@ -12,8 +12,10 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.tools.BasicOperations;
 
-public class EatOrDrinkOrClose implements IntentRequestHandler {
-
+public class CheckTheCustomerDetails implements IntentRequestHandler {
+  /**
+   * If details apply to the customer, he can start eating or drinking.
+   */
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 

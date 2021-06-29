@@ -19,7 +19,14 @@ import com.entity.orderline.RequestOrder;
 import com.google.gson.Gson;
 import com.tools.BasicOperations;
 
-public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
+/**
+ *
+ * If restaurant was selected then it will be checked if a table was booked. If deliver was selected, then it is asked
+ * whether to start eating or drinking.
+ *
+ */
+
+public class RestaurantFoodOrDelivery implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
@@ -42,8 +49,9 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
     if (whereLikeToEat.getValue().equals("restaurant")) {
 
       attributes = handlerInput.getAttributesManager().getSessionAttributes();
-      attributes.put(Attributes.STATE_KEY_WHERE_LIKE_TO_EAT, Attributes.START_STATE_WHERE_LIKE_TO_EAT_RESTAURANT);
 
+      // Save that is is a meal in the restaurant
+      attributes.put(Attributes.STATE_KEY_WHERE_LIKE_TO_EAT, Attributes.START_STATE_WHERE_LIKE_TO_EAT_RESTAURANT);
       ResponseBooking response = BasicOperations.getAllBookingsAndOrders();
 
       if (response == null)
@@ -51,12 +59,20 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
             .withSpeech("Es ist ein Problem aufgetreten. Bitte versuchen Sie es zu einem späteren Zeitpunkt.").build();
 
       String userEmail = handlerInput.getServiceClientFactory().getUpsService().getProfileEmail();
-      BasicOperations.counterBookingIDs = BasicOperations.bookingIDAvailable(response, userEmail);
+      Attributes.START_STATE_COUNTER_BOOKING_IDS = BasicOperations.bookingIDAvailable(response, userEmail); // how many
+                                                                                                            // bookings
+                                                                                                            // are there
 
-      if (BasicOperations.counterBookingIDs == 0)
+      attributes.put(Attributes.STATE_KEY_COUNTER_BOOKING_IDS, Attributes.START_STATE_COUNTER_BOOKING_IDS);
+
+      // no booking id available
+      if (Attributes.START_STATE_COUNTER_BOOKING_IDS == 0) {
+
         return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
-      if (BasicOperations.counterBookingIDs == 1) {
+      }
+
+      if (Attributes.START_STATE_COUNTER_BOOKING_IDS == 1) {
         String bookingDateTime = BasicOperations
             .convertMillisecondsToDateTime(BasicOperations.bookingDateTimeMilliseconds);
         String bookingTime = BasicOperations.getTimeFormat(bookingDateTime);
@@ -66,6 +82,7 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
         if (Integer.parseInt(BasicOperations.req.booking.assistants) == 1)
           assistant = " Gast";
 
+        // check if the booking data apply to the customer
         return handlerInput.getResponseBuilder()
             .addElicitSlotDirective("yesNoCustomerDetails", intentRequest.getIntent())
             .withSpeech("Sie haben am " + bookingDate + " um " + bookingTime + " Uhr mit "
@@ -74,7 +91,7 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
             .withReprompt("Wollen Sie mit diese Daten fortfahren?").build();
       }
 
-      if (BasicOperations.counterBookingIDs > 1) {
+      if (Attributes.START_STATE_COUNTER_BOOKING_IDS > 1) {
         String bookingDateTime = BasicOperations
             .convertMillisecondsToDateTime(BasicOperations.bookingDateTimeMilliseconds);
         String bookingTime = BasicOperations.getTimeFormat(bookingDateTime);
@@ -84,6 +101,7 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
         if (Integer.parseInt(BasicOperations.req.booking.assistants) == 1)
           assistant = " Gast";
 
+        // check if the booking data apply to the customer
         return handlerInput.getResponseBuilder()
             .addElicitSlotDirective("yesNoCustomerDetails", intentRequest.getIntent())
             .withSpeech("Ich habe mehrere Einträge gefunden. Sie haben am " + bookingDate + " um " + bookingTime
@@ -99,7 +117,11 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
     {
 
       attributes = handlerInput.getAttributesManager().getSessionAttributes();
-      attributes.put(Attributes.STATE_KEY_WHERE_LIKE_TO_EAT, Attributes.START_STATE_WHERE_LIKE_TO_EAT_DELIVER);
+      attributes.put(Attributes.STATE_KEY_WHERE_LIKE_TO_EAT, Attributes.START_STATE_WHERE_LIKE_TO_EAT_DELIVER); // Save
+                                                                                                                // that
+                                                                                                                // it is
+                                                                                                                // a
+                                                                                                                // delivery
 
       String personCount = "";
       String name = handlerInput.getServiceClientFactory().getUpsService().getProfileName();
@@ -108,8 +130,10 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
       Date date = new Date();
       long timeNow = date.getTime();
       String date_time = BasicOperations.convertMillisecondsToDateTime(timeNow + 600000);
-      String response = BasicOperations.bookATable(userEmail, name, date_time, personCount, "2");
-
+      String response = BasicOperations.bookATable(userEmail, name, date_time, personCount, "2"); // make a fake booking
+                                                                                                  // to be able to place
+                                                                                                  // an order
+      // Connecting Problem
       if (response == null) {
         return handlerInput.getResponseBuilder()
             .withSpeech(
@@ -125,7 +149,6 @@ public class EatOrDrinkOrCheckCustomerDetails implements IntentRequestHandler {
       BasicOperations.req.order.city = "Bad Belzig";
       BasicOperations.req.order.street = "Am Kurpark";
       BasicOperations.req.order.streetNr = "1A";
-
       BasicOperations.req.booking.bookingToken = responseBooking.bookingToken;
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("eatOrDrink", intentRequest.getIntent())

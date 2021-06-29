@@ -12,6 +12,11 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.tools.BasicOperations;
 
+/**
+ *
+ * Check the serving time or enter it again
+ *
+ */
 public class CloseOrderOrCorrectTheServeTime implements IntentRequestHandler {
 
   @Override
@@ -31,7 +36,8 @@ public class CloseOrderOrCorrectTheServeTime implements IntentRequestHandler {
     String bookingTime = BasicOperations.getTimeFormat(bookingDateTime);
     String bookingDate = BasicOperations.getDateFormat(bookingDateTime);
 
-    if (!BasicOperations.compareBookingTimeServeTime(bookingTime, serveTime.getValue())) {
+    if (!BasicOperations.compareBookingTimeServeTime(bookingTime, serveTime.getValue())) { // serving time must be after
+                                                                                           // the booking time
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
           .withSpeech("Die Servierzeit " + serveTime.getValue() + " Uhr liegt nicht hinter Ihrer Buchungszeit"

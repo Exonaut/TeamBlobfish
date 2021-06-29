@@ -15,7 +15,12 @@ import com.amazon.ask.model.Slot;
 import com.tools.BasicOperations;
 
 public class WhatDoUWantToDrinkOrServeTimeOrCloseOrder implements IntentRequestHandler {
-
+  /**
+   *
+   * If the customer wants to drink something. He can also specify a serving time or finish the order in case of
+   * delivery
+   *
+   */
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
@@ -53,7 +58,6 @@ public class WhatDoUWantToDrinkOrServeTimeOrCloseOrder implements IntentRequestH
 
     if (yesNoDrink.getValue().equals("nein")) {
 
-      // TODO bookingDateTime vllt nicht in eine statische Konstante??
       String bookingDateTime = BasicOperations
           .convertMillisecondsToDateTime(BasicOperations.bookingDateTimeMilliseconds);
       String bookingTime = BasicOperations.getTimeFormat(bookingDateTime);

@@ -17,7 +17,12 @@ import com.entity.orderline.Extras;
 import com.entity.orderline.OrderLines;
 import com.tools.BasicOperations;
 
-public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
+/**
+ *
+ * If the dish is confirmed, then it is saved. Otherwise it is entered again
+ *
+ */
+public class SaveTheDishAskAnotherDish implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
@@ -38,6 +43,11 @@ public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
 
     if (confirmedDish.getConfirmationStatusAsString().equals("CONFIRMED")) {
 
+      Slot dishOrder = intentRequest.getIntent().getSlots().get("dishOrder");
+
+      BasicOperations.previousOrder
+          .add(dishOrder.getValue() + " mit " + extra.getValue() + " " + confirmedDish.getValue() + " mal");
+
       OrderLines tmpOrderline = new OrderLines();
 
       ArrayList<Extras> extrasArray = new ArrayList<>();
@@ -56,7 +66,7 @@ public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
 
       BasicOperations.req.orderLines.add(tmpOrderline);
 
-      if (attributes.containsKey(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL))
+      if (attributes.containsKey(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL)) // If a single dish must be added afterwards
         return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())

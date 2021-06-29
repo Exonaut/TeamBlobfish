@@ -61,7 +61,11 @@ public class DescriptionDishes implements RequestHandler {
 
     speechText = response.getDishesDescription(dishName.getValue());
 
-    return input.getResponseBuilder().withSpeech(speechText).build();
+    return input.getResponseBuilder().withSpeech(speechText
+        + " Wenn Sie eine Auswahl getroffen haben, dann sagen Sie zum Beispiel: Ich nehme Thai green chicken curry. Oder verlangen Sie einfach erneut nach der Speisekarte.")
+        .withReprompt(
+            "Wenn Sie eine Auswahl getroffen haben, dann sagen Sie zum Beispiel: Ich nehme Thai green chicken curry. Oder verlangen Sie einfach erneut nach der Speisekarte.")
+        .build();
   }
 
 }

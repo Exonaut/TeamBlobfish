@@ -16,6 +16,13 @@ import com.tools.BasicOperations;
 
 public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
 
+  /**
+   *
+   * Choose another dish or choose a drink. If both have already been selected then you can specify a serving time or
+   * cancel the order in case of a delivery
+   *
+   */
+
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
@@ -35,6 +42,7 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
     Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
     Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
+    // if further dish then set the values to null
     if (yesNoEat.getValue().equals("ja")) {
 
       Slot updateSlot = Slot.builder().withConfirmationStatus("NONE").withName("amount").withValue(null).build();
@@ -66,7 +74,10 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
       String bookingTime = BasicOperations.getTimeFormat(bookingDateTime);
       String bookingDate = BasicOperations.getDateFormat(bookingDateTime);
 
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent()) // specify
+                                                                                                                // a
+                                                                                                                // serving
+                                                                                                                // time
           .withSpeech("Sie haben am " + bookingDate + " um " + bookingTime
               + " Uhr, einen Tisch reserviert. Sie können jetzt eine Servierzeit angeben. Welche Servierzeit wünschen Sie?")
           .withReprompt("Welche Servierzeit wünschen Sie?").build();

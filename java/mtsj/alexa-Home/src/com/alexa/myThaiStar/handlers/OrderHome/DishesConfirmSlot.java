@@ -12,7 +12,9 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 
 public class DishesConfirmSlot implements IntentRequestHandler {
-
+  /**
+   * Verify that the dish has been properly recorded
+   */
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 

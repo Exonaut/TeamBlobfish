@@ -12,6 +12,11 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.tools.BasicOperations;
 
+/**
+ *
+ * send order
+ *
+ */
 public class SendOrder implements IntentRequestHandler {
 
   @Override

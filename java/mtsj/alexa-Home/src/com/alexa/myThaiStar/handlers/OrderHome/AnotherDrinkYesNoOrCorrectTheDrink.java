@@ -15,6 +15,11 @@ import com.amazon.ask.model.Slot;
 import com.entity.orderline.OrderLines;
 import com.tools.BasicOperations;
 
+/**
+ *
+ * If the drink is confirmed, then it is saved. Otherwise it is entered again
+ *
+ */
 public class AnotherDrinkYesNoOrCorrectTheDrink implements IntentRequestHandler {
 
   @Override
@@ -31,11 +36,14 @@ public class AnotherDrinkYesNoOrCorrectTheDrink implements IntentRequestHandler 
   public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
     Slot confirmDrinks = intentRequest.getIntent().getSlots().get("amountDrinks");
+    Slot drink = intentRequest.getIntent().getSlots().get("drink");
     Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
     if (confirmDrinks.getConfirmationStatusAsString().equals("CONFIRMED")) {
 
       Slot amountDrinks = intentRequest.getIntent().getSlots().get("amountDrinks");
+
+      BasicOperations.previousOrder.add(drink.getValue() + " " + confirmDrinks.getValue() + " mal");
 
       OrderLines tmpOrderline = new OrderLines();
 
@@ -44,7 +52,7 @@ public class AnotherDrinkYesNoOrCorrectTheDrink implements IntentRequestHandler 
 
       BasicOperations.req.orderLines.add(tmpOrderline);
 
-      if (attributes.containsKey(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL))
+      if (attributes.containsKey(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL)) // If a single dish must be added afterwards
         return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoAnotherDrink", intentRequest.getIntent())
