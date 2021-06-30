@@ -317,7 +317,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
 
     if (orderStatus !== null) {
       // Send order status
-      const orderSubscription = this.waiterCockpitService
+      this.waiterCockpitService
         .setOrderStatus(element.order.id, orderStatus)
         .subscribe(
           ($data) => {
@@ -329,10 +329,8 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
               6000,
               'green',
             );
-            orderSubscription.unsubscribe();
           },
           (error) => {
-            orderSubscription.unsubscribe();
             this.applyChanges(element, orderStatus, null, false); // Retry on error
           },
         );
@@ -340,7 +338,7 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
 
     if (paymentStatus !== null) {
       // Send payment status
-      const paymentSubscription = this.waiterCockpitService
+      this.waiterCockpitService
         .setPaymentStatus(element.order.id, paymentStatus)
         .subscribe(
           ($data) => {
@@ -352,10 +350,8 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
               6000,
               'green',
             );
-            paymentSubscription.unsubscribe();
           },
           (error) => {
-            paymentSubscription.unsubscribe();
             this.applyChanges(element, null, paymentStatus, false); // Retry on error
           },
         );
