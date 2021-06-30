@@ -5,7 +5,7 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
-import com.alexa.myThaiStar.model.Attributes;
+import com.alexa.myThaiStar.attributes.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.Intent;
@@ -15,7 +15,7 @@ import com.amazon.ask.model.Slot;
 import com.entity.dish.ResponseMenuDishes;
 import com.entity.dish.ResponseMenuDrinks;
 import com.google.gson.Gson;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class CallFoodMenu implements IntentRequestHandler {
 
@@ -41,7 +41,7 @@ public class CallFoodMenu implements IntentRequestHandler {
     if (menu.getValue().equals("getränkekarte") || menu.getValue().equals("trinken")) {
       payload = "{\"categories\":[{\"id\":\"8\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
 
-      resStr = HelpClass.callFoodMenu(payload);
+      resStr = BasicOperations.callFoodMenu(payload);
 
       if (resStr == null)
         return input.getResponseBuilder()
@@ -55,11 +55,11 @@ public class CallFoodMenu implements IntentRequestHandler {
 
         speechText = "Wir haben " + response.toString();
 
-        Intent intent1 = Intent.builder().withName("drink").build();
-
-        return input.getResponseBuilder().withSpeech(speechText + ". Welches Getränk möchten Sie?").withReprompt(
-            ". Wenn Sie mehr über unsere Auswahl zu Tee oder Bier haben möchten, dann sagen sie zum Beispiel: Was gibt es für Teesorten oder was gibt es für Biersorten")
-            .addElicitSlotDirective("drink", intent1).withShouldEndSession(false).build();
+        return input.getResponseBuilder().withSpeech(speechText
+            + ". Wenn Sie mehr über unsere Auswahl zu Tee oder Bier haben möchten, dann sagen sie zum Beispiel: Was gibt es für Teesorten oder was gibt es für Biersorten. Oder wählen Sie einfach ein Getränk aus.")
+            .withReprompt(
+                ". Wenn Sie mehr über unsere Auswahl zu Tee oder Bier haben möchten, dann sagen sie zum Beispiel: Was gibt es für Teesorten oder was gibt es für Biersorten")
+            .build();
 
       }
 
@@ -73,7 +73,7 @@ public class CallFoodMenu implements IntentRequestHandler {
     if (menu.getValue().equals("speisekarte") || menu.getValue().equals("essen")) {
       payload = "{\"categories\":[{\"id\":\"0\"},{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"},{\"id\":\"4\"},{\"id\":\"5\"},{\"id\":\"6\"},{\"id\":\"7\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
 
-      resStr = HelpClass.callFoodMenu(payload);
+      resStr = BasicOperations.callFoodMenu(payload);
 
       if (resStr == null)
         return input.getResponseBuilder()
@@ -87,11 +87,11 @@ public class CallFoodMenu implements IntentRequestHandler {
 
         speechText = "Wir haben " + response.toString();
 
-        Intent intent1 = Intent.builder().withName("dishOrder").build();
-
-        return input.getResponseBuilder().withSpeech(speechText).withReprompt(
-            ". Welches Gericht möchten Sie? Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Thai green chicken curry erfahren.")
-            .addElicitSlotDirective("dishOrder", intent1).withShouldEndSession(false).build();
+        return input.getResponseBuilder().withSpeech(speechText
+            + ". Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Thai green chicken curry erfahren. Oder wählen Sie einfach ein Gericht aus.")
+            .withReprompt(
+                ". Wenn Sie mehr über die einzelnen Gerichte wissen möchten, dann sagen Sie zum Beispiel: Ich möchte mehr über Thai green chicken curry erfahren.")
+            .build();
 
       }
 

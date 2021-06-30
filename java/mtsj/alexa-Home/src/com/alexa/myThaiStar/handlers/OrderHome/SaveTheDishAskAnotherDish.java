@@ -3,8 +3,10 @@ package com.alexa.myThaiStar.handlers.OrderHome;
 import static com.amazon.ask.request.Predicates.intentName;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 
+import com.alexa.myThaiStar.attributes.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
@@ -13,9 +15,14 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.entity.orderline.Extras;
 import com.entity.orderline.OrderLines;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
-public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
+/**
+ *
+ * If the dish is confirmed, then it is saved. Otherwise it is entered again
+ *
+ */
+public class SaveTheDishAskAnotherDish implements IntentRequestHandler {
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
@@ -32,14 +39,20 @@ public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
 
     Slot confirmedDish = intentRequest.getIntent().getSlots().get("amount");
     Slot extra = intentRequest.getIntent().getSlots().get("extra");
+    Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
     if (confirmedDish.getConfirmationStatusAsString().equals("CONFIRMED")) {
+
+      Slot dishOrder = intentRequest.getIntent().getSlots().get("dishOrder");
+
+      BasicOperations.previousOrder
+          .add(dishOrder.getValue() + " mit " + extra.getValue() + " " + confirmedDish.getValue() + " mal");
 
       OrderLines tmpOrderline = new OrderLines();
 
       ArrayList<Extras> extrasArray = new ArrayList<>();
 
-      for (Extras s : HelpClass.extras) {
+      for (Extras s : BasicOperations.extras) {
         if (extra.getValue().contains(s.name.toLowerCase())) {
           Extras extras = new Extras();
           extras.id = s.id;
@@ -49,9 +62,12 @@ public class AnotherDishYesNoOrCorrectTheDish implements IntentRequestHandler {
 
       tmpOrderline.extras.addAll(extrasArray);
       tmpOrderline.orderLine.amount = intentRequest.getIntent().getSlots().get("amount").getValue();
-      tmpOrderline.orderLine.dishId = HelpClass.dishID;
+      tmpOrderline.orderLine.dishId = BasicOperations.dishID;
 
-      HelpClass.req.orderLines.add(tmpOrderline);
+      BasicOperations.req.orderLines.add(tmpOrderline);
+
+      if (attributes.containsKey(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL)) // If a single dish must be added afterwards
+        return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())
           .withSpeech("Möchten Sie noch etwas zum essen bestellen?").withReprompt("Darf es noch etwas sein?").build();

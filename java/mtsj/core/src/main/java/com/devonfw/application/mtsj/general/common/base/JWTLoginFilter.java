@@ -15,8 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -40,7 +38,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
   private UserDetailsService userDetailsService;
 
-  private PasswordEncoder passwordEncoder;
+  // private PasswordEncoder passwordEncoder;
 
   private Usermanagement usermanagement;
 
@@ -78,10 +76,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
       UserEto user = new UserEto();
       user.setEmail(creds.getEmail());
       user.setUsername(creds.getUsername());
-
-      this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
-      user.setPassword(this.passwordEncoder.encode(creds.getPassword()));
       user.setUserRoleId((long) 0); // UserRole Costumer
       user.setModificationCounter(1);
 

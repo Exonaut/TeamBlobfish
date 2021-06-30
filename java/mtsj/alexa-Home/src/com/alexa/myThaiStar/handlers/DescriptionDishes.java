@@ -5,7 +5,6 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
-import com.alexa.myThaiStar.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Intent;
@@ -62,10 +61,11 @@ public class DescriptionDishes implements RequestHandler {
 
     speechText = response.getDishesDescription(dishName.getValue());
 
-    if (input.getAttributesManager().getSessionAttributes().containsKey(Attributes.STATE_KEY_MENU))
-      return input.getResponseBuilder().withSpeech(speechText).withShouldEndSession(false).build();
-
-    return input.getResponseBuilder().withSpeech(speechText).withShouldEndSession(false).build();
+    return input.getResponseBuilder().withSpeech(speechText
+        + " Wenn Sie eine Auswahl getroffen haben, dann sagen Sie zum Beispiel: Ich nehme Thai green chicken curry. Oder verlangen Sie einfach erneut nach der Speisekarte.")
+        .withReprompt(
+            "Wenn Sie eine Auswahl getroffen haben, dann sagen Sie zum Beispiel: Ich nehme Thai green chicken curry. Oder verlangen Sie einfach erneut nach der Speisekarte.")
+        .build();
   }
 
 }

@@ -12,7 +12,9 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 
 public class DrinksConfirmSlot implements IntentRequestHandler {
-
+  /**
+   * Verify that the drink has been properly recorded
+   */
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 

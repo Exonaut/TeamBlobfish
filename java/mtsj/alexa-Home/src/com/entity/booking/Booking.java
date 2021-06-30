@@ -1,6 +1,7 @@
 package com.entity.booking;
 
 public class Booking {
+
   public String bookingDate;
 
   public String name;

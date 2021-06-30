@@ -5,16 +5,23 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
-import com.alexa.myThaiStar.model.Attributes;
+import com.alexa.myThaiStar.attributes.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
+
+  /**
+   *
+   * Choose another dish or choose a drink. If both have already been selected then you can specify a serving time or
+   * cancel the order in case of a delivery
+   *
+   */
 
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
@@ -35,6 +42,7 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
     Slot whereLikeToEat = intentRequest.getIntent().getSlots().get("whereLikeToEat");
     Map<String, Object> attributes = handlerInput.getAttributesManager().getSessionAttributes();
 
+    // if further dish then set the values to null
     if (yesNoEat.getValue().equals("ja")) {
 
       Slot updateSlot = Slot.builder().withConfirmationStatus("NONE").withName("amount").withValue(null).build();
@@ -61,11 +69,15 @@ public class AnotherDishOrDoUWantToDrink implements IntentRequestHandler {
         && (attributes.containsValue(Attributes.START_STATE_WHERE_LIKE_TO_EAT_RESTAURANT)
             || (whereLikeToEat.getValue() != null && whereLikeToEat.getValue().equals("restaurant")))) {
 
-      String bookingDateTime = HelpClass.convertMillisecondsToDateTime(HelpClass.bookingDateTimeMilliseconds);
-      String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
-      String bookingDate = HelpClass.getDateFormat(bookingDateTime);
+      String bookingDateTime = BasicOperations
+          .convertMillisecondsToDateTime(BasicOperations.bookingDateTimeMilliseconds);
+      String bookingTime = BasicOperations.getTimeFormat(bookingDateTime);
+      String bookingDate = BasicOperations.getDateFormat(bookingDateTime);
 
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent()) // specify
+                                                                                                                // a
+                                                                                                                // serving
+                                                                                                                // time
           .withSpeech("Sie haben am " + bookingDate + " um " + bookingTime
               + " Uhr, einen Tisch reserviert. Sie können jetzt eine Servierzeit angeben. Welche Servierzeit wünschen Sie?")
           .withReprompt("Welche Servierzeit wünschen Sie?").build();

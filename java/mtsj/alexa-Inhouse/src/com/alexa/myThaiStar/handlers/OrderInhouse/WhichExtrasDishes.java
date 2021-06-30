@@ -10,7 +10,7 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class WhichExtrasDishes implements IntentRequestHandler {
 
@@ -35,15 +35,15 @@ public class WhichExtrasDishes implements IntentRequestHandler {
 
     Slot dish = intentRequest.getIntent().getSlots().get("dishOrder");
 
-    HelpClass.dishID = HelpClass.getDishId(dish.getValue());
+    BasicOperations.dishID = BasicOperations.getDishId(dish.getValue());
 
-    if (HelpClass.dishID == null)
+    if (BasicOperations.dishID == null)
       return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
           .withSpeech(
               "Es tut mir leid, dieses Gericht haben wir leider nicht auf der Speisekarte. Bitte wählen Sie ein Gericht aus, welches auf der Speisekarte vorhanden ist.")
           .withReprompt("Welches Gericht möchten Sie?").build();
 
-    String speechText = HelpClass.getExtrasName(HelpClass.dishID);
+    String speechText = BasicOperations.getExtrasName(BasicOperations.dishID);
 
     if (speechText == null)
       return handlerInput.getResponseBuilder()

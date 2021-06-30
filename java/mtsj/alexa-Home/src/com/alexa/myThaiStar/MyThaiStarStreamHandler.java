@@ -25,27 +25,29 @@ import com.alexa.myThaiStar.handlers.LaunchRequestHandler;
 import com.alexa.myThaiStar.handlers.SessionEndedRequestHandler;
 import com.alexa.myThaiStar.handlers.OrderHome.AmountDishesOrCorrectExtras;
 import com.alexa.myThaiStar.handlers.OrderHome.AmountDrinks;
+import com.alexa.myThaiStar.handlers.OrderHome.AnnounceOrder;
 import com.alexa.myThaiStar.handlers.OrderHome.AnotherDishOrDoUWantToDrink;
-import com.alexa.myThaiStar.handlers.OrderHome.AnotherDishYesNoOrCorrectTheDish;
+import com.alexa.myThaiStar.handlers.OrderHome.SaveTheDishAskAnotherDish;
 import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkOrMakeServingTimeOrCloseOrder;
 import com.alexa.myThaiStar.handlers.OrderHome.AnotherDrinkYesNoOrCorrectTheDrink;
 import com.alexa.myThaiStar.handlers.OrderHome.CloseOrderOrCorrectTheServeTime;
 import com.alexa.myThaiStar.handlers.OrderHome.Completed;
-import com.alexa.myThaiStar.handlers.OrderHome.EatOrDrinkOrCheckCustomerDetails;
+import com.alexa.myThaiStar.handlers.OrderHome.RestaurantFoodOrDelivery;
 import com.alexa.myThaiStar.handlers.OrderHome.DishesConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderHome.DrinksConfirmSlot;
 import com.alexa.myThaiStar.handlers.OrderHome.WhichExtrasDishes;
 import com.alexa.myThaiStar.handlers.OrderHome.StartEatOrDrink;
-import com.alexa.myThaiStar.handlers.OrderHome.EatOrDrinkOrClose;
+import com.alexa.myThaiStar.handlers.OrderHome.CheckTheCustomerDetails;
+import com.alexa.myThaiStar.handlers.OrderHome.SendOrder;
 import com.alexa.myThaiStar.handlers.OrderHome.WhatDoUWantToDrinkOrServeTimeOrCloseOrder;
-import com.alexa.myThaiStar.handlers.OrderHome.WhereLikeToEat;
+import com.alexa.myThaiStar.handlers.OrderHome.StartetOrderInformationWhereLikeToEat;
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
 import com.amazon.ask.Skills;
 
 public class MyThaiStarStreamHandler extends SkillStreamHandler {
 
-  public static final String BASE_URL = "https://8c578d6bfa65.ngrok.io";
+  public static final String BASE_URL = "https://eebddbea0149.ngrok.io";
 
   private static Skill getSkill() {
 
@@ -55,9 +57,9 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new CallFoodMenu(),
             new DescriptionDrinks(BASE_URL),
             new DescriptionDishes(BASE_URL),
-            new EatOrDrinkOrClose(),
+            new CheckTheCustomerDetails(),
             new WhichExtrasDishes(),
-            new AnotherDishYesNoOrCorrectTheDish(),
+            new SaveTheDishAskAnotherDish(),
             new AnotherDrinkYesNoOrCorrectTheDrink(),
             new HelpIntentHandler(),
             new LaunchRequestHandler(),
@@ -72,10 +74,12 @@ public class MyThaiStarStreamHandler extends SkillStreamHandler {
             new AnotherDrinkOrMakeServingTimeOrCloseOrder(),
             new WhatDoUWantToDrinkOrServeTimeOrCloseOrder (),
             new CloseOrderOrCorrectTheServeTime(),
-            new WhereLikeToEat(),
-            new EatOrDrinkOrCheckCustomerDetails(),
+            new StartetOrderInformationWhereLikeToEat(),
+            new RestaurantFoodOrDelivery(),
             new StartEatOrDrink(),
-            new ExtraForTheMenu()
+            new ExtraForTheMenu(),
+            new SendOrder(),
+            new AnnounceOrder()
             )
         // Add your skill id below
         .withSkillId("amzn1.ask.skill.2cb6b023-f36d-43f9-8c18-3b509cf3f2d6").build();

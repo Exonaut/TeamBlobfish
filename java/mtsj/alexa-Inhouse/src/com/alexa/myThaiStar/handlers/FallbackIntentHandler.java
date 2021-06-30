@@ -22,9 +22,8 @@ public class FallbackIntentHandler implements RequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput input) {
 
-    String speechText = "Tut mir leid, ich weiß es nicht. Du kannst sagen Help!";
-    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("HelloWorld", speechText)
-        .withReprompt(speechText).build();
+    String speechText = "Was sagten Sie?";
+    return input.getResponseBuilder().withSpeech(speechText).withReprompt(speechText).build();
   }
 
 }

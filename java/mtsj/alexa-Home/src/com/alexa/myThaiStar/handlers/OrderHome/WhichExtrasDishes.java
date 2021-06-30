@@ -10,8 +10,13 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
+/**
+ *
+ * Choose extras to the dish.
+ *
+ */
 public class WhichExtrasDishes implements IntentRequestHandler {
 
   @Override
@@ -23,7 +28,11 @@ public class WhichExtrasDishes implements IntentRequestHandler {
             && intentRequest.getIntent().getSlots().get("extra").getValue() == null
             && intentRequest.getIntent().getSlots().get("yesNoEat").getValue() == null)
         || (intentRequest.getDialogState() == DialogState.STARTED
-            && handlerInput.getAttributesManager().getSessionAttributes().containsKey("state")
+            && handlerInput.getAttributesManager().getSessionAttributes().containsKey("state") // if startet order
+                                                                                               // information already
+                                                                                               // saved. for example
+                                                                                               // checking the booking
+                                                                                               // id
             && intentRequest.getIntent().getSlots().get("dishOrder").getValue() != null
             && intentRequest.getIntent().getSlots().get("extra").getValue() == null
             && intentRequest.getIntent().getSlots().get("yesNoEat").getValue() == null);
@@ -35,23 +44,25 @@ public class WhichExtrasDishes implements IntentRequestHandler {
 
     Slot dish = intentRequest.getIntent().getSlots().get("dishOrder");
 
-    HelpClass.dishID = HelpClass.getDishId(dish.getValue());
+    BasicOperations.dishID = BasicOperations.getDishId(dish.getValue());
 
-    if (HelpClass.dishID == null)
+    if (BasicOperations.dishID == null) // Dish does not exist
       return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
           .withSpeech(
               "Es tut mir leid, dieses Gericht haben wir leider nicht auf der Speisekarte. Bitte wählen Sie ein Gericht aus, welches auf der Speisekarte vorhanden ist.")
           .withReprompt("Welches Gericht möchten Sie?").build();
 
-    String speechText = HelpClass.getExtrasName(HelpClass.dishID);
+    String speechTextExtras = BasicOperations.getExtrasName(BasicOperations.dishID); // store extras in a string
 
-    if (speechText == null)
+    // Connection problem
+    if (speechTextExtras == null)
       return handlerInput.getResponseBuilder()
           .withSpeech("Es tut uns leid, es ist ein Problem aufgetreten. Versuchen Sie es zu einem späteren Zeitpunkt.")
           .build();
 
+    // choose extras
     return handlerInput.getResponseBuilder().addElicitSlotDirective("extra", intentRequest.getIntent())
-        .withSpeech(speechText + " Wenn Sie keine Extras möchten, dann sagen Sie: ohne extras.")
+        .withSpeech(speechTextExtras + " Wenn Sie keine Extras möchten, dann sagen Sie: ohne extras.")
         .withReprompt("Welche Extras möchten Sie?").build();
 
   }
