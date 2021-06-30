@@ -114,8 +114,6 @@
       <table
         mat-table
         [dataSource]="users"
-        matSort
-        (matSortChange)="sort($event)"
         class="outerTable"
       >
         <!-- Id Column -->
@@ -123,7 +121,6 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            mat-sort-header
             class="idHeader"
           >
             {{ columns[0].label }}
@@ -138,7 +135,6 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            mat-sort-header
             class="nameHeader"
           >
             {{ columns[1].label }}
@@ -153,7 +149,6 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            mat-sort-header
             class="emailHeader"
           >
             {{ columns[2].label }}
@@ -168,7 +163,6 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            mat-sort-header
             class="roleHeader"
           >
             {{ columns[3].label }}
