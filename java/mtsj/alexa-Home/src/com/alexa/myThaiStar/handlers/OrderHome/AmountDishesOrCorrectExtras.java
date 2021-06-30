@@ -12,8 +12,13 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.entity.orderline.Extras;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
+/**
+ *
+ * Check the extras that the customer wants and choose the number of the dish
+ *
+ */
 public class AmountDishesOrCorrectExtras implements IntentRequestHandler {
 
   @Override
@@ -32,17 +37,15 @@ public class AmountDishesOrCorrectExtras implements IntentRequestHandler {
 
     Slot extra = intentRequest.getIntent().getSlots().get("extra");
 
-    if (extra.getValue().equals("ohne extras")) {
-
+    // proceed without extras
+    if (extra.getValue().equals("ohne extras"))
       return handlerInput.getResponseBuilder().addElicitSlotDirective("amount", intentRequest.getIntent())
           .withSpeech("Wie oft möchten Sie, dass von Ihnen ausgewählte Gericht bestellen ?").withReprompt("Wie oft ?")
           .build();
 
-    }
-
     ArrayList<Extras> extrasArray = new ArrayList<>();
 
-    for (Extras s : HelpClass.extras) {
+    for (Extras s : BasicOperations.extras) {
 
       if (extra.getValue().contains(s.name.toLowerCase())) {
         Extras extras = new Extras();
@@ -52,15 +55,17 @@ public class AmountDishesOrCorrectExtras implements IntentRequestHandler {
 
     }
 
+    // specified extras do not exist for the dish
     if (extrasArray.size() == 0) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("extra", intentRequest.getIntent())
           .withSpeech("Ich habe sie leider nicht verstanden. Welche Extras möchten Sie ? "
-              + HelpClass.getExtrasName(HelpClass.dishID))
+              + BasicOperations.getExtrasName(BasicOperations.dishID))
           .withReprompt("Welche Extras möchten Sie?").build();
 
     }
 
+    // how often would you like the dish
     return handlerInput.getResponseBuilder().addElicitSlotDirective("amount", intentRequest.getIntent())
         .withSpeech("Wie oft möchten Sie, dass von Ihnen ausgewählte Gericht bestellen ?").withReprompt("Wie oft ?")
         .build();

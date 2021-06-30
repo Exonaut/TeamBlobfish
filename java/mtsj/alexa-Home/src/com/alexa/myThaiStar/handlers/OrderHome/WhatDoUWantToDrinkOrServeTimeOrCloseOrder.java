@@ -5,17 +5,22 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
-import com.alexa.myThaiStar.model.Attributes;
+import com.alexa.myThaiStar.attributes.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class WhatDoUWantToDrinkOrServeTimeOrCloseOrder implements IntentRequestHandler {
-
+  /**
+   *
+   * If the customer wants to drink something. He can also specify a serving time or finish the order in case of
+   * delivery
+   *
+   */
   @Override
   public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
 
@@ -38,9 +43,11 @@ public class WhatDoUWantToDrinkOrServeTimeOrCloseOrder implements IntentRequestH
 
       attributes.replace(Attributes.STATE_KEY_MENU, Attributes.START_STATE_MENU_DRINK);
 
-      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent()).withSpeech(
-          "Wie lautet Ihr erstes Getränk? Wenn Sie sich noch nicht sicher sind, was sie zum trinken wollen, dann verlangen Sie einfach nach der Getränkekarte.")
-          .withReprompt("Was möchten Sie trinken?").withShouldEndSession(false).build();
+      return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
+          .withSpeech("Wie lautet Ihr erstes Getränk?")
+          .withReprompt(
+              "Wenn Sie sich noch nicht sicher sind, was sie zum trinken wollen, dann verlangen Sie einfach nach der Getränkekarte.")
+          .withShouldEndSession(false).build();
     }
 
     if (attributes.containsValue(Attributes.START_STATE_WHERE_LIKE_TO_EAT_DELIVER)
@@ -51,10 +58,10 @@ public class WhatDoUWantToDrinkOrServeTimeOrCloseOrder implements IntentRequestH
 
     if (yesNoDrink.getValue().equals("nein")) {
 
-      // TODO bookingDateTime vllt nicht in eine statische Konstante??
-      String bookingDateTime = HelpClass.convertMillisecondsToDateTime(HelpClass.bookingDateTimeMilliseconds);
-      String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
-      String bookingDate = HelpClass.getDateFormat(bookingDateTime);
+      String bookingDateTime = BasicOperations
+          .convertMillisecondsToDateTime(BasicOperations.bookingDateTimeMilliseconds);
+      String bookingTime = BasicOperations.getTimeFormat(bookingDateTime);
+      String bookingDate = BasicOperations.getDateFormat(bookingDateTime);
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
           .withSpeech("Sie haben am " + bookingDate + " um " + bookingTime

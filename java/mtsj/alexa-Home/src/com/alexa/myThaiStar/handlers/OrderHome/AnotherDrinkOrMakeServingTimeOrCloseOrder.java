@@ -5,15 +5,20 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
-import com.alexa.myThaiStar.model.Attributes;
+import com.alexa.myThaiStar.attributes.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
+/**
+ *
+ * Choose another drink or choose a dish or specify serving time
+ *
+ */
 public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestHandler {
 
   @Override
@@ -46,7 +51,7 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent())
           .withSpeech("Was möchten Sie noch zum trinken?").withReprompt("Was möchten Sie trinken?")
           .withShouldEndSession(false).build();
-    } else if (yesNoAnotherDrink.getValue().equals("nein")
+    } else if (yesNoAnotherDrink.getValue().equals("nein") // if no food has been selected yet
         && !attributes.containsValue(Attributes.START_STATE_ORDER_EAT) && dishOrder.getValue() == null) {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("yesNoEat", intentRequest.getIntent())
@@ -62,11 +67,12 @@ public class AnotherDrinkOrMakeServingTimeOrCloseOrder implements IntentRequestH
       return handlerInput.getResponseBuilder().addDelegateDirective(intentRequest.getIntent()).build();
     }
 
-    else if (yesNoAnotherDrink.getValue().equals("nein")) {
+    else if (yesNoAnotherDrink.getValue().equals("nein")) { // specify serving time
 
-      String bookingDateTime = HelpClass.convertMillisecondsToDateTime(HelpClass.bookingDateTimeMilliseconds);
-      String bookingTime = HelpClass.getTimeFormat(bookingDateTime);
-      String bookingDate = HelpClass.getDateFormat(bookingDateTime);
+      String bookingDateTime = BasicOperations
+          .convertMillisecondsToDateTime(BasicOperations.bookingDateTimeMilliseconds);
+      String bookingTime = BasicOperations.getTimeFormat(bookingDateTime);
+      String bookingDate = BasicOperations.getDateFormat(bookingDateTime);
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("servingTime", intentRequest.getIntent())
           .withSpeech("Sie haben am " + bookingDate + " um " + bookingTime

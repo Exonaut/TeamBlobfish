@@ -5,14 +5,14 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
-import com.alexa.myThaiStar.model.Attributes;
+import com.alexa.myThaiStar.attributes.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class ExtraForTheMenu implements IntentRequestHandler {
 
@@ -26,13 +26,11 @@ public class ExtraForTheMenu implements IntentRequestHandler {
   @Override
   public Optional<Response> handle(HandlerInput input, IntentRequest intentRequest) {
 
-    String speechText = "Wir haben ";
-
     Intent intent = intentRequest.getIntent();
     Map<String, Slot> slots = intent.getSlots();
     Slot dishName = slots.get("dishName");
 
-    String dishId = HelpClass.getDishId(dishName.getValue());
+    String dishId = BasicOperations.getDishId(dishName.getValue());
 
     if (dishId == null) {
       return input.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent()).withSpeech(
@@ -40,7 +38,7 @@ public class ExtraForTheMenu implements IntentRequestHandler {
           .withReprompt("Zu welchem Gericht möchten Sie die extras erfahren?").build();
     }
 
-    String extras = HelpClass.getExtrasName(dishId);
+    String extras = BasicOperations.getExtrasName(dishId);
 
     if (extras == null) {
       return input.getResponseBuilder()
@@ -48,12 +46,7 @@ public class ExtraForTheMenu implements IntentRequestHandler {
           .build();
     }
 
-    if (input.getAttributesManager().getSessionAttributes().containsKey(Attributes.STATE_KEY_MENU))
-      return input.getResponseBuilder().withSpeech(speechText + extras).withSimpleCard("extraForTheMenu", speechText)
-          .withShouldEndSession(false).build();
-
-    return input.getResponseBuilder().withSpeech(speechText + extras).withSimpleCard("extraForTheMenu", speechText)
-        .build();
+    return input.getResponseBuilder().withSpeech(extras).build();
 
   }
 

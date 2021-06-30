@@ -2,16 +2,24 @@ package com.alexa.myThaiStar.handlers.OrderHome;
 
 import static com.amazon.ask.request.Predicates.intentName;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
-import com.alexa.myThaiStar.model.Attributes;
+import com.alexa.myThaiStar.attributes.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
+import com.tools.BasicOperations;
+
+/**
+ *
+ * Start with dish or drink
+ *
+ */
 
 public class StartEatOrDrink implements IntentRequestHandler {
 
@@ -31,6 +39,7 @@ public class StartEatOrDrink implements IntentRequestHandler {
 
     Slot eatOrDrink = intentRequest.getIntent().getSlots().get("eatOrDrink");
     Map<String, Object> sessionAttributes = handlerInput.getAttributesManager().getSessionAttributes();
+    BasicOperations.previousOrder = new ArrayList<>(); // save order to recall
 
     sessionAttributes.put(Attributes.STATE_KEY, Attributes.START_STATE);
 
@@ -42,7 +51,9 @@ public class StartEatOrDrink implements IntentRequestHandler {
       return handlerInput.getResponseBuilder().addElicitSlotDirective("dishOrder", intentRequest.getIntent())
           .withSpeech(
               "Wie lautet Ihr erstes Gericht? Wenn Sie sich noch nicht sicher sind, was sie zum essen wollen, dann verlangen Sie einfach nach der Speisekarte.")
-          .withReprompt("Was möchten Sie essen?").withShouldEndSession(false).build();
+          .withReprompt(
+              "Wenn Sie sich noch nicht sicher sind, was sie zum essen wollen, dann verlangen Sie einfach nach der Speisekarte.")
+          .withShouldEndSession(false).build();
     }
 
     if (eatOrDrink.getValue().equals("trinken")) {
@@ -52,7 +63,9 @@ public class StartEatOrDrink implements IntentRequestHandler {
 
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent()).withSpeech(
           "Wie lautet Ihr erstes Getränk? Wenn Sie sich noch nicht sicher sind, was sie zum trinken wollen, dann verlangen Sie einfach nach der Getränkekarte.")
-          .withReprompt("Was möchten Sie trinken?").withShouldEndSession(false).build();
+          .withReprompt(
+              "Wenn Sie sich noch nicht sicher sind, was sie zum trinken wollen, dann verlangen Sie einfach nach der Getränkekarte.")
+          .withShouldEndSession(false).build();
     }
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("eatOrDrink", intentRequest.getIntent())

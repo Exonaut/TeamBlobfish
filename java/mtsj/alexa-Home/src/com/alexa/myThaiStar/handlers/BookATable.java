@@ -12,7 +12,7 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class BookATable implements RequestHandler {
 
@@ -35,12 +35,12 @@ public class BookATable implements RequestHandler {
     Slot time = slots.get("time");
     Slot date = slots.get("date");
 
-    String date_time = HelpClass.getFormatDateTimeAndSubtractTwoHours(date.getValue() + " " + time.getValue());
+    String date_time = BasicOperations.getFormatDateTimeAndSubtractTwoHours(date.getValue() + " " + time.getValue());
     String name = input.getServiceClientFactory().getUpsService().getProfileName();
     String userEmail = input.getServiceClientFactory().getUpsService().getProfileEmail();
     String bookingType = "1";
 
-    String response = HelpClass.bookATable(userEmail, name, date_time, personCount.getValue(), bookingType);
+    String response = BasicOperations.bookATable(userEmail, name, date_time, personCount.getValue(), bookingType);
 
     if (response == null) {
 
@@ -48,8 +48,7 @@ public class BookATable implements RequestHandler {
 
     }
 
-    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText)
-        .withShouldEndSession(false).build();
+    return input.getResponseBuilder().withSpeech(speechText).withSimpleCard("BookATable", speechText).build();
   }
 
 }

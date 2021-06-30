@@ -5,7 +5,7 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
-import com.alexa.myThaiStar.model.Attributes;
+import com.alexa.myThaiStar.attributes.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.Intent;
@@ -15,7 +15,7 @@ import com.amazon.ask.model.Slot;
 import com.entity.dish.ResponseMenuDishes;
 import com.entity.dish.ResponseMenuDrinks;
 import com.google.gson.Gson;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
 
 public class CallFoodMenu implements IntentRequestHandler {
 
@@ -41,7 +41,7 @@ public class CallFoodMenu implements IntentRequestHandler {
     if (menu.getValue().equals("getränkekarte") || menu.getValue().equals("trinken")) {
       payload = "{\"categories\":[{\"id\":\"8\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
 
-      resStr = HelpClass.callFoodMenu(payload);
+      resStr = BasicOperations.callFoodMenu(payload);
 
       if (resStr == null)
         return input.getResponseBuilder()
@@ -72,7 +72,7 @@ public class CallFoodMenu implements IntentRequestHandler {
     if (menu.getValue().equals("speisekarte") || menu.getValue().equals("essen")) {
       payload = "{\"categories\":[{\"id\":\"0\"},{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"},{\"id\":\"4\"},{\"id\":\"5\"},{\"id\":\"6\"},{\"id\":\"7\"}],\"searchBy\":\"\",\"pageable\":{\"pageSize\":8,\"pageNumber\":0,\"sort\":[{\"property\":\"price\",\"direction\":\"DESC\"}]},\"maxPrice\":null,\"minLikes\":null}";
 
-      resStr = HelpClass.callFoodMenu(payload);
+      resStr = BasicOperations.callFoodMenu(payload);
 
       if (resStr == null)
         return input.getResponseBuilder()

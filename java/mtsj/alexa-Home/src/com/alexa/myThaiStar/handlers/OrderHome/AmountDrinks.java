@@ -10,7 +10,13 @@ import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.tools.HelpClass;
+import com.tools.BasicOperations;
+
+/**
+ *
+ * Choose the number of the drink.
+ *
+ */
 
 public class AmountDrinks implements IntentRequestHandler {
 
@@ -22,7 +28,11 @@ public class AmountDrinks implements IntentRequestHandler {
         && intentRequest.getIntent().getSlots().get("drink").getValue() != null
         && intentRequest.getIntent().getSlots().get("amountDrinks").getValue() == null)
         || (intentRequest.getDialogState() == DialogState.STARTED
-            && handlerInput.getAttributesManager().getSessionAttributes().containsKey("state")
+            && handlerInput.getAttributesManager().getSessionAttributes().containsKey("state")// if startet order
+            // information already
+            // saved. for example
+            // checking the booking
+            // id
             && intentRequest.getIntent().getSlots().get("drink").getValue() != null
             && intentRequest.getIntent().getSlots().get("amountDrinks").getValue() == null);
   }
@@ -32,15 +42,13 @@ public class AmountDrinks implements IntentRequestHandler {
 
     Slot drink = intentRequest.getIntent().getSlots().get("drink");
 
-    HelpClass.dishID = HelpClass.getDishId(drink.getValue());
+    BasicOperations.dishID = BasicOperations.getDishId(drink.getValue());
 
-    if (HelpClass.dishID == null) {
-
+    // drink does not exist
+    if (BasicOperations.dishID == null)
       return handlerInput.getResponseBuilder().addElicitSlotDirective("drink", intentRequest.getIntent()).withSpeech(
           "Es tut mir leid, dieses Getränk haben wir leider nicht auf der Getränkekarte. Bitte wählen Sie ein Getränk aus, welches auf der Getränkekarte vorhanden ist.")
           .withReprompt("Welches Getränk möchten Sie?").build();
-
-    }
 
     return handlerInput.getResponseBuilder().addElicitSlotDirective("amountDrinks", intentRequest.getIntent())
         .withSpeech("Wie oft möchten Sie, dass von Ihnen ausgewählte Getränk bestellen ?").withReprompt("Wie oft ?")
