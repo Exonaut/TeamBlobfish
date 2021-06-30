@@ -18,7 +18,7 @@ public class InvitedGuestEto extends AbstractEto implements InvitedGuest {
 
   private String email;
 
-  private Boolean accepted;
+  private boolean accepted;
 
   private Instant modificationDate;
 
@@ -59,13 +59,13 @@ public class InvitedGuestEto extends AbstractEto implements InvitedGuest {
   }
 
   @Override
-  public Boolean getAccepted() {
+  public boolean getAccepted() {
 
     return this.accepted;
   }
 
   @Override
-  public void setAccepted(Boolean accepted) {
+  public void setAccepted(boolean accepted) {
 
     this.accepted = accepted;
   }
@@ -91,7 +91,8 @@ public class InvitedGuestEto extends AbstractEto implements InvitedGuest {
     result = prime * result + ((this.bookingId == null) ? 0 : this.bookingId.hashCode());
     result = prime * result + ((this.guestToken == null) ? 0 : this.guestToken.hashCode());
     result = prime * result + ((this.email == null) ? 0 : this.email.hashCode());
-    result = prime * result + ((this.accepted == null) ? 0 : this.accepted.hashCode());
+    // cast primitive type field into object type to generate a hash code
+    result = prime * result + ((this.accepted == false) ? 0 : ((Boolean) this.accepted).hashCode());
     result = prime * result + ((this.modificationDate == null) ? 0 : this.modificationDate.hashCode());
     return result;
   }
@@ -132,11 +133,12 @@ public class InvitedGuestEto extends AbstractEto implements InvitedGuest {
     } else if (!this.email.equals(other.email)) {
       return false;
     }
-    if (this.accepted == null) {
-      if (other.accepted != null) {
+    // removed null checks
+    if (this.accepted == false) {
+      if (other.accepted != false) {
         return false;
       }
-    } else if (!this.accepted.equals(other.accepted)) {
+    } else if (!this.accepted == (other.accepted)) {
       return false;
     }
     if (this.modificationDate == null) {

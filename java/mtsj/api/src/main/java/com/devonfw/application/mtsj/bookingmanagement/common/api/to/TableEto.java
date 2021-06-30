@@ -10,16 +10,16 @@ public class TableEto extends AbstractEto implements Table {
 
   private static final long serialVersionUID = 1L;
 
-  private Integer seatsNumber;
+  private int seatsNumber;
 
   @Override
-  public Integer getSeatsNumber() {
+  public int getSeatsNumber() {
 
     return this.seatsNumber;
   }
 
   @Override
-  public void setSeatsNumber(Integer seatsNumber) {
+  public void setSeatsNumber(int seatsNumber) {
 
     this.seatsNumber = seatsNumber;
   }
@@ -29,7 +29,7 @@ public class TableEto extends AbstractEto implements Table {
 
     final int prime = 31;
     int result = super.hashCode();
-    result = prime * result + ((this.seatsNumber == null) ? 0 : this.seatsNumber.hashCode());
+    result = prime * result + (this.seatsNumber < 0 ? 0 : ((Integer) this.seatsNumber).hashCode());
     return result;
   }
 
@@ -47,11 +47,11 @@ public class TableEto extends AbstractEto implements Table {
       return false;
     }
     TableEto other = (TableEto) obj;
-    if (this.seatsNumber == null) {
-      if (other.seatsNumber != null) {
+    if (this.seatsNumber < 0) {
+      if (other.seatsNumber > 0) {
         return false;
       }
-    } else if (!this.seatsNumber.equals(other.seatsNumber)) {
+    } else if (this.seatsNumber != (other.seatsNumber)) {
       return false;
     }
     return true;

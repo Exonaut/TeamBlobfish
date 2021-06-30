@@ -29,14 +29,15 @@ public class BookingSearchCriteriaTo extends AbstractSearchCriteriaTo {
 
   private String email;
 
-  private Boolean canceled;
+  // set primitive data type
+  private boolean canceled;
 
   private BookingType bookingType;
 
   private Long tableId;
 
   private Long orderId;
-
+  
   private Integer assistants;
 
   private Long userId;
@@ -127,12 +128,13 @@ public class BookingSearchCriteriaTo extends AbstractSearchCriteriaTo {
     this.email = email;
   }
 
-  public Boolean getCanceled() {
+  // set primitive data type
+  public boolean getCanceled() {
 
     return this.canceled;
   }
-
-  public void setCanceled(Boolean canceled) {
+  // set primitive data type
+  public void setCanceled(boolean canceled) {
 
     this.canceled = canceled;
   }
@@ -166,6 +168,7 @@ public class BookingSearchCriteriaTo extends AbstractSearchCriteriaTo {
 
     this.orderId = orderId;
   }
+
 
   public Integer getAssistants() {
 

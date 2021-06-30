@@ -17,10 +17,12 @@ public interface InvitedGuest extends ApplicationEntity {
   public String getEmail();
 
   public void setEmail(String email);
+  
+  // set primitive data type
+  public boolean getAccepted();
 
-  public Boolean getAccepted();
-
-  public void setAccepted(Boolean accepted);
+  // set primitive data type
+  public void setAccepted(boolean accepted);
 
   public Instant getModificationDate();
 
