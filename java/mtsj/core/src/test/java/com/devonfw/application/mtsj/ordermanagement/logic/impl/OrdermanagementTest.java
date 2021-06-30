@@ -29,11 +29,6 @@ import com.devonfw.application.mtsj.ordermanagement.logic.api.Ordermanagement;
  * Test for {@link Ordermanagement}
  *
  */
-
-/**
- * TRY ROLLBACKEXCEPTION WEG! TODO prett This type ...
- *
- */
 @SpringBootTest(classes = SpringBootApp.class)
 public class OrdermanagementTest extends ApplicationComponentTest {
 
