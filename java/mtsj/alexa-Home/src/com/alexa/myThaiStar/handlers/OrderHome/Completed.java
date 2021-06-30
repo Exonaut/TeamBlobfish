@@ -41,6 +41,9 @@ public class Completed implements IntentRequestHandler {
       for (String s : BasicOperations.previousOrder) {
         speechText += s + " ,";
       }
+
+      speechText.substring(0, speechText.length() - 1);
+
     }
 
     if (attributes.containsKey(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL)) {
@@ -61,7 +64,7 @@ public class Completed implements IntentRequestHandler {
       return handlerInput.getResponseBuilder().withSpeech("Vielen Dank. " + speechText
           + ". Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen. Ansonsten können Sie auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie zum Beispiel: ich möchte noch Thai green chicken curry")
           .withReprompt(
-              "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: ich möchte noch Garlic Paradise Salad")
+              "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: Ich möchte noch Garlic Paradise Salad")
           .build();
     }
 
@@ -78,8 +81,8 @@ public class Completed implements IntentRequestHandler {
             .withShouldEndSession(true).build();
 
     attributes.put(Attributes.STATE_KEY_ONLY_ADD_INDIVIDUAL, Attributes.START_STATE_ONLY_ADD_ONE);
-    return handlerInput.getResponseBuilder().withSpeech("Vielen Dank, Ihre Bestellung wurde aufgenommen. " + speechText
-        + ". Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen. Ansonsten können Sie auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie zum Beispiel: ich möchte noch Thai green chicken curry.")
+    return handlerInput.getResponseBuilder().withSpeech("Vielen Dank. Ihre Bestellung wurde aufgenommen. " + speechText
+        + ". Wenn Sie die Bestellung abschließen möchten, dann sagen Sie: Bestellung abschließen. Ansonsten können Sie auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie zum Beispiel: Ich möchte noch Thai green chicken curry.")
         .withReprompt(
             "Sie können auch noch weitere Gerichte oder Getränke hinzufügen. Sagen Sie dazu zum Beispiel: Ich möchte noch Garlic Paradise Salad")
         .build();
