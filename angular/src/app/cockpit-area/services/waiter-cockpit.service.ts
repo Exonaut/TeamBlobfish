@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 import {
   FilterCockpit,
   Pageable,
   Sort,
+  TranslationToken,
 } from 'app/shared/backend-models/interfaces';
 import { cloneDeep, map } from 'lodash';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { exhaustMap } from 'rxjs/operators';
 import { ConfigService } from '../../core/config/config.service';
 import {
@@ -25,10 +27,16 @@ export class WaiterCockpitService {
     'ordermanagement/v1/order/search';
   private readonly filterOrdersRestPath: string =
     'ordermanagement/v1/order/search';
+  private readonly setOrderStatePath: string =
+    'ordermanagement/v1/order/setstatus';
+  private readonly setOrderPaymentPath: string =
+    'ordermanagement/v1/order/setpayment';
 
-  private readonly restServiceRoot$: Observable<
-    string
-  > = this.config.getRestServiceRoot();
+  private readonly restServiceRoot$: Observable<string> =
+    this.config.getRestServiceRoot();
+
+  orderStatusTranslation: TranslationToken[];
+  paymentStatusTranslation: TranslationToken[];
 
   constructor(
     private http: HttpClient,
@@ -44,16 +52,63 @@ export class WaiterCockpitService {
     let path: string;
     filters.pageable = pageable;
     filters.pageable.sort = sorting;
-    if (filters.email || filters.bookingToken) {
-      path = this.filterOrdersRestPath;
-    } else {
-      delete filters.email;
-      delete filters.bookingToken;
-      path = this.getOrdersRestPath;
+
+    if (filters.bookingToken === null) {
+      filters.bookingToken = undefined;
     }
+    if (filters.bookingDate === null) {
+      filters.bookingDate = undefined;
+    }
+    if (filters.bookingType === null) {
+      filters.bookingType = undefined;
+    }
+    if (filters.email === null) {
+      filters.email = undefined;
+    }
+    if (filters.name === null) {
+      filters.name = undefined;
+    }
+    if (filters.table === null) {
+      filters.table = undefined;
+    }
+
+    path = this.filterOrdersRestPath;
+
     return this.restServiceRoot$.pipe(
       exhaustMap((restServiceRoot) =>
         this.http.post<OrderResponse[]>(`${restServiceRoot}${path}`, filters),
+      ),
+    );
+  }
+
+  /**
+   * Updates the Order Status of an Order
+   * @param id - The ID of the order to modify
+   * @param newStatus - The new Order Status to set
+   * @returns An Observable of the http-Request
+   */
+  setOrderStatus(id: number, newStatus: number): Observable<any> {
+    let path: string;
+    path = this.setOrderStatePath;
+    return this.restServiceRoot$.pipe(
+      exhaustMap((restServiceRoot) =>
+        this.http.patch(`${restServiceRoot}${path}/${id}/${newStatus}`, null),
+      ),
+    );
+  }
+
+  /**
+   * Updates the Payment Status of an Order
+   * @param id - The ID of the order to modify
+   * @param newStatus - The new Payment Status to set
+   * @returns An Observable of the http-Request
+   */
+  setPaymentStatus(id: number, newPayment: number): Observable<any> {
+    let path: string;
+    path = this.setOrderPaymentPath;
+    return this.restServiceRoot$.pipe(
+      exhaustMap((restServiceRoot) =>
+        this.http.patch(`${restServiceRoot}${path}/${id}/${newPayment}`, null),
       ),
     );
   }
@@ -82,6 +137,50 @@ export class WaiterCockpitService {
       o.extras = map(o.extras, 'name').join(', ');
     });
     return orders;
+  }
+
+  /** Establishes a subscription to the Order Status Translation and sets the services translation array
+   * @param TranslocoService - The TranslocoService to use
+   * @param lang - The language to use
+   * @returns The Subscription to the Observable
+   */
+  updateOrderStatusTranslation(
+    translocoService: TranslocoService,
+    lang: string,
+  ): Subscription {
+    return translocoService
+      .selectTranslateObject('cockpit.status', {}, lang)
+      .subscribe((cockpitStatus) => {
+        this.orderStatusTranslation = [
+          {name: 'orderStatus.recorded', label: cockpitStatus.recorded},
+          {name: 'orderStatus.cooking', label: cockpitStatus.cooking},
+          {name: 'orderStatus.ready', label: cockpitStatus.ready},
+          {name: 'orderStatus.handingover', label: cockpitStatus.handingover},
+          {name: 'orderStatus.delivered', label: cockpitStatus.delivered},
+          {name: 'orderStatus.completed', label: cockpitStatus.completed},
+          {name: 'orderStatus.canceled', label: cockpitStatus.canceled},
+        ];
+      });
+  }
+
+  /** Establishes a subscription to the Payment Status Translation and sets the services translation array
+   * @param TranslocoService - The TranslocoService to use
+   * @param lang - The language to use
+   * @returns The Subscription to the Observable
+   */
+  updatePaymentStatusTranslation(
+    translocoService: TranslocoService,
+    lang: string,
+  ): Subscription {
+    return translocoService
+      .selectTranslateObject('cockpit.payment', {}, lang)
+      .subscribe((cockpitStatus) => {
+        this.paymentStatusTranslation = [
+          cockpitStatus.pending,
+          cockpitStatus.payed,
+          cockpitStatus.refunded,
+        ];
+      });
   }
 
   getTotalPrice(orderLines: OrderView[]): number {

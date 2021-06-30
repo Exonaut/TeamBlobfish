@@ -19,6 +19,24 @@ import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderedDishesS
 public interface Ordermanagement {
 
   /**
+   * set new ordered status
+   *
+   * @param id The id 'id' of the Order.
+   * @param orderstatus
+   * @return The {@link OrderEto} with id 'id' and order status 'orderstatus'
+   */
+  OrderEto setNewOrderStatus(Long id, Long orderstatus);
+
+  /**
+   * set new payment status
+   *
+   * @param id The id 'id' of the Order.
+   * @param paymentstatus
+   * @return The {@link OrderEto} with id 'id' and payment status 'paymentstatus'
+   */
+  OrderEto setNewPaymentStatus(Long id, Long paymentstatus);
+
+  /**
    * Returns a Order by its id 'id'.
    *
    * @param id The id 'id' of the Order.

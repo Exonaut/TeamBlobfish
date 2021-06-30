@@ -79,6 +79,12 @@ CREATE TABLE Orders (
   idBooking BIGINT NOT NULL,
   idInvitedGuest BIGINT,
   idHost BIGINT,
+  orderstatus BIGINT,
+  paymentstatus BIGINT,
+  servetime TIMESTAMP,
+  city VARCHAR (255),
+  street VARCHAR (255),
+  streetNr VARCHAR (10),
   CONSTRAINT PK_Order PRIMARY KEY(id),
   CONSTRAINT FK_Order_idBooking FOREIGN KEY(idBooking) REFERENCES Booking(id) NOCHECK,
   CONSTRAINT FK_Order_idInvitedGuest FOREIGN KEY(idInvitedGuest) REFERENCES InvitedGuest(id) NOCHECK

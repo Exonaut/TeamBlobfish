@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {
+  BookingView,
   FriendsInvite,
   ReservationView,
 } from '../../../shared/view-models/interfaces';
@@ -19,7 +20,7 @@ export class ReservationDialogComponent implements OnInit {
   currentPage = 1;
   pageSize = 4;
 
-  data: any;
+  data: ReservationViewData = new ReservationViewData();
   columnso: any[] = [
     { name: 'email', label: 'Guest email' },
     { name: 'accepted', label: 'Acceptances and declines' },
@@ -43,7 +44,9 @@ export class ReservationDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) dialogData: any,
     private configService: ConfigService,
   ) {
-    this.data = dialogData;
+    this.data.booking = dialogData.booking;
+    this.data.invitedGuests = dialogData.invitedGuests;
+
     this.pageSizes = configService.getValues().pageSizesDialog;
   }
 
@@ -109,4 +112,9 @@ export class ReservationDialogComponent implements OnInit {
     newData = newData.slice(this.fromRow, this.currentPage * this.pageSize);
     setTimeout(() => (this.filteredData = newData));
   }
+}
+
+class ReservationViewData implements ReservationView {
+  booking: BookingView;
+  invitedGuests?: FriendsInvite[];
 }

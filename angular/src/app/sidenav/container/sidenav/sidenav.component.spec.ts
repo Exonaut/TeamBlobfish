@@ -1,4 +1,4 @@
-import { NO_ERRORS_SCHEMA, DebugElement } from '@angular/core';
+import { NO_ERRORS_SCHEMA, DebugElement, ChangeDetectorRef } from '@angular/core';
 import {
   async,
   ComponentFixture,
@@ -26,11 +26,39 @@ import { MemoizedSelector } from '@ngrx/store';
 import { Order } from '../../models/order.model';
 import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs/internal/observable/of';
+import { TranslocoService } from '@ngneat/transloco';
+import { ConfigService } from 'app/core/config/config.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const mockDialog = {
   open: jasmine.createSpy('open').and.returnValue({
-    afterClosed: () => of('content'),
+    afterClosed: () => of(true),
   }),
+};
+
+const sideNavServiceStub = {
+  closeSideNav: jasmine.createSpy('closeSideNav'),
+  postBooking: jasmine.createSpy('postBooking').and.returnValue(
+    of({
+      bookingToken: 'BT'
+    })
+  ),
+  sendOrders: jasmine.createSpy('sendOrders').and.returnValue(
+    of({})
+  ),
+  composeBooking: jasmine.createSpy('composeBooking').and.returnValue(
+    of({
+      bookingToken: 'BT'
+    })
+  ),
+};
+
+const snackBarServiceStub = {
+  openSnack: jasmine.createSpy('openSnack'),
+};
+
+const changeDetectorRefStub = {
+
 };
 
 describe('SidenavComponent', () => {
@@ -41,6 +69,7 @@ describe('SidenavComponent', () => {
   let mockOrdersSelector: MemoizedSelector<fromOrder.SideNavState, Order[]>;
   let dialog: MatDialog;
   let sidenavService: SidenavService;
+  let snackBarService: SnackBarService;
 
   const STATE = {
     sidenav: {
@@ -55,18 +84,18 @@ describe('SidenavComponent', () => {
       declarations: [SidenavComponent, SidenavOrderComponent],
       providers: [
         PriceCalculatorService,
-        {
-          provide: SidenavService,
-          useValue: { closeSideNav: jasmine.createSpy('closeSideNav') },
-        },
-        SnackBarService,
+        { provide: SidenavService, useValue: sideNavServiceStub },
+        { provide: SnackBarService, useValue: snackBarServiceStub },
+        { provide: ChangeDetectorRef, useValue: changeDetectorRefStub },
+        TranslocoService,
         provideMockStore(),
-        { provide: MatDialog, useValue: mockDialog },
+        { provide: MatDialog, useValue: mockDialog }
       ],
       imports: [
         BrowserAnimationsModule,
         getTranslocoModule(),
         RouterTestingModule,
+        ReactiveFormsModule,
         CoreModule,
       ],
     }).compileComponents();
@@ -80,6 +109,7 @@ describe('SidenavComponent', () => {
       fromOrder.getAllOrders,
       getAllOrderData,
     );
+    snackBarService = TestBed.inject(SnackBarService);
     sidenavService = TestBed.inject(SidenavService);
     el = fixture.debugElement;
     dialog = TestBed.inject(MatDialog);
@@ -132,17 +162,18 @@ describe('SidenavComponent', () => {
     expect(mockStore.dispatch).toHaveBeenCalled();
   }));
 
-  it('should send the order details to the end user on click of send button', () => {
-    spyOn(mockStore, 'dispatch').and.callThrough();
-    const btn = el.query(By.css('.orderSubmit'));
+  it('should send the order details to the end user on click of ID send button', () => {
+    spyOn(component, 'sendOrder').and.callThrough();
+    const btn = el.query(By.css('.orderSubmitId'));
     click(btn);
-    expect(mockStore.dispatch).toHaveBeenCalled();
+    expect(sidenavService.sendOrders).toHaveBeenCalled();
+    expect(component.sendOrder).toHaveBeenCalled();
   });
 
-  it('should close sidenav pop up on click of order cancel button', () => {
-    spyOn(mockStore, 'dispatch').and.callThrough();
-    const btn = el.query(By.css('.orderCancel'));
-    click(btn);
-    expect(sidenavService.closeSideNav).toHaveBeenCalled();
+  it('should send the booking and order', () => {
+    component.sendBooking();
+    expect(dialog.open).toHaveBeenCalled();
+    expect(sidenavService.postBooking).toHaveBeenCalled();
+    expect(sidenavService.sendOrders).toHaveBeenCalled();
   });
 });

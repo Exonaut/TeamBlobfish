@@ -1,0 +1,61 @@
+[mat-dialog-title] {
+    text-transform: uppercase;
+  }
+  
+  .dataRows {
+    margin-bottom: 8px;
+  }
+  
+  .dataRow {
+    box-sizing: border-box;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .nameValue, .emailValue {
+    width: 65%;
+    word-break: break-word;
+    text-align: right;
+  }
+  
+  .invitedGuests, .totalPrice {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    width: 100%;
+    word-break: break-word;
+  }
+
+  .orderTable {
+    width: 100%;
+  }
+
+  .orderNotice {
+    box-sizing: border-box;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    mat-icon {
+      font-size: 18px;
+      height: 1em;
+      width: 1em;
+      padding-right: 8px;
+    }
+  }
+  
+  mat-divider {
+    margin: 8px 0;
+  }
+  
+  mat-dialog-actions {
+    justify-content: flex-end;
+  }
+  
+  mat-dialog-actions button {
+    text-transform: uppercase;
+  }
+  

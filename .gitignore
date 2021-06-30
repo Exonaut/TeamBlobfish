@@ -36,3 +36,6 @@ hs_err_pid*
 java/mtsj/.vscode/
 node-old/
 node-bak/
+.vscode/tasks.json
+.vscode/launch.json
+angular/package-lock.json

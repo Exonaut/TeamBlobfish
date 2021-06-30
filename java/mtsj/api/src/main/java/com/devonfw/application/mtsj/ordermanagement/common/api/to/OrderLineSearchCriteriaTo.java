@@ -1,5 +1,7 @@
 package com.devonfw.application.mtsj.ordermanagement.common.api.to;
 
+import java.time.Instant;
+
 import com.devonfw.application.mtsj.general.common.api.to.AbstractSearchCriteriaTo;
 import com.devonfw.module.basic.common.api.query.StringSearchConfigTo;
 
@@ -20,6 +22,8 @@ public class OrderLineSearchCriteriaTo extends AbstractSearchCriteriaTo {
   private String comment;
 
   private StringSearchConfigTo commentOption;
+
+  private Instant[] servingtime;
 
   /**
    * @return commentOption
@@ -83,6 +87,22 @@ public class OrderLineSearchCriteriaTo extends AbstractSearchCriteriaTo {
   public void setComment(String comment) {
 
     this.comment = comment;
+  }
+
+  /**
+   * @return servingtime
+   */
+  public Instant[] getServingtime() {
+
+    return this.servingtime;
+  }
+
+  /**
+   * @param servingtime new value of {@link #getservingtime}.
+   */
+  public void setServingtime(Instant[] servingtime) {
+
+    this.servingtime = servingtime;
   }
 
 }

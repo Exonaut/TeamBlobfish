@@ -39,6 +39,8 @@ import com.devonfw.application.mtsj.ordermanagement.common.api.exception.CancelN
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.NoBookingException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.NoInviteException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.OrderAlreadyExistException;
+import com.devonfw.application.mtsj.ordermanagement.common.api.exception.WrongOrderStatusException;
+import com.devonfw.application.mtsj.ordermanagement.common.api.exception.WrongPaymentStatusException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.exception.WrongTokenException;
 import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderCto;
 import com.devonfw.application.mtsj.ordermanagement.common.api.to.OrderEto;
@@ -248,6 +250,14 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
     }
 
     OrderEntity orderEntity = getBeanMapper().map(order, OrderEntity.class);
+
+    if (order.getOrder() != null) {
+      orderEntity.setServeTime(order.getOrder().getServeTime());
+      orderEntity.setCity(order.getOrder().getCity());
+      orderEntity.setStreet(order.getOrder().getStreet());
+      orderEntity.setStreetNr(order.getOrder().getStreetNr());
+    }
+
     String token = orderEntity.getBooking().getBookingToken();
     // initialize, validate orderEntity here if necessary
     orderEntity = getValidatedOrder(orderEntity.getBooking().getBookingToken(), orderEntity);
@@ -369,6 +379,21 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       }
       orderEntity.setBookingId(guest.getBookingId());
       orderEntity.setInvitedGuestId(guest.getId());
+
+      // Order VALIDATION
+    } else if (getOrderType(token) == BookingType.ORDER) {
+
+      BookingCto booking = getBookingbyToken(token);
+      if (booking == null) {
+        throw new NoBookingException();
+      }
+      List<OrderCto> currentOrders = getBookingOrders(booking.getBooking().getId());
+      if (!currentOrders.isEmpty()) {
+        throw new OrderAlreadyExistException();
+      }
+
+      orderEntity.setBookingId(booking.getBooking().getId());
+
     }
 
     return orderEntity;
@@ -381,7 +406,11 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       return BookingType.COMMON;
     } else if (token.startsWith("GB_")) {
       return BookingType.INVITED;
-    } else {
+    } else if (token.startsWith("DB_")) {
+      return BookingType.ORDER;
+    }
+
+    else {
       throw new WrongTokenException();
     }
   }
@@ -419,6 +448,7 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       mailContent.append("Your order has been created.").append("\n");
       mailContent.append(getContentFormatedWithCost(order)).append("\n");
       mailContent.append("\n").append("Link to cancel order: ");
+      mailContent.append("Booking CODE: " + token);
       String link = "http://localhost:" + this.clientPort + "/booking/cancelOrder/" + order.getId();
       mailContent.append(link);
       this.mailService.sendMail(emailTo, "Order confirmation", mailContent.toString());
@@ -487,9 +517,14 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
         throw new NoInviteException();
       }
       return guest.getEmail();
-    } else
+    } else if (getOrderType(token) == BookingType.ORDER) {
 
-    {
+      BookingCto booking = getBookingbyToken(token);
+      if (booking == null) {
+        throw new NoBookingException();
+      }
+      return booking.getBooking().getEmail();
+    } else {
       return null;
     }
   }
@@ -531,6 +566,37 @@ public class OrdermanagementImpl extends AbstractComponentFacade implements Orde
       Pageable pagResultTo = PageRequest.of(criteria.getPageable().getPageNumber(), orderedDishesCtos.size());
       return new PageImpl<>(orderedDishesCtos, pagResultTo, orderedDishes.getTotalElements());
     }
+  }
+
+  @Override
+  public OrderEto setNewOrderStatus(Long id, Long orderstatus) {
+
+    Long invalidOrderStatus = (long) 7;
+    if (orderstatus >= invalidOrderStatus) {
+      throw new WrongOrderStatusException();
+    }
+    OrderEntity entity = getOrderDao().find(id);
+    entity.setOrderStatus(orderstatus);
+    OrderEntity resultOrderStatus = getOrderDao().save(entity);
+    LOG.debug("The order status with id '{}' has been updated.", resultOrderStatus.getOrderStatus());
+
+    return getBeanMapper().map(resultOrderStatus, OrderEto.class);
+  }
+
+  @Override
+  public OrderEto setNewPaymentStatus(Long id, Long paymentstatus) {
+
+    Long invalidPaymentStatus = (long) 3;
+    if (paymentstatus >= invalidPaymentStatus) {
+      throw new WrongPaymentStatusException();
+    }
+    OrderEntity entity = getOrderDao().find(id);
+    entity.setPaymentStatus(paymentstatus);
+    OrderEntity resultOrderPayment = getOrderDao().save(entity);
+    LOG.debug("The payment status with id '{}' has been updated.", resultOrderPayment.getPaymentStatus());
+
+    return getBeanMapper().map(resultOrderPayment, OrderEto.class);
+
   }
 
 }

@@ -81,9 +81,20 @@ public class OrdermanagementRestServiceImpl implements OrdermanagementRestServic
   }
 
   @Override
-  public Page<OrderedDishesCto> findOrderedDishes(OrderedDishesSearchCriteriaTo searchCriteriaTo){
+  public Page<OrderedDishesCto> findOrderedDishes(OrderedDishesSearchCriteriaTo searchCriteriaTo) {
 
     return this.ordermanagement.findOrderedDishes(searchCriteriaTo);
   }
 
+  @Override
+  public OrderEto setNewOrderStatus(long id, long orderstatus) {
+
+    return this.ordermanagement.setNewOrderStatus(id, orderstatus);
+  }
+
+  @Override
+  public OrderEto setNewPaymentStatus(long id, long paymentstatus) {
+
+    return this.ordermanagement.setNewPaymentStatus(id, paymentstatus);
+  }
 }

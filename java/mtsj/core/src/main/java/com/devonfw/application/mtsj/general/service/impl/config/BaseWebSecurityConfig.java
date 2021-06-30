@@ -22,6 +22,7 @@ import com.devonfw.application.mtsj.general.common.base.JWTLoginFilter;
 import com.devonfw.application.mtsj.general.common.base.TwoFactorFilter;
 import com.devonfw.application.mtsj.general.common.impl.security.BaseUserDetailsService;
 import com.devonfw.application.mtsj.general.common.impl.security.twofactor.TwoFactorAuthenticationProvider;
+import com.devonfw.application.mtsj.usermanagement.logic.api.Usermanagement;
 
 /**
  * This type serves as a base class for extensions of the {@code WebSecurityConfigurerAdapter} and provides a default
@@ -39,6 +40,9 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
 
   @Inject
   private PasswordEncoder passwordEncoder;
+
+  @Inject
+  private Usermanagement usermanagement;
 
   @Bean
   public AdvancedDaoAuthenticationProvider advancedDaoAuthenticationProvider() {
@@ -87,13 +91,16 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
   @Override
   public void configure(HttpSecurity http) throws Exception {
 
+    http.headers().frameOptions().disable();
+
     String[] unsecuredResources = new String[] { "/login", "/security/**", "/services/rest/login",
     "/services/rest/logout", "/services/rest/dishmanagement/**", "/services/rest/imagemanagement/**",
-    "/services/rest/ordermanagement/v1/order", "/services/rest/bookingmanagement/v1/booking",
+    "/services/rest/usermanagement/v1/**", "/services/rest/ordermanagement/v1/order",
+    "/services/rest/ordermanagement/v1/order/**", "/services/rest/bookingmanagement/v1/booking",
     "/services/rest/bookingmanagement/v1/booking/cancel/**",
     "/services/rest/bookingmanagement/v1/invitedguest/accept/**",
     "/services/rest/bookingmanagement/v1/invitedguest/decline/**",
-    "/services/rest/ordermanagement/v1/order/cancelorder/**" };
+    "/services/rest/ordermanagement/v1/order/cancelorder/**", "/h2-console/***", "/h2-console", "/h2-console/" };
 
     http.userDetailsService(this.userDetailsService).csrf().disable().exceptionHandling().and().sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
@@ -103,7 +110,8 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
         .addFilterBefore(new TwoFactorFilter("/verify", authenticationManager(), this.userDetailsService),
             UsernamePasswordAuthenticationFilter.class)
         // the api/login requests are filtered with the JWTLoginFilter
-        .addFilterBefore(new JWTLoginFilter("/login", authenticationManager(), this.userDetailsService),
+        .addFilterBefore(
+            new JWTLoginFilter("/login", authenticationManager(), this.userDetailsService, this.usermanagement),
             UsernamePasswordAuthenticationFilter.class)
         // other requests are filtered to check the presence of JWT in header
         .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

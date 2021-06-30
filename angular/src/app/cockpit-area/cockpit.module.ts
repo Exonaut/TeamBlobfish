@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CoreModule } from '../core/core.module';
+import { SharedModule } from '../shared/shared.module';
 
 import { WaiterCockpitService } from './services/waiter-cockpit.service';
 import { WindowService } from '../core/window/window.service';
@@ -17,6 +18,10 @@ import { PredictionCockpitComponent } from './prediction-cockpit/prediction-cock
 import { ClusteringCockpitComponent } from './clustering-cockpit/clustering-cockpit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoRootModule } from '../transloco-root.module';
+import { UserCockpitComponent } from './user-cockpit/user-cockpit.component';
+import { UserCockpitService } from './services/user-cockpit.service';
+import { CreateUserDialogComponent } from './user-cockpit/create-user-dialog/create-user-dialog.component';
+import { EditUserDialogComponent } from './user-cockpit/edit-user-dialog/edit-user-dialog.component';
 
 @NgModule({
   imports: [
@@ -26,12 +31,14 @@ import { TranslocoRootModule } from '../transloco-root.module';
     CoreModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
   providers: [
     WaiterCockpitService,
     WindowService,
     PredictionService,
     ClusteringService,
+    UserCockpitService,
   ],
   declarations: [
     ReservationCockpitComponent,
@@ -40,18 +47,23 @@ import { TranslocoRootModule } from '../transloco-root.module';
     OrderDialogComponent,
     PredictionCockpitComponent,
     ClusteringCockpitComponent,
+    UserCockpitComponent,
+    CreateUserDialogComponent,
+    EditUserDialogComponent,
   ],
   exports: [
     ReservationCockpitComponent,
     OrderCockpitComponent,
     PredictionCockpitComponent,
     ClusteringCockpitComponent,
+    UserCockpitComponent,
   ],
   entryComponents: [
     ReservationDialogComponent,
     OrderDialogComponent,
     PredictionCockpitComponent,
     ClusteringCockpitComponent,
+    UserCockpitComponent,
   ],
 })
 export class WaiterCockpitModule { }

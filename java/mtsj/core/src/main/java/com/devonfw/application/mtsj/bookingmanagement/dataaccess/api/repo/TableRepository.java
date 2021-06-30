@@ -25,7 +25,7 @@ public interface TableRepository extends DefaultRepository<TableEntity> {
 
     Integer seatsNumber = criteria.getSeatsNumber();
     if (seatsNumber != null) {
-      query.where(Alias.$(alias.getSeatsNumber()).eq(seatsNumber));
+      query.where(Alias.$(alias.getSeatsNumber()).goe(seatsNumber));
     }
 
     return QueryUtil.get().findPaginated(criteria.getPageable(), query, false);

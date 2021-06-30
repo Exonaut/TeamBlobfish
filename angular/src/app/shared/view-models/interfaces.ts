@@ -41,8 +41,12 @@ export interface BookingView {
   email: string;
   assistants?: number;
   tableId?: number;
-  bookingToken?: number;
+  bookingToken?: string;
   creationDate?: string;
+  status: number;
+  canceled: boolean;
+  id: number;
+  bookingType: string;
 }
 
 export interface FriendsInvite {
@@ -86,11 +90,21 @@ export interface OrderViewResult {
 export interface OrderListView {
   orderLines: OrderView[];
   booking: BookingView;
+  order: SaveOrderResponse;
 }
 
 export interface OrderDishListView {
   orderLines: OrderDishView[];
   booking: BookingView;
+}
+
+// User
+export interface UserListView {
+  id: number;
+  username: string;
+  email: string;
+  userRoleId: number;
+  password: string;
 }
 
 // Interface to recieve responeses from the server using httpclient for getReservations
@@ -137,12 +151,18 @@ export interface BookingTableResponse extends BookingView {
 // Interface to recieve responeses from the server using httpclient for SaveOrders
 export interface SaveOrderResponse {
   bookingId: number;
-  bokingToken: string;
+  bookingToken: string;
   hostId: number;
   id: number;
   invitedGuestId: number;
   modificationCounter: number;
   revision: any;
+  orderStatus: number;
+  paymentStatus: number;
+  serveTime: string;
+  city: string;
+  street: string;
+  streetNr: string;
 }
 
 // Roles

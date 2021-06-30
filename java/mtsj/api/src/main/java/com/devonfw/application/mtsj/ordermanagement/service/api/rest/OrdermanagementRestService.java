@@ -3,6 +3,7 @@ package com.devonfw.application.mtsj.ordermanagement.service.api.rest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -28,6 +29,27 @@ import com.devonfw.application.mtsj.ordermanagement.logic.api.Ordermanagement;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public interface OrdermanagementRestService {
+
+  /**
+   * Delegates to {@link Ordermanagement#setNewStatus}
+   *
+   * @param id the ID of the {@link OrderEto}
+   * @param orderstatus the status of the {@link OrderEto}
+   * @return the {@link OrderEto} new order status 'orderstatus'
+   */
+  @PATCH
+  @Path("/order/setstatus/{id}/{orderstatus}")
+  public OrderEto setNewOrderStatus(@PathParam("id") long id, @PathParam("orderstatus") long orderstatus);
+
+  /**
+   *
+   * @param id the ID of the {@link OrderEto}
+   * @param paymentstatus the payment status of the {@link OrderEto}
+   * @return the {@link OrderEto} new payment status 'paymentstatus'
+   */
+  @PATCH
+  @Path("/order/setpayment/{id}/{paymentstatus}")
+  public OrderEto setNewPaymentStatus(@PathParam("id") long id, @PathParam("paymentstatus") long paymentstatus);
 
   /**
    * Delegates to {@link Ordermanagement#findOrder}.

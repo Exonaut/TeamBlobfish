@@ -31,6 +31,15 @@ public interface Usermanagement {
   UserEto findUserbyName(String userName);
 
   /**
+   * Returns a User by its email 'email'
+   *
+   * @param email The email 'email' of the User
+   * @param username The username 'username' of the User
+   * @return The {@link UserEto} with email 'email'
+   */
+  boolean existsUsernameOrEmail(String email, String username);
+
+  /**
    * Returns a paginated list of Users matching the search criteria.
    *
    * @param criteria the {@link UserSearchCriteriaTo}.
@@ -115,4 +124,33 @@ public interface Usermanagement {
    */
   UserProfile findUserProfileByLogin(String login);
 
+  /**
+   * Reset password and store in database by admin
+   *
+   * @param user the {@link UserEto} to reset password
+   */
+  void resetPasswordByAdmin(UserEto user);
+
+  /**
+   * Send forgot-password link to user
+   *
+   * @param userEmail The email 'email' of the UserEto.
+   */
+  void sendForgotPasswordLink(String userEmail);
+
+  /**
+   * Reset password and store in database by user
+   *
+   * @param hashcode the hashcode of {@link UserEto}
+   * @param password the new password of {@link UserEto} to set
+   */
+  void resetPasswordByUser(int hashcode, String password);
+
+  /**
+   * Edit user and store in database
+   *
+   * @param user the {@link UserEto} to edit
+   * @return the newly updated user that has been saved with new values
+   */
+  UserEto editUser(UserEto user);
 }

@@ -6,6 +6,8 @@ public class BasicAccountCredentials {
 
   private String password;
 
+  private String email;
+
   public String getUsername() {
 
     return this.username;
@@ -25,4 +27,15 @@ public class BasicAccountCredentials {
 
     this.password = password;
   }
+
+  public String getEmail() {
+
+    return this.email;
+  }
+
+  public void setEmail(String email) {
+
+    this.email = email;
+  }
+
 }

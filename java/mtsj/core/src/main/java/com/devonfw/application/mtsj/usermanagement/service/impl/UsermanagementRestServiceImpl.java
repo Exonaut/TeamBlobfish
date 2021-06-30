@@ -3,13 +3,13 @@ package com.devonfw.application.mtsj.usermanagement.service.impl;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.springframework.data.domain.Page;
+
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserEto;
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserQrCodeTo;
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserRoleEto;
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserRoleSearchCriteriaTo;
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserSearchCriteriaTo;
-import org.springframework.data.domain.Page;
-
 import com.devonfw.application.mtsj.usermanagement.logic.api.Usermanagement;
 import com.devonfw.application.mtsj.usermanagement.rest.api.UsermanagementRestService;
 
@@ -86,6 +86,33 @@ public class UsermanagementRestServiceImpl implements UsermanagementRestService 
   public Page<UserRoleEto> findUserRolesByPost(UserRoleSearchCriteriaTo searchCriteriaTo) {
 
     return this.usermanagement.findUserRoleEtos(searchCriteriaTo);
+  }
+
+  @Override
+  public void resetPasswordByAdmin(UserEto user) {
+
+    this.usermanagement.resetPasswordByAdmin(user);
+
+  }
+
+  @Override
+  public void sendForgotPasswordLink(String email) {
+
+    this.usermanagement.sendForgotPasswordLink(email);
+
+  }
+
+  @Override
+  public void resetPasswordByUser(int hashcode, String password) {
+
+    this.usermanagement.resetPasswordByUser(hashcode, password);
+
+  }
+
+  @Override
+  public UserEto editUser(UserEto user) {
+
+    return this.usermanagement.editUser(user);
   }
 
 }

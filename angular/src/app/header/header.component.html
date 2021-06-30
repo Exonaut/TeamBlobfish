@@ -16,6 +16,7 @@
         routerLinkActive="navBottomBorder"
         [routerLinkActiveOptions]="{ exact: true }"
       >
+        <mat-icon>home</mat-icon>
         {{ 'main.home' | transloco | uppercase }}
       </a>
       <a
@@ -24,34 +25,48 @@
         routerLinkActive="navBottomBorder"
         [routerLinkActiveOptions]="{ exact: true }"
       >
+        <mat-icon>restaurant_menu</mat-icon>
         {{ 'main.menu' | transloco | uppercase }}
       </a>
-      <a
-        mat-tab-link
-        routerLink="/bookTable"
-        routerLinkActive="navBottomBorder"
-        [routerLinkActiveOptions]="{ exact: true }"
+      <button
+        mat-button
+        (click)="openCloseSideNavBooking(sidenav.opened)"
       >
+        <mat-icon>book</mat-icon>
         {{ 'main.book' | transloco | uppercase }}
-      </a>
+      </button>
     </nav>
   </div>
   <div *ngIf="(auth.getRole() | async) === 'WAITER'" class="forDesktop">
     <nav mat-tab-nav-bar>
+      <!-- Order Cockpit -->
       <a
         mat-tab-link
         routerLink="/orders"
         routerLinkActive="navBottomBorder"
         [routerLinkActiveOptions]="{ exact: true }"
       >
+        <mat-icon>restaurant_menu</mat-icon>
         {{ 'main.orders' | transloco | uppercase }}
       </a>
+      <!-- Order Archive -->
+      <a
+        mat-tab-link
+        routerLink="/archive"
+        routerLinkActive="navBottomBorder"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon>archive</mat-icon>
+        {{ 'main.orderArchive' | transloco | uppercase }}
+      </a>
+      <!-- Reservation Cockpit -->
       <a
         mat-tab-link
         routerLink="/reservations"
         routerLinkActive="navBottomBorder"
         [routerLinkActiveOptions]="{ exact: true }"
       >
+        <mat-icon>book</mat-icon>
         {{ 'main.reservations' | transloco | uppercase }}
       </a>
     </nav>
@@ -77,6 +92,19 @@
         [routerLinkActiveOptions]="{ exact: true }"
       >
         CLUSTERING
+      </a>
+    </nav>
+  </div>
+  <div *ngIf="(auth.getRole() | async) === 'ADMIN'" class="forDesktop">
+    <nav mat-tab-nav-bar>
+      <a
+        mat-tab-link
+        routerLink="/users"
+        routerLinkActive="navBottomBorder"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon>supervisor_account</mat-icon>
+        {{ 'main.users' | transloco | uppercase }}
       </a>
     </nav>
   </div>
@@ -147,7 +175,7 @@
     *ngIf="(auth.getRole() | async) === 'CUSTOMER'"
     name="order"
     mat-icon-button
-    (click)="openCloseSideNav(sidenav.opened)"
+    (click)="openCloseSideNavOrder(sidenav.opened)"
     [matTooltip]="'main.userActions.orders' | transloco"
   >
     <mat-icon

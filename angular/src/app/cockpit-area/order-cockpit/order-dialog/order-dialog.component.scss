@@ -2,14 +2,20 @@
   word-break: break-word;
 }
 
-.tableContainer {
+.tableContainer
+.status-selection
+.payment-selection {
   width: 100%;
   overflow: auto;
 }
 
+mat-expansion-panel {
+  width: 100%;
+  min-width: 800px;
+}
+
 table {
   width: 100%;
-  min-width: 600px;
 }
 
 .totalRow {
@@ -22,8 +28,13 @@ table {
 }
 
 th {
-  width: 20%;
   font-weight: bold;
+  margin-right: 8px;
+}
+
+td {
+  min-width: 100px;
+  margin-right: 8px;
 }
 
 .bookingDateData,
@@ -31,34 +42,34 @@ th {
   word-break: break-word;
 }
 
-.creationDateHeader,
-.nameHeader,
-.emailHeader,
-.commentHeader,
-.extrasHeader,
-.amountHeader,
-.amountData {
-  padding: 0 3%;
-}
-
 .creationDateData,
 .nameData,
 .emailData,
 .commentData,
-.extrasData {
-  padding: 0 3%;
+.extrasData,
+.statusData,
+.paymentData {
   word-break: break-word;
 }
 
 .tableIdHeader,
 .tableIdData,
 .priceHeader,
-.priceData {
+.priceData,
+.statusData,
+.statusHeader,
+.paymentHeader,
+.paymentData {
   text-align: right;
+  margin-right: 4px;
 }
 
-.actionButtons {
-  padding-top: 16px;
+.submitButton {
+  margin-right: 16px;
+}
+
+mat-expansion-panel {
+  margin-bottom: 8px;
 }
 
 @media (max-width: 599px) {

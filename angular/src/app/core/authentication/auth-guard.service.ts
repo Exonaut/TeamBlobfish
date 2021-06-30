@@ -44,8 +44,16 @@ export class AuthGuardService implements CanActivate, OnDestroy {
         }
 
         if (
-          (state.url === '/orders' || state.url === '/reservations') &&
+          (state.url === '/orders' || state.url === '/reservations' || state.url === '/archive') &&
           role === 'WAITER' &&
+          logged
+        ) {
+          return true;
+        }
+
+        if (
+          (state.url === '/users') &&
+          role === 'ADMIN' &&
           logged
         ) {
           return true;

@@ -28,12 +28,42 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
 
   private StringSearchConfigTo bookingTokenOption;
 
+  private Long[] orderstatus;
+
+  private Long[] paymentstatus;
+
+  private String name;
+
+  private Long table;
+
+  private Integer bookingType;
+
   /**
    * The constructor.
    */
   public OrderSearchCriteriaTo() {
 
     super();
+  }
+
+  public Integer getBookingType() {
+
+    return this.bookingType;
+  }
+
+  public void setBookingType(Integer type) {
+
+    this.bookingType = type;
+  }
+
+  public Long getTable() {
+
+    return this.table;
+  }
+
+  public void setTable(Long table) {
+
+    this.table = table;
   }
 
   public Long getBookingId() {
@@ -154,6 +184,54 @@ public class OrderSearchCriteriaTo extends AbstractSearchCriteriaTo {
   public void setBookingTokenOption(StringSearchConfigTo bookingTokenOption) {
 
     this.bookingTokenOption = bookingTokenOption;
+  }
+
+  /**
+   * @return orderstatus
+   */
+  public Long[] getOrderstatus() {
+
+    return this.orderstatus;
+  }
+
+  /**
+   * @param orderstatus new value of {@link #getOrderstatus}.
+   */
+  public void setOrderstatus(Long[] orderstatus) {
+
+    this.orderstatus = orderstatus;
+  }
+
+  /**
+   * @return paymentstatus
+   */
+  public Long[] getPaymentstatus() {
+
+    return this.paymentstatus;
+  }
+
+  /**
+   * @param paymentstatus new value of {@link #getPaymentstatus}.
+   */
+  public void setPaymentstatus(Long[] paymentstatus) {
+
+    this.paymentstatus = paymentstatus;
+  }
+
+  /**
+   * @return paymentstatus
+   */
+  public String getName() {
+
+    return this.name;
+  }
+
+  /**
+   * @param name new value of {@link #getName}.
+   */
+  public void setName(String name) {
+
+    this.name = name;
   }
 
 }

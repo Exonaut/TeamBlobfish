@@ -3,6 +3,7 @@ package com.devonfw.application.mtsj.usermanagement.rest.api;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -134,4 +135,43 @@ public interface UsermanagementRestService {
   @POST
   public Page<UserRoleEto> findUserRolesByPost(UserRoleSearchCriteriaTo searchCriteriaTo);
 
+  /**
+   * Delegates to {@link Usermanagement#resetPasswordByAdmin}.
+   *
+   * @param user user the {@link UserEto} to reset password
+   */
+  @PATCH
+  @Path("/user/reset/password/admin")
+  public void resetPasswordByAdmin(UserEto user);
+
+  /**
+   * Delegates to {@link Usermanagement#sendForgotPasswordLink}.
+   *
+   * @param email Email of the {@link UserEto} to send link
+   *
+   */
+  @GET
+  @Path("/user/{email}/")
+  public void sendForgotPasswordLink(@PathParam("email") String email);
+
+  /**
+   * Delegates to {@link Usermanagement#resetPasswordByUser}.
+   *
+   * @param user user the {@link UserEto} to reset password
+   */
+
+  @PATCH
+  @Path("/user/reset/password/{hashcode}/{password}/")
+  public void resetPasswordByUser(@PathParam("hashcode") int hashcode, @PathParam("password") String password);
+
+  /**
+   * Delegates to {@link Usermanagement#editUser}.
+   *
+   * @param user the {@link UserEto} who was edited
+   * @return the newly updated {@link UserEto}
+   */
+
+  @PATCH
+  @Path("/user/edit")
+  public UserEto editUser(UserEto user);
 }

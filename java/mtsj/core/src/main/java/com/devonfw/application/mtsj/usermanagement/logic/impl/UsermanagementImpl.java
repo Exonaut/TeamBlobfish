@@ -1,21 +1,30 @@
 package com.devonfw.application.mtsj.usermanagement.logic.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.devonfw.application.mtsj.general.common.api.UserProfile;
 import com.devonfw.application.mtsj.general.common.api.datatype.Role;
 import com.devonfw.application.mtsj.general.common.api.to.UserDetailsClientTo;
 import com.devonfw.application.mtsj.general.common.base.QrCodeService;
 import com.devonfw.application.mtsj.general.logic.base.AbstractComponentFacade;
+import com.devonfw.application.mtsj.mailservice.logic.api.Mail;
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserEto;
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserQrCodeTo;
 import com.devonfw.application.mtsj.usermanagement.common.api.to.UserRoleEto;
@@ -35,6 +44,16 @@ import com.devonfw.application.mtsj.usermanagement.logic.api.Usermanagement;
 public class UsermanagementImpl extends AbstractComponentFacade implements Usermanagement {
 
   private static final Logger LOG = LoggerFactory.getLogger(UsermanagementImpl.class);
+
+  private PasswordEncoder passwordEncoder;
+
+  private Map<Integer, UserEntity> userHashMap = new HashMap<>();
+
+  @Value("${client.port}")
+  private int clientPort;
+
+  @Inject
+  private Mail mailService;
 
   @Inject
   private UserRepository userDao;
@@ -85,6 +104,12 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
   }
 
   @Override
+  public boolean existsUsernameOrEmail(String email, String userName) {
+
+    return this.userDao.findByEmail(email) != null || this.userDao.findByUsername(userName) != null;
+  }
+
+  @Override
   public Page<UserEto> findUserEtos(UserSearchCriteriaTo criteria) {
 
     Page<UserEntity> users = getUserDao().findUsers(criteria);
@@ -106,8 +131,11 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
     Objects.requireNonNull(user, "user");
     UserEntity userEntity = getBeanMapper().map(user, UserEntity.class);
 
+    this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
+
     // initialize, validate userEntity here if necessary
-    UserEntity resultEntity = getUserDao().save(userEntity);
+    UserEntity resultEntity = getUserDao().save(userEntity); // write to the Database
     LOG.debug("User with id '{}' has been created.", resultEntity.getId());
     return getBeanMapper().map(resultEntity, UserEto.class);
   }
@@ -205,4 +233,109 @@ public class UsermanagementImpl extends AbstractComponentFacade implements Userm
     return profile;
   }
 
+  /**
+   *
+   * @return
+   */
+  private String getClientUrl() {
+
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    String clientUrl = request.getHeader("origin");
+    if (clientUrl == null) {
+      return "http://localhost:" + this.clientPort;
+    }
+    return clientUrl;
+  }
+
+  /**
+   * Send forgot-password email to host
+   *
+   * @param user
+   */
+  private void sendForgotPasswordEmailToHost(UserEntity user) {
+
+    try {
+      StringBuilder hostMailContent = new StringBuilder();
+      hostMailContent.append("MY THAI STAR").append("\n");
+      hostMailContent.append("Hi ").append(user.getUsername()).append("\n");
+      hostMailContent.append("Forgot your password?").append("\n");
+      hostMailContent.append("We received a request to reset the password for you account.").append("\n");
+      hostMailContent.append("If you did not make this request then please ignore this email.").append("\n");
+      hostMailContent.append("Otherwise, please copy and paste this link to change your password").append("\n");
+      // URL NACHSCHAUEN
+      String resetPassword = getClientUrl() + "/user/resetpassword/" + user.hashCode();
+      hostMailContent.append(resetPassword).append("\n");
+      this.mailService.sendMail(user.getEmail(), "Reset Password", hostMailContent.toString());
+    } catch (Exception e) {
+      LOG.error("Email not sent. {}", e.getMessage());
+    }
+  }
+
+  @Override
+  public void resetPasswordByAdmin(UserEto user) {
+
+    Objects.requireNonNull(user, "user");
+    UserEntity userEntity = getUserDao().find(user.getId());
+    this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
+    getUserDao().save(userEntity);
+    LOG.debug("User password with id '{}' has been modified.", user.getId());
+  }
+
+  @Override
+  public void sendForgotPasswordLink(String email) {
+
+    UserEntity user = getUserDao().findByEmail(email);
+    this.userHashMap.put(user.hashCode(), user);
+    sendForgotPasswordEmailToHost(user);
+    LOG.debug("Please check out your email , we sent you a link to reset your password.");
+  }
+
+  @Override
+  public void resetPasswordByUser(int hashcode, String password) {
+
+    try {
+      if (!password.isBlank()) {
+
+        this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
+        UserEntity userEntity = this.userHashMap.get(hashcode);
+        if (userEntity != null) {
+          userEntity.setPassword(this.passwordEncoder.encode(password));
+          getUserDao().save(userEntity);
+          this.userHashMap.remove(hashcode);
+        }
+
+        LOG.debug("Your password has been modified.");
+      }
+    } catch (Exception e) {
+      LOG.error("Password is empty. Please check your password.", e.getMessage());
+    }
+  }
+
+  @Override
+  public UserEto editUser(UserEto user) {
+
+    Objects.requireNonNull(user, "user");
+    this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
+    UserEntity userEntity = getUserDao().find(user.getId());
+
+    if (!user.getUsername().isBlank() && !userEntity.getUsername().equals(user.getUsername())) {
+      userEntity.setUsername(user.getUsername());
+    }
+    if (!user.getEmail().isBlank() && !userEntity.getEmail().equals(user.getEmail())) {
+      userEntity.setEmail(user.getEmail());
+    }
+    if (!user.getPassword().isBlank()
+        && !userEntity.getPassword().equals(this.passwordEncoder.encode(user.getPassword()))) {
+      userEntity.setPassword(this.passwordEncoder.encode(user.getPassword()));
+    }
+    if (user.getUserRoleId() != null && !userEntity.getUserRoleId().equals(user.getUserRoleId())) {
+      userEntity.setUserRoleId(user.getUserRoleId());
+    }
+    UserEntity resultEntity = getUserDao().save(userEntity);
+    LOG.debug("User with id '{}' has been edited.", resultEntity.getId());
+    return getBeanMapper().map(resultEntity, UserEto.class);
+  }
 }

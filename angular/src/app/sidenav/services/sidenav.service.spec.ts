@@ -98,4 +98,24 @@ describe('SidenavSharedService', () => {
       statusText: 'Internal Server Error',
     });
   });
+
+  it('should call booking service to save the booking', () => {
+    sidenavService
+      .postBooking({
+        booking: {
+          bookingDate: '',
+          name: 'Name',
+          email: 'Email',
+          bookingType: 0,
+        }
+      })
+      .subscribe((data) => {
+        expect(data).toBeTruthy();
+      });
+    const req = httpTestingController.expectOne(
+      config.restServiceRoot + 'bookingmanagement/v1/booking',
+    );
+    expect(req.request.method).toEqual('POST');
+    req.flush(sidenavServiceStub);
+  });
 });

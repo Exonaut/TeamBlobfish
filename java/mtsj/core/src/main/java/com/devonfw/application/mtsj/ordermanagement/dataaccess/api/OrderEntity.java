@@ -1,5 +1,6 @@
 package com.devonfw.application.mtsj.ordermanagement.dataaccess.api;
 
+import java.time.Instant;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -33,6 +34,69 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
   private BookingEntity host;
 
   private List<OrderLineEntity> orderLines;
+
+  private Long orderstatus;
+
+  private Long paymentstatus;
+
+  private Instant serveTime;
+
+  private String city;
+
+  private String street;
+
+  private String streetNr;
+
+  @Override
+  public String getStreetNr() {
+
+    return this.streetNr;
+  }
+
+  @Override
+  public void setStreetNr(String streetNr) {
+
+    this.streetNr = streetNr;
+
+  }
+
+  @Override
+  public void setCity(String city) {
+
+    this.city = city;
+  }
+
+  @Override
+  public String getCity() {
+
+    return this.city;
+  }
+
+  @Override
+  public void setStreet(String street) {
+
+    this.street = street;
+
+  }
+
+  @Override
+  public String getStreet() {
+
+    return this.street;
+  }
+
+  @Override
+  public void setServeTime(Instant servetime) {
+
+    this.serveTime = servetime;
+
+  }
+
+  @Override
+  public Instant getServeTime() {
+
+    return this.serveTime;
+  }
 
   /**
    * @return booking
@@ -168,6 +232,38 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
       BookingEntity bookingEntity = new BookingEntity();
       bookingEntity.setId(hostId);
       this.host = bookingEntity;
+    }
+  }
+
+  @Override
+  public Long getOrderStatus() {
+
+    return this.orderstatus;
+  }
+
+  @Override
+  public void setOrderStatus(Long status) {
+
+    if (status != null)
+      this.orderstatus = status;
+    else
+      this.orderstatus = (long) 0;
+
+  }
+
+  @Override
+  public Long getPaymentStatus() {
+
+    return this.paymentstatus;
+  }
+
+  @Override
+  public void setPaymentStatus(Long payment) {
+
+    if (payment != null) {
+      this.paymentstatus = payment;
+    } else {
+      this.paymentstatus = (long) 0;
     }
   }
 
