@@ -66,11 +66,12 @@ export class OrderCockpitComponent implements OnInit, OnDestroy {
     'booking.bookingDate',
     // 'booking.serveTime',
     'booking.name',
-    // 'booking.tableId',
+    'booking.tableId',
     // 'booking.email',
     // 'booking.bookingToken',
+    'booking.bookingType',
     'booking.orderStatus',
-    // 'booking.paymentStatus',
+    'booking.paymentStatus',
     // 'booking.actions'
   ];
 
