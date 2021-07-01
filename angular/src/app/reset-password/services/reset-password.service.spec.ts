@@ -1,8 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { async, getTestBed, inject, TestBed } from '@angular/core/testing';
+import {
+  async,
+  fakeAsync,
+  getTestBed,
+  inject,
+  TestBed,
+} from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ConfigService } from 'app/core/config/config.service';
 import { CoreModule } from 'app/core/core.module';
@@ -16,32 +23,30 @@ const configServiceStub = {
     .and.returnValue(of('http://localhost:8081/mythaistar/services/rest/')),
 };
 
-const resetPasswordServiceStub = {
-    success: true,
+const httpClientStub = {
+  patch: jasmine.createSpy('patch').and.returnValue(of({})),
 };
 
 describe('SidenavSharedService', () => {
   let resetPasswordService: ResetPasswordService;
-  let httpTestingController: HttpTestingController;
+  let httpClient: HttpClient;
   let mockStore: MockStore;
+  let configService: ConfigService;
 
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: ConfigService, useValue: configServiceStub },
-        ResetPasswordService,
+        { provide: HttpClient, useValue: httpClientStub },
         provideMockStore(),
       ],
-      imports: [CoreModule, HttpClientTestingModule],
+      imports: [CoreModule],
     });
     resetPasswordService = TestBed.inject(ResetPasswordService);
-    httpTestingController = TestBed.inject(HttpTestingController);
+    httpClient = TestBed.inject(HttpClient);
+    configService = TestBed.inject(ConfigService);
     mockStore = TestBed.inject(MockStore);
-  });
-
-  afterEach(() => {
-      httpTestingController.verify();
-  });
+  }));
 
   it('should create', inject(
     [ResetPasswordService],
@@ -50,4 +55,15 @@ describe('SidenavSharedService', () => {
     },
   ));
 
+  it('should reset password', async(() => {
+    spyOn(resetPasswordService, 'errorHandler');
+    resetPasswordService
+      .resetPassword('Password', 1234)
+      .subscribe((resp: any) => {});
+    expect(configService.getRestServiceRoot).toHaveBeenCalled();
+    expect(httpClient.patch).toHaveBeenCalledWith(
+      'http://localhost:8081/mythaistar/services/rest/usermanagement/v1/user/reset/password/1234/Password',
+      {},
+    );
+  }));
 });
