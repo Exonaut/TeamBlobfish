@@ -85,7 +85,7 @@ public class UserRepositoryTest {
   @Test
   public void findUserByUsernamenNotExist() {
 
-    String username = "tom";
+    String username = "patrick";
     UserEntity user = this.userRepository.findByUsername(username);
     assertNull(user);
   }
