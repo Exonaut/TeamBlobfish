@@ -60,7 +60,7 @@
                 *ngFor="let state of getOrderStatusTranslationSlice()"
                 [value]="getOrderStatusTranslation().indexOf(state)"
               >
-                {{ state }}
+                {{ state.label }}
               </mat-option>
             </mat-select>
           </mat-form-field>
