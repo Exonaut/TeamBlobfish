@@ -1,4 +1,4 @@
-<img scr="https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/BlobfishLogoSchrift.png" alt="logo" width="50%"/>
+![Logo](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/BlobfishLogoSchrift.png)
 
 # Greatly Improved Waiter Cockpit
 
