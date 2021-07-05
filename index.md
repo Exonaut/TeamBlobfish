@@ -2,8 +2,7 @@
 # Our product
 ![My Thai Star Homepage](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/homepage.png)
 
-Our product can, in addition to the basic functions of a restaurant management system, the voice software and artificial intelligence "Alexa" was integrated into the system. This even gives the user the ability to take orders by voice command or even ask specific questions, to which the "Alexa Skill" responds interactively.
-
+Our product is able to provide all basic functions of a restaurant management system. Furthermore, through the integration of the voice software and artificial intelligence "Alexa", it was made possible to provide the user the ability to have orders taken by voice command or ask specific questions, to which the "Alexa Skill" responds interactively.
 
 # Greatly Improved Waiter Cockpit
 
@@ -24,11 +23,8 @@ The waiter can access the reservations received through "Order food via web appl
 ![User_Cockpit](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/user_cockpit.png)
   
 
-
-
-
 For user management, an administration interface was set up from the beginning with the most important functionalities, including among others:
-The creation of user accounts, the deletion of these or the simple editing of existing user accounts.
+The creation of user accounts, the deletion of these or the simple editing of existing user accounts. In addition, the administration interface has other functions.
 # Overhauled Booking Process
 
 
