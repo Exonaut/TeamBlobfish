@@ -39,3 +39,7 @@ Of course it is also possible that a customer can reserve a seat in our restaura
 ### Integrated With Amazon Alexa
 
 ![Alexa](https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fgsmorigin.com%2Fwp-content%2Fuploads%2F2017%2F07%2Famazon-alexa-logo.png&f=1&nofb=1)
+
+Alexa is set to support its users in all situations and responds quickly to questions.
+Alexa makes it possible to check the menu, reserve a table in a restaurant, order food via the delivery service, and takes over the waiter's tasks in the restaurant in an almost all-encompassing manner.
+
