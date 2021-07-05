@@ -20,11 +20,10 @@ The waiter can access the reservations received through "Order food via web appl
 
 # Brand New User Management
 
-<p align="center">
- 
-<img src https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/user_cockpit.png>
+
+![User_Cockpit](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/user_cockpit.png)
   
-</p>
+
 
 
 
@@ -32,9 +31,9 @@ For user management, an administration interface was set up from the beginning w
 The creation of user accounts, the deletion of these or the simple editing of existing user accounts. In addition, the administration interface has other functions.
 # Overhauled Booking Process
 
-<p align="center">
+
 ![Delivery](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/delivery-order.png)
-</p>
+
 
 If the customer would like to have the food delivered to their home, this is possible via the delivery service.
 The customer only has to enter his address data and send his order.
