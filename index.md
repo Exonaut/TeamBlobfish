@@ -1,5 +1,6 @@
 ![Logo](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/BlobfishLogoSchrift.png)
-
+# Our product
+![My Thai Star Homepage](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/mythaistarhomepage.png)
 # Greatly Improved Waiter Cockpit
 
 ![Waiter Cockpit](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/order_cockpit.png)
