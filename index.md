@@ -18,7 +18,8 @@ Create new users and manage them from a single interface.
 
 # Overhauled Booking Process
 
-![Booking](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/booking.png)
+![Delivery](https://github.com/Exonaut/TeamBlobfish/blob/gh-pages/delivery-order.png)
+![InHouse](https://github.com/Exonaut/TeamBlobfish/blob/gh-pages/Inhouse-order)
 
 Book a table or the delivery service and order food all from a central place in the sidebar.
 
