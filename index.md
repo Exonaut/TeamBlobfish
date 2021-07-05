@@ -1,4 +1,4 @@
-![Logo](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/BlobfishLogoSchrift.png)
+<img scr="https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/BlobfishLogoSchrift.png" alt="logo" width="50%"/>
 
 # Greatly Improved Waiter Cockpit
 
@@ -19,6 +19,8 @@ Create new users and manage them from a single interface.
 # Overhauled Booking Process
 
 ![Booking](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/booking.png)
+
+Book a table or the delivery service and order food all from a central place in the sidebar.
 
 ## Integrated With Amazon Alexa
 
