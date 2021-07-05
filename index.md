@@ -21,10 +21,12 @@ The waiter can access the reservations received through "Order food via web appl
 # Brand New User Management
 
 <p align="center">
-  <img width="460" height="300" src="http://www.fillmurray.com/460/300">
+ 
+  ![Admin Cockpit](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/user_cockpit.png)
+  
 </p>
 
-![Admin Cockpit](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/user_cockpit.png)
+
 
 For user management, an administration interface was set up from the beginning with the most important functionalities, including among others:
 The creation of user accounts, the deletion of these or the simple editing of existing user accounts. In addition, the administration interface has other functions.
