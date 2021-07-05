@@ -28,7 +28,7 @@ The waiter can access the reservations received through "Order food via web appl
 
 
 For user management, an administration interface was set up from the beginning with the most important functionalities, including among others:
-The creation of user accounts, the deletion of these or the simple editing of existing user accounts. In addition, the administration interface has other functions.
+The creation of user accounts, the deletion of these or the simple editing of existing user accounts.
 # Overhauled Booking Process
 
 
