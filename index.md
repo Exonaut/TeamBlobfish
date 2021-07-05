@@ -26,12 +26,12 @@ For user management, an administration interface was set up from the beginning w
 The creation of user accounts, the deletion of these or the simple editing of existing user accounts. In addition, the administration interface has other functions.
 # Overhauled Booking Process
 
-![Delivery](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/delivery-order.png)
+![Delivery](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/delivery_order.png)
 If the customer would like to have the food delivered to their home, this is possible via the delivery service.
 The customer only has to enter his address data and send his order.
 Once the order is received by the restaurant, the dish is prepared and then delivered.
 
-![InHouse](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/Inhouse-order.png)
+![InHouse](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/inhouse-order.png)
 
 Ofcourse it is also possible that a customer can reserve a seat in our restaurant and even add an order right away.
 
