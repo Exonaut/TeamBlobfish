@@ -1,8 +1,3 @@
-
-You can use the [editor on GitHub](https://github.com/Exonaut/TeamBlobfish/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
 # Greatly Improved Waiter Cockpit
 
 ![Waiter Cockpit](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/order_cockpit.png)
@@ -12,3 +7,17 @@ Everything important to manage your orders is only one click away.
 ## Archive Everything
 
 ![Archive](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/order_archive.png)
+
+# Brand New User Management
+
+![Admin Cockpit](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/user_cockpit.png)
+
+Create new users and manage them from a single interface.
+
+# Overhauled Booking and Ordering Process
+
+![Booking](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/booking.png)
+
+## Integrated Amazon Alexa
+
+![Alexa](https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fgsmorigin.com%2Fwp-content%2Fuploads%2F2017%2F07%2Famazon-alexa-logo.png&f=1&nofb=1)
