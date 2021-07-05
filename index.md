@@ -1,6 +1,10 @@
 ![Logo](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/BlobfishLogoSchrift.png)
 # Our product
-![My Thai Star Homepage](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/mythaistarhomepage.png)
+![My Thai Star Homepage](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/homepage.png)
+
+Our product can, in addition to the basic functions of a restaurant management system, the voice software and artificial intelligence "Alexa" was integrated into the system. This even gives the user the ability to take orders by voice command or even ask specific questions, to which the "Alexa Skill" responds interactively.
+
+
 # Greatly Improved Waiter Cockpit
 
 ![Waiter Cockpit](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/order_cockpit.png)
