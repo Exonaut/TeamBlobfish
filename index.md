@@ -1,6 +1,6 @@
 ## Welcome to GitHub Pages
 
-![Profiles](https://github.com/Exonaut/TeamBlobfish/blob/1ff414b743697175597e48f795ba3ff8a199be3c/Profiles.png)
+![Profiles](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/Profiles.png)
 
 You can use the [editor on GitHub](https://github.com/Exonaut/TeamBlobfish/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
