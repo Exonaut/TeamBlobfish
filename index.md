@@ -6,7 +6,7 @@
 
 Everything important to manage your orders is only one click away.
 
-## Archive Everything
+### Archive Everything
 
 ![Archive](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/order_archive.png)
 
@@ -22,6 +22,6 @@ Create new users and manage them from a single interface.
 
 Book a table or the delivery service and order food all from a central place in the sidebar.
 
-## Integrated With Amazon Alexa
+### Integrated With Amazon Alexa
 
 ![Alexa](https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fgsmorigin.com%2Fwp-content%2Fuploads%2F2017%2F07%2Famazon-alexa-logo.png&f=1&nofb=1)
