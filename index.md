@@ -9,7 +9,10 @@ Our product can, in addition to the basic functions of a restaurant management s
 
 ![Waiter Cockpit](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/order_cockpit.png)
 
+The Waiter Cockpit is the user interface for the waiters. There they have the possibility to manage orders, to edit the order status of an order or to cancel it. 
 Everything important to manage your orders is only one click away.
+
+The waiter can access the reservations received through "Order food via web application" in "Waiter Cockpit Reservations".
 
 ### Archive Everything
 
