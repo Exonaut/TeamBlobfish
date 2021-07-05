@@ -34,7 +34,7 @@ Once the order is received by the restaurant, the dish is prepared and then deli
 
 ![InHouse](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/inhouse_order.png)
 
-Ofcourse it is also possible that a customer can reserve a seat in our restaurant and even add an order right away.
+Of course it is also possible that a customer can reserve a seat in our restaurant and even add an order right away.
 
 ### Integrated With Amazon Alexa
 
