@@ -22,8 +22,8 @@ The waiter can access the reservations received through "Order food via web appl
 
 ![Admin Cockpit](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/user_cockpit.png)
 
-Create new users and manage them from a single interface.
-
+For user management, an administration interface was set up from the beginning with the most important functionalities, including among others:
+The creation of user accounts, the deletion of these or the simple editing of existing user accounts.In addition, the administration interface has other functions.
 # Overhauled Booking Process
 
 ![Delivery](https://github.com/Exonaut/TeamBlobfish/blob/gh-pages/delivery-order.png)
