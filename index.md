@@ -22,7 +22,7 @@ The waiter can access the reservations received through "Order food via web appl
 
 <p align="center">
  
-  ![Admin Cockpit](https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/user_cockpit.png)
+<img src https://raw.githubusercontent.com/Exonaut/TeamBlobfish/gh-pages/user_cockpit.png>
   
 </p>
 
