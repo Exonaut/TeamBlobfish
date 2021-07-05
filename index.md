@@ -26,7 +26,10 @@ Create new users and manage them from a single interface.
 ![Delivery](https://github.com/Exonaut/TeamBlobfish/blob/gh-pages/delivery-order.png)
 ![InHouse](https://github.com/Exonaut/TeamBlobfish/blob/gh-pages/Inhouse-order)
 
-Book a table or the delivery service and order food all from a central place in the sidebar.
+If the customer would like to have the food delivered to their home, this is possible via the delivery service.
+The customer only has to enter his address data and send his order.
+Once the order is received by the restaurant, the dish is prepared and then delivered.
+
 
 ### Integrated With Amazon Alexa
 
